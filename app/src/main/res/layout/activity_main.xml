@@ -1,18 +1,95 @@
 <?xml version="1.0" encoding="utf-8"?>
-<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<LinearLayout
+    xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
+    android:orientation="vertical"
+    android:background="@drawable/farmpond"
     tools:context=".MainActivity">
+
+
+
+    <com.google.android.gms.common.SignInButton
+        android:visibility="gone"
+        android:layout_marginTop="390dp"
+        android:id="@+id/google_signin_bt"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_gravity="center"
+        android:layout_centerHorizontal="true"
+        android:layout_centerVertical="true" />
+
+
+
+    <!--<Button
+        android:layout_marginTop="100dp"
+        android:id="@+id/google_signin_bt"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="Login with DFmail"
+        android:layout_gravity="center"
+        android:background="#005eb9"
+        android:layout_centerHorizontal="true"
+        android:layout_centerVertical="true" />-->
 
     <TextView
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:text="Hello World!"
-        app:layout_constraintBottom_toBottomOf="parent"
-        app:layout_constraintLeft_toLeftOf="parent"
-        app:layout_constraintRight_toRightOf="parent"
-        app:layout_constraintTop_toTopOf="parent" />
+        android:layout_marginTop="20dp"
+        android:textStyle="italic"
+        android:visibility="gone"
+        android:layout_gravity="center"
+        android:text="Login With DF MailID"/>
 
-</androidx.constraintlayout.widget.ConstraintLayout>
+
+    <EditText
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="20dp"
+        android:textSize="15dp"
+        android:textStyle="italic"
+        android:layout_gravity="center"
+        android:id="@+id/username_et"
+        android:visibility="gone"
+        android:text="eventtest464@gmail.com"/>
+
+
+    <Button
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:gravity="center"
+        android:layout_gravity="center"
+        android:visibility="visible"
+        android:layout_centerHorizontal="true"
+        android:layout_centerVertical="true"
+        android:text="Login"
+        android:id="@+id/normallogin_bt"/>
+
+
+
+
+
+    <TextView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="20dp"
+        android:textStyle="italic"
+        android:layout_gravity="center"
+        android:textColor="@color/colorwhite"
+        android:text="Test Ver0.33"/>
+
+
+    <Button
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:gravity="center"
+        android:layout_gravity="center"
+        android:visibility="gone"
+        android:text="ManagerLogin"
+        android:id="@+id/managerlogin_bt"/>
+
+
+
+</LinearLayout>

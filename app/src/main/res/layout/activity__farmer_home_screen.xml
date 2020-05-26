@@ -1,0 +1,179 @@
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:id="@+id/scrollView1"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:orientation="vertical"
+    android:layout_gravity="center"
+    >
+  <!--  <include
+        android:id="@+id/toolbar_n_actionbar"
+        layout="@layout/common_titlebar" />-->
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:layout_gravity="center"
+        android:gravity="center"
+        android:orientation="vertical">
+
+
+
+
+        <ImageButton
+            android:background="@android:color/transparent"
+            android:id="@+id/viewFarmer_IB"
+            android:layout_width="200dp"
+            android:layout_height="210dp"
+            android:layout_weight="1"
+            android:layout_gravity="center"
+            android:src="@drawable/viewfarmers" />
+
+        <View
+            android:layout_width="fill_parent"
+            android:layout_height="2dp"
+            android:background="@color/colorPrimary" />
+
+        <FrameLayout
+            android:layout_weight="1"
+            android:padding="5dp"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content">
+
+            <ImageButton
+                android:background="@android:color/transparent"
+                android:id="@+id/notupload_IB"
+                android:layout_width="200dp"
+                android:layout_height="210dp"
+                android:layout_gravity="center"
+                android:src="@drawable/syncpending" />
+
+
+            <LinearLayout
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:gravity="center"
+                android:layout_marginTop="125dp"
+                android:layout_marginLeft="14dp"
+                android:orientation="horizontal">
+
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:gravity="center_horizontal"
+                    android:text="New Pond         : "
+                    android:textStyle="bold"
+                    android:textSize="15dp"
+                    android:layout_margin="2dp"/>
+
+                <TextView
+                    android:id="@+id/Notuploadedcount_new_tv"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="0"
+                    android:textColor="@color/dark_black"
+                    android:textSize="15dp" />
+
+            </LinearLayout>
+
+
+            <LinearLayout
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:gravity="center"
+                android:layout_marginTop="140dp"
+                android:layout_marginLeft="13dp"
+                android:orientation="horizontal">
+
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:gravity="center_horizontal"
+                    android:text="Pond Edited      : "
+                    android:textStyle="bold"
+                    android:textSize="15dp"
+                    android:layout_margin="2dp"/>
+
+                <TextView
+                    android:id="@+id/Notuploadedcount_edited_tv"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="0"
+                    android:textColor="@color/dark_black"
+                    android:textSize="15dp" />
+
+            </LinearLayout>
+
+
+            <LinearLayout
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:gravity="center"
+                android:layout_marginTop="160dp"
+                android:layout_marginLeft="10dp"
+                android:orientation="horizontal">
+
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:gravity="center_horizontal"
+                    android:text="Farmer Profile   : "
+                    android:textStyle="bold"
+                    android:textSize="15dp"
+                    android:layout_margin="2dp"/>
+
+                <TextView
+                    android:id="@+id/farmerprofile_count_tv"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="0"
+                    android:textColor="@color/dark_black"
+                    android:textSize="15dp" />
+
+            </LinearLayout>
+
+
+
+
+
+            <TextView
+                android:visibility="gone"
+                android:id="@+id/Notuploadedcount_new_tv1"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_gravity="center"
+                android:layout_marginLeft="29dp"
+                android:layout_marginBottom="45dp"
+                android:gravity="start"
+                android:text=" New Pond: "
+                android:textSize="12dp"
+                android:textStyle="bold" />
+
+            <TextView
+                android:visibility="gone"
+                android:id="@+id/Notuploadedcount_edited_tv1"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_gravity="center"
+                android:layout_marginBottom="25dp"
+                android:gravity="start"
+                android:layout_marginLeft="20dp"
+                android:text="Pond Edited:"
+                android:textSize="12dp"
+                android:textStyle="bold" />
+            <TextView
+                android:visibility="gone"
+                android:id="@+id/farmerprofile_count_tv1"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_gravity="center"
+                android:gravity="start"
+                android:layout_marginLeft="14dp"
+                android:text="Farmer Profile: "
+                android:textSize="12dp"
+                android:textStyle="bold" />
+        </FrameLayout>
+
+    </LinearLayout>
+
+</LinearLayout>

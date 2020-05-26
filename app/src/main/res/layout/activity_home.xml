@@ -1,0 +1,123 @@
+<?xml version="1.0" encoding="utf-8"?>
+
+<ScrollView
+
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    tools:context=".Home_Activity"
+    android:orientation="vertical"
+    >
+
+
+
+    <LinearLayout
+        xmlns:android="http://schemas.android.com/apk/res/android"
+        xmlns:tools="http://schemas.android.com/tools"
+        android:id="@+id/homepagelayout_ll"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:background="@color/colorwhite"
+        android:orientation="vertical"
+        android:visibility="visible"
+        tools:context=".Activity_HomeScreen"
+        android:layout_gravity="center_horizontal"
+        android:gravity="center">
+
+       <!-- <include
+            android:id="@+id/toolbar_n_actionbar"
+            layout="@layout/common_titlebar" />-->
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="170dp"
+            android:gravity="center_horizontal"
+            android:layout_gravity="center_horizontal"
+            android:background="@drawable/farmpondbackground">
+        </LinearLayout>
+
+        <de.hdodenhof.circleimageview.CircleImageView
+            xmlns:app="http://schemas.android.com/apk/res-auto"
+            android:layout_width="100dp"
+            android:layout_height="100dp"
+            android:layout_margin="4dp"
+            android:layout_gravity="center_horizontal"
+            app:civ_border_width="1dp"
+            android:id="@+id/displ_Userimg_IV"/>
+
+        <TextView
+            android:id="@+id/dislay_UserName_TV"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:fontFamily="serif"
+            android:text=""
+            android:textStyle="bold"
+            android:gravity="center_horizontal"
+            android:textSize="18dp"
+            android:textColor="@color/dark_black_red"/>
+
+
+        <LinearLayout
+            android:id="@+id/layout2id"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_margin="5dp"
+            android:orientation="vertical"
+            android:weightSum="1"
+            android:padding="5dp"
+            android:background="@color/colorwhite">
+
+            <LinearLayout
+                android:id="@+id/student_registration_RL"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_weight="1"
+                >
+
+
+
+                <ImageView
+                    android:id="@+id/myImageView"
+                    android:layout_width="match_parent"
+                    android:layout_height="170dp"
+                    android:layout_centerInParent="true"
+                    android:src="@drawable/farmers" />
+
+            </LinearLayout>
+
+            <LinearLayout
+                android:id="@+id/admin_view_ll"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_weight="1"
+                android:visibility="invisible"
+                android:layout_marginTop="20dp"
+                >
+
+
+                <ImageView
+                    android:id="@+id/admin_view_iv"
+                    android:layout_width="match_parent"
+                    android:layout_height="170dp"
+                    android:layout_centerInParent="true"
+                    android:src="@drawable/submittedponds"/>
+
+
+            </LinearLayout>
+
+
+            <View
+                android:layout_width="fill_parent"
+                android:layout_height="2dp"
+                android:visibility="gone"
+                android:background="@color/colorPrimary" />
+
+        </LinearLayout>
+    </LinearLayout>
+
+
+</ScrollView>
+
+
