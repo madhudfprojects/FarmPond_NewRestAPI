@@ -48,4 +48,9 @@ public class Village {
     public void setVillageName(String villageName) {
         this.villageName = villageName;
     }
+
+    @Override
+    public String toString() {
+        return villageName;
+    }
 }

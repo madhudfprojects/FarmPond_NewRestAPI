@@ -26,4 +26,9 @@ public class Year {
     public void setAcademic_Name(String academic_Name) {
         this.academic_Name = academic_Name;
     }
+
+    @Override
+    public String toString() {
+        return academic_Name;
+    }
 }

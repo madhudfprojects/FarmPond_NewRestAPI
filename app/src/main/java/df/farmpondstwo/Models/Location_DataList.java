@@ -24,6 +24,12 @@ public class Location_DataList {
     @SerializedName("Year")
     @Expose
     private List<Year> year = null;
+    @SerializedName("Machine")
+    @Expose
+    private List<Machine> machine;
+    @SerializedName("Machine_Cost")
+    @Expose
+    private List<Machine_Cost> machine_Cost;
     @SerializedName("Response")
     @Expose
     private String response;
@@ -82,6 +88,22 @@ public class Location_DataList {
 
     public void setYear(List<Year> year) {
         this.year = year;
+    }
+
+    public List<Machine> getMachine() {
+        return machine;
+    }
+
+    public void setMachine(List<Machine> machine) {
+        this.machine = machine;
+    }
+
+    public List<Machine_Cost> getMachine_Cost() {
+        return machine_Cost;
+    }
+
+    public void setMachine_Cost(List<Machine_Cost> machine_Cost) {
+        this.machine_Cost = machine_Cost;
     }
 }
 

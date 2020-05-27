@@ -37,4 +37,9 @@ public class Panchayat {
     public void setPanchayatName(String panchayatName) {
         this.panchayatName = panchayatName;
     }
+
+    @Override
+    public String toString() {
+        return panchayatName;
+    }
 }

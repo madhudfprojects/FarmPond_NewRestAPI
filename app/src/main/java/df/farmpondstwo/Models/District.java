@@ -38,4 +38,9 @@ public class District {
         this.districtName = districtName;
     }
 
+    @Override
+    public String toString() {
+        return districtName;
+    }
+
 }

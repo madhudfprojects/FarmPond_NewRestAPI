@@ -37,4 +37,9 @@ public class Taluka {
     public void setTalukaName(String talukaName) {
         this.talukaName = talukaName;
     }
+
+    @Override
+    public String toString() {
+        return talukaName;
+    }
 }

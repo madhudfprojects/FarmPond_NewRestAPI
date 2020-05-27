@@ -259,6 +259,10 @@ public class Farmer {
         this.responseAction = responseAction;
     }
 
+    @Override
+    public String toString() {
+        return farmerFirstName;
+    }
 }
 
 
