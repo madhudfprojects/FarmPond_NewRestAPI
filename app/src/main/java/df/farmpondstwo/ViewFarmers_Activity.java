@@ -1846,6 +1846,49 @@ public class ViewFarmers_Activity extends AppCompatActivity {
         }
         db1 .close();
     }
+    public void ViewFarmerlistdetailsRestTable_B4insertion() {
+
+        SQLiteDatabase db_viewfarmerlist = this.openOrCreateDatabase("FarmPond_db", Context.MODE_PRIVATE, null);
+
+        db_viewfarmerlist.execSQL("CREATE TABLE IF NOT EXISTS ViewFarmerListRest(MTempId INTEGER PRIMARY KEY,DispFarmerTable_YearID VARCHAR,DispFarmerTable_StateID VARCHAR," +
+                "DispFarmerTable_DistrictID VARCHAR,DispFarmerTable_TalukID VARCHAR,DispFarmerTable_VillageID VARCHAR," +
+                "DispFarmerTable_GrampanchayatID VARCHAR,DispFarmerTable_FarmerID VARCHAR,DispFarmerTable_Farmer_Code VARCHAR," +
+                "DispFarmerTable_FarmerName VARCHAR,FarmerMName_DB VARCHAR,FarmerLName_DB VARCHAR,Farmerage_DB VARCHAR," +
+                "Farmercellno_DB VARCHAR,FIncome_DB VARCHAR,Ffamilymember_DB VARCHAR,FIDprooftype_DB VARCHAR,FIDProofNo_DB VARCHAR,UploadedStatusFarmerprofile_DB VARCHAR," +
+                "FarmerImageB64str_DB VARCHAR,DispFarmerTable_FarmerImage VARCHAR," +
+                "LocalFarmerImg BLOB,Farmpondcount VARCHAR,Submitted_Date VARCHAR,Created_By VARCHAR,Created_Date VARCHAR,Created_User VARCHAR,Response VARCHAR,Response_Action VARCHAR);");
+
+        Cursor cursor = db_viewfarmerlist .rawQuery("SELECT * FROM ViewFarmerListRest", null);
+        int x = cursor.getCount();
+
+        if (x > 0) {
+            db_viewfarmerlist .delete("ViewFarmerListRest", null, null);
+
+        }
+        db_viewfarmerlist .close();
+    }
+
+    public void FarmpondRest_detailsTable_B4insertion() {
+
+        SQLiteDatabase db_viewfarmpondlist = this.openOrCreateDatabase("FarmPond_db", Context.MODE_PRIVATE, null);
+
+        db_viewfarmpondlist.execSQL("CREATE TABLE IF NOT EXISTS FarmPondDetailsRest(MTempId INTEGER PRIMARY KEY,pondID VARCHAR,farmerID VARCHAR," +
+                "academicID VARCHAR,machineID VARCHAR,pondCode VARCHAR," +
+                "pondLatitude VARCHAR,pondLongitude VARCHAR,pondLength VARCHAR," +
+                "pondWidth VARCHAR,pondDepth VARCHAR,pondStart VARCHAR,pondEnd VARCHAR," +
+                "pondDays VARCHAR,pondCost VARCHAR,pondImage1 VARCHAR,pondImage2 VARCHAR,pondImage3 VARCHAR,pondStatus VARCHAR," +
+                "submittedDate VARCHAR,submittedBy VARCHAR," +
+                "createdDate VARCHAR,createdBy VARCHAR,pondTempID VARCHAR,responseOutput VARCHAR,createdUser VARCHAR,submittedUser VARCHAR);");
+
+        Cursor cursor = db_viewfarmpondlist .rawQuery("SELECT * FROM FarmPondDetailsRest", null);
+        int x = cursor.getCount();
+
+        if (x > 0) {
+            db_viewfarmpondlist.delete("FarmPondDetailsRest", null, null);
+
+        }
+        db_viewfarmpondlist.close();
+    }
 
     public void DBCreate_ViewFarmerlistdetails_insert_2SQLiteDB(String str_yearID, String str_stateID, String str_districtID,
                                                                 String str_talukid, String str_villageid, String str_grampanchayatid,
@@ -1965,6 +2008,8 @@ public class ViewFarmers_Activity extends AppCompatActivity {
                     deleteVillageRestTable_B4insertion();
                     deleteYearRestTable_B4insertion();
                     deleteMachineRestTable_B4insertion();
+                    ViewFarmerlistdetailsRestTable_B4insertion();
+                    FarmpondRest_detailsTable_B4insertion();
 
                     GetDropdownValuesRestData();
                     GetFarmer_PondValuesRestData();
