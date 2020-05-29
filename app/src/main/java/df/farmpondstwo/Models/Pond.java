@@ -48,22 +48,22 @@ public class Pond {
     private String pondCost;
     @SerializedName("Pond_Image_1")
     @Expose
-    private Object pondImage1;
+    private String pondImage1;
     @SerializedName("Pond_Image_2")
     @Expose
-    private Object pondImage2;
+    private String pondImage2;
     @SerializedName("Pond_Image_3")
     @Expose
-    private Object pondImage3;
+    private String pondImage3;
     @SerializedName("Pond_Status")
     @Expose
-    private Object pondStatus;
+    private String pondStatus;
     @SerializedName("Submitted_Date")
     @Expose
     private String submittedDate;
     @SerializedName("Submitted_By")
     @Expose
-    private Object submittedBy;
+    private String submittedBy;
     @SerializedName("Created_Date")
     @Expose
     private String createdDate;
@@ -72,16 +72,16 @@ public class Pond {
     private String createdBy;
     @SerializedName("Pond_Temp_ID")
     @Expose
-    private Object pondTempID;
+    private String pondTempID;
     @SerializedName("Response")
     @Expose
-    private Object response;
+    private String response;
     @SerializedName("Created_User")
     @Expose
     private String createdUser;
     @SerializedName("Submitted_User")
     @Expose
-    private Object submittedUser;
+    private String submittedUser;
 
     public String getPondID() {
         return pondID;
@@ -195,52 +195,12 @@ public class Pond {
         this.pondCost = pondCost;
     }
 
-    public Object getPondImage1() {
-        return pondImage1;
-    }
-
-    public void setPondImage1(Object pondImage1) {
-        this.pondImage1 = pondImage1;
-    }
-
-    public Object getPondImage2() {
-        return pondImage2;
-    }
-
-    public void setPondImage2(Object pondImage2) {
-        this.pondImage2 = pondImage2;
-    }
-
-    public Object getPondImage3() {
-        return pondImage3;
-    }
-
-    public void setPondImage3(Object pondImage3) {
-        this.pondImage3 = pondImage3;
-    }
-
-    public Object getPondStatus() {
-        return pondStatus;
-    }
-
-    public void setPondStatus(Object pondStatus) {
-        this.pondStatus = pondStatus;
-    }
-
     public String getSubmittedDate() {
         return submittedDate;
     }
 
     public void setSubmittedDate(String submittedDate) {
         this.submittedDate = submittedDate;
-    }
-
-    public Object getSubmittedBy() {
-        return submittedBy;
-    }
-
-    public void setSubmittedBy(Object submittedBy) {
-        this.submittedBy = submittedBy;
     }
 
     public String getCreatedDate() {
@@ -259,22 +219,6 @@ public class Pond {
         this.createdBy = createdBy;
     }
 
-    public Object getPondTempID() {
-        return pondTempID;
-    }
-
-    public void setPondTempID(Object pondTempID) {
-        this.pondTempID = pondTempID;
-    }
-
-    public Object getResponse() {
-        return response;
-    }
-
-    public void setResponse(Object response) {
-        this.response = response;
-    }
-
     public String getCreatedUser() {
         return createdUser;
     }
@@ -283,11 +227,69 @@ public class Pond {
         this.createdUser = createdUser;
     }
 
-    public Object getSubmittedUser() {
+    public void setPondImage1(String pondImage1) {
+        this.pondImage1 = pondImage1;
+    }
+
+    public String getPondImage2() {
+        return pondImage2;
+    }
+
+    public void setPondImage2(String pondImage2) {
+        this.pondImage2 = pondImage2;
+    }
+
+    public String getPondImage3() {
+        return pondImage3;
+    }
+
+    public void setPondImage3(String pondImage3) {
+        this.pondImage3 = pondImage3;
+    }
+
+    public String getPondStatus() {
+        return pondStatus;
+    }
+
+    public void setPondStatus(String pondStatus) {
+        this.pondStatus = pondStatus;
+    }
+
+    public String getSubmittedBy() {
+        return submittedBy;
+    }
+
+    public void setSubmittedBy(String submittedBy) {
+        this.submittedBy = submittedBy;
+    }
+
+    public String getPondTempID() {
+        return pondTempID;
+    }
+
+    public void setPondTempID(String pondTempID) {
+        this.pondTempID = pondTempID;
+    }
+
+    public String getResponse() {
+        return response;
+    }
+
+    public void setResponse(String response) {
+        this.response = response;
+    }
+
+    public String getSubmittedUser() {
         return submittedUser;
     }
 
-    public void setSubmittedUser(Object submittedUser) {
+    public void setSubmittedUser(String submittedUser) {
         this.submittedUser = submittedUser;
     }
+
+    public String getPondImage1() {
+        return pondImage1;
+    }
 }
+
+

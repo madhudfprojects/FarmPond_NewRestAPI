@@ -1556,18 +1556,23 @@ public class ViewFarmers_Activity extends AppCompatActivity {
                                 String pondEnd=class_userData.getLst().get(i).getPond().get(j).getPondEnd();
                                 String pondDays=class_userData.getLst().get(i).getPond().get(j).getPondDays();
                                 String pondCost=class_userData.getLst().get(i).getPond().get(j).getPondCost();
-                                Object pondImage1=class_userData.getLst().get(i).getPond().get(j).getPondImage1();
-                                Object pondImage2=class_userData.getLst().get(i).getPond().get(j).getPondImage2();
-                                Object pondImage3=class_userData.getLst().get(i).getPond().get(j).getPondImage3();
-                                Object pondStatus=class_userData.getLst().get(i).getPond().get(j).getPondStatus();
+                                String pondImage1=class_userData.getLst().get(i).getPond().get(j).getPondImage1();
+                                String pondImage2=class_userData.getLst().get(i).getPond().get(j).getPondImage2();
+                                String pondImage3=class_userData.getLst().get(i).getPond().get(j).getPondImage3();
+                                String pondStatus=class_userData.getLst().get(i).getPond().get(j).getPondStatus();
                                 String submittedDate=class_userData.getLst().get(i).getPond().get(j).getSubmittedDate();
-                                Object submittedBy=class_userData.getLst().get(i).getPond().get(j).getSubmittedBy();
+                                String submittedBy=class_userData.getLst().get(i).getPond().get(j).getSubmittedBy();
                                 String createdDate=class_userData.getLst().get(i).getPond().get(j).getCreatedDate();
                                 String createdBy=class_userData.getLst().get(i).getPond().get(j).getCreatedBy();
-                                Object pondTempID=class_userData.getLst().get(i).getPond().get(j).getPondTempID();
-                                Object responseOutput=class_userData.getLst().get(i).getPond().get(j).getResponse();
+                                String pondTempID=class_userData.getLst().get(i).getPond().get(j).getPondTempID();
+                                String responseOutput=class_userData.getLst().get(i).getPond().get(j).getResponse();
                                 String createdUser=class_userData.getLst().get(i).getPond().get(j).getCreatedUser();
-                                Object submittedUser=class_userData.getLst().get(i).getPond().get(j).getSubmittedUser();
+                                String submittedUser=class_userData.getLst().get(i).getPond().get(j).getSubmittedUser();
+
+                                DBCreate_FarmpondRest_details_2SQLiteDB(pondID,farmerID,academicID,machineID,pondCode,pondLatitude,pondLongitude,pondLength,pondWidth,
+                                        pondDepth,pondStart,pondEnd,pondDays,pondCost,pondImage1,pondImage2,pondImage3,pondStatus,submittedDate,submittedBy,createdDate,
+                                        createdBy,pondTempID,responseOutput,createdUser,submittedUser);
+
                             }
                         }
 
@@ -1888,6 +1893,34 @@ public class ViewFarmers_Activity extends AppCompatActivity {
         db_viewfarmerlist.close();
     }
 
+    public void DBCreate_FarmpondRest_details_2SQLiteDB(String pondID,String farmerID,String academicID,String machineID,String pondCode,String pondLatitude,String pondLongitude,String pondLength,String pondWidth,
+                                                        String pondDepth,String pondStart,String pondEnd,String pondDays,String pondCost,String pondImage1,String pondImage2,String pondImage3,String pondStatus,String submittedDate,String submittedBy,String createdDate,
+                                                        String createdBy,String pondTempID,String responseOutput,String createdUser,String submittedUser){
+
+        SQLiteDatabase db_viewfarmpondlist = this.openOrCreateDatabase("FarmPond_db", Context.MODE_PRIVATE, null);
+
+        db_viewfarmpondlist.execSQL("CREATE TABLE IF NOT EXISTS FarmPondDetailsRest(MTempId INTEGER PRIMARY KEY,pondID VARCHAR,farmerID VARCHAR," +
+                "academicID VARCHAR,machineID VARCHAR,pondCode VARCHAR," +
+                "pondLatitude VARCHAR,pondLongitude VARCHAR,pondLength VARCHAR," +
+                "pondWidth VARCHAR,pondDepth VARCHAR,pondStart VARCHAR,pondEnd VARCHAR," +
+                "pondDays VARCHAR,pondCost VARCHAR,pondImage1 VARCHAR,pondImage2 VARCHAR,pondImage3 VARCHAR,pondStatus VARCHAR," +
+                "submittedDate VARCHAR,submittedBy VARCHAR," +
+                "createdDate VARCHAR,createdBy VARCHAR,pondTempID VARCHAR,responseOutput VARCHAR,createdUser VARCHAR,submittedUser VARCHAR);");
+
+        String SQLiteQuery = "INSERT INTO FarmPondDetailsRest (pondID,farmerID, academicID," +
+                "machineID,pondCode,pondLatitude,pondLongitude," +
+                "pondLength,pondWidth,pondDepth,pondStart,pondEnd," +
+                "pondDays,pondCost,pondImage1,pondImage2,pondImage3,pondStatus,submittedDate,submittedBy," +
+                "createdDate,createdBy,pondTempID,responseOutput,createdUser,submittedUser)" +
+                " VALUES ('" + pondID + "','" + farmerID + "','" + academicID + "','" + machineID + "','" + pondCode+"','"
+                + pondLatitude + "','" + pondLongitude + "','" + pondLength + "','" + pondWidth + "','"+pondDepth+"'," +
+                "'"+pondStart+"','"+pondEnd+"','"+pondDays+"','"+pondCost+"','"+pondImage1+"','"+pondImage2+"','"+pondImage3+"'," +
+                "'"+pondStatus+"','"+submittedDate+"','"+ submittedBy +"','" + createdDate +"','"
+                + createdBy +"','" + pondTempID +"','" + responseOutput  +"','" + createdUser + "','" + submittedUser +"');";
+
+        db_viewfarmpondlist.execSQL(SQLiteQuery);
+
+    }
 /////////////////////////////////////////////////////////////////////////////////////
     @Override
     public boolean onCreateOptionsMenu(Menu menu) {
