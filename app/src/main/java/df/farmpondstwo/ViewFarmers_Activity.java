@@ -1,21 +1,33 @@
 package df.farmpondstwo;
 
+import android.annotation.SuppressLint;
+import android.app.Activity;
+import android.app.AlertDialog;
 import android.content.Context;
+import android.content.DialogInterface;
 import android.content.Intent;
 import android.database.Cursor;
 import android.database.sqlite.SQLiteDatabase;
+import android.graphics.Bitmap;
+import android.graphics.BitmapFactory;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.text.Editable;
 import android.text.TextWatcher;
+import android.util.Base64;
 import android.util.Log;
+import android.view.LayoutInflater;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
+import android.view.ViewGroup;
 import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
+import android.widget.BaseAdapter;
+import android.widget.Button;
 import android.widget.EditText;
 import android.widget.ImageButton;
+import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.ListView;
 import android.widget.Spinner;
@@ -23,6 +35,14 @@ import android.widget.TableLayout;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import com.google.gson.annotations.Expose;
+import com.google.gson.annotations.SerializedName;
+
+import java.io.ByteArrayOutputStream;
+import java.io.IOException;
+import java.io.InputStream;
+import java.net.URL;
+import java.util.ArrayList;
 import java.util.List;
 import java.util.Locale;
 
@@ -54,6 +74,9 @@ public class ViewFarmers_Activity extends AppCompatActivity {
     Location_DataList[] location_dataLists;
     Location_DataList class_location_dataList = new Location_DataList();
 
+    UserDataList[] userDataLists;
+    UserDataList class_userDatalist= new UserDataList();
+
     Spinner yearlist_SP, statelist_SP, districtlist_SP, taluklist_SP, villagelist_SP, grampanchayatlist_SP;
     LinearLayout spinnerlayout_ll;
     ImageButton search_ib, downarrow_ib, uparrow_ib;
@@ -80,7 +103,13 @@ public class ViewFarmers_Activity extends AppCompatActivity {
     List<Year> yearList;
     int sel_yearsp=0,sel_statesp=0,sel_districtsp=0,sel_taluksp=0,sel_villagesp=0,sel_grampanchayatsp=0;
 
-    //  FarmerListViewAdapter farmerListViewAdapter;
+    private ArrayList<Farmer> originalViewFarmerList = null;
+    private ArrayList<Farmer> ViewFarmerList_arraylist;
+    FarmerListViewAdapter farmerListViewAdapter;
+    ViewHolder holder;
+    String str_selected_farmerID,str_selected_farmerID_forimagesaving,str_selected_farmerName;
+    String str_farmerbase64;
+    String str_imageurltobase64_farmerimage;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -107,6 +136,9 @@ public class ViewFarmers_Activity extends AppCompatActivity {
         search_et = (EditText) findViewById(R.id.search_et);
         str_return="no";
 
+        ViewFarmerList_arraylist = new ArrayList<Farmer>();
+        farmerListViewAdapter = new FarmerListViewAdapter(ViewFarmers_Activity.this, ViewFarmerList_arraylist);
+
         search_et.addTextChangedListener(new TextWatcher() {
 
             @Override
@@ -125,7 +157,7 @@ public class ViewFarmers_Activity extends AppCompatActivity {
                 downarrow_ib.setVisibility(View.GONE);
                 uparrow_ib.setVisibility(View.VISIBLE);
                 String text = search_et.getText().toString().toLowerCase(Locale.getDefault());
-              //  farmerListViewAdapter.filter(text, originalViewFarmerList);
+                farmerListViewAdapter.filter(text, originalViewFarmerList);
 
             }
         });
@@ -166,8 +198,8 @@ public class ViewFarmers_Activity extends AppCompatActivity {
                 if(sel_yearsp_new!=sel_yearsp)
                 {
                     sel_yearsp=sel_yearsp_new;
-                  //  ViewFarmerList_arraylist.clear();
-                    //farmerListViewAdapter.notifyDataSetChanged();
+                    ViewFarmerList_arraylist.clear();
+                    farmerListViewAdapter.notifyDataSetChanged();
                     statelist_SP.setSelection(0);
                     districtlist_SP.setSelection(0);
                     taluklist_SP.setSelection(0);
@@ -198,8 +230,8 @@ public class ViewFarmers_Activity extends AppCompatActivity {
                 if(sel_statesp_new!=sel_statesp)
                 {
                     sel_statesp=sel_statesp_new;
-                  //  ViewFarmerList_arraylist.clear();
-                    //farmerListViewAdapter.notifyDataSetChanged();
+                    ViewFarmerList_arraylist.clear();
+                    farmerListViewAdapter.notifyDataSetChanged();
                     districtlist_SP.setSelection(0);
                     taluklist_SP.setSelection(0);
                     villagelist_SP.setSelection(0);
@@ -231,8 +263,8 @@ public class ViewFarmers_Activity extends AppCompatActivity {
 
                 if(sel_districtsp_new!=sel_districtsp) {
                     sel_districtsp=sel_districtsp_new;
-                  //  ViewFarmerList_arraylist.clear();
-                   // farmerListViewAdapter.notifyDataSetChanged();
+                   ViewFarmerList_arraylist.clear();
+                    farmerListViewAdapter.notifyDataSetChanged();
                     taluklist_SP.setSelection(0);
                     villagelist_SP.setSelection(0);
                     grampanchayatlist_SP.setSelection(0);
@@ -258,11 +290,11 @@ public class ViewFarmers_Activity extends AppCompatActivity {
 
              //   Class_SaveSharedPreference.setPREF_talukposition(Activity_ViewFarmers.this,position);
                 Update_GramPanchayatID_spinner(sp_strTaluk_ID);
-
+                //Update_VillageId_spinner(sp_strgrampanchayat_ID);
                 if(sel_taluksp_new!=sel_taluksp) {
                     sel_taluksp=sel_taluksp_new;
-                  //  ViewFarmerList_arraylist.clear();
-                    //farmerListViewAdapter.notifyDataSetChanged();
+                    ViewFarmerList_arraylist.clear();
+                    farmerListViewAdapter.notifyDataSetChanged();
 
                     villagelist_SP.setSelection(0);
                     grampanchayatlist_SP.setSelection(0);
@@ -291,13 +323,13 @@ public class ViewFarmers_Activity extends AppCompatActivity {
 
                // Class_SaveSharedPreference.setPREF_gramanchayatposition(Activity_ViewFarmers.this,position);
 
-                Update_VillageId_spinner(sp_strgrampanchayat_ID);
+                Update_VillageId_spinner(sp_strgrampanchayat_ID,sp_strTaluk_ID);
 
                 if(sel_grampanchayatsp_new!=sel_grampanchayatsp)
                 {
                     sel_grampanchayatsp=sel_grampanchayatsp_new;
-                  //  ViewFarmerList_arraylist.clear();
-                  //  farmerListViewAdapter.notifyDataSetChanged();
+                    ViewFarmerList_arraylist.clear();
+                    farmerListViewAdapter.notifyDataSetChanged();
                 }
 
             }
@@ -321,8 +353,8 @@ public class ViewFarmers_Activity extends AppCompatActivity {
              //   Class_SaveSharedPreference.setPREF_villageposition(Activity_ViewFarmers.this,position);
                 if(sel_villagesp_new!=sel_villagesp) {
                     sel_villagesp=sel_villagesp_new;
-                 //   ViewFarmerList_arraylist.clear();
-                  //  farmerListViewAdapter.notifyDataSetChanged();
+                    ViewFarmerList_arraylist.clear();
+                    farmerListViewAdapter.notifyDataSetChanged();
 
                     // grampanchayatlist_SP.setSelection(0);
                 }
@@ -334,15 +366,15 @@ public class ViewFarmers_Activity extends AppCompatActivity {
                 if(statelist_SP.getSelectedItem().toString().equalsIgnoreCase("Select")
                         &&districtlist_SP.getSelectedItem().toString().equalsIgnoreCase("Select"))
                 {
-                //    ViewFarmerList_arraylist.clear();
-                  //  farmerListViewAdapter.notifyDataSetChanged();
+                    ViewFarmerList_arraylist.clear();
+                    farmerListViewAdapter.notifyDataSetChanged();
 
                 }else{
-
-                  //  Update_ids_farmerlist_listview(sp_stryear_ID, sp_strstate_ID, sp_strdistrict_ID, sp_strTaluk_ID, sp_strVillage_ID, sp_strgrampanchayat_ID);
-
                     Log.e("yearid",sp_stryear_ID+"-"+sp_strstate_ID+"-"+sp_strdistrict_ID+"-"+sp_strTaluk_ID+"-"+sp_strVillage_ID+"-"+sp_strgrampanchayat_ID);
-                }
+
+                    Update_ids_farmerlist_listview(sp_stryear_ID, sp_strstate_ID, sp_strdistrict_ID, sp_strTaluk_ID, sp_strVillage_ID, sp_strgrampanchayat_ID);
+
+                       }
             }
 
             @Override
@@ -355,8 +387,185 @@ public class ViewFarmers_Activity extends AppCompatActivity {
         uploadfromDB_Statelist();
         uploadfromDB_Districtlist();
         uploadfromDB_Taluklist();
-        uploadfromDB_Grampanchayatlist();
         uploadfromDB_Villagelist();
+        uploadfromDB_Grampanchayatlist();
+     //   uploadfromDB_Farmerlist();
+    }
+
+
+    public static class ViewHolder {
+
+
+        public ImageView farmerimage_iv;
+        TextView FarmerNamelabel_tv;
+        TextView FarmerName_tv;
+        TextView FarmerIDlabel_tv;
+        TextView farmercode_tv;
+        Button farmpond_bt;
+        TextView farmerpondcount_tv;
+    }
+
+    public class FarmerListViewAdapter extends BaseAdapter {
+
+
+        public ArrayList<Farmer> projList;
+        Activity activity;
+        private ArrayList<Farmer> mDisplayedValues = null;
+
+        public FarmerListViewAdapter(Activity activity, ArrayList<Farmer> projList) {
+            super();
+            this.activity = activity;
+            this.projList = projList;
+            this.mDisplayedValues = projList;
+        }
+
+        @Override
+        public int getCount() {
+            //return projList.size();
+            Log.e("size", String.valueOf(mDisplayedValues.size()));
+            return mDisplayedValues.size();
+
+        }
+
+        @Override
+        public Farmer getItem(int position) {
+
+            //return projList.get(position);
+            return mDisplayedValues.get(position);
+        }
+
+        @Override
+        public long getItemId(int position) {
+            return position;
+        }
+
+        @Override
+        public View getView(int position, View convertView, ViewGroup parent) {
+
+//            ViewHolder holder;
+            LayoutInflater inflater = activity.getLayoutInflater();
+
+            if (convertView == null) {
+                convertView = inflater.inflate(R.layout.child_farmerlist_item, null);
+                holder = new ViewHolder();
+
+                holder.FarmerNamelabel_tv = (TextView) convertView.findViewById(R.id.FarmerNamelabel_tv);
+                holder.FarmerName_tv = (TextView) convertView.findViewById(R.id.FarmerName_tv);
+                holder.FarmerIDlabel_tv = (TextView) convertView.findViewById(R.id.FarmerIDlabel_tv);
+                holder.farmercode_tv = (TextView) convertView.findViewById(R.id.farmercode_tv);
+                holder.farmpond_bt = (Button) convertView.findViewById(R.id.farmpond_bt);
+                holder.farmerimage_iv = (ImageView) convertView.findViewById(R.id.farmerimage_iv);
+                holder.farmerpondcount_tv = (TextView) convertView.findViewById(R.id.pondcount_tv);
+
+                convertView.setTag(holder);
+            } else {
+                holder = (ViewHolder) convertView.getTag();
+            }
+            Farmer Obj_Class_farmerlistdetails = (Farmer) getItem(position);
+
+//
+            if (mDisplayedValues != null) {
+              //  Log.e("listfarmername", mDisplayedValues.get(position).getFarmerFirstName());
+                //Log.e("listfarmerid", Obj_Class_farmerlistdetails.getFarmerID());
+
+                holder.FarmerName_tv.setText(mDisplayedValues.get(position).getFarmerFirstName());
+                holder.farmercode_tv.setText(mDisplayedValues.get(position).getFarmerID());
+
+                holder.farmerimage_iv.setTag(position);
+                String str_fetched_imgfile = Obj_Class_farmerlistdetails.getFarmerPhoto();
+            //    Log.e("Obj_ClFarmerimage()", Obj_Class_farmerlistdetails.getFarmerPhoto());
+              //  Log.e("getLocalfarmerimage()", String.valueOf(Obj_Class_farmerlistdetails.getFarmerPhoto()));
+
+                holder.farmerpondcount_tv.setText(mDisplayedValues.get(position).getFarmPond_Count());
+//--------------------------------
+           /*     if (Obj_Class_farmerlistdetails.getStr_base64() != null) {
+
+
+                    // Log.e("imagelist_if",Obj_Class_farmerlistdetails.getStr_base64().toString());
+                    if (Obj_Class_farmerlistdetails.getStr_base64().equalsIgnoreCase("null")) {
+                    } else {
+                        imageBytes_list = Base64.decode(Obj_Class_farmerlistdetails.getStr_base64(), Base64.DEFAULT);
+                        Bitmap bmp_decodedImage1 = BitmapFactory.decodeByteArray(imageBytes_list, 0, imageBytes_list.length);
+                        holder.farmerimage_iv.setImageBitmap(bmp_decodedImage1);
+                    }
+                } else {
+                    Log.e("imagelist_else", Obj_Class_farmerlistdetails.getStr_base64().toString());
+                }
+
+
+                if (Obj_Class_farmerlistdetails.getLocalfarmerimage() != null) {
+
+                    if (Obj_Class_farmerlistdetails.getLocalfarmerimage().toString().contains(".jpeg")
+                            || Obj_Class_farmerlistdetails.getLocalfarmerimage().toString().contains(".jpg")
+                            || Obj_Class_farmerlistdetails.getLocalfarmerimage().toString().contains(".png")) {
+                    }
+
+                } else {*/
+                    //    if (!Obj_Class_farmerlistdetails.getFarmerimage().equalsIgnoreCase("image/profileimg.png")) {
+
+
+                    if (Obj_Class_farmerlistdetails.getFarmerPhoto() != null) {
+                        if (Obj_Class_farmerlistdetails.getFarmerPhoto().toString().contains(".jpeg")
+                                || Obj_Class_farmerlistdetails.getFarmerPhoto().toString().contains(".jpg")
+                                || Obj_Class_farmerlistdetails.getFarmerPhoto().toString().contains(".png")) {
+                        }
+                    } else {
+                        Log.e("farmerImage", "farmerimage null");
+                    }
+              //  }
+
+                holder.farmerimage_iv.setOnClickListener(new View.OnClickListener() {
+                    @SuppressLint("NewApi")
+                    @Override
+                    public void onClick(View v) {
+
+                        int pos = (Integer) v.getTag();
+                        Farmer Obj_Class_farmerlistdetails = (Farmer) getItem(pos);
+                        Log.e("farmerimg", String.valueOf(pos));
+                        // displayalert();
+                        str_selected_farmerID_forimagesaving = Obj_Class_farmerlistdetails.getFarmerID();
+                        Log.e("img_farmerid_onclick", str_selected_farmerID_forimagesaving);
+
+                        Log.e("farmerID", Obj_Class_farmerlistdetails.getFarmerID());
+
+                      /*  Intent i = new Intent(getApplicationContext(), AddFarmer_Activity1.class);
+                        i.putExtra("farmerID", Obj_Class_farmerlistdetails.getFarmerID());
+                        startActivity(i);*/
+
+                        //selectImage();
+                    }
+                });
+
+            }
+
+
+            return convertView;
+
+        }
+        //////////////////////////////////////7thoct///////////////////////////////////////
+
+        public void filter(String charText, ArrayList<Farmer> projectList) {
+            charText = charText.toLowerCase(Locale.getDefault());
+            this.mDisplayedValues.clear();
+
+            if (charText != null) {
+                if (projectList != null) {
+                    if (charText.isEmpty() || charText.length() == 0) {
+                        this.mDisplayedValues.addAll(projectList);
+                    } else {
+                        for (Farmer wp : projectList) {
+                            if (wp.getFarmerFirstName().toLowerCase(Locale.getDefault()).contains(charText.toLowerCase())) {
+                                this.mDisplayedValues.add(wp);
+                            }
+                        }
+                    }
+                    notifyDataSetChanged();
+
+                    //FarmerListViewAdapter.updateList(mDisplayedValues);
+                }
+            }
+        }
+
     }
 
     //--------------------------------------------------------------------------------------
@@ -621,7 +830,7 @@ public class ViewFarmers_Activity extends AppCompatActivity {
             }
         }
 
-        if(x==0)
+      /*  if(x==0)
         {
             arrayObj_Class_TalukListDetails2 = new Taluka[1];
             Taluka innerObj_Class_talukList = new Taluka();
@@ -636,7 +845,7 @@ public class ViewFarmers_Activity extends AppCompatActivity {
             dataAdapter.setDropDownViewResource(R.layout.spinnercenterstyle);
             taluklist_SP.setAdapter(dataAdapter);
         }
-
+*/
     }
 
     public void uploadfromDB_Villagelist() {
@@ -682,13 +891,13 @@ public class ViewFarmers_Activity extends AppCompatActivity {
 
     }
 
-    public void Update_VillageId_spinner(String str_talukid) {
+    public void Update_VillageId_spinner(String str_panchayatID,String str_talukid) {
 
         SQLiteDatabase db1 = this.openOrCreateDatabase("FarmPond_db", Context.MODE_PRIVATE, null);
         //  db1.execSQL("CREATE TABLE IF NOT EXISTS VillageList(VillageID VARCHAR,Village VARCHAR,TalukID VARCHAR);");
         db1.execSQL("CREATE TABLE IF NOT EXISTS VillageListRest(VillageID VARCHAR,Village VARCHAR,TalukID VARCHAR,PanchayatID VARCHAR);");
         //Cursor cursor1 = db1.rawQuery("SELECT DISTINCT * FROM VillageList WHERE TalukID='" + str_talukid + "'", null);
-        Cursor cursor1 = db1.rawQuery("SELECT DISTINCT * FROM VillageListRest WHERE PanchayatID='" + str_talukid + "'", null);
+        Cursor cursor1 = db1.rawQuery("SELECT DISTINCT * FROM VillageListRest WHERE TalukID='" + str_talukid + "'AND PanchayatID='"+str_panchayatID+"'", null);
         int x = cursor1.getCount();
         Log.d("cursor Vcount", Integer.toString(x));
 
@@ -722,7 +931,7 @@ public class ViewFarmers_Activity extends AppCompatActivity {
         }
 
 
-        if(x==0)
+      /*  if(x==0)
         {
             arrayObj_Class_VillageListDetails2 = new Village[1];
             Village innerObj_Class_villageList = new Village();
@@ -737,7 +946,7 @@ public class ViewFarmers_Activity extends AppCompatActivity {
             villagelist_SP.setAdapter(dataAdapter);
 
         }
-
+*/
     }
 
     public void uploadfromDB_Grampanchayatlist() {
@@ -817,7 +1026,7 @@ public class ViewFarmers_Activity extends AppCompatActivity {
         }
 
 
-        if(x==0)
+       /* if(x==0)
         {
             arrayObj_Class_GrampanchayatListDetails2 = new Panchayat[1];
             Panchayat innerObj_Class_panchayatList = new Panchayat();
@@ -830,6 +1039,255 @@ public class ViewFarmers_Activity extends AppCompatActivity {
             ArrayAdapter dataAdapter = new ArrayAdapter(getApplicationContext(), R.layout.spinnercenterstyle, arrayObj_Class_GrampanchayatListDetails2);
             dataAdapter.setDropDownViewResource(R.layout.spinnercenterstyle);
             grampanchayatlist_SP.setAdapter(dataAdapter);
+
+        }*/
+
+    }
+
+    public void uploadfromDB_Farmerlist()
+    {
+
+        SQLiteDatabase db1 = this.openOrCreateDatabase("FarmPond_db", Context.MODE_PRIVATE, null);
+
+        db1.execSQL("CREATE TABLE IF NOT EXISTS ViewFarmerListRest(MTempId INTEGER PRIMARY KEY,DispFarmerTable_YearID VARCHAR,DispFarmerTable_StateID VARCHAR," +
+                "DispFarmerTable_DistrictID VARCHAR,DispFarmerTable_TalukID VARCHAR,DispFarmerTable_VillageID VARCHAR," +
+                "DispFarmerTable_GrampanchayatID VARCHAR,DispFarmerTable_FarmerID VARCHAR,DispFarmerTable_Farmer_Code VARCHAR," +
+                "DispFarmerTable_FarmerName VARCHAR,FarmerMName_DB VARCHAR,FarmerLName_DB VARCHAR,Farmerage_DB VARCHAR," +
+                "Farmercellno_DB VARCHAR,FIncome_DB VARCHAR,Ffamilymember_DB VARCHAR,FIDprooftype_DB VARCHAR,FIDProofNo_DB VARCHAR,UploadedStatusFarmerprofile_DB VARCHAR," +
+                "FarmerImageB64str_DB VARCHAR,DispFarmerTable_FarmerImage VARCHAR," +
+                "LocalFarmerImg BLOB,Farmpondcount VARCHAR,Submitted_Date VARCHAR,Created_By VARCHAR,Created_Date VARCHAR,Created_User VARCHAR,Response VARCHAR,Response_Action VARCHAR);");
+
+
+
+        Cursor cursor1 = db1.rawQuery("SELECT DISTINCT * FROM ViewFarmerListRest", null);
+        int x = cursor1.getCount();
+        Log.d("cursor count", Integer.toString(x));
+
+        int i = 0;
+        ViewFarmerList_arraylist.clear();
+        arrayObj_Class_FarmerListDetails2 = new Farmer[x];
+        if (cursor1.moveToFirst()) {
+
+            do {
+                Farmer innerObj_Class_SandboxList = new Farmer();
+               // innerObj_Class_SandboxList.setYearid(cursor1.getString(cursor1.getColumnIndex("DispFarmerTable_YearID")));
+                innerObj_Class_SandboxList.setStateID(cursor1.getString(cursor1.getColumnIndex("DispFarmerTable_StateID")));
+                innerObj_Class_SandboxList.setDistrictID(cursor1.getString(cursor1.getColumnIndex("DispFarmerTable_DistrictID")));
+                innerObj_Class_SandboxList.setTalukaID(cursor1.getString(cursor1.getColumnIndex("DispFarmerTable_TalukID")));
+                innerObj_Class_SandboxList.setVillageID(cursor1.getString(cursor1.getColumnIndex("DispFarmerTable_VillageID")));
+                innerObj_Class_SandboxList.setPanchayatID(cursor1.getString(cursor1.getColumnIndex("DispFarmerTable_GrampanchayatID")));
+                innerObj_Class_SandboxList.setFarmerID(cursor1.getString(cursor1.getColumnIndex("DispFarmerTable_FarmerID")));//DispFarmerTable_Farmer_Code VARCHAR
+                innerObj_Class_SandboxList.setFarmerFirstName(cursor1.getString(cursor1.getColumnIndex("DispFarmerTable_FarmerName")));
+                innerObj_Class_SandboxList.setFarmerPhoto(cursor1.getString(cursor1.getColumnIndex("DispFarmerTable_FarmerImage")));
+               // innerObj_Class_SandboxList.setFarmerimage(cursor1.getString(cursor1.getColumnIndex("Farmpondcount")));
+              //  innerObj_Class_SandboxList.setLocalfarmerimage(cursor1.getBlob(cursor1.getColumnIndex("LocalFarmerImg")));
+              //  innerObj_Class_SandboxList.setStr_base64(cursor1.getString(cursor1.getColumnIndex("FarmerImageB64str_DB")));
+
+                innerObj_Class_SandboxList.setFarmerMiddleName(cursor1.getString(cursor1.getColumnIndex("FarmerMName_DB")));
+                innerObj_Class_SandboxList.setFarmerLastName(cursor1.getString(cursor1.getColumnIndex("FarmerLName_DB")));
+                innerObj_Class_SandboxList.setFarmerAge(cursor1.getString(cursor1.getColumnIndex("Farmerage_DB")));
+                innerObj_Class_SandboxList.setFarmerMobile(cursor1.getString(cursor1.getColumnIndex("Farmercellno_DB")));
+                innerObj_Class_SandboxList.setFarmerIncome(cursor1.getString(cursor1.getColumnIndex("FIncome_DB")));
+                innerObj_Class_SandboxList.setFarmerFamily(cursor1.getString(cursor1.getColumnIndex("Ffamilymember_DB")));
+                innerObj_Class_SandboxList.setFarmerIDType(cursor1.getString(cursor1.getColumnIndex("FIDprooftype_DB")));
+                innerObj_Class_SandboxList.setFarmerIDNumber(cursor1.getString(cursor1.getColumnIndex("FIDProofNo_DB")));
+
+                String str_FarmerName = cursor1.getString(cursor1.getColumnIndex("DispFarmerTable_FarmerName"));
+                String str_Farmercode = cursor1.getString(cursor1.getColumnIndex("DispFarmerTable_Farmer_Code"));
+                // String str_farmpondcount=cursor1.getString(cursor1.getColumnIndex("Farmpondcount"));
+                byte[] str_LocalImg = cursor1.getBlob(cursor1.getColumnIndex("LocalFarmerImg"));
+
+                Log.e("tag","str_LocalImg inner="+str_LocalImg);
+                arrayObj_Class_FarmerListDetails2[i] = innerObj_Class_SandboxList;
+
+                Farmer item;
+
+                //item = new Class_FarmerListDetails(str_Farmercode, str_FarmerName);
+                item = new Farmer(
+                        cursor1.getString(cursor1.getColumnIndex("DispFarmerTable_YearID")),
+                        cursor1.getString(cursor1.getColumnIndex("DispFarmerTable_StateID")),
+                        cursor1.getString(cursor1.getColumnIndex("DispFarmerTable_DistrictID")),
+                        cursor1.getString(cursor1.getColumnIndex("DispFarmerTable_TalukID")),
+                        cursor1.getString(cursor1.getColumnIndex("DispFarmerTable_VillageID")),
+                        cursor1.getString(cursor1.getColumnIndex("DispFarmerTable_GrampanchayatID")),
+                        cursor1.getString(cursor1.getColumnIndex("DispFarmerTable_FarmerID")),
+                        cursor1.getString(cursor1.getColumnIndex("DispFarmerTable_FarmerName")),
+                        cursor1.getString(cursor1.getColumnIndex("DispFarmerTable_FarmerImage")),
+                        cursor1.getString(cursor1.getColumnIndex("FarmerImageB64str_DB")),
+                        cursor1.getString(cursor1.getColumnIndex("FarmerMName_DB")),
+                        cursor1.getString(cursor1.getColumnIndex("FarmerLName_DB")),
+                        cursor1.getString(cursor1.getColumnIndex("Farmerage_DB")),
+                        cursor1.getString(cursor1.getColumnIndex("Farmercellno_DB")),
+                        cursor1.getString(cursor1.getColumnIndex("FIncome_DB")),
+                        cursor1.getString(cursor1.getColumnIndex("Ffamilymember_DB")),
+                        cursor1.getString(cursor1.getColumnIndex("FIDprooftype_DB")),
+                        cursor1.getString(cursor1.getColumnIndex("FIDProofNo_DB")),
+                        cursor1.getString(cursor1.getColumnIndex("Farmpondcount")),
+                        cursor1.getBlob(cursor1.getColumnIndex("LocalFarmerImg"))
+                );//farmer_image
+
+
+                ViewFarmerList_arraylist.add(item);
+
+                Log.e("str_FarmerName", str_FarmerName);
+
+                i++;
+
+            } while (cursor1.moveToNext());
+
+
+        }//if ends
+
+        db1.close();
+        if (x > 0)
+        {
+
+//            ArrayAdapter dataAdapter = new ArrayAdapter(getApplicationContext(), R.layout.spinnercenterstyle, arrayObj_Class_TalukListDetails2);
+//            dataAdapter.setDropDownViewResource(R.layout.spinnercenterstyle);
+//            cluster_new_sp.setAdapter(dataAdapter);
+            //originalViewFarmerList.clear();
+            //ViewFarmerList_arraylist.clear();
+
+
+            originalViewFarmerList = new ArrayList<Farmer>();
+            originalViewFarmerList.addAll(ViewFarmerList_arraylist);
+
+            farmerListViewAdapter.notifyDataSetChanged();
+            farmer_listview.setAdapter(farmerListViewAdapter);
+
+
+//            ArrayAdapter dataAdapter = new ArrayAdapter(getApplicationContext(), R.layout.spinnercenterstyle, arrayObj_Class_FarmerListDetails2);
+//            dataAdapter.setDropDownViewResource(R.layout.spinnercenterstyle);
+
+            // CustomAdapter_new dataAdapter=new CustomAdapter_new();
+            //farmer_listview.setAdapter(dataAdapter);
+        }
+
+    }
+
+    public void Update_ids_farmerlist_listview(String str_yearid, String str_stateid, String str_distid, String str_talukid, String str_villageid, String str_panchayatid) {
+
+        SQLiteDatabase db1 = this.openOrCreateDatabase("FarmPond_db", Context.MODE_PRIVATE, null);
+
+        db1.execSQL("CREATE TABLE IF NOT EXISTS ViewFarmerListRest(MTempId INTEGER PRIMARY KEY,DispFarmerTable_YearID VARCHAR,DispFarmerTable_StateID VARCHAR," +
+                "DispFarmerTable_DistrictID VARCHAR,DispFarmerTable_TalukID VARCHAR,DispFarmerTable_VillageID VARCHAR," +
+                "DispFarmerTable_GrampanchayatID VARCHAR,DispFarmerTable_FarmerID VARCHAR,DispFarmerTable_Farmer_Code VARCHAR," +
+                "DispFarmerTable_FarmerName VARCHAR,FarmerMName_DB VARCHAR,FarmerLName_DB VARCHAR,Farmerage_DB VARCHAR," +
+                "Farmercellno_DB VARCHAR,FIncome_DB VARCHAR,Ffamilymember_DB VARCHAR,FIDprooftype_DB VARCHAR,FIDProofNo_DB VARCHAR,UploadedStatusFarmerprofile_DB VARCHAR," +
+                "FarmerImageB64str_DB VARCHAR,DispFarmerTable_FarmerImage VARCHAR," +
+                "LocalFarmerImg BLOB,Farmpondcount VARCHAR,Submitted_Date VARCHAR,Created_By VARCHAR,Created_Date VARCHAR,Created_User VARCHAR,Response VARCHAR,Response_Action VARCHAR);");
+
+
+       // Cursor cursor1 = db1.rawQuery("SELECT DISTINCT * FROM ViewFarmerListRest  WHERE DispFarmerTable_YearID='" + str_yearid + "' AND DispFarmerTable_StateID='" + str_stateid + "' AND DispFarmerTable_DistrictID='" + str_distid + "'  AND DispFarmerTable_TalukID='" + str_talukid + "' AND DispFarmerTable_VillageID='" + str_villageid + "' AND DispFarmerTable_GrampanchayatID='" + str_panchayatid + "'", null);
+        Cursor cursor1 = db1.rawQuery("SELECT DISTINCT * FROM ViewFarmerListRest WHERE DispFarmerTable_YearID='" + str_yearid +"' AND DispFarmerTable_VillageID='" + str_villageid + "'", null);
+
+
+        int x = cursor1.getCount();
+        Log.d("cursor Farmercount", Integer.toString(x));
+
+        int i = 0;
+        arrayObj_Class_FarmerListDetails2 = new Farmer[x];
+        // originalViewFarmerList.clear();
+        ViewFarmerList_arraylist.clear();
+
+        if (cursor1.moveToFirst()) {
+
+            do {
+                Farmer innerObj_Class_SandboxList = new Farmer();
+                innerObj_Class_SandboxList.setAcademic_ID(cursor1.getString(cursor1.getColumnIndex("DispFarmerTable_YearID")));
+                innerObj_Class_SandboxList.setStateID(cursor1.getString(cursor1.getColumnIndex("DispFarmerTable_StateID")));
+                innerObj_Class_SandboxList.setDistrictID(cursor1.getString(cursor1.getColumnIndex("DispFarmerTable_DistrictID")));
+                innerObj_Class_SandboxList.setTalukaID(cursor1.getString(cursor1.getColumnIndex("DispFarmerTable_TalukID")));
+                innerObj_Class_SandboxList.setVillageID(cursor1.getString(cursor1.getColumnIndex("DispFarmerTable_VillageID")));
+                innerObj_Class_SandboxList.setPanchayatID(cursor1.getString(cursor1.getColumnIndex("DispFarmerTable_GrampanchayatID")));
+                innerObj_Class_SandboxList.setFarmerID(cursor1.getString(cursor1.getColumnIndex("DispFarmerTable_FarmerID")));//DispFarmerTable_Farmer_Code VARCHAR
+                innerObj_Class_SandboxList.setFarmer_Code(cursor1.getString(cursor1.getColumnIndex("DispFarmerTable_Farmer_Code")));//DispFarmerTable_Farmer_Code VARCHAR
+                innerObj_Class_SandboxList.setFarmerFirstName(cursor1.getString(cursor1.getColumnIndex("DispFarmerTable_FarmerName")));
+               // innerObj_Class_SandboxList.setLocalfarmerimage(cursor1.getBlob(cursor1.getColumnIndex("LocalFarmerImg")));
+
+
+               // innerObj_Class_SandboxList.setStr_base64(cursor1.getString(cursor1.getColumnIndex("FarmerImageB64str_DB")));
+
+                innerObj_Class_SandboxList.setFarmerMiddleName(cursor1.getString(cursor1.getColumnIndex("FarmerMName_DB")));
+                innerObj_Class_SandboxList.setFarmerLastName(cursor1.getString(cursor1.getColumnIndex("FarmerLName_DB")));
+                innerObj_Class_SandboxList.setFarmerAge(cursor1.getString(cursor1.getColumnIndex("Farmerage_DB")));
+                innerObj_Class_SandboxList.setFarmerMobile(cursor1.getString(cursor1.getColumnIndex("Farmercellno_DB")));
+                innerObj_Class_SandboxList.setFarmerIncome(cursor1.getString(cursor1.getColumnIndex("FIncome_DB")));
+                innerObj_Class_SandboxList.setFarmerFamily(cursor1.getString(cursor1.getColumnIndex("Ffamilymember_DB")));
+                innerObj_Class_SandboxList.setFarmerIDType(cursor1.getString(cursor1.getColumnIndex("FIDprooftype_DB")));
+                innerObj_Class_SandboxList.setFarmerIDNumber(cursor1.getString(cursor1.getColumnIndex("FIDProofNo_DB")));
+
+
+                String str_FarmerName = cursor1.getString(cursor1.getColumnIndex("DispFarmerTable_FarmerName"));
+                String str_Farmercode = cursor1.getString(cursor1.getColumnIndex("DispFarmerTable_Farmer_Code"));
+                String str_FarmerImage = cursor1.getString(cursor1.getColumnIndex("DispFarmerTable_FarmerImage"));
+                String str_farmerpondcount = cursor1.getString(cursor1.getColumnIndex("Farmpondcount"));
+                byte[] str_LocalImg = cursor1.getBlob(cursor1.getColumnIndex("LocalFarmerImg"));
+
+                Log.e("tag","str_LocalImg oo="+str_LocalImg);
+
+                arrayObj_Class_FarmerListDetails2[i] = innerObj_Class_SandboxList;
+                Farmer item;
+
+                //item = new Class_FarmerListDetails(str_Farmercode, str_FarmerName);
+                item = new Farmer(
+                        cursor1.getString(cursor1.getColumnIndex("DispFarmerTable_YearID")),
+                        cursor1.getString(cursor1.getColumnIndex("DispFarmerTable_StateID")),
+                        cursor1.getString(cursor1.getColumnIndex("DispFarmerTable_DistrictID")),
+                        cursor1.getString(cursor1.getColumnIndex("DispFarmerTable_TalukID")),
+                        cursor1.getString(cursor1.getColumnIndex("DispFarmerTable_VillageID")),
+                        cursor1.getString(cursor1.getColumnIndex("DispFarmerTable_GrampanchayatID")),
+                        cursor1.getString(cursor1.getColumnIndex("DispFarmerTable_FarmerID")),
+                        /*cursor1.getString(cursor1.getColumnIndex("DispFarmerTable_Farmer_Code")),*/
+                        cursor1.getString(cursor1.getColumnIndex("DispFarmerTable_FarmerName")),
+                        cursor1.getString(cursor1.getColumnIndex("DispFarmerTable_FarmerImage")),
+                        cursor1.getString(cursor1.getColumnIndex("FarmerImageB64str_DB")),
+
+                        cursor1.getString(cursor1.getColumnIndex("FarmerMName_DB")),
+                        cursor1.getString(cursor1.getColumnIndex("FarmerLName_DB")),
+                        cursor1.getString(cursor1.getColumnIndex("Farmerage_DB")),
+                        cursor1.getString(cursor1.getColumnIndex("Farmercellno_DB")),
+                        cursor1.getString(cursor1.getColumnIndex("FIncome_DB")),
+                        cursor1.getString(cursor1.getColumnIndex("Ffamilymember_DB")),
+                        cursor1.getString(cursor1.getColumnIndex("FIDprooftype_DB")),
+                        cursor1.getString(cursor1.getColumnIndex("FIDProofNo_DB")),
+
+                        cursor1.getString(cursor1.getColumnIndex("Farmpondcount")),
+                        cursor1.getBlob(cursor1.getColumnIndex("LocalFarmerImg"))
+                );//farmer_image
+
+
+                ViewFarmerList_arraylist.add(item);
+                Log.e("str_FarmerName2id", str_FarmerName);
+                Log.e("str_FarmerImage", str_FarmerImage);
+
+                i++;
+
+            } while (cursor1.moveToNext());
+
+
+        }//if ends
+
+        db1.close();
+        if (x > 0) {
+
+//            originalViewFarmerList.clear();
+//           // ViewFarmerList_arraylist.clear();
+            originalViewFarmerList = new ArrayList<Farmer>();
+            originalViewFarmerList.addAll(ViewFarmerList_arraylist);
+
+            if (ViewFarmerList_arraylist != null) {
+                farmerListViewAdapter.notifyDataSetChanged();
+                farmer_listview.setAdapter(farmerListViewAdapter);
+
+            }
+//            ArrayAdapter dataAdapter = new ArrayAdapter(getApplicationContext(), R.layout.spinnercenterstyle, arrayObj_Class_FarmerListDetails2);
+//            dataAdapter.setDropDownViewResource(R.layout.spinnercenterstyle);
+//            farmer_listview.setAdapter(dataAdapter);
+
+
+//            CustomAdapter_new dataAdapter=new CustomAdapter_new();
+//            farmer_listview.setAdapter(dataAdapter);
 
         }
 
@@ -933,8 +1391,8 @@ public class ViewFarmers_Activity extends AppCompatActivity {
                         uploadfromDB_Statelist();
                         uploadfromDB_Districtlist();
                         uploadfromDB_Taluklist();
-                        uploadfromDB_Grampanchayatlist();
                         uploadfromDB_Villagelist();
+                        uploadfromDB_Grampanchayatlist();
 
                     } else {
                         Toast.makeText(ViewFarmers_Activity.this, class_locaitonData.getMessage(), Toast.LENGTH_SHORT).show();
@@ -959,6 +1417,7 @@ public class ViewFarmers_Activity extends AppCompatActivity {
         });// end of call
 
     }
+
     private void GetFarmer_PondValuesRestData(){
 
         Call<UserData> call = userService1.getUserData("40");
@@ -971,24 +1430,151 @@ public class ViewFarmers_Activity extends AppCompatActivity {
                 //     Log.e("Entered resp", response.body().getMessage());
 
                 if (response.isSuccessful()) {
-                    UserData class_locaitonData = response.body();
+                    UserData class_userData = response.body();
                     Log.e("response.body", response.body().getLst().toString());
-                    if (class_locaitonData.getStatus().equals(true)) {
+                    if (class_userData.getStatus().equals(true)) {
                         List<UserDataList> yearlist = response.body().getLst();
                         Log.e("programlist.size()", String.valueOf(yearlist.size()));
 
-                        location_dataLists = new Location_DataList[yearlist.size()];
-                        // Toast.makeText(getContext(), "" + class_monthCounts.getMessage(), Toast.LENGTH_SHORT).show();
+                        userDataLists = new UserDataList[yearlist.size()];
 
-                        for (int i = 0; i < location_dataLists.length; i++) {
+                        for (int i = 0; i < userDataLists.length; i++) {
+
+                            String str_farmpondbaseimage_url,str_base64image = null;
+
+                            Log.e("status", String.valueOf(class_userData.getStatus()));
+                            Log.e("tag","farmer name=="+class_userData.getLst().get(0).getFarmer().get(0).getFarmerFirstName());
+
+                            class_userDatalist.setFarmer((class_userData.getLst().get(i).getFarmer()));
+                            class_userDatalist.setPond(class_userData.getLst().get(i).getPond());
+
+                            int sizeFarmer=class_userData.getLst().get(i).getFarmer().size();
+                            for(int j=0;j<sizeFarmer;j++){
+                                Log.e("tag","Farmer name=="+class_userData.getLst().get(i).getFarmer().get(j).getFarmerFirstName());
+                                //String FarmerFirstName = class_userData.getLst().get(i).getFarmer().get(j).getFarmerFirstName();
+                               // String FarmerID = class_userData.getLst().get(i).getFarmer().get(j).getFarmerID();
+                                String farmerID = class_userData.getLst().get(i).getFarmer().get(j).getFarmerID();
+                                String stateID = class_userData.getLst().get(i).getFarmer().get(j).getStateID();
+                                String districtID = class_userData.getLst().get(i).getFarmer().get(j).getDistrictID();
+                                String talukaID = class_userData.getLst().get(i).getFarmer().get(j).getTalukaID();
+                                String panchayatID = class_userData.getLst().get(i).getFarmer().get(j).getPanchayatID();
+                                String villageID = class_userData.getLst().get(i).getFarmer().get(j).getVillageID();
+                                String farmerFirstName = class_userData.getLst().get(i).getFarmer().get(j).getFarmerFirstName();
+                                String farmerMiddleName = class_userData.getLst().get(i).getFarmer().get(j).getFarmerMiddleName();
+                                String farmerLastName = class_userData.getLst().get(i).getFarmer().get(j).getFarmerLastName();
+                                String farmerMobile = class_userData.getLst().get(i).getFarmer().get(j).getFarmerMobile();
+                                String farmerIDType = class_userData.getLst().get(i).getFarmer().get(j).getFarmerIDType();
+                                String farmerIDNumber = class_userData.getLst().get(i).getFarmer().get(j).getFarmerIDNumber();
+                                String str_imageurl = class_userData.getLst().get(i).getFarmer().get(j).getFarmerPhoto();
+                                String farmerAge = class_userData.getLst().get(i).getFarmer().get(j).getFarmerAge();
+                                String farmerIncome = class_userData.getLst().get(i).getFarmer().get(j).getFarmerIncome();
+                                String farmerFamily = class_userData.getLst().get(i).getFarmer().get(j).getFarmerFamily();
+                                String submittedDate = class_userData.getLst().get(i).getFarmer().get(j).getSubmittedDate();
+                                String createdBy = class_userData.getLst().get(i).getFarmer().get(j).getCreatedBy();
+                                String createdDate = class_userData.getLst().get(i).getFarmer().get(j).getCreatedDate();
+                                String mobileTempID = class_userData.getLst().get(i).getFarmer().get(j).getMobileTempID();
+                                String createdUser = class_userData.getLst().get(i).getFarmer().get(j).getCreatedUser();
+                                String responseoutput = class_userData.getLst().get(i).getFarmer().get(j).getResponse();
+                                String responseAction = class_userData.getLst().get(i).getFarmer().get(j).getResponseAction();
+                                String farmerCode=class_userData.getLst().get(i).getFarmer().get(j).getFarmer_Code();
+                                String farmpondcount=class_userData.getLst().get(i).getFarmer().get(j).getFarmPond_Count();
+                                String yearID=class_userData.getLst().get(i).getFarmer().get(j).getAcademic_ID();
+
+                                Log.e("tag","str_imageurl="+str_imageurl);
 
 
-                            Log.e("status", String.valueOf(class_locaitonData.getStatus()));
+                            /*    InputStream inputstream_obj = null;
+                                if(str_imageurl!=null||!str_imageurl.equals("")) {
+                                    try {
+                                        inputstream_obj = new URL(str_imageurl).openStream();
+                                    } catch (IOException e) {
+                                        e.printStackTrace();
+                                    }
 
-                            Log.e("tag","farmer name=="+class_locaitonData.getLst().get(0).getFarmer().get(0).getFarmerFirstName());
+                                    Bitmap mIcon12 = BitmapFactory.decodeStream(inputstream_obj);
+                                    ByteArrayOutputStream baos = new ByteArrayOutputStream();
+                                    mIcon12.compress(Bitmap.CompressFormat.PNG, 60, baos);
+                                    byte[] b = baos.toByteArray();
+                                    String str_base64image = Base64.encodeToString(b, Base64.DEFAULT);
+
+                                    str_farmerbase64 = str_base64image;
+                                }else{
+                                    str_farmerbase64=null;
+                                }*/
+                                class_farmerlistdetails_arrayobj2=new Farmer[sizeFarmer];
+                                if(str_imageurl==null||str_imageurl.equals("")) {
+                                }else{
+                                  //  str_imageurl = class_farmerlistdetails_arrayobj2[j].getFarmerPhoto();
+
+                                //   String str_farmpondimageurl = str_imageurl;
+
+                                   /* InputStream inputstream_obj = null;
+                                    try {
+                                        inputstream_obj = new URL("http://apps.dfindia.org/farmapi/image/5e677077b75fb.jpeg").openStream();
+                                    } catch (IOException e) {
+                                        e.printStackTrace();
+                                    }
+                                    Bitmap mIcon12 = BitmapFactory.decodeStream(inputstream_obj);
+                                    ByteArrayOutputStream baos = new ByteArrayOutputStream();
+                                    mIcon12.compress(Bitmap.CompressFormat.PNG, 60, baos);
+                                    byte[] b = baos.toByteArray();
+                                    str_base64image = Base64.encodeToString(b, Base64.DEFAULT);
+
+                                    str_imageurltobase64_farmerimage = str_base64image;
+
+                                    str_farmerbase64 = str_base64image;
+*/
+                                   /* Bitmap bm = BitmapFactory.decodeFile("http://apps.dfindia.org/farmapi/image/5e677077b75fb.jpeg");
+                                    ByteArrayOutputStream baos = new ByteArrayOutputStream();
+                                    bm.compress(Bitmap.CompressFormat.JPEG, 100, baos); // bm is the bitmap object
+                                    byte[] b = baos.toByteArray();
+
+                                    str_base64image = Base64.encodeToString(b, Base64.DEFAULT);
+
+                                    str_imageurltobase64_farmerimage = str_base64image;
+
+                                    str_farmerbase64 = str_base64image;*/
+                                }
+
+                                DBCreate_ViewFarmerlistdetails_insert_2SQLiteDB(yearID,stateID,districtID,talukaID,villageID,panchayatID,farmerID,farmerCode,farmerFirstName,str_imageurl,farmpondcount,str_farmerbase64,farmerMiddleName,farmerLastName,farmerAge,farmerMobile,farmerIncome,farmerFamily,farmerIDType,farmerIDNumber,submittedDate,createdBy,createdDate,createdUser,responseoutput,responseAction);
+                            }
+
+                            int sizePond=class_userData.getLst().get(i).getPond().size();
+
+                            for(int j=0;j<sizePond;j++){
+                                String pondID=class_userData.getLst().get(i).getPond().get(j).getPondID();
+                                String farmerID=class_userData.getLst().get(i).getPond().get(j).getFarmerID();
+                                String academicID=class_userData.getLst().get(i).getPond().get(j).getAcademicID();
+                                String machineID=class_userData.getLst().get(i).getPond().get(j).getMachineID();
+                                String pondCode=class_userData.getLst().get(i).getPond().get(j).getPondCode();
+                                String pondLatitude=class_userData.getLst().get(i).getPond().get(j).getPondLatitude();
+                                String pondLongitude=class_userData.getLst().get(i).getPond().get(j).getPondLongitude();
+                                String pondLength=class_userData.getLst().get(i).getPond().get(j).getPondLength();
+                                String pondWidth=class_userData.getLst().get(i).getPond().get(j).getPondWidth();
+                                String pondDepth=class_userData.getLst().get(i).getPond().get(j).getPondDepth();
+                                String pondStart=class_userData.getLst().get(i).getPond().get(j).getPondStart();
+                                String pondEnd=class_userData.getLst().get(i).getPond().get(j).getPondEnd();
+                                String pondDays=class_userData.getLst().get(i).getPond().get(j).getPondDays();
+                                String pondCost=class_userData.getLst().get(i).getPond().get(j).getPondCost();
+                                Object pondImage1=class_userData.getLst().get(i).getPond().get(j).getPondImage1();
+                                Object pondImage2=class_userData.getLst().get(i).getPond().get(j).getPondImage2();
+                                Object pondImage3=class_userData.getLst().get(i).getPond().get(j).getPondImage3();
+                                Object pondStatus=class_userData.getLst().get(i).getPond().get(j).getPondStatus();
+                                String submittedDate=class_userData.getLst().get(i).getPond().get(j).getSubmittedDate();
+                                Object submittedBy=class_userData.getLst().get(i).getPond().get(j).getSubmittedBy();
+                                String createdDate=class_userData.getLst().get(i).getPond().get(j).getCreatedDate();
+                                String createdBy=class_userData.getLst().get(i).getPond().get(j).getCreatedBy();
+                                Object pondTempID=class_userData.getLst().get(i).getPond().get(j).getPondTempID();
+                                Object responseOutput=class_userData.getLst().get(i).getPond().get(j).getResponse();
+                                String createdUser=class_userData.getLst().get(i).getPond().get(j).getCreatedUser();
+                                Object submittedUser=class_userData.getLst().get(i).getPond().get(j).getSubmittedUser();
+                            }
                         }
+
+                      //  uploadfromDB_Farmerlist();
+
                     } else {
-                        Toast.makeText(ViewFarmers_Activity.this, class_locaitonData.getMessage(), Toast.LENGTH_SHORT).show();
+                        Toast.makeText(ViewFarmers_Activity.this, class_userData.getMessage(), Toast.LENGTH_SHORT).show();
 
                     }
                 } else {
@@ -1087,7 +1673,6 @@ public class ViewFarmers_Activity extends AppCompatActivity {
         }
         db_districtlist_delete.close();
     }
-
 
     public void DBCreate_TalukdetailsRest_insert_2SQLiteDB(String str_talukID, String str_talukname, String str_districtid,int i) {
 
@@ -1255,6 +1840,52 @@ public class ViewFarmers_Activity extends AppCompatActivity {
 
         }
         db1 .close();
+    }
+
+    public void DBCreate_ViewFarmerlistdetails_insert_2SQLiteDB(String str_yearID, String str_stateID, String str_districtID,
+                                                                String str_talukid, String str_villageid, String str_grampanchayatid,
+                                                                String str_farmerid, String str_farmercode, String str_farmername,
+                                                                String str_farmerimage,String farmpondcount,String str_imagebase64,
+                                                                String str_mname,String str_lname,String str_age,String str_cellno,
+                                                                String str_income,String str_member,String str_idprooftype,String str_idproofno,String Submitted_Date,String Created_By,String Created_Date,String Created_User,String ResponseOutput,String Response_Action) {
+
+
+        String str_UploadedStatusFarmerprofile="10";  //uploaded
+
+        SQLiteDatabase db_viewfarmerlist = this.openOrCreateDatabase("FarmPond_db", Context.MODE_PRIVATE, null);
+
+        db_viewfarmerlist.execSQL("CREATE TABLE IF NOT EXISTS ViewFarmerListRest(MTempId INTEGER PRIMARY KEY,DispFarmerTable_YearID VARCHAR,DispFarmerTable_StateID VARCHAR," +
+                "DispFarmerTable_DistrictID VARCHAR,DispFarmerTable_TalukID VARCHAR,DispFarmerTable_VillageID VARCHAR," +
+                "DispFarmerTable_GrampanchayatID VARCHAR,DispFarmerTable_FarmerID VARCHAR,DispFarmerTable_Farmer_Code VARCHAR," +
+                "DispFarmerTable_FarmerName VARCHAR,FarmerMName_DB VARCHAR,FarmerLName_DB VARCHAR,Farmerage_DB VARCHAR," +
+                "Farmercellno_DB VARCHAR,FIncome_DB VARCHAR,Ffamilymember_DB VARCHAR,FIDprooftype_DB VARCHAR,FIDProofNo_DB VARCHAR,UploadedStatusFarmerprofile_DB VARCHAR," +
+                "FarmerImageB64str_DB VARCHAR,DispFarmerTable_FarmerImage VARCHAR," +
+                "LocalFarmerImg BLOB,Farmpondcount VARCHAR,Submitted_Date VARCHAR,Created_By VARCHAR,Created_Date VARCHAR,Created_User VARCHAR,Response VARCHAR,Response_Action VARCHAR);");
+
+        String SQLiteQuery = "INSERT INTO ViewFarmerListRest (DispFarmerTable_YearID,DispFarmerTable_StateID, DispFarmerTable_DistrictID," +
+                "DispFarmerTable_TalukID,DispFarmerTable_VillageID,DispFarmerTable_GrampanchayatID,DispFarmerTable_FarmerID," +
+                "DispFarmerTable_Farmer_Code,DispFarmerTable_FarmerName,FarmerMName_DB,FarmerLName_DB,Farmerage_DB," +
+                "Farmercellno_DB,FIncome_DB,Ffamilymember_DB,FIDprooftype_DB,FIDProofNo_DB,UploadedStatusFarmerprofile_DB,FarmerImageB64str_DB,DispFarmerTable_FarmerImage," +
+                "Farmpondcount,Submitted_Date,Created_By,Created_Date,Created_User,Response,Response_Action)" +
+                " VALUES ('" + str_yearID + "','" + str_stateID + "','" + str_districtID + "','" + str_talukid + "','" + str_villageid+"','"
+                + str_grampanchayatid + "','" + str_farmerid + "','" + str_farmercode + "','" + str_farmername + "','"+str_mname+"'," +
+                "'"+str_lname+"','"+str_age+"','"+str_cellno+"','"+str_income+"','"+str_member+"','"+str_idprooftype+"','"+str_idproofno+"'," +
+                "'"+str_UploadedStatusFarmerprofile+"','"+str_imagebase64+"','"+ str_farmerimage +"','" + farmpondcount +"','"
+                + Submitted_Date +"','" + Created_By +"','" + Created_Date +"','" + Created_User +"','" + ResponseOutput + "','" + Response_Action +"');";
+
+        db_viewfarmerlist.execSQL(SQLiteQuery);
+
+
+//        Log.e("str_yearID DB", str_yearID);
+//        Log.e("str_stateID DB", str_stateID);
+//        Log.e("str_districtID DB", str_districtID);
+//        Log.e("str_talukid DB", str_talukid);
+//        Log.e("str_villageid DB", str_villageid);
+//        Log.e("str_grampanchayatid DB", str_grampanchayatid);
+//        Log.e("str_farmerid DB", str_farmerid);
+        Log.e("str_farmername DB", str_farmername);
+//        Log.e("str_farmerimage DB", str_farmerimage);
+        db_viewfarmerlist.close();
     }
 
 /////////////////////////////////////////////////////////////////////////////////////

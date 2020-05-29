@@ -64,16 +64,61 @@ public class Farmer {
     private String createdDate;
     @SerializedName("Mobile_Temp_ID")
     @Expose
-    private Object mobileTempID;
+    private String mobileTempID;
     @SerializedName("Created_User")
     @Expose
     private String createdUser;
     @SerializedName("Response")
     @Expose
-    private Object response;
+    private String response;
     @SerializedName("Response_Action")
     @Expose
-    private Object responseAction;
+    private String responseAction;
+    @SerializedName("Academic_ID")
+    @Expose
+    private String academic_ID;
+    @SerializedName("Academic_Name")
+    @Expose
+    private String academic_Name;
+    @SerializedName("Farmer_Code")
+    @Expose
+    private String farmer_Code;
+    @SerializedName("FarmPond_Count")
+    @Expose
+    private String farmPond_Count;
+
+    String str_base64;
+    byte[] localfarmerimage;
+
+    public Farmer(String dispFarmerTable_yearID, String dispFarmerTable_stateID, String dispFarmerTable_districtID, String dispFarmerTable_talukID, String dispFarmerTable_villageID,
+                  String dispFarmerTable_grampanchayatID, String dispFarmerTable_farmerID, String dispFarmerTable_farmerName, String dispFarmerTable_farmerImage, String farmerImageB64str_db,
+                  String farmerMName_db, String farmerLName_db, String farmerage_db, String farmercellno_db, String fIncome_db, String ffamilymember_db,
+                  String fiDprooftype_db, String fidProofNo_db, String farmpondcount, byte[] localFarmerImgs) {
+    academic_ID=dispFarmerTable_yearID;
+    stateID=dispFarmerTable_stateID;
+    districtID=dispFarmerTable_districtID;
+    talukaID=dispFarmerTable_talukID;
+    villageID=dispFarmerTable_villageID;
+    panchayatID=dispFarmerTable_grampanchayatID;
+    farmerID=dispFarmerTable_farmerID;
+    farmerFirstName=dispFarmerTable_farmerName;
+    farmerPhoto=dispFarmerTable_farmerImage;
+    farmerMiddleName=farmerMName_db;
+    farmerLastName=farmerLName_db;
+    farmerAge=farmerage_db;
+    farmerMobile=farmercellno_db;
+    farmerIncome=fIncome_db;
+    farmerFamily=ffamilymember_db;
+    farmerIDType=fiDprooftype_db;
+    farmerIDNumber=fidProofNo_db;
+    farmPond_Count=farmpondcount;
+    str_base64=farmerImageB64str_db;
+    localfarmerimage=localFarmerImgs;
+    }
+
+    public Farmer() {
+
+    }
 
     public String getFarmerID() {
         return farmerID;
@@ -227,11 +272,11 @@ public class Farmer {
         this.createdDate = createdDate;
     }
 
-    public Object getMobileTempID() {
+    public String getMobileTempID() {
         return mobileTempID;
     }
 
-    public void setMobileTempID(Object mobileTempID) {
+    public void setMobileTempID(String mobileTempID) {
         this.mobileTempID = mobileTempID;
     }
 
@@ -243,20 +288,68 @@ public class Farmer {
         this.createdUser = createdUser;
     }
 
-    public Object getResponse() {
+    public String getResponse() {
         return response;
     }
 
-    public void setResponse(Object response) {
+    public void setResponse(String response) {
         this.response = response;
     }
 
-    public Object getResponseAction() {
+    public String getResponseAction() {
         return responseAction;
     }
 
-    public void setResponseAction(Object responseAction) {
+    public void setResponseAction(String responseAction) {
         this.responseAction = responseAction;
+    }
+
+    public String getAcademic_ID() {
+        return academic_ID;
+    }
+
+    public void setAcademic_ID(String academic_ID) {
+        this.academic_ID = academic_ID;
+    }
+
+    public String getAcademic_Name() {
+        return academic_Name;
+    }
+
+    public void setAcademic_Name(String academic_Name) {
+        this.academic_Name = academic_Name;
+    }
+
+    public String getFarmer_Code() {
+        return farmer_Code;
+    }
+
+    public void setFarmer_Code(String farmer_Code) {
+        this.farmer_Code = farmer_Code;
+    }
+
+    public String getFarmPond_Count() {
+        return farmPond_Count;
+    }
+
+    public void setFarmPond_Count(String farmPond_Count) {
+        this.farmPond_Count = farmPond_Count;
+    }
+
+    public String getStr_base64() {
+        return str_base64;
+    }
+
+    public void setStr_base64(String str_base64) {
+        this.str_base64 = str_base64;
+    }
+
+    public byte[] getLocalfarmerimage() {
+        return localfarmerimage;
+    }
+
+    public void setLocalfarmerimage(byte[] localfarmerimage) {
+        this.localfarmerimage = localfarmerimage;
     }
 
     @Override
