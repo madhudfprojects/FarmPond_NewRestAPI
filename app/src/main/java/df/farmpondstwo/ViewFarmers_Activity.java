@@ -528,7 +528,7 @@ public class ViewFarmers_Activity extends AppCompatActivity {
 
                         Log.e("farmerID", Obj_Class_farmerlistdetails.getFarmerID());
 
-                      /*  Intent i = new Intent(getApplicationContext(), AddFarmer_Activity1.class);
+                       /* Intent i = new Intent(getApplicationContext(), AddFarmer_Activity1.class);
                         i.putExtra("farmerID", Obj_Class_farmerlistdetails.getFarmerID());
                         startActivity(i);*/
 
