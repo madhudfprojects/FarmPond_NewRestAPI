@@ -27,6 +27,11 @@
         android:supportsRtl="true"
         android:theme="@style/AppTheme">
         <activity
+            android:name=".AddFarmPondActivity"
+            android:screenOrientation="portrait"
+            android:theme="@style/AppThemeNoActionBar" />
+
+        <activity
             android:name=".EachFarmPondDetails_Activity"
             android:screenOrientation="portrait"
             android:theme="@style/AppThemeNoActionBar" />
