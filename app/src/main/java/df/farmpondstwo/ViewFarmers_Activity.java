@@ -2,19 +2,14 @@ package df.farmpondstwo;
 
 import android.annotation.SuppressLint;
 import android.app.Activity;
-import android.app.AlertDialog;
 import android.content.Context;
-import android.content.DialogInterface;
 import android.content.Intent;
 import android.database.Cursor;
 import android.database.sqlite.SQLiteDatabase;
-import android.graphics.Bitmap;
-import android.graphics.BitmapFactory;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.text.Editable;
 import android.text.TextWatcher;
-import android.util.Base64;
 import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.Menu;
@@ -35,13 +30,6 @@ import android.widget.TableLayout;
 import android.widget.TextView;
 import android.widget.Toast;
 
-import com.google.gson.annotations.Expose;
-import com.google.gson.annotations.SerializedName;
-
-import java.io.ByteArrayOutputStream;
-import java.io.IOException;
-import java.io.InputStream;
-import java.net.URL;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Locale;
@@ -1378,11 +1366,11 @@ public class ViewFarmers_Activity extends AppCompatActivity {
                                 String YearId = class_locaitonData.getLst().get(i).getYear().get(j).getAcademic_ID();
                                 DBCreate_YeardetailsRest_insert_2SQLiteDB(YearId,YearName,j);
                             }
-                            int sizeMachine=class_locaitonData.getLst().get(i).getMachine().size();
+                            int sizeMachine=class_locaitonData.getLst().get(i).getClassMachineDetails().size();
                             for(int j=0;j<sizeMachine;j++){
-                                Log.e("tag","Machine name=="+class_locaitonData.getLst().get(i).getMachine().get(j).getMachine_Name());
-                                String MachineName = class_locaitonData.getLst().get(i).getMachine().get(j).getMachine_Name();
-                                String MachineId = class_locaitonData.getLst().get(i).getMachine().get(j).getMachine_ID();
+                                Log.e("tag","Class_MachineDetails name=="+class_locaitonData.getLst().get(i).getClassMachineDetails().get(j).getMachine_Name());
+                                String MachineName = class_locaitonData.getLst().get(i).getClassMachineDetails().get(j).getMachine_Name();
+                                String MachineId = class_locaitonData.getLst().get(i).getClassMachineDetails().get(j).getMachine_ID();
                                 DBCreate_MachineDetailsRest(MachineName,MachineId);
                             }
                         }
