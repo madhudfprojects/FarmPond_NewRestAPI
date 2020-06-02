@@ -80,11 +80,14 @@ public class EachFarmPondDetails_Activity extends AppCompatActivity {
                             Log.e("gpslat", str_latitude);
                             Log.e("gpslong", str_longitude);
 
-                            //Intent intent_addfarmpondactivity = new Intent(EachFarmPondDetails_Activity.this, AddFarmPondDetails_Activity.class);
+                            Intent intent_addfarmpondactivity = new Intent(EachFarmPondDetails_Activity.this, AddFarmPondActivity.class);
                     /*intent_addfarmpondactivity.putExtra("farmername", str_farmername);
                     intent_addfarmpondactivity.putExtra("farmer_id", str_farmer_id);*/
-                           // startActivity(intent_addfarmpondactivity);
-                            //finish();
+                            startActivity(intent_addfarmpondactivity);
+                            finish();
+
+
+
                         } else {
                             gpstracker_obj.showSettingsAlert();
                         }

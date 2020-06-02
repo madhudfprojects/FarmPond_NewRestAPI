@@ -29,6 +29,7 @@ import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.Spinner;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import com.google.android.gms.location.FusedLocationProviderClient;
 import com.google.android.gms.location.LocationCallback;
@@ -44,9 +45,17 @@ import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Calendar;
 import java.util.Date;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
+import java.util.concurrent.TimeUnit;
 
 import df.farmpondstwo.Models.Class_MachineDetails;
+import df.farmpondstwo.remote.Class_ApiUtils;
+import df.farmpondstwo.remote.Interface_userservice;
+import retrofit2.Call;
+import retrofit2.Callback;
+import retrofit2.Response;
 
 public class AddFarmPondActivity extends AppCompatActivity
 {
@@ -167,10 +176,13 @@ public class AddFarmPondActivity extends AppCompatActivity
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_add_farm_pond);
 
+
+        toolbar = (Toolbar) findViewById(R.id.toolbar_farmponddetails);
         // Set upon the actionbar
         setSupportActionBar(toolbar);
         // Now use actionbar methods to show navigation icon and title
         // getSupportActionBar().setDisplayHomeAsUpEnabled(false);
+        // Set upon the actionbar
 
         getSupportActionBar().setDisplayHomeAsUpEnabled(true);
 
@@ -351,6 +363,52 @@ public class AddFarmPondActivity extends AppCompatActivity
 
 
 
+        add_ponddetails_submit_bt.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v)
+            {
+
+                doLogin();
+                if(1>2){
+                if (validation()) {
+                    cancel_submit_addnew_ll.setVisibility(View.GONE);
+
+                    gpstracker_obj1 = new Class_GPSTracker(AddFarmPondActivity.this);
+                    if (gpstracker_obj1.canGetLocation()) {
+
+
+                        double_currentlatitude = gpstracker_obj1.getLatitude();
+                        double_currentlongitude = gpstracker_obj1.getLongitude();
+
+                        str_latitude = Double.toString(double_currentlatitude);
+                        str_longitude = Double.toString(double_currentlongitude);
+
+
+                        latitude_tv.setText(str_latitude);
+                        longitude_tv.setText(str_longitude);
+
+
+                        internetDectector = new Class_InternetDectector(getApplicationContext());
+                        isInternetPresent = internetDectector.isConnectingToInternet();
+
+
+
+
+
+                       /* AsyncCallWS_Insert_into_DB task = new AsyncCallWS_Insert_into_DB(AddFarmPondDetails_Activity.this);
+                        task.execute();
+*/
+
+
+                    } else {
+                        gpstracker_obj1.showSettingsAlert();
+                    }
+                }
+
+            }
+            }
+        });
+
 
 
 
@@ -487,6 +545,337 @@ public class AddFarmPondActivity extends AppCompatActivity
 
 
     }//end of oncreate()
+
+
+
+
+
+
+    public boolean validation()
+    {
+        boolean b_pond_width1,b_pond_width2,b_pond_height1,b_pond_height2,b_pond_depth1,b_pond_depth2,b_pondimages,
+                b_add_completed_date,b_no_days,b_machine_no,b_datevalidation,b_enteramount,b_reason;
+
+        b_pond_width1=b_pond_width2=b_pond_height1=b_pond_height2=b_pond_depth1=b_pond_depth2=b_pondimages=
+                b_add_completed_date=b_no_days=b_datevalidation=b_enteramount=b_reason=true;
+
+
+
+        long long_diffdays,long_days;
+
+        Double long_entereddays;
+
+        long_days=0;
+        long_diffdays=1; long_entereddays=2.0;
+
+
+        if (add_newpond_width_et.getText().toString().length() == 0) {
+            add_newpond_width_et.setError("Empty not allowed");
+            add_newpond_width_et.requestFocus();
+            b_pond_width1=false;
+        }
+
+
+        if (add_newpond_width_et.getText().toString().length() <= 1||(Integer.parseInt(add_newpond_width_et.getText().toString())<0)) {
+            add_newpond_width_et.setError("Enter Valid Width");
+            add_newpond_width_et.requestFocus();
+            b_pond_width2=false;
+        }
+
+        if (add_newpond_height_et.getText().toString().length() == 0) {
+            add_newpond_height_et.setError("Empty not allowed");
+            add_newpond_height_et.requestFocus();
+            b_pond_height1=false;
+        }
+        if (add_newpond_height_et.getText().toString().length() <= 1||(Integer.parseInt(add_newpond_height_et.getText().toString())<0)) {
+            add_newpond_height_et.setError("Enter Valid Length");
+            add_newpond_height_et.requestFocus();
+            b_pond_height2=false;
+        }
+
+
+        if (add_newpond_depth_et.getText().toString().length() == 0) {
+            add_newpond_depth_et.setError("Empty not allowed");
+            add_newpond_depth_et.requestFocus();
+            b_pond_depth1=false;
+        }
+
+        if (add_newpond_depth_et.getText().toString().length() <= 1||(Integer.parseInt(add_newpond_depth_et.getText().toString())<0)) {
+            add_newpond_depth_et.setError("Enter Valid Depth");
+            add_newpond_depth_et.requestFocus();
+            b_pond_depth2=false;
+        }
+
+        // if(arraylist_image1_base64.size()==0||arraylist_image2_base64.size()==0||arraylist_image3_base64.size()==0)
+
+
+        // if(arraylist_image1_base64.size()==0||arraylist_image2_base64.size()==0)
+
+       /* Log.e("string1",arraylist_image1_base64.get(0).toString());
+        Log.e("string2",arraylist_image2_base64.get(0).toString());
+*/
+        String str_array_image1=arraylist_image1_base64.get(0).toString();
+        String str_array_image2=arraylist_image2_base64.get(0).toString();
+
+                /*if(str_array_image1.equalsIgnoreCase("noimage1")||
+                        str_array_image2.equalsIgnoreCase("noimage2"))*/
+
+        //Log.e("validimage1",str_array_image1.toString());
+
+        if(str_array_image1.trim().equalsIgnoreCase("noimage1"))
+        {
+            Toast.makeText(getApplication(),"Add the 1st Pond Image",Toast.LENGTH_LONG).show();
+            Log.e("inside","if statement");
+            b_pondimages=false;
+        }
+        else
+        {
+            if((str_image2present.equalsIgnoreCase("no")&&
+                    str_image3present.equalsIgnoreCase("yes")))
+            {
+                Toast.makeText(getApplication(),"Add the 2nd Pond Image",Toast.LENGTH_LONG).show();
+                b_pondimages=false;
+            }
+        }
+
+
+
+        if(str_validation_for_completed.equalsIgnoreCase("yes"))
+        {
+            // b_add_completed_date,b_no_days
+            if(add_newpond_completeddate_tv.getText().toString().equalsIgnoreCase("Click-for_calendar"))
+            {
+                Toast.makeText(getApplication(),"Add the completed Date",Toast.LENGTH_LONG).show();
+                b_add_completed_date=false;
+            }
+            //Log.e("length", String.valueOf(add_newpond_no_of_days_et.getText().toString().trim().length()));
+
+
+            if(add_newpond_total_amount_tv.getText().toString().trim().length()>0)
+            {
+                if(add_newpond_total_amount_tv.getText().toString().equalsIgnoreCase("0"))
+                {
+                    Toast.makeText(getApplication(),"Add days",Toast.LENGTH_LONG).show();
+                    add_newpond_no_of_days_et.setError("Enter the Days");
+                    add_newpond_no_of_days_et.requestFocus();
+                    b_no_days=false;
+                }
+            }
+
+            if(add_newpond_amountcollected_et.getText().toString().trim().length()==0)
+            {
+                add_newpond_amountcollected_et.setError("Enter Amount");
+                b_enteramount=false;
+            }
+
+           /* if(add_newpond_amountcollected_et.getText().toString().trim().length()>0)
+            {
+                int x= Integer.parseInt(add_newpond_amountcollected_et.getText().toString().trim());
+                if(x<=0) {
+                    add_newpond_amountcollected_et.setError("Enter Valid Amount");
+                    b_enteramount = false;
+                }
+            }*/
+
+
+            if(str_remarksid.equalsIgnoreCase("100"))
+            {
+                Toast.makeText(getApplicationContext(), "Select the reason", Toast.LENGTH_SHORT).show();
+                b_reason=false;
+            }
+
+
+
+
+            if(add_newpond_no_of_days_et.getText().toString().equalsIgnoreCase("."))
+            {
+                Toast.makeText(getApplication(),"Add days",Toast.LENGTH_LONG).show();
+                add_newpond_no_of_days_et.setError("Enter the Days");
+                add_newpond_no_of_days_et.requestFocus();
+                b_no_days=false;
+            }
+
+            if(add_newpond_no_of_days_et.getText().toString().trim().length()<=0)
+            {
+                Toast.makeText(getApplication(),"Add days",Toast.LENGTH_LONG).show();
+                add_newpond_no_of_days_et.setError("Enter the Days");
+                add_newpond_no_of_days_et.requestFocus();
+                b_no_days=false;
+            }
+
+            if(add_newpond_no_of_days_et.getText().toString().trim().length()>=0)
+            {
+                SimpleDateFormat myFormat = new SimpleDateFormat("dd-MM-yyyy");
+                try {
+                    startDate =   myFormat.parse(add_newpond_startdate_tv.getText().toString());   // initialize start date
+                    Log.e("startdate", String.valueOf(startDate));
+                } catch (ParseException e) {
+                    e.printStackTrace();
+                }
+                try {
+                    endDate   = myFormat.parse(add_newpond_completeddate_tv.getText().toString());
+                    Log.e("enddate", String.valueOf(endDate));
+                } catch (ParseException e) {
+                    e.printStackTrace();
+                }
+
+                long_days  = endDate.getTime() - startDate.getTime();
+
+                // System.out.println ("Days: " + TimeUnit.DAYS.convert(long_days, TimeUnit.MILLISECONDS));
+                //Log.e("longdays", String.valueOf(long_days));
+                long_diffdays= TimeUnit.DAYS.convert(long_days, TimeUnit.MILLISECONDS);
+                long_diffdays=long_diffdays+1;
+                Log.e("diffdays", String.valueOf(long_diffdays));
+
+
+
+
+
+                if(add_newpond_no_of_days_et.getText().toString().equalsIgnoreCase(".")
+                        ||add_newpond_total_amount_tv.getText().toString().equalsIgnoreCase("0")) {
+                }
+                else {
+
+                    if (add_newpond_no_of_days_et.getText().toString().trim().length() <= 0) {
+                        long_entereddays = 0.0;
+                    } else {
+
+
+                        String x=add_newpond_no_of_days_et.getText().toString().trim();
+
+                       /*NumberFormat nf = NumberFormat.getInstance();
+                       Number number=0;
+                       try {
+                           number = nf.parse(x);
+                       } catch (ParseException e) {
+                           e.printStackTrace();
+                       }
+
+                       double deci_amount = (double) number;
+
+                       long_entereddays =  Long.parseLong(String.valueOf(deci_amount));*/
+
+                        Log.e("noofdays",x);
+                        //long_entereddays =  (long)Double.parseDouble(x);
+                        long_entereddays =  Double.parseDouble(x);
+                    }
+
+
+
+                    double d1 = long_diffdays*10;
+                    double d2 = long_entereddays*10;
+
+                    long_diffdays=long_diffdays*10;
+                    long_entereddays=long_entereddays*10;
+
+                    Log.e("longd", String.valueOf(d1));
+                    Log.e("longE", String.valueOf(d2));
+
+                    int int_diffdays= (int) ( long_diffdays);
+                    // int int_entereddays= (int) (long_entereddays);
+
+
+                    int int_entereddays= (int) d2;
+
+
+               /* if(int_diffdays>=int_entereddays)
+                {
+                    Log.e("i1","1st is greater");
+                }
+                else{
+                    Log.e("i1","2nd is greater");
+
+                }
+
+            Log.e("diff", String.valueOf(int_diffdays));
+                   Log.e("enter", String.valueOf(int_entereddays));*/
+
+
+                    // if (long_diffdays >= long_entereddays)
+
+                    if (int_diffdays >= int_entereddays)
+                    {
+                    } else {
+                        //add_newpond_no_of_days_et.setError("No of Days is more than Completed Date");
+                        Toast.makeText(getApplication(), "No of Days is more than Completed Date", Toast.LENGTH_LONG).show();
+                        b_no_days = false;
+                    }
+                }
+            }
+
+
+
+
+        }
+
+
+
+        //add_newpond_completeddate_tv
+
+        if ((add_newpond_startdate_tv.getText().toString().trim().length() != 0) &&
+                (add_newpond_completeddate_tv.getText().toString().trim().length() != 0))
+        {
+        /*if(date1.compareTo(date2)<0){ //0 comes when two date are same,
+            //1 comes when date1 is higher then date2
+            //-1 comes when date1 is lower then date2 }*/
+
+            SimpleDateFormat mdyFormat = new SimpleDateFormat("dd-MM-yyyy");  //2017-06-22
+
+
+            String str_ddmmyyyy_startdate=add_newpond_startdate_tv.getText().toString().trim();
+            String str_ddmmyyyy_completedate=add_newpond_completeddate_tv.getText().toString().trim();
+
+
+            try {
+                Date fromdate = mdyFormat.parse(str_ddmmyyyy_startdate);
+                Date todate = mdyFormat.parse(str_ddmmyyyy_completedate);
+
+                if (fromdate.compareTo(todate) <= 0) {
+                    b_datevalidation = true;
+                } else {
+                    Toast.makeText(getApplicationContext(), "Kindly enter valid date", Toast.LENGTH_SHORT).show();
+                    b_datevalidation = false;
+                }
+            } catch (ParseException e) {
+                e.printStackTrace();
+            }//end of try catch
+
+        }
+
+
+
+
+
+
+
+
+
+
+
+
+
+        return ( b_pond_width1&&b_pond_width2&&b_pond_height1&&b_pond_height2&&b_pond_depth1&&b_pond_depth2&&b_pondimages
+                &&b_add_completed_date&&b_no_days&&b_datevalidation&&b_enteramount&&b_reason);
+    }
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 
 
 
@@ -886,6 +1275,97 @@ public class AddFarmPondActivity extends AppCompatActivity
 
         // return str_base64imagestring;
     }
+
+
+
+
+
+    private void doLogin()
+    {
+
+
+        Interface_userservice userService;
+        userService = Class_ApiUtils.getUserService();
+
+
+        Class_farmponddetails_ToServer request=new Class_farmponddetails_ToServer();
+        request.setPond_ID("0");
+        request.setFarmer_ID("9276");
+        request.setAcademic_ID("2020");
+        request.setMachine_ID("2");
+        request.setPond_Latitude("15.5876");
+        request.setPond_Longitude("75.7857");
+        request.setPond_Length("40");
+        request.setPond_Width("30");
+        request.setPond_Depth("60");
+        request.setPond_Start("20-05-2020");
+        request.setPond_End("20-05-2020");
+        request.setPond_Days("1");
+        request.setPond_Cost("2000");
+        request.setPond_Image_1("iVBORw0KGgoAAAANSUhEUgAAABAAAAAQCAMAAAAoLQ9TAAAAA3NCSVQICAjb4U/gAAAACXBIWXMAAARuAAAEbgHQo7JoAAAAGXRFWHRTb2Z0d2FyZQB3d3cuaW5rc2NhcGUub3Jnm+48GgAAAGxQTFRF////AP//KK6GJK2JJK+JJq2HJa6HJa+JJa6IJa6IJa6IJq6IKK+JKK+KK7CLLrGNM7OPNLOQNbSRObWTPLeVQLiWRLmZRrqaVsCjY8WqacetgNC5htK9j9XCltjGndrJruHTtuTXueXZvufcQhO/KQAAAAp0Uk5TAAEmcH+As7Xm9myQZpsAAAB3SURBVBhXZY9HEgMhEAMFLLPQzjnH/f8ffcCmtkzfNFXSSJIkHy0li14FFzIA5OAkyfVUeicpMCJIPle1XZG9YtXLYQOd7Kfn7wNgSjBbAJPnESApwW7Yw+NMORiwfp2ul2K0Ejq9375J3fgtkH1brK3ejPub/wG/CwjxA06BTgAAAABJRU5ErkJggg==");
+        request.setPond_Image_2("iVBORw0KGgoAAAANSUhEUgAAABAAAAAQCAMAAAAoLQ9TAAAAA3NCSVQICAjb4U/gAAAACXBIWXMAAARuAAAEbgHQo7JoAAAAGXRFWHRTb2Z0d2FyZQB3d3cuaW5rc2NhcGUub3Jnm+48GgAAAGxQTFRF////AP//KK6GJK2JJK+JJq2HJa6HJa+JJa6IJa6IJa6IJq6IKK+JKK+KK7CLLrGNM7OPNLOQNbSRObWTPLeVQLiWRLmZRrqaVsCjY8WqacetgNC5htK9j9XCltjGndrJruHTtuTXueXZvufcQhO/KQAAAAp0Uk5TAAEmcH+As7Xm9myQZpsAAAB3SURBVBhXZY9HEgMhEAMFLLPQzjnH/f8ffcCmtkzfNFXSSJIkHy0li14FFzIA5OAkyfVUeicpMCJIPle1XZG9YtXLYQOd7Kfn7wNgSjBbAJPnESApwW7Yw+NMORiwfp2ul2K0Ejq9375J3fgtkH1brK3ejPub/wG/CwjxA06BTgAAAABJRU5ErkJggg==");
+        request.setPond_Image_3("iVBORw0KGgoAAAANSUhEUgAAABAAAAAQCAMAAAAoLQ9TAAAAA3NCSVQICAjb4U/gAAAACXBIWXMAAARuAAAEbgHQo7JoAAAAGXRFWHRTb2Z0d2FyZQB3d3cuaW5rc2NhcGUub3Jnm+48GgAAAGxQTFRF////AP//KK6GJK2JJK+JJq2HJa6HJa+JJa6IJa6IJa6IJq6IKK+JKK+KK7CLLrGNM7OPNLOQNbSRObWTPLeVQLiWRLmZRrqaVsCjY8WqacetgNC5htK9j9XCltjGndrJruHTtuTXueXZvufcQhO/KQAAAAp0Uk5TAAEmcH+As7Xm9myQZpsAAAB3SURBVBhXZY9HEgMhEAMFLLPQzjnH/f8ffcCmtkzfNFXSSJIkHy0li14FFzIA5OAkyfVUeicpMCJIPle1XZG9YtXLYQOd7Kfn7wNgSjBbAJPnESApwW7Yw+NMORiwfp2ul2K0Ejq9375J3fgtkH1brK3ejPub/wG/CwjxA06BTgAAAABJRU5ErkJggg==");
+        request.setSubmitted_Date("20-05-2020");
+        request.setCreated_By("6");
+        request.setPond_Temp_ID("TempFarmpond29052020125670");
+        request.setPond_Land_Gunta("20");
+        request.setPond_Land_Acre("20");
+
+        retrofit2.Call call = userService.Post_ActionFarmerPondData(request);
+
+
+
+
+        call.enqueue(new Callback()
+        {
+            @Override
+            public void onResponse(retrofit2.Call call, Response response)
+            {
+
+                Toast.makeText(AddFarmPondActivity.this, ""+response.toString(), Toast.LENGTH_SHORT).show();
+
+                 Log.e("response",response.body().toString());
+    //            Class_LoginResponse user_object= new Class_LoginResponse();
+  //              user_object = (Class_LoginResponse) response.body();
+
+               // Log.e("response",user_object.getStatus().toString());
+
+              //  Toast.makeText(AddFarmPondActivity.this, ""+user_object.getStatus().toString(), Toast.LENGTH_LONG).show();
+
+//                Toast.makeText(AddFarmPondActivity.this, ""+user_object.getMessage().toString(), Toast.LENGTH_LONG).show();
+
+              /*  if(response.isSuccessful())
+                {
+                    user_object = (User) response.body();
+
+                    Toast.makeText(MainActivity.this, ""+user_object.getEmail().toString(), Toast.LENGTH_SHORT).show();
+*/
+                //  Toast.makeText(MainActivity.this, "CAMU Token:"+user_object.getPass().toString(), Toast.LENGTH_SHORT).show();
+
+                // ResObj resObj = response.body();
+
+                // }
+            }
+
+            @Override
+            public void onFailure(Call call, Throwable t)
+            {
+                Toast.makeText(AddFarmPondActivity.this, "error"+t.getMessage(), Toast.LENGTH_SHORT).show();
+                Log.e("response",t.getMessage().toString());
+            }
+        });
+    }
+
+
+
+
+
+
+
+
+
+
+
 
 
 
