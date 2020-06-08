@@ -1,0 +1,38 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:orientation="vertical"
+    tools:context="df.farmpondstwo.EachFarmPondDetails_Activity">
+
+    <include
+        android:id="@+id/toolbar_farmponddetails"
+        layout="@layout/titlebar_custom" />
+
+
+    <ListView
+        android:id="@+id/farmpondlist_listview"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:divider="@color/vivid_cyan"
+        android:dividerHeight="2px"
+        android:fillViewport="true">
+
+    </ListView>
+
+
+
+</LinearLayout>
+
+
+<!--<?xml version="1.0" encoding="utf-8"?>
+<android.support.constraint.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    tools:context="df.farmpondstwo.EachFarmPondDetails_Activity">
+
+</android.support.constraint.ConstraintLayout>-->

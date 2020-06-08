@@ -24,9 +24,9 @@ public class Location_DataList {
     @SerializedName("Year")
     @Expose
     private List<Year> year = null;
-    @SerializedName("Machine")
+    @SerializedName("Class_MachineDetails")
     @Expose
-    private List<Machine> machine;
+    private List<Class_MachineDetails> classMachineDetails;
     @SerializedName("Machine_Cost")
     @Expose
     private List<Machine_Cost> machine_Cost;
@@ -90,12 +90,12 @@ public class Location_DataList {
         this.year = year;
     }
 
-    public List<Machine> getMachine() {
-        return machine;
+    public List<Class_MachineDetails> getClassMachineDetails() {
+        return classMachineDetails;
     }
 
-    public void setMachine(List<Machine> machine) {
-        this.machine = machine;
+    public void setClassMachineDetails(List<Class_MachineDetails> classMachineDetails) {
+        this.classMachineDetails = classMachineDetails;
     }
 
     public List<Machine_Cost> getMachine_Cost() {

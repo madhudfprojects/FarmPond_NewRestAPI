@@ -9,9 +9,9 @@ public class UserDataList {
     @SerializedName("Farmer")
     @Expose
     private List<Farmer> farmer = null;
-    @SerializedName("Pond")
+    @SerializedName("Class_farmponddetails")
     @Expose
-    private List<Pond> pond = null;
+    private List<Class_farmponddetails> classfarmponddetails = null;
     @SerializedName("Response")
     @Expose
     private String response;
@@ -24,12 +24,12 @@ public class UserDataList {
         this.farmer = farmer;
     }
 
-    public List<Pond> getPond() {
-        return pond;
+    public List<Class_farmponddetails> getPond() {
+        return classfarmponddetails;
     }
 
-    public void setPond(List<Pond> pond) {
-        this.pond = pond;
+    public void setPond(List<Class_farmponddetails> classfarmponddetails) {
+        this.classfarmponddetails = classfarmponddetails;
     }
 
     public String getResponse() {

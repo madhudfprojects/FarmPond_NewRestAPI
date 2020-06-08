@@ -3,7 +3,7 @@ package df.farmpondstwo.Models;
 import com.google.gson.annotations.Expose;
 import com.google.gson.annotations.SerializedName;
 
-public class Machine {
+public class Class_MachineDetails {
     @SerializedName("Machine_ID")
     @Expose
     private String machine_ID;
