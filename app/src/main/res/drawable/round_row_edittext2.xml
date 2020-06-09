@@ -1,0 +1,126 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!--<layer-list xmlns:android="http://schemas.android.com/apk/res/android">-->
+
+
+    <shape xmlns:android="http://schemas.android.com/apk/res/android">
+        <stroke
+            android:width="0dp"
+            android:color="#f00" />
+
+        <solid android:color="#eeeeee" />
+
+        <corners
+            android:radius="5dp"
+            android:topRightRadius="100dp"
+            android:topLeftRadius="100dp"
+            android:bottomLeftRadius="100dp"
+            android:bottomRightRadius="100dp"/>
+
+
+
+    </shape>
+
+    <!--<item>
+
+        <color android:color="#FFFFFF"
+            />
+    </item>-->
+
+   <!-- <item android:state_pressed="false" android:state_focused="false">
+        <shape>
+            <gradient
+                android:centerY="0.2"
+                android:startColor="#D3D3D3"
+                android:centerColor="#ffffff"
+                android:endColor="#ffffff"
+                android:angle="270"
+                />
+
+            <stroke
+                android:width="0.7dp"
+                android:color="#BDBDBD" />
+            <corners
+                android:radius="25dp" />
+            &lt;!&ndash;25dp&ndash;&gt;
+        </shape>
+
+    </item>
+
+
+
+
+
+
+
+
+
+
+
+
+    <item >
+
+        <layer-list>
+
+            <item>
+                <shape android:shape="oval" >
+                    <solid android:color="@android:color/transparent" />
+                    &lt;!&ndash; background color of box &ndash;&gt;
+                </shape>
+            </item>
+            <item
+                >
+                <shape>
+                    <solid android:color="@android:color/transparent"/>
+
+                   &lt;!&ndash; <stroke
+                        android:width="0.3dp"
+                        android:color="#0299c6" />&ndash;&gt;
+                    <corners
+                        android:radius="85dp" />
+                    &lt;!&ndash; color of stroke &ndash;&gt;
+                </shape>
+            </item>
+
+            <item android:left="100dp">
+                <bitmap
+                    android:gravity="center_vertical|left"
+                    android:src="@drawable/pink_dropdown_arrow"
+                    />
+
+            </item>
+
+        </layer-list>
+
+    </item>
+
+
+
+
+
+
+
+
+</layer-list>-->
+    <!--
+    <selector xmlns:android="http://schemas.android.com/apk/res/android">
+
+    </selector>-->
+
+
+
+    <!--<item
+    android:left="-2dp"
+    android:right="-2dp"
+    android:top="-0dp">
+    <shape>
+        <solid android:color="@android:color/transparent" />
+
+        <stroke
+            android:width="0.3px"
+            android:color="#0299c6" />
+        &lt;!&ndash; color of stroke &ndash;&gt;
+    </shape>
+    </item>-->
+
+
+    <!-- https://stackoverflow.com/questions/39632097/how-to-set-dropdown-arrow-in-spinner-with-underline-from-image-->
