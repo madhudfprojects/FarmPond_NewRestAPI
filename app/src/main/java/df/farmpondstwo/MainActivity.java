@@ -90,6 +90,15 @@ public class MainActivity extends AppCompatActivity
 
     Context context_obj;
 
+    public static final String sharedpreferencebook_usercredential = "sharedpreferencebook_usercredential";
+    public static final String KeyValue_employeeid = "KeyValue_employeeid";
+    public static final String KeyValue_employeename = "KeyValue_employeename";
+    public static final String KeyValue_employee_mailid = "KeyValue_employee_mailid";
+    public static final String KeyValue_employeecategory = "KeyValue_employeecategory";
+    public static final String KeyValue_employeesandbox = "KeyValue_employeesandbox";
+    public static final String KeyValue_perdayamount = "KeyValue_perdayamount";
+
+    SharedPreferences sharedpreferencebook_usercredential_Obj;
 
     public static final String sharedpreferencebook_User_Credential = "sharedpreferencebook_User_Credential";
     public static final String KeyValue_User_ID = "KeyValue_User_ID";
@@ -101,7 +110,7 @@ public class MainActivity extends AppCompatActivity
     public static final String KeyValue_User_State_Amount = "KeyValue_User_State_Amount";
     public static final String KeyValue_Response = "KeyValue_Response";
 
-    SharedPreferences sharedpreferencebook_usercredential_Obj;
+    SharedPreferences sharedpreferencebookRest_usercredential_Obj;
     SharedPreferences.Editor editor_obj;
 
 
@@ -152,7 +161,8 @@ public class MainActivity extends AppCompatActivity
 
 
 
-        sharedpreferencebook_usercredential_Obj=this.getSharedPreferences(sharedpreferencebook_User_Credential, Context.MODE_PRIVATE);
+        sharedpreferencebookRest_usercredential_Obj=this.getSharedPreferences(sharedpreferencebook_User_Credential, Context.MODE_PRIVATE);
+        sharedpreferencebook_usercredential_Obj=this.getSharedPreferences(sharedpreferencebook_usercredential, Context.MODE_PRIVATE);
 
 
         normallogin_bt =(Button)findViewById(R.id.normallogin_bt);
@@ -187,9 +197,9 @@ public class MainActivity extends AppCompatActivity
     private void NormalLoginNew(){
         Map<String,String> params = new HashMap<String, String>();
 
-        params.put("User_Email","anandkanade.tech@dfmail.org");// for dynamic
+        params.put("User_Email","eventtest464@gmail.com ");// for dynamic
 
-        retrofit2.Call call = userService1.getValidateLoginPostNew("anandkanade.tech@dfmail.org");
+        retrofit2.Call call = userService1.getValidateLoginPostNew("eventtest464@gmail.com");
 
         call.enqueue(new Callback()
         {
@@ -223,7 +233,7 @@ try{
 
                 SaveSharedPreference.setUserMailID(MainActivity.this,user_object.getLst().get(0).getUserID());
 
-                editor_obj = sharedpreferencebook_usercredential_Obj.edit();
+                editor_obj = sharedpreferencebookRest_usercredential_Obj.edit();
 
                 editor_obj.putString(KeyValue_User_ID, user_object.getLst().get(0).getUserID());
                 editor_obj.putString(KeyValue_User_Name, user_object.getLst().get(0).getUserName());
@@ -237,8 +247,19 @@ try{
 
                 editor_obj.commit();
 
-Log.e("tag","mailid=="+SaveSharedPreference.getUsermailID(MainActivity.this));
-                Intent i=new Intent(MainActivity.this,Home_Activity.class);
+                editor_obj = sharedpreferencebook_usercredential_Obj.edit();
+
+                editor_obj.putString(KeyValue_employeeid, user_object.getLst().get(0).getUserID());
+                editor_obj.putString(KeyValue_employeename, user_object.getLst().get(0).getUserName());
+                editor_obj.putString(KeyValue_employee_mailid, user_object.getLst().get(0).getUserEmail());
+                editor_obj.putString(KeyValue_employeecategory, user_object.getLst().get(0).getUserRole());
+                editor_obj.putString(KeyValue_employeesandbox, user_object.getLst().get(0).getUserState());
+                editor_obj.putString(KeyValue_perdayamount, user_object.getLst().get(0).getUserStateAmount());
+
+                editor_obj.commit();
+
+                Log.e("tag","mailid=="+SaveSharedPreference.getUsermailID(MainActivity.this));
+                Intent i=new Intent(MainActivity.this,Activity_HomeScreen.class);
                 startActivity(i);
             }
 

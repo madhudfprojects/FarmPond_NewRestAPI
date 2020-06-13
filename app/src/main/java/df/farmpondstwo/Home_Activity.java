@@ -36,7 +36,7 @@ public class Home_Activity extends AppCompatActivity {
             @Override
             public void onClick(View view) {
 
-                Intent i = new Intent(Home_Activity.this, Activity_FarmerHomeScreen.class);
+                Intent i = new Intent(Home_Activity.this, Activity_MarketingHomeScreen.class);
                 startActivity(i);
 
             }

@@ -5,7 +5,6 @@ import android.content.SharedPreferences;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.view.View;
-import android.widget.ImageButton;
 import android.widget.ImageView;
 import android.widget.Toast;
 
@@ -25,15 +24,12 @@ public class Activity_FarmerHomeScreen extends AppCompatActivity {
     public static final String Key_sel_grampanchayatsp = "sel_grampanchayatsp";
     SharedPreferences sharedpref_spinner_Obj;
 
-    ImageButton notupload_ib;
     @Override
-    protected void onCreate(Bundle savedInstanceState)
-    {
+    protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity__farmer_home_screen);
 
         viewfarmer_ib = (ImageView) findViewById(R.id.viewFarmer_IB);
-        notupload_ib = (ImageButton) findViewById(R.id.notupload_IB);
 
 
         viewfarmer_ib.setOnClickListener(new View.OnClickListener() {
@@ -63,42 +59,5 @@ public class Activity_FarmerHomeScreen extends AppCompatActivity {
 
             }
         });
-
-
-        notupload_ib.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view)
-            {
-
-                internetDectector1 = new Class_InternetDectector(getApplicationContext());
-                isInternetPresent1 = internetDectector1.isConnectingToInternet();
-
-                if (isInternetPresent1)
-                {
-
-
-                    /*fetch_DB_farmerprofile_offline_data();
-                    fetch_DB_edited_offline_data();
-*/
-
-
-
-                    Intent i = new Intent(Activity_FarmerHomeScreen.this,EachFarmPondDetails_Activity.class);
-                    startActivity(i);
-                    finish();
-
-                }
-                else{
-                    Toast.makeText(getApplicationContext(), "Connect to Internet", Toast.LENGTH_LONG).show();
-                }
-
-            }
-        });
-
-
     }
-
-
-
-
 }

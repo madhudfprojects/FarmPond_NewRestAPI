@@ -1394,11 +1394,11 @@ public class ViewFarmers_Activity extends AppCompatActivity {
                                 String YearId = class_locaitonData.getLst().get(i).getYear().get(j).getAcademic_ID();
                                 DBCreate_YeardetailsRest_insert_2SQLiteDB(YearId,YearName,j);
                             }
-                            int sizeMachine=class_locaitonData.getLst().get(i).getMachine().size();
+                            int sizeMachine=class_locaitonData.getLst().get(i).getClassMachineDetails().size();
                             for(int j=0;j<sizeMachine;j++){
-                                Log.e("tag","Machine name=="+class_locaitonData.getLst().get(i).getMachine().get(j).getMachine_Name());
-                                String MachineName = class_locaitonData.getLst().get(i).getMachine().get(j).getMachine_Name();
-                                String MachineId = class_locaitonData.getLst().get(i).getMachine().get(j).getMachine_ID();
+                                Log.e("tag","Machine name=="+class_locaitonData.getLst().get(i).getClassMachineDetails().get(j).getMachine_Name());
+                                String MachineName = class_locaitonData.getLst().get(i).getClassMachineDetails().get(j).getMachine_Name();
+                                String MachineId = class_locaitonData.getLst().get(i).getClassMachineDetails().get(j).getMachine_ID();
                                 DBCreate_MachineDetailsRest(MachineName,MachineId);
                             }
                         }
@@ -1624,9 +1624,9 @@ public class ViewFarmers_Activity extends AppCompatActivity {
                                     byte[] b = baos.toByteArray();
                                     str_base64image1 = Base64.encodeToString(b, Base64.DEFAULT);*/
 
-                                    DBCreate_FarmpondRest_details_2SQLiteDB(pondID, farmerID, academicID, machineID, pondCode, pondLatitude, pondLongitude, pondLength, pondWidth,
-                                            pondDepth, pondStart, pondEnd, pondDays, pondCost, pondImage1, pondImage2, pondImage3, pondStatus, submittedDate, submittedBy, createdDate,
-                                            createdBy, pondTempID, responseOutput, createdUser, submittedUser);
+//                                    DBCreate_FarmpondRest_details_2SQLiteDB(pondID, farmerID, academicID, machineID, pondCode, pondLatitude, pondLongitude, pondLength, pondWidth,
+//                                            pondDepth, pondStart, pondEnd, pondDays, pondCost, pondImage1, pondImage2, pondImage3, pondStatus, submittedDate, submittedBy, createdDate,
+//                                            createdBy, pondTempID, responseOutput, createdUser, submittedUser);
                                     DBCreate_FarmpondsRest_details_2SQLiteDB(farmerID, farmer_First_Name, pondID, pondWidth, pondWidth,
                                             pondDepth, pondImage1, str_base64image1, pondImage2, str_base64image1, pondImage3, str_base64image1,
                                             pondDays, createdDate, pondEnd, pondCost, machineID,

@@ -1,0 +1,93 @@
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="fill_parent"
+    android:layout_height="fill_parent"
+    android:orientation="vertical"
+    tools:context=".CameraPhotoCapture" >
+      
+    
+ <LinearLayout 
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:layout_marginTop="20dp">
+    
+             <Button
+                     android:text="Click for Image"
+                     android:id="@+id/photo"
+                     android:layout_width="wrap_content"
+                     android:layout_height="wrap_content" 
+                 	 android:layout_marginLeft="5dp"
+                     android:layout_weight=".35"
+                     android:background="#276ca4"    
+                     android:textColor="#fff"
+                     android:visibility="gone"/>
+              <Button android:text="Clear"
+                     android:id="@+id/clearall_BT"
+                     android:layout_width="wrap_content"
+                     android:layout_height="wrap_content" 
+                     android:background="#276ca4"    
+                     android:textColor="@color/colorwhite"
+                     android:layout_weight=".35"
+                     android:layout_marginLeft="5dp"
+                     android:onClick="clearimage"
+                     android:visibility="gone"/>
+              
+              <Button
+                     android:text="Upload"
+                     android:id="@+id/upload_BT"
+                     android:layout_width="wrap_content"
+                     android:layout_height="wrap_content" 
+                     android:layout_weight=".35"
+                     android:background="@drawable/layout_background"
+                     android:textColor="#fff"
+                     android:layout_marginLeft="5dp"
+                     android:layout_marginRight="3dp"
+                     android:onClick="uploadimage"
+                     
+                     android:textStyle="bold"
+                     />
+              
+               <Button
+                     android:text="Cancel"
+                     android:id="@+id/cancel_BT"
+                     android:layout_width="wrap_content"
+                     android:layout_height="wrap_content" 
+                     android:layout_weight=".35"
+                     android:background="@drawable/layout_background"
+                     android:textColor="@color/color_red"
+                     android:layout_marginLeft="5dp"
+                     android:layout_marginRight="3dp"
+                     android:onClick="cancelimage"
+                    
+                   android:textStyle="bold"/>
+             
+             </LinearLayout>  
+             <!-- <TextView
+                 android:id="@+id/message"
+                 android:layout_below="@+id/photo"
+                 android:text="Click to capture Signature Image"
+                 android:textSize="14dp"
+                 
+                 android:layout_width="wrap_content"
+                 android:layout_height="wrap_content"
+                 android:layout_marginTop="10dp"
+                 android:layout_marginLeft="20dp"
+                 /> -->
+              
+            <!--  <TextView
+                 android:id="@+id/imageDetails"
+                 android:layout_below="@+id/message"
+                 android:layout_width="wrap_content"
+                 android:layout_height="wrap_content"
+                 android:layout_marginTop="5dp"
+                 android:layout_marginLeft="20dp"
+                 /> -->
+
+ <ImageView
+     android:id="@+id/showImg"
+     android:layout_width="250dp"
+     android:layout_height="250dp"
+     android:layout_marginTop="30dp"
+     />
+      
+</LinearLayout>

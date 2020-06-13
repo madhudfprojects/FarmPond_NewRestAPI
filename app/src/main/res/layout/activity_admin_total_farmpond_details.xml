@@ -1,0 +1,181 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:orientation="vertical"
+   >
+
+    <include
+        android:id="@+id/toolbar_n_actionbar"
+        layout="@layout/common_titlebar" />
+
+<!--    <LinearLayout-->
+<!--        android:layout_marginTop="10dp"-->
+<!--        android:layout_width="match_parent"-->
+<!--        android:layout_height="wrap_content"-->
+<!--        android:layout_marginLeft="30dp"-->
+<!--        android:gravity="center_vertical"-->
+<!--        android:orientation="horizontal">-->
+
+<!--        <TextView-->
+<!--            android:layout_width="0dp"-->
+<!--            android:layout_height="wrap_content"-->
+<!--            android:layout_weight="0.54"-->
+<!--            android:gravity="center_horizontal"-->
+<!--            android:text="Total Farm Pond:"-->
+<!--            android:textColor="@color/dark_black"-->
+<!--            android:textSize="15dp" />-->
+
+<!--        <TextView-->
+<!--            android:id="@+id/total_farmpond_allstate_tv"-->
+<!--            android:layout_width="0dp"-->
+<!--            android:layout_height="wrap_content"-->
+<!--            android:layout_weight="0.54"-->
+<!--            android:gravity="center_horizontal"-->
+<!--            android:text=" "-->
+<!--            android:textStyle="italic"-->
+<!--            android:textColor="@color/dark_green"-->
+<!--            android:textSize="15dp" />-->
+<!--    </LinearLayout>-->
+
+
+    <LinearLayout
+        android:layout_marginTop="10dp"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:gravity="center"
+        android:orientation="horizontal">
+
+        <TextView
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_weight="0.42"
+            android:gravity="center"
+            android:text="Total Farm Pond :"
+            android:textColor="@color/dark_black"
+            android:textSize="15dp" />
+
+        <TextView
+            android:id="@+id/total_farmpond_allstate_tv"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_weight="0.4"
+            android:gravity="start"
+            android:text=""
+            android:textStyle="italic"
+            android:textColor="@color/dark_green"
+            android:textSize="15dp" />
+
+
+
+
+
+
+
+
+        <TextView
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_weight="0.4"
+            android:gravity="center"
+            android:text="Total Today Submitted : "
+            android:textColor="@color/dark_black"
+            android:textSize="15dp" />
+
+        <TextView
+            android:id="@+id/todaysdate_tv1"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_weight="0.4"
+            android:gravity="start"
+            android:text=""
+            android:textStyle="italic"
+            android:textColor="@color/dark_green"
+            android:textSize="15dp" />
+
+
+
+    </LinearLayout>
+
+<!--    <ListView-->
+<!--        android:layout_marginTop="20dp"-->
+<!--        android:id="@+id/employeecount_listview"-->
+<!--        android:layout_width="match_parent"-->
+<!--        android:layout_height="match_parent"-->
+<!--        android:divider="@color/vivid_cyan"-->
+<!--        android:dividerHeight="2px"-->
+<!--        android:fillViewport="true">-->
+
+<!--    </ListView>-->
+    <TableLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:stretchColumns="0.99"
+        android:background="#F1EAEA"
+        android:layout_marginTop="10dp">
+
+    <TableRow
+        android:background="@color/light_gray">
+        <TextView
+            android:layout_width="120dp"
+            android:layout_height="wrap_content"
+            android:text="Submitted By "
+            android:textColor="#000"
+            android:textStyle="bold"
+            android:layout_margin="2dp"
+            android:gravity="start"/>
+
+        <TextView
+            android:layout_width="110dp"
+            android:layout_height="wrap_content"
+            android:text="Total Farmpond "
+            android:textColor="#000"
+            android:textStyle="bold"
+            android:layout_margin="2dp"/>
+
+        <!--<TextView
+
+            android:layout_width="125dp"
+            android:layout_height="wrap_content"
+            android:text="Submitted Today"
+            android:textColor="#000"
+            android:textStyle="bold"
+            android:textSize="10dp"
+            android:layout_margin="2dp"/>-->
+        <TextView
+
+            android:id="@+id/todaysdate_tv"
+            android:layout_width="125dp"
+            android:layout_height="wrap_content"
+            android:text="Today:"
+            android:textSize="10dp"
+            android:textColor="#000"
+            android:textStyle="bold"
+            android:layout_margin="2dp"/>
+        <TextView
+            android:layout_width="65dp"
+            android:layout_height="wrap_content"
+            android:text="Today date "
+            android:textColor="#000"
+            android:textStyle="bold"
+            android:layout_margin="2dp"
+            android:visibility="gone"/>
+    </TableRow>
+
+    <ListView
+        android:id="@+id/employeecount_listview"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:divider="@color/colorPrimaryDark"
+        android:dividerHeight="2px"
+        android:fillViewport="true">
+
+    </ListView>
+
+    </TableLayout>
+
+
+</LinearLayout>

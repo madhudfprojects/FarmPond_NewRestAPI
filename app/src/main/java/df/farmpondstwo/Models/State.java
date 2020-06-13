@@ -10,6 +10,7 @@ public class State {
     @SerializedName("State_Name")
     @Expose
     private String stateName;
+    private String YearID;
 
     public String getStateID() {
         return stateID;
@@ -25,6 +26,14 @@ public class State {
 
     public void setStateName(String stateName) {
         this.stateName = stateName;
+    }
+
+    public String getYearID() {
+        return YearID;
+    }
+
+    public void setYearID(String yearID) {
+        YearID = yearID;
     }
 
     @Override

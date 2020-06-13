@@ -1,0 +1,706 @@
+<?xml version="1.0" encoding="utf-8"?>
+<ScrollView
+
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:orientation="vertical"
+    >
+
+
+<LinearLayout
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:orientation="vertical"
+    tools:context=".AddFarmer_Activity">
+
+    <include
+        android:id="@+id/toolbar_n_actionbar"
+        layout="@layout/common_titlebar" />
+    <TableRow
+        android:id="@+id/tableR1"
+        android:layout_width="fill_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="5dp"
+        android:layout_gravity="center_horizontal"
+        android:gravity="center_horizontal">
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginLeft="8dp"
+            android:paddingLeft="5dp"
+            android:text="Year"
+            android:textColor="#5C5757"
+            android:fontFamily="serif"
+            android:textStyle="bold"/>
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginLeft="110dp"
+            android:paddingLeft="5dp"
+            android:text="State"
+            android:textColor="#5C5757"
+            android:fontFamily="serif"
+            android:textStyle="bold"/>
+    </TableRow>
+
+    <TableRow
+        android:id="@+id/tableR2"
+        android:layout_width="fill_parent"
+        android:layout_height="40dp"
+        android:layout_gravity="center_horizontal"
+        android:gravity="center_horizontal">
+
+        <Spinner
+            android:id="@+id/yearlist_farmers_sp"
+            android:layout_width="150dp"
+            android:layout_height="40dp"
+            android:layout_marginLeft="8dp"
+            android:background="@drawable/spinnerarrow2"
+            android:paddingLeft="5dp"
+            android:popupBackground="@drawable/layout_background" />
+
+        <Spinner
+            android:id="@+id/statelist_farmers_sp"
+            android:layout_width="150dp"
+            android:layout_height="40dp"
+            android:layout_marginLeft="8dp"
+            android:background="@drawable/spinnerarrow2"
+            android:paddingLeft="5dp"
+            android:popupBackground="@drawable/layout_background" />
+    </TableRow>
+
+
+    <TableRow
+        android:id="@+id/tableT"
+        android:layout_width="fill_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="10dp"
+        android:layout_gravity="center_horizontal"
+        android:gravity="center_horizontal">
+
+        <TextView
+
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginLeft="8dp"
+            android:paddingLeft="5dp"
+            android:text="District"
+            android:textColor="#5C5757"
+            android:fontFamily="serif"
+            android:textStyle="bold"/>
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginLeft="98dp"
+            android:paddingLeft="8dp"
+            android:text="Taluk"
+            android:textColor="#5C5757"
+            android:fontFamily="serif"
+            android:textStyle="bold"
+            android:visibility="visible"/>
+    </TableRow>
+
+    <TableRow
+        android:layout_width="match_parent"
+        android:layout_height="40dp"
+        android:layout_marginBottom="10dp"
+        android:layout_gravity="center_horizontal"
+        android:gravity="center_horizontal">
+
+        <Spinner
+            android:id="@+id/districtlist_farmers_sp"
+            android:layout_width="150dp"
+            android:layout_height="40dp"
+            android:layout_marginLeft="8dp"
+            android:background="@drawable/spinnerarrow2"
+            android:paddingLeft="5dp"
+            android:popupBackground="@drawable/layout_background" />
+
+
+        <Spinner
+            android:id="@+id/taluklist_farmers_sp"
+            android:layout_width="150dp"
+            android:layout_height="40dp"
+            android:layout_marginLeft="8dp"
+            android:background="@drawable/spinnerarrow2"
+            android:paddingLeft="5dp"
+            android:popupBackground="@drawable/layout_background" />
+
+
+    </TableRow>
+
+    <TableRow
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="5dp"
+        android:layout_gravity="center_horizontal"
+        android:gravity="center_horizontal">
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginRight="80dp"
+            android:textColor="#5C5757"
+            android:fontFamily="serif"
+            android:textStyle="bold"
+            android:text="Grampanchayat"
+            android:paddingLeft="5dp"
+            />
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="Village"
+            android:layout_marginRight="30dp"
+            android:textColor="#5C5757"
+            android:fontFamily="serif"
+            android:textStyle="bold"
+            android:paddingLeft="5dp"
+            />
+    </TableRow>
+
+    <TableRow
+        android:layout_width="match_parent"
+        android:layout_height="40dp"
+        android:layout_marginBottom="10dp"
+        android:visibility="visible"
+        android:layout_gravity="center_horizontal"
+        android:gravity="center_horizontal">
+
+
+        <Spinner
+            android:id="@+id/grampanchayatlist_farmers_sp"
+            android:layout_width="150dp"
+            android:layout_height="40dp"
+            android:layout_marginLeft="8dp"
+            android:background="@drawable/spinnerarrow2"
+            android:paddingLeft="5dp"
+            android:popupBackground="@drawable/layout_background" />
+
+
+        <Spinner
+            android:id="@+id/villagelist_farmers_sp"
+            android:layout_width="150dp"
+            android:layout_height="40dp"
+            android:layout_marginLeft="8dp"
+            android:background="@drawable/spinnerarrow2"
+            android:paddingLeft="5dp"
+            android:popupBackground="@drawable/layout_background" />
+
+    </TableRow>
+
+
+
+
+
+    <TableRow
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="5dp"
+        android:layout_gravity="center_horizontal"
+        android:gravity="center_horizontal">
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginRight="200dp"
+            android:fontFamily="serif"
+            android:paddingLeft="5dp"
+            android:text="FirstName"
+            android:textColor="#5C5757"
+            android:textStyle="bold" />
+
+    </TableRow>
+
+    <TableRow
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="5dp"
+        android:layout_gravity="center_horizontal"
+        android:gravity="center_horizontal">
+
+        <EditText
+            android:id="@+id/farmerfirstname_et"
+            android:layout_width="300dp"
+            android:layout_height="wrap_content"
+            android:layout_marginRight="2dp"
+            android:layout_marginLeft="40dp"
+            android:textColor="#5C5757"
+            android:fontFamily="serif"
+            android:maxLength="35"
+            android:digits="abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ "
+            android:inputType="textAutoComplete"
+            android:backgroundTint="@android:color/holo_red_light"
+            android:paddingLeft="5dp"
+            />
+    </TableRow>
+    <TableRow
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="5dp"
+        android:layout_gravity="center_horizontal"
+        android:gravity="center_horizontal">
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginRight="188dp"
+            android:textColor="#5C5757"
+            android:fontFamily="serif"
+            android:textStyle="bold"
+            android:text="MiddleName"
+            android:paddingLeft="5dp"
+            />
+
+    </TableRow>
+    <TableRow
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_gravity="center_horizontal"
+        android:gravity="center_horizontal">
+
+        <EditText
+
+            android:id="@+id/farmermiddlename_et"
+            android:layout_width="300dp"
+            android:layout_height="wrap_content"
+            android:layout_marginRight="2dp"
+            android:layout_marginLeft="40dp"
+            android:textColor="#5C5757"
+            android:fontFamily="serif"
+            android:maxLength="35"
+            android:digits="abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ "
+            android:inputType="textAutoComplete"
+            android:backgroundTint="@android:color/holo_red_light"
+            android:paddingLeft="5dp"
+            />
+    </TableRow>
+    <TableRow
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="5dp"
+        android:layout_gravity="center_horizontal"
+        android:gravity="center_horizontal">
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginRight="200dp"
+            android:textColor="#5C5757"
+            android:fontFamily="serif"
+            android:textStyle="bold"
+            android:text="LastName"
+            android:paddingLeft="5dp"
+            />
+
+       <!-- <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="Age"
+            android:layout_marginRight="30dp"
+            android:textColor="#5C5757"
+            android:fontFamily="serif"
+            android:textStyle="bold"
+            android:paddingLeft="5dp"
+            />-->
+    </TableRow>
+
+    <TableRow
+        android:layout_width="match_parent"
+        android:layout_height="40dp"
+        android:layout_marginBottom="10dp"
+        android:visibility="visible"
+        android:layout_gravity="center_horizontal"
+        android:gravity="center_horizontal">
+
+
+
+
+        <EditText
+            android:id="@+id/farmerlastname_et"
+            android:layout_width="300dp"
+            android:layout_height="wrap_content"
+            android:layout_marginRight="2dp"
+            android:layout_marginLeft="40dp"
+            android:textColor="#5C5757"
+            android:fontFamily="serif"
+            android:maxLength="35"
+            android:digits="abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ "
+            android:inputType="textAutoComplete"
+            android:backgroundTint="@android:color/holo_red_light"
+            android:paddingLeft="5dp"
+            />
+
+      <!--  <EditText
+            android:id="@+id/farmermiddlename_et"
+            android:layout_width="150dp"
+            android:layout_height="40dp"
+            android:layout_marginLeft="8dp"
+            android:paddingLeft="5dp"
+            android:maxLength="10"
+            android:digits="abcdefghijklmnopqrstuvwxyz "
+            android:inputType="textAutoComplete"
+            android:backgroundTint="@android:color/holo_red_light"
+            />
+
+
+        <EditText
+            android:id="@+id/farmerage_et"
+            android:layout_width="150dp"
+            android:layout_height="40dp"
+            android:layout_marginLeft="8dp"
+            android:paddingLeft="5dp"
+            android:maxLength="2"
+            android:digits="0123456789"
+            android:inputType="number"
+            android:backgroundTint="@android:color/holo_red_light"
+            />-->
+
+
+
+    </TableRow>
+
+
+
+    <TableRow
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="5dp"
+        android:layout_gravity="center_horizontal"
+        android:gravity="center_horizontal"
+        >
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:textColor="#5C5757"
+            android:fontFamily="serif"
+            android:textStyle="bold"
+            android:layout_marginLeft="15dp"
+            android:text="Age"
+            android:paddingLeft="5dp"
+            />
+
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="Cell number"
+            android:layout_marginLeft="140dp"
+            android:textColor="#5C5757"
+            android:fontFamily="serif"
+            android:textStyle="bold"
+            android:paddingLeft="5dp"
+            />
+    </TableRow>
+
+
+
+
+   <!-- <TableRow
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="5dp"
+        android:layout_gravity="center_horizontal"
+
+        android:gravity="center_horizontal">
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginRight="30dp"
+            android:textColor="#5C5757"
+            android:fontFamily="serif"
+            android:textStyle="bold"
+            android:text="Age"
+            android:paddingLeft="5dp"
+            />
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text=""
+            android:layout_marginLeft="90dp"
+            android:textColor="#5C5757"
+            android:fontFamily="serif"
+            android:textStyle="bold"
+            android:paddingLeft="5dp"
+            />
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="Cell number"
+            android:layout_marginRight="60dp"
+            android:textColor="#5C5757"
+            android:fontFamily="serif"
+            android:textStyle="bold"
+            android:paddingLeft="5dp"
+            />
+
+    </TableRow>-->
+    <TableRow
+        android:layout_width="match_parent"
+        android:layout_height="40dp"
+        android:visibility="visible"
+        android:layout_gravity="center_horizontal"
+        android:gravity="center_horizontal"
+        >
+
+
+        <EditText
+            android:id="@+id/farmerage_et"
+            android:layout_width="wrap_content"
+            android:layout_height="40dp"
+            android:layout_marginLeft="40dp"
+            android:backgroundTint="@android:color/holo_red_light"
+            android:digits="0123456789"
+            android:inputType="number"
+            android:maxLength="2"
+            android:text="" />
+
+
+       <!-- <Spinner
+            android:id="@+id/familymember_sp"
+            android:layout_width="150dp"
+            android:layout_height="40dp"
+            android:layout_marginLeft="8dp"
+            android:background="@drawable/spinnerarrow2"
+            android:paddingLeft="5dp"
+            android:popupBackground="@drawable/layout_background" />-->
+        <EditText
+            android:id="@+id/farmercellno_et"
+            android:layout_width="130dp"
+            android:layout_height="40dp"
+            android:backgroundTint="@android:color/holo_red_light"
+            android:layout_marginLeft="130dp"
+            android:digits="0123456789"
+            android:inputType="number"
+            android:maxLength="10"
+            android:paddingLeft="5dp" />
+
+    </TableRow>
+
+
+
+    <TableRow
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="10dp"
+        android:layout_gravity="center_horizontal"
+        android:gravity="center_horizontal"
+       >
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:textColor="#5C5757"
+            android:fontFamily="serif"
+            android:textStyle="bold"
+            android:layout_marginLeft="44dp"
+            android:text="AnnualIncome"
+            android:paddingLeft="5dp"
+            />
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="FamilyMembers"
+            android:layout_marginLeft="57dp"
+            android:textColor="#5C5757"
+            android:fontFamily="serif"
+            android:textStyle="bold"
+            android:paddingLeft="5dp"
+            />
+    </TableRow>
+
+    <TableRow
+        android:layout_width="match_parent"
+        android:layout_height="40dp"
+        android:visibility="visible"
+        android:layout_gravity="center_horizontal"
+        android:gravity="center_horizontal"
+        >
+
+
+        <EditText
+            android:id="@+id/farmerannualincome_et"
+            android:layout_width="120dp"
+            android:layout_height="40dp"
+            android:layout_marginLeft="60dp"
+            android:paddingLeft="5dp"
+            android:maxLength="7"
+            android:digits="0123456789"
+            android:inputType="number"
+            android:backgroundTint="@android:color/holo_red_light"
+            />
+
+
+
+        <EditText
+            android:id="@+id/familymember_et"
+            android:layout_width="130dp"
+            android:layout_height="40dp"
+            android:layout_marginLeft="50dp"
+            android:backgroundTint="@android:color/holo_red_light"
+            android:digits="0123456789"
+            android:inputType="number"
+            android:maxLength="2"
+            android:paddingLeft="5dp" />
+
+    </TableRow>
+
+
+
+    <TableRow
+        android:id="@+id/idproof"
+        android:layout_width="fill_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="10dp"
+        android:layout_gravity="center_horizontal"
+        android:gravity="center_horizontal">
+
+        <TextView
+
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginLeft="8dp"
+            android:paddingLeft="5dp"
+            android:text="IDProof"
+            android:textColor="#5C5757"
+            android:fontFamily="serif"
+            android:textStyle="bold"/>
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginLeft="98dp"
+            android:paddingLeft="8dp"
+            android:text="     "
+            android:textColor="#5C5757"
+            android:fontFamily="serif"
+            android:textStyle="bold"
+            android:visibility="visible"/>
+    </TableRow>
+
+
+    <TableRow
+        android:layout_width="match_parent"
+        android:layout_height="50dp"
+        android:layout_marginBottom="10dp"
+        android:visibility="visible"
+        android:layout_gravity="center_horizontal"
+        android:gravity="center_horizontal">
+
+
+        <Spinner
+            android:id="@+id/selectidproof_sp"
+            android:layout_width="150dp"
+            android:layout_height="40dp"
+            android:layout_marginLeft="8dp"
+            android:background="@drawable/spinnerarrow2"
+            android:paddingLeft="5dp"
+            android:popupBackground="@drawable/layout_background" />
+
+        <EditText
+            android:id="@+id/farmeridno_et"
+            android:layout_width="150dp"
+            android:layout_height="40dp"
+            android:layout_marginLeft="8dp"
+            android:paddingLeft="5dp"
+            android:backgroundTint="@android:color/holo_red_light"
+            />
+
+    </TableRow>
+
+    <TableRow
+        android:id="@+id/tablephoto"
+        android:layout_width="fill_parent"
+        android:layout_height="100dp"
+        android:layout_marginTop="9dp"
+        android:layout_gravity="center_horizontal"
+        android:gravity="center_horizontal">
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginLeft="8dp"
+            android:paddingLeft="5dp"
+            android:text="AddFarmer Photo"
+            android:textColor="#5C5757"
+            android:fontFamily="serif"
+            android:textStyle="bold"/>
+        <RelativeLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:gravity="center"
+            android:paddingTop="20dp"
+            android:layout_gravity="center"
+            >
+
+            <ImageView
+                android:layout_width="100dp"
+                android:layout_height="100dp"
+                android:scaleType="fitXY"
+                android:scaleX="1"
+                android:scaleY="1"
+                android:src="@drawable/add_farmpond_image"
+                android:id="@+id/add_farmerimage_iv" />
+
+            <ImageButton
+                android:visibility="gone"
+                android:id="@+id/removefarmerimage_ib"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:background="@android:drawable/ic_delete"
+                android:layout_alignRight="@+id/add_farmerimage_iv"
+                android:layout_alignTop="@+id/add_farmerimage_iv"
+                android:layout_alignEnd="@+id/add_farmerimage_iv" />
+        </RelativeLayout>
+
+
+    </TableRow>
+
+
+
+
+    <LinearLayout
+        android:layout_width="300dp"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="30dp"
+        android:layout_gravity="center"
+        android:gravity="center_vertical"
+        android:id="@+id/submit_farmer_ll"
+        android:orientation="horizontal">
+
+
+
+        <Button
+            android:id="@+id/submit_farmerdetails_bt"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_weight="0.54"
+            android:text="Submit"
+            android:textColor="@color/color_red"
+            android:textSize="15dp" />
+
+    </LinearLayout>
+
+
+
+
+
+
+
+</LinearLayout>
+
+</ScrollView>
