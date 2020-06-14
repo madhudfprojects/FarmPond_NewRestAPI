@@ -1873,6 +1873,8 @@ public class AddFarmPondActivity extends AppCompatActivity
                             Log.e("cameralat",String.valueOf(loc.getLatitude()));
                             Log.e("cameralong",String.valueOf(loc.getLongitude()));
 
+                            str_latitude=String.valueOf(loc.getLatitude());
+                            str_longitude=String.valueOf(loc.getLongitude());
                             latitude_tv.setText(str_latitude);
                             longitude_tv.setText(str_longitude);
 

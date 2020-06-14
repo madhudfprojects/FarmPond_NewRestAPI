@@ -6,12 +6,16 @@ import android.app.Activity;
 import android.app.DatePickerDialog;
 import android.app.Dialog;
 import android.app.DialogFragment;
+import android.app.Service;
 import android.content.ContentValues;
 import android.content.pm.PackageManager;
 import android.database.Cursor;
 import android.database.sqlite.SQLiteDatabase;
 import android.graphics.BitmapFactory;
 import android.graphics.drawable.Drawable;
+import android.location.Location;
+import android.location.LocationListener;
+import android.location.LocationManager;
 import android.net.Uri;
 import android.os.Environment;
 import android.provider.MediaStore;
@@ -184,12 +188,22 @@ public class EditFarmPondDetails_Activity extends AppCompatActivity {
 
     LinearLayout amountcollected_lesser_LL;
 
+
+
+
+
     private boolean isGPS = false;
+    private boolean canGetLocation = true;
+    ArrayList<String> permissions = new ArrayList<>();
+    ArrayList<String> permissionsToRequest;
+    ArrayList<String> permissionsRejected = new ArrayList<>();
+    private final static int ALL_PERMISSIONS_RESULT = 101;
+    private static final long MIN_DISTANCE_CHANGE_FOR_UPDATES = 10;
+    private static final long MIN_TIME_BW_UPDATES = 1000 * 60 * 1;
+    boolean isGPSON = false;
+    LocationManager locationManager;
+    Location loc;
     ProgressDialog dialog_location;
-    private FusedLocationProviderClient mFusedLocationClient;
-    private LocationRequest locationRequest;
-    private LocationCallback locationCallback;
-    private boolean isContinue = false;
 
 
 
@@ -492,6 +506,18 @@ public class EditFarmPondDetails_Activity extends AppCompatActivity {
 
 
                // getLocation();
+
+                if (gps_enable())
+                {
+                    locationManager = (LocationManager) getSystemService(Service.LOCATION_SERVICE);
+                    isGPSON = locationManager.isProviderEnabled(LocationManager.GPS_PROVIDER);
+
+
+                    getLocation();
+                }
+
+
+
                 if(3>=3)
                 {
                     gpstracker_obj3 = new Class_GPSTracker(EditFarmPondDetails_Activity.this);
@@ -2433,6 +2459,118 @@ public class EditFarmPondDetails_Activity extends AppCompatActivity {
 
 
 
+
+    //location
+
+    public boolean gps_enable() {
+        isGPS = false;
+        new GpsUtils(this).turnGPSOn(new GpsUtils.onGpsListener() {
+            @Override
+            public void gpsStatus(boolean isGPSEnable) {
+                // turn on GPS
+                isGPS = isGPSEnable;
+            }
+        });
+
+        if (isGPS) {
+            return true;
+        } else {
+            return false;
+        }
+    }
+
+
+    private void getLocation()
+    {
+
+        try {
+            if (canGetLocation)
+            {
+                // Log.d(TAG, "Can get location");
+                if (isGPSON)
+                {
+                    // from GPS
+                    //Log.d(TAG, "GPS on");
+
+                    dialog_location.setMessage("Please wait location fetching...");
+                    dialog_location.setCanceledOnTouchOutside(false);
+                    dialog_location.show();
+
+
+                    for(int i=0;i<=50;i++)
+                    {
+                        locationManager.requestLocationUpdates(
+                                LocationManager.GPS_PROVIDER,
+                                MIN_TIME_BW_UPDATES,
+                                MIN_DISTANCE_CHANGE_FOR_UPDATES, (LocationListener) this);
+                        if(locationManager!=null)
+                        {}else{i--;}
+
+                    }
+                    if (locationManager != null)
+                    {
+                        loc = locationManager.getLastKnownLocation(LocationManager.GPS_PROVIDER);
+                        if (loc != null)
+                        {
+                            try {
+                                Thread.sleep(1 * 500);
+                            } catch (InterruptedException e) {
+                                e.printStackTrace();
+                            }
+
+                            Log.e("camEditlat",String.valueOf(loc.getLatitude()));
+                            Log.e("camEditlong",String.valueOf(loc.getLongitude()));
+
+                            str_latitude=String.valueOf(loc.getLatitude());
+                            str_longitude=String.valueOf(loc.getLongitude());
+                            latitude_tv.setText(str_latitude);
+                            longitude_tv.setText(str_longitude);
+
+                            dialog_location.dismiss();
+
+                            selectImage();
+
+                        }
+                    }
+                    else{
+                        dialog_location.dismiss();
+                    }
+                }
+                /*else if (isNetwork)
+                {
+                    // from Network Provider
+                    Log.d(TAG, "NETWORK_PROVIDER on");
+                    locationManager.requestLocationUpdates(
+                            LocationManager.NETWORK_PROVIDER,
+                            MIN_TIME_BW_UPDATES,
+                            MIN_DISTANCE_CHANGE_FOR_UPDATES, this);
+
+                    if (locationManager != null)
+                    {
+                        loc = locationManager.getLastKnownLocation(LocationManager.NETWORK_PROVIDER);
+
+                    }
+                } */
+                /*else
+                {
+                    loc.setLatitude(0);
+                    loc.setLongitude(0);
+                    updateUI(loc);
+                }*/
+            } else
+            {
+                //Log.d(TAG, "Can't get location");
+            }
+        } catch (SecurityException e) {
+            e.printStackTrace();
+        }
+    }
+
+
+
+
+
+    //location
 
 
 
