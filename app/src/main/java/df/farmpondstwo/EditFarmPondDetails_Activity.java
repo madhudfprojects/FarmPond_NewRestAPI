@@ -1,5 +1,19 @@
 package df.farmpondstwo;
 
+import android.annotation.SuppressLint;
+import android.app.ActionBar;
+import android.app.Activity;
+import android.app.DatePickerDialog;
+import android.app.Dialog;
+import android.app.DialogFragment;
+import android.content.pm.PackageManager;
+import android.database.Cursor;
+import android.database.sqlite.SQLiteDatabase;
+import android.graphics.BitmapFactory;
+import android.graphics.drawable.Drawable;
+import android.net.Uri;
+import android.os.Environment;
+import android.provider.MediaStore;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.app.AlertDialog;
@@ -13,14 +27,23 @@ import android.graphics.Color;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.support.v7.widget.Toolbar;
+import android.text.Editable;
+import android.text.TextWatcher;
+import android.util.Base64;
 import android.util.Log;
+import android.util.TypedValue;
+import android.view.Gravity;
 import android.view.View;
+import android.widget.AdapterView;
+import android.widget.ArrayAdapter;
 import android.widget.Button;
 import android.widget.CheckBox;
+import android.widget.DatePicker;
 import android.widget.EditText;
 import android.widget.ImageButton;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
+import android.widget.RelativeLayout;
 import android.widget.Spinner;
 import android.widget.TextView;
 
@@ -28,10 +51,18 @@ import com.google.android.gms.location.FusedLocationProviderClient;
 import com.google.android.gms.location.LocationCallback;
 import com.google.android.gms.location.LocationRequest;
 
+import java.io.ByteArrayOutputStream;
+import java.io.File;
+import java.io.FileNotFoundException;
+import java.io.FileOutputStream;
+import java.io.IOException;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Calendar;
 import java.util.Date;
+import java.util.List;
+import java.util.regex.Matcher;
+import java.util.regex.Pattern;
 
 import df.farmpondstwo.Models.Class_MachineDetails;
 
@@ -66,7 +97,9 @@ public class EditFarmPondDetails_Activity extends AppCompatActivity {
 
     // Class_farmponddetails class_farmponddetails_obj;
     String str_farmpondbaseimage_url,str_cancelclicked;
-    // Class_farmponddetails_offline class_farmponddetails_offline_obj;
+     Class_farmponddetails_offline class_farmponddetails_offline_obj;
+    Class_addfarmponddetails_ToFromServer2 class_addfarmponddetails_tofromserver2_obj;
+
 
     SharedPreferences sharedpref_farmerid_Obj;
     String str_farmerID;
@@ -121,8 +154,8 @@ public class EditFarmPondDetails_Activity extends AppCompatActivity {
 
     Date startDate,endDate;
 
-    // Class_RemarksDetails[] class_remarksdetails_array_obj;
-    //Class_RemarksDetails class_remarksdetails_obj;
+     Class_RemarksDetails[] class_remarksdetails_array_obj;
+    Class_RemarksDetails class_remarksdetails_obj;
     String str_remarksid;
 
 
@@ -414,10 +447,444 @@ public class EditFarmPondDetails_Activity extends AppCompatActivity {
 
         str_image1present=str_image2present=str_image3present="no";
 
+        uploadfromDB_Machinelist();
+        uploadfromDB_Remarkslist();
+
+        Data_from_PondDetails_DB(str_farmpond_id);
 
 
 
 
+
+        edit_pond_image1_iv.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v)
+            {
+                str_image1="true";
+                str_image2="false";
+                str_image3="false";
+                selectImage();
+            }
+        });
+        edit_pond_image2_iv.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                str_image2="true";
+
+                str_image1="false";
+                str_image3="false";
+                selectImage();
+            }
+        });
+
+        edit_pond_image3_iv.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v)
+            {
+                str_image3="true";
+
+                str_image1="false";
+                str_image2="false";
+
+
+               // getLocation();
+                if(3>=3)
+                {
+                    gpstracker_obj3 = new Class_GPSTracker(EditFarmPondDetails_Activity.this);
+                    if (gpstracker_obj3.canGetLocation()) {
+                        double_currentlatitude = gpstracker_obj3.getLatitude();
+                        double_currentlongitude = gpstracker_obj3.getLongitude();
+
+
+                        str_currentlatitude = Double.toString(double_currentlatitude);
+                        str_currentlongitude = Double.toString(double_currentlongitude);
+
+                        str_latitude = " ";
+                        str_longitude = " ";
+                        str_latitude = str_currentlatitude;
+                        str_longitude = str_currentlongitude;
+
+                        latitude_tv.setText(str_currentlatitude);
+                        longitude_tv.setText(str_currentlongitude);
+
+                  /*  Log.e("lat",str_latitude);
+                    Log.e("long",str_longitude);*/
+
+                        if (str_currentlatitude.equals("0.0") || str_currentlongitude.equals("0.0")) {
+                            alertdialog_refresh_latandlong();
+                        } else {
+                            selectImage();
+                        }
+
+
+                    } else {
+                        gpstracker_obj3.showSettingsAlert();
+                    }
+
+
+                }
+
+                //selectImage();
+            }
+        });
+
+
+
+        edit_removeimage1_ib.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v)
+            {
+                arraylist_image1_base64.clear();
+                arraylist_image1_base64.add("noimage1");
+
+                str_image1present="no";
+                edit_removeimage1_ib.setVisibility(View.GONE);
+                String str_imagefromdrawable = "@drawable/add_farmpond_image";
+                int int_imageResource = getResources().getIdentifier(str_imagefromdrawable, null, getPackageName());
+                Drawable res = getResources().getDrawable(int_imageResource);
+                edit_pond_image1_iv.setImageDrawable(res);
+
+            }
+        });
+
+        edit_removeimage2_ib.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                arraylist_image2_base64.clear();
+                arraylist_image2_base64.add("noimage2");
+
+                str_image2present="no";
+                edit_removeimage2_ib.setVisibility(View.GONE);
+
+                String str_imagefromdrawable = "@drawable/add_farmpond_image";
+                int int_imageResource = getResources().getIdentifier(str_imagefromdrawable, null, getPackageName());
+                Drawable res = getResources().getDrawable(int_imageResource);
+                edit_pond_image2_iv.setImageDrawable(res);
+            }
+        });
+        edit_removeimage3_ib.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                arraylist_image3_base64.clear();
+                arraylist_image3_base64.add("noimage3");
+                edit_removeimage3_ib.setVisibility(View.GONE);
+
+                str_location="no";
+                str_image3present="no";
+                str_validation_for_completed="no";
+                startdate_LL.setVisibility(View.GONE);
+                completeddate_LL.setVisibility(View.GONE);
+                nodays_LL.setVisibility(View.GONE);
+                machineno_LL.setVisibility(View.GONE);
+                farmpondcompleted_LL.setVisibility(View.GONE);
+                remarks_LL.setVisibility(View.GONE);
+                amount_LL.setVisibility(View.GONE);
+                amountcollected_LL.setVisibility(View.GONE);
+
+                notcompleted_text_LL.setVisibility(View.VISIBLE);
+
+                farmpondlocationlabel_LL.setVisibility(View.GONE);
+                currentlatitude_LL.setVisibility(View.GONE);
+                currentlongitude_LL.setVisibility(View.GONE);
+                dblatitude_LL.setVisibility(View.GONE);
+                dblongitude_LL.setVisibility(View.GONE);
+                str_latitude="";str_longitude="";
+
+
+
+                String str_imagefromdrawable = "@drawable/add_farmpond_image";
+                int int_imageResource = getResources().getIdentifier(str_imagefromdrawable, null, getPackageName());
+                Drawable res = getResources().getDrawable(int_imageResource);
+                edit_pond_image3_iv.setImageDrawable(res);
+            }
+        });
+
+
+        edit_ponddetails_submit_bt.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v)
+            {
+               /* if(validation())
+                {
+                    // AsyncTask_submit_edited_farmponddetails();
+
+                    cancel_submit_ll.setVisibility(View.GONE);
+                    update_editedDetails_PondDetails_DB();
+                }*/
+            }
+        });
+
+
+        edit_ponddetails_cancel_bt.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v)
+            {
+                str_cancelclicked="true";
+                onBackPressed();
+            }
+        });
+
+
+
+
+
+
+        selectmachineno_sp.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
+            @Override
+            public void onItemSelected(AdapterView<?> parent, View view, int position, long id)
+            {
+
+                class_machineDetails_obj = (Class_MachineDetails) selectmachineno_sp.getSelectedItem();
+                // str_machinecode = class_machineDetails_obj.getMachine_Code().toString();
+                str_machinecode = class_machineDetails_obj.getMachine_ID().toString();
+
+            }
+
+            @Override
+            public void onNothingSelected(AdapterView<?> parent) {
+
+            }
+        });
+
+
+
+
+        edit_selectremarks_sp.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
+            @Override
+            public void onItemSelected(AdapterView<?> parent, View view, int position, long id)
+            {
+                class_remarksdetails_obj=(Class_RemarksDetails)edit_selectremarks_sp.getSelectedItem();
+                str_remarksid=class_remarksdetails_obj.getRemarks_ID().toString();
+                // Toast.makeText(getApplicationContext(),"re :"+str_remarksid,Toast.LENGTH_SHORT).show();
+            }
+
+            @Override
+            public void onNothingSelected(AdapterView<?> parent) {
+
+            }
+        });
+
+
+
+
+
+       /* edit_farmpond_completed_cb.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v)
+            {
+
+                if(edit_farmpond_completed_cb.isChecked())
+                {
+                    edit_farmpond_completed_cb.setChecked(true);
+
+                    str_validation_for_completed="yes";
+                    startdate_LL.setVisibility(View.VISIBLE);
+                    completeddate_LL.setVisibility(View.VISIBLE);
+                    nodays_LL.setVisibility(View.VISIBLE);
+                    machineno_LL.setVisibility(View.VISIBLE);
+                    // Toast.makeText(getApplicationContext(),"checked",Toast.LENGTH_SHORT).show();
+                }
+                else if(!edit_farmpond_completed_cb.isChecked())
+                {
+                    edit_farmpond_completed_cb.setChecked(false);
+                    str_validation_for_completed="no";
+                    startdate_LL.setVisibility(View.GONE);
+                    completeddate_LL.setVisibility(View.GONE);
+                    nodays_LL.setVisibility(View.GONE);
+                    machineno_LL.setVisibility(View.GONE);
+                    //Toast.makeText(getApplicationContext(),"unchecked",Toast.LENGTH_SHORT).show();
+                }
+
+            }
+        });*/
+
+
+
+
+
+        edit_pond_startddate_tv.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v)
+            {
+
+                DialogFragment dFragment_startdate = new DatePickerFragment_startdate();
+                // Show the date picker dialog fragment
+                dFragment_startdate.show(getFragmentManager(), "Date Picker");
+
+            }
+        });
+
+
+
+
+
+        edit_pond_completeddate_tv.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v)
+            {
+               /* DialogFragment fromdateFragment = new DatePickerFragmentFromDate();
+                fromdateFragment.show(getFragmentManager(), "Date Picker");*/
+
+                DialogFragment dFragment = new DatePickerFragment_todate();
+                // Show the date picker dialog fragment
+                dFragment.show(getFragmentManager(), "Date Picker");
+
+
+            }
+        });
+
+
+
+
+        edit_pond_no_of_days_et.addTextChangedListener(new TextWatcher() {
+            @Override
+            public void beforeTextChanged(CharSequence s, int start, int count, int after)
+            {
+
+                //
+
+            }
+
+            @Override
+            public void onTextChanged(CharSequence s, int start, int before, int count)
+            {
+
+
+                /*Toast.makeText(getApplicationContext(),""+s,Toast.LENGTH_SHORT).show();
+                add_newpond_total_amount_tv.setText(s.toString());*/
+
+                if(s.toString().isEmpty())
+                {
+                    edit_pond_total_amount_tv.setText("");
+                    // add_newpond_no_of_days_et.setText("");
+                }
+                else {
+
+                    if (s.toString().equalsIgnoreCase(".")) {
+
+                    } else
+                    {
+                        /*int int_amount = Integer.parseInt(s.toString());
+                        int int_per_day_amount = Integer.parseInt(str_perdayamount);
+                        int_amount = int_amount * int_per_day_amount;
+
+                        String str_totalamount = String.valueOf(int_amount);
+                        edit_pond_total_amount_tv.setText(str_totalamount);*/
+
+
+                        Log.e("watcher",s.toString());
+
+                        Pattern p = Pattern.compile("[.!?]");
+                        Matcher matcher = p.matcher(s.toString());
+                        int count1 = 0;
+                        while(matcher.find()) {
+                            count1++;
+                        }
+
+                        if(count1>1) {
+                            edit_pond_total_amount_tv.setText("0");
+                        }
+                        else {
+
+
+                            double deci_amount = Double.parseDouble((s.toString()));
+                            long long_per_day_amount = Long.parseLong(str_perdayamount);
+                            deci_amount = deci_amount * long_per_day_amount;
+                            int int_amount = (int) Math.round(deci_amount);
+                            String str_totalamount = String.valueOf(int_amount);
+                            edit_pond_total_amount_tv.setText(str_totalamount);
+
+                        }
+
+                    }
+
+                }
+
+            }
+
+            @Override
+            public void afterTextChanged(Editable s)
+            {
+
+                if(s.toString().isEmpty())
+                {
+
+                }
+            }
+        });
+
+
+
+
+        edit_amountcollected_et.addTextChangedListener(new TextWatcher()
+        {
+            @Override
+            public void beforeTextChanged(CharSequence s, int start, int count, int after)
+            {
+
+            }
+
+            @Override
+            public void onTextChanged(CharSequence s, int start, int before, int count)
+            {
+                if(s.toString().trim().isEmpty())
+                {
+                    amountcollected_lesser_LL.setVisibility(View.GONE);
+                }else
+                {
+
+                    String str_amt = edit_amountcollected_et.getText().toString().trim();
+                    //int int_amtcollected = Integer.parseInt(str_amt);
+
+                    Pattern p = Pattern.compile("[.!?]");
+                    Matcher matcher = p.matcher(str_amt.toString());
+                    int count1 = 0;
+                    while(matcher.find()) {
+                        count1++;
+                    }
+
+                    if(count1>1) {
+
+                    }
+                    else {
+
+
+                        char first_char = edit_amountcollected_et.getText().toString().trim().charAt(0);
+                        String str_first_char= String.valueOf(first_char);
+
+                        if(str_first_char.equalsIgnoreCase("."))
+                        { amountcollected_lesser_LL.setVisibility(View.VISIBLE);}
+                        else {
+
+                            double deci_amount = Double.parseDouble(edit_amountcollected_et.getText().toString().trim());
+
+                            int int_amtcollected = (int) Math.round(deci_amount);
+                            Log.e("amt", String.valueOf(int_amtcollected));
+
+                            int int_totalamt = Integer.parseInt(edit_pond_total_amount_tv.getText().toString());
+
+
+                            if (int_amtcollected < int_totalamt) {
+                                amountcollected_lesser_LL.setVisibility(View.VISIBLE);
+                                // Log.e("adderror", "error");
+                            } else {
+                                amountcollected_lesser_LL.setVisibility(View.GONE);
+                            }
+
+                        }
+
+                    }
+
+
+                }//main else
+
+            }//main
+
+            @Override
+            public void afterTextChanged(Editable s) {
+
+            }
+        });
 
 
 
@@ -459,6 +926,1108 @@ public class EditFarmPondDetails_Activity extends AppCompatActivity {
 
 
 
+    public void uploadfromDB_Machinelist()
+    {
 
-}
+
+        SQLiteDatabase db1 = this.openOrCreateDatabase("FarmPond_db", Context.MODE_PRIVATE, null);
+        db1.execSQL("CREATE TABLE IF NOT EXISTS MachineDetails_fromServerRest(SlNo INTEGER PRIMARY KEY AUTOINCREMENT,MachineNameDB VARCHAR,MachineIDDB VARCHAR);");
+
+        Cursor cursor = db1.rawQuery("SELECT DISTINCT * FROM MachineDetails_fromServer", null);
+        int x = cursor.getCount();
+        Log.d("cursor count", Integer.toString(x));
+
+        int i = 0;
+        class_machineDetails_array_obj = new Class_MachineDetails[x];
+        if (cursor.moveToFirst()) {
+
+            do {
+                Class_MachineDetails innerObj_class_machinelist = new Class_MachineDetails();
+                innerObj_class_machinelist.setMachine_Name(cursor.getString(cursor.getColumnIndex("MachineNameDB")));
+               // innerObj_class_machinelist.setMachine_Code(cursor.getString(cursor.getColumnIndex("MachineCodeDDB")));
+                innerObj_class_machinelist.setMachine_ID(cursor.getString(cursor.getColumnIndex("MachineIDDB")));
+
+                class_machineDetails_array_obj[i] = innerObj_class_machinelist;
+                i++;
+
+            } while (cursor.moveToNext());
+
+
+
+        }//if ends
+
+        db1.close();
+        if (x > 0) {
+
+            ArrayAdapter dataAdapter = new ArrayAdapter(getApplicationContext(), R.layout.spinnercenterstyle, class_machineDetails_array_obj);
+            dataAdapter.setDropDownViewResource(R.layout.spinnercenterstyle);
+            selectmachineno_sp.setAdapter(dataAdapter);
+
+            // selectmachineno_sp.setSelection(getIndex(selectmachineno_sp, "03"));
+
+            /*if(x>sel_yearsp) {
+                yearlist_SP.setSelection(sel_yearsp);
+            }*/
+        }
+
+    }
+
+
+
+
+
+    public void search_Machinelist(String str_machineID)
+    {
+        Log.e("InsideMachine","Machinelist");
+
+        SQLiteDatabase db1 = this.openOrCreateDatabase("FarmPond_db", Context.MODE_PRIVATE, null);
+        db1.execSQL("CREATE TABLE IF NOT EXISTS MachineDetails_fromServerRest(SlNo INTEGER PRIMARY KEY AUTOINCREMENT,MachineNameDB VARCHAR,MachineIDDB VARCHAR);");
+
+        // Cursor cursor = db1.rawQuery("SELECT DISTINCT * FROM MachineDetails_fromServer WHERE MachineIDDB='" + str_machineID + "'", null);
+
+        Cursor cursor = db1.rawQuery("SELECT DISTINCT * FROM MachineDetails_fromServer", null);
+        int x = cursor.getCount();
+
+        Log.d("cursor count", Integer.toString(x));
+
+        int i = 0;
+        class_machineDetails_array_obj = new Class_MachineDetails[x];
+        if (cursor.moveToFirst()) {
+
+            do {
+                Class_MachineDetails innerObj_class_machinelist = new Class_MachineDetails();
+                innerObj_class_machinelist.setMachine_Name(cursor.getString(cursor.getColumnIndex("MachineNameDB")));
+               // innerObj_class_machinelist.setMachine_Code(cursor.getString(cursor.getColumnIndex("MachineCodeDDB")));
+                innerObj_class_machinelist.setMachine_ID(cursor.getString(cursor.getColumnIndex("MachineIDDB")));
+
+                class_machineDetails_array_obj[i] = innerObj_class_machinelist;
+                i++;
+
+            } while (cursor.moveToNext());
+
+
+
+        }//if ends
+
+        db1.close();
+
+
+        SQLiteDatabase db2 = this.openOrCreateDatabase("FarmPond_db", Context.MODE_PRIVATE, null);
+        db1.execSQL("CREATE TABLE IF NOT EXISTS MachineDetails_fromServerRest(SlNo INTEGER PRIMARY KEY AUTOINCREMENT,MachineNameDB VARCHAR,MachineIDDB VARCHAR);");
+
+        Cursor cursor1 = db2.rawQuery("SELECT DISTINCT * FROM MachineDetails_fromServer WHERE MachineIDDB='" + str_machineID + "'", null);
+        //Cursor cursor1 = db1.rawQuery("SELECT DISTINCT * FROM MachineDetails_fromServer", null);
+        int x1 = cursor1.getCount();
+        int i1 = 0;
+        Class_MachineDetails class_machineDetails_obj3 = new Class_MachineDetails();
+        if (cursor1.moveToFirst()) {
+
+            do {
+                Class_MachineDetails innerObj_class_machinelist = new Class_MachineDetails();
+                innerObj_class_machinelist.setMachine_Name(cursor1.getString(cursor.getColumnIndex("MachineNameDB")));
+               // innerObj_class_machinelist.setMachine_Code(cursor1.getString(cursor.getColumnIndex("MachineCodeDDB")));
+                innerObj_class_machinelist.setMachine_ID(cursor1.getString(cursor.getColumnIndex("MachineIDDB")));
+
+                class_machineDetails_obj3= innerObj_class_machinelist;
+                i1++;
+
+            } while (cursor1.moveToNext());
+        }//if ends
+        db2.close();
+
+        String str_comparevalue;
+        //   if(class_machineDetails_obj3.getMachine_Code().isEmpty()||class_machineDetails_obj3.equals(null))
+        if(class_machineDetails_obj3.getMachine_ID()==null||class_machineDetails_obj3.getMachine_ID().isEmpty())
+        {  str_comparevalue="Nocode";
+            Log.e("comparevalue",str_comparevalue);
+        }
+        else{
+            str_comparevalue=class_machineDetails_obj3.getMachine_ID().toString();
+            Log.e("comparevalueelse",str_comparevalue);
+        }
+
+
+
+
+
+
+
+
+
+        if (x > 0) {
+
+            ArrayAdapter dataAdapter = new ArrayAdapter(getApplicationContext(), R.layout.spinnercenterstyle, class_machineDetails_array_obj);
+            dataAdapter.setDropDownViewResource(R.layout.spinnercenterstyle);
+            selectmachineno_sp.setAdapter(dataAdapter);
+
+            selectmachineno_sp.setSelection(getIndex(selectmachineno_sp, str_comparevalue));
+        }
+    }
+
+
+
+    public void uploadfromDB_Remarkslist() {
+
+
+
+        SQLiteDatabase db1 = this.openOrCreateDatabase("RemarksDetails_DB", Context.MODE_PRIVATE, null);
+
+        db1.execSQL("CREATE TABLE IF NOT EXISTS RemarksDetails_fromServer(SlNo INTEGER PRIMARY KEY AUTOINCREMENT,RemarksIDDB VARCHAR,RemarksNameDB VARCHAR);");
+        Cursor cursor = db1.rawQuery("SELECT DISTINCT * FROM RemarksDetails_fromServer", null);
+
+        int x = cursor.getCount();
+        Log.d("cursor count", Integer.toString(x));
+
+        int i = 0;
+        class_remarksdetails_array_obj = new Class_RemarksDetails[x];
+        if (cursor.moveToFirst()) {
+
+            do {
+                Class_RemarksDetails innerObj_class_remarkslist = new Class_RemarksDetails();
+
+                innerObj_class_remarkslist.setRemarks_ID(cursor.getString(cursor.getColumnIndex("RemarksIDDB")));
+                innerObj_class_remarkslist.setRemarks_Name(cursor.getString(cursor.getColumnIndex("RemarksNameDB")));
+                //
+
+                class_remarksdetails_array_obj[i] = innerObj_class_remarkslist;
+                i++;
+
+            } while (cursor.moveToNext());
+        }//if ends
+        db1.close();
+        if (x > 0) {
+
+            ArrayAdapter dataAdapter = new ArrayAdapter(getApplicationContext(), R.layout.spinnercenterstyle, class_remarksdetails_array_obj);
+            dataAdapter.setDropDownViewResource(R.layout.spinnercenterstyle);
+            edit_selectremarks_sp.setAdapter(dataAdapter);
+            /*if(x>sel_yearsp) {
+                yearlist_SP.setSelection(sel_yearsp);
+            }*/
+        }
+    }
+
+
+
+
+
+    private int getIndex_remarks(Spinner spinner, String myString){
+        for (int i=0;i<spinner.getCount();i++)
+        {
+
+            //  Log.e("spinner",spinner.getItemAtPosition(i).toString());
+            if (spinner.getItemAtPosition(i).toString().equalsIgnoreCase(myString))
+            {
+                return i;
+            }
+        }
+
+        return 0;
+    }
+
+
+
+
+
+    //private method of your class
+    private int getIndex(Spinner spinner, String myString){
+        for (int i=0;i<spinner.getCount();i++)
+        {
+            if (spinner.getItemAtPosition(i).toString().equalsIgnoreCase(myString)){
+                return i;
+            }
+        }
+
+        return 0;
+    }
+
+
+
+    public void Data_from_PondDetails_DB(String str_farmerpondID)
+    {
+
+        Log.e("editfarmerID",str_farmerpondID);
+        SQLiteDatabase db1 = this.openOrCreateDatabase("PondDetails_DB", Context.MODE_PRIVATE, null);
+
+        db1.execSQL("CREATE TABLE IF NOT EXISTS FarmPondDetails_fromServerRest(SlNo INTEGER PRIMARY KEY AUTOINCREMENT,FIDDB VARCHAR,TempFIDDB VARCHAR," +
+                "FNameDB VARCHAR,FMNameDB VARCHAR,FLNameDB VARCHAR,FYearIDDB VARCHAR,FStateIDDB VARCHAR,FDistrictIDDB VARCHAR," +
+                "FTalukIDDB VARCHAR,FPanchayatIDDB VARCHAR,FVillageIDDB VARCHAR,FageDB VARCHAR,FphonenumberDB VARCHAR," +
+                "FAnnualIncomeDB VARCHAR,FfamilymemberDB VARCHAR,FidprooftypeDB VARCHAR,FidproofnoDB VARCHAR,FphotoDB VARCHAR,FPondidDB VARCHAR,WidthDB VARCHAR," +
+                "HeightDB VARCHAR,DepthDB VARCHAR,LatitudeDB VARCHAR,LongitudeDB VARCHAR,Imageid1DB VARCHAR,Image1Base64DB VARCHAR," +
+                "Imageid2DB VARCHAR,Image2Base64DB VARCHAR,Imageid3DB VARCHAR,Image3Base64DB VARCHAR,EmployeeIDDB VARCHAR,SubmittedDateDB VARCHAR," +
+                "TotalDaysDB VARCHAR,StartDateDB VARCHAR,ConstructedDateDB VARCHAR,PondCostDB VARCHAR,McodeDB VARCHAR,FPondCodeDB VARCHAR," +
+                "FPondRemarksDB VARCHAR,FPondAmtTakenDB VARCHAR,FPondStatusDB VARCHAR," +
+                "FPondApprovalStatusDB VARCHAR,FPondApprovalRemarksDB VARCHAR,FPondApprovedbyDB VARCHAR,FPondApprovedDateDB VARCHAR,FPondDonorDB VARCHAR," +
+                "FPondLatitudeDB VARCHAR,FPondLongitudeDB VARCHAR," +
+                "FPondAcresDB VARCHAR,FPondGuntaDB VARCHAR,FPondCropBeforeDB VARCHAR,FPondCropAfterDB VARCHAR," +
+                "UploadedStatusFarmerprofile VARCHAR,UploadedStatus VARCHAR);");
+
+
+
+        Cursor cursor1 = db1.rawQuery("SELECT DISTINCT * FROM FarmPondDetails_fromServer WHERE FPondidDB='" + str_farmerpondID + "'", null);
+        int x = cursor1.getCount();
+
+        Log.e("Editfarmerid", String.valueOf(x));
+        Log.e("Editfarmpond_count", String.valueOf(x));
+
+
+
+        int i = 0;
+        class_farmponddetails_offline_obj = new Class_farmponddetails_offline();
+        if(x>0)
+        {
+            if (cursor1.moveToFirst())
+            {
+
+                do {
+                    Class_farmponddetails_offline innerObj_Class_farmponddetails_offline = new Class_farmponddetails_offline();
+
+                    innerObj_Class_farmponddetails_offline.setfarmer_id(cursor1.getString(cursor1.getColumnIndex("FIDDB")));
+                    innerObj_Class_farmponddetails_offline.setFarmer_Name(cursor1.getString(cursor1.getColumnIndex("FNameDB")));
+                    innerObj_Class_farmponddetails_offline.setFarmpond_Id(cursor1.getString(cursor1.getColumnIndex("FPondidDB")));
+                    innerObj_Class_farmponddetails_offline.setFarmpond_Width(cursor1.getString(cursor1.getColumnIndex("WidthDB")));
+                    innerObj_Class_farmponddetails_offline.setFarmpond_Height(cursor1.getString(cursor1.getColumnIndex("HeightDB")));
+                    innerObj_Class_farmponddetails_offline.setFarmpond_Depth(cursor1.getString(cursor1.getColumnIndex("DepthDB")));
+
+                    innerObj_Class_farmponddetails_offline.setImage1_ID(cursor1.getString(cursor1.getColumnIndex("Imageid1DB")));
+                    innerObj_Class_farmponddetails_offline.setImage1_Base64(cursor1.getString(cursor1.getColumnIndex("Image1Base64DB")));
+
+                    innerObj_Class_farmponddetails_offline.setImage2_ID(cursor1.getString(cursor1.getColumnIndex("Imageid2DB")));
+                    innerObj_Class_farmponddetails_offline.setImage2_Base64(cursor1.getString(cursor1.getColumnIndex("Image2Base64DB")));
+
+                    innerObj_Class_farmponddetails_offline.setImage3_ID(cursor1.getString(cursor1.getColumnIndex("Imageid3DB")));
+                    innerObj_Class_farmponddetails_offline.setImage3_Base64(cursor1.getString(cursor1.getColumnIndex("Image3Base64DB")));
+
+                    innerObj_Class_farmponddetails_offline.setUploadedStatus(cursor1.getString(cursor1.getColumnIndex("UploadedStatus")));
+
+
+                    innerObj_Class_farmponddetails_offline.setEmployeeID(str_employee_id);
+
+
+                    Log.e("TotalDaysDB",cursor1.getString(cursor1.getColumnIndex("TotalDaysDB")));
+
+                    innerObj_Class_farmponddetails_offline.setSubmittedDateTime(cursor1.getString(cursor1.getColumnIndex("SubmittedDateDB")));
+
+
+                    innerObj_Class_farmponddetails_offline.setTotal_no_days(cursor1.getString(cursor1.getColumnIndex("TotalDaysDB")));
+                    innerObj_Class_farmponddetails_offline.setConstructedDate(cursor1.getString(cursor1.getColumnIndex("ConstructedDateDB")));
+                    innerObj_Class_farmponddetails_offline.setPondCost(cursor1.getString(cursor1.getColumnIndex("PondCostDB")));
+                    innerObj_Class_farmponddetails_offline.setMachineCode(cursor1.getString(cursor1.getColumnIndex("McodeDB")));
+
+                    innerObj_Class_farmponddetails_offline.setStartDate(cursor1.getString(cursor1.getColumnIndex("StartDateDB")));
+
+                    Log.e("StartDateDB",cursor1.getString(cursor1.getColumnIndex("StartDateDB")));
+
+
+                    innerObj_Class_farmponddetails_offline.setFarmpond_remarks(cursor1.getString(cursor1.getColumnIndex("FPondRemarksDB")));
+                    innerObj_Class_farmponddetails_offline.setFarmpond_amttaken(cursor1.getString(cursor1.getColumnIndex("FPondAmtTakenDB")));
+                    innerObj_Class_farmponddetails_offline.setFarmpond_status(cursor1.getString(cursor1.getColumnIndex("FPondStatusDB")));
+                    // "FPondRemarksDB VARCHAR,FPondAmtTakenDB VARCHAR,FPondStatusDB VARCHAR,"
+
+
+                    // "FPondAcresDB VARCHAR,FPondGuntaDB VARCHAR,FPondCropBeforeDB VARCHAR,FPondCropAfterDB VARCHAR," +
+                    innerObj_Class_farmponddetails_offline.setFarmpond_acres(cursor1.getString(cursor1.getColumnIndex("FPondAcresDB")));
+                    innerObj_Class_farmponddetails_offline.setFarmpond_gunta(cursor1.getString(cursor1.getColumnIndex("FPondGuntaDB")));
+                    innerObj_Class_farmponddetails_offline.setFarmpond_crop_before_pond(cursor1.getString(cursor1.getColumnIndex("FPondCropBeforeDB")));
+                    innerObj_Class_farmponddetails_offline.setFarmpond_crop_after_pond(cursor1.getString(cursor1.getColumnIndex("FPondCropAfterDB")));
+
+
+                    innerObj_Class_farmponddetails_offline.setFarmpond_Latitude(cursor1.getString(cursor1.getColumnIndex("FPondLatitudeDB")));
+                    innerObj_Class_farmponddetails_offline.setFarmpond_Longitude(cursor1.getString(cursor1.getColumnIndex("FPondLongitudeDB")));
+                    //"FPondLatitudeDB VARCHAR,FPondLongitudeDB VARCHAR," +
+
+                    // innerObj_Class_farmponddetails_offline.setMachineCode(cursor1.getString(cursor1.getColumnIndex("FPondCodeDB")));
+                    class_farmponddetails_offline_obj = innerObj_Class_farmponddetails_offline;
+                    i++;
+                } while (cursor1.moveToNext());
+            }//if ends
+
+        }
+
+        db1.close();
+
+        if(x>0)
+        {
+            if (class_farmponddetails_offline_obj != null)
+            {
+                DisplayData_Data_from_PondDetails_DB();
+
+            } else {
+                Log.e("onPostExecute", "class_farmponddetails_array_obj == null");
+            }
+
+        }
+
+
+    }// end of Data_from_PondDetails_DB
+
+
+
+    public void DisplayData_Data_from_PondDetails_DB()
+    {
+
+
+
+        edit_ponddetails_farmername_et.setText(class_farmponddetails_offline_obj.getFarmer_Name());
+        edit_pondwidth_et.setText(class_farmponddetails_offline_obj.getFarmpond_Width());
+        edit_pondheight_et.setText(class_farmponddetails_offline_obj.getFarmpond_Height());
+        edit_ponddepth_et.setText(class_farmponddetails_offline_obj.getFarmpond_Depth());
+
+        edit_landacres_et.setText(class_farmponddetails_offline_obj.getFarmpond_acres());
+        edit_landgunta_et.setText(class_farmponddetails_offline_obj.getFarmpond_gunta());
+
+
+        Log.e("status",class_farmponddetails_offline_obj.getFarmpond_status());
+
+        if(class_farmponddetails_offline_obj.getFarmpond_status().trim().isEmpty()||
+                class_farmponddetails_offline_obj.getFarmpond_status().equals(null))
+        {
+            notcompleted_text_LL.setVisibility(View.VISIBLE);
+        }else{
+            if(class_farmponddetails_offline_obj.getFarmpond_status().trim().equalsIgnoreCase("0")||
+                    class_farmponddetails_offline_obj.getFarmpond_status().trim().equalsIgnoreCase("3"))
+            {  notcompleted_text_LL.setVisibility(View.VISIBLE);
+            }else{   notcompleted_text_LL.setVisibility(View.GONE);
+
+            }
+        }
+
+
+        image_id1_tv.setText(class_farmponddetails_offline_obj.getImage1_ID());
+        image_id2_tv.setText(class_farmponddetails_offline_obj.getImage2_ID());
+        image_id3_tv.setText(class_farmponddetails_offline_obj.getImage3_ID());
+
+        String str_base64images1=class_farmponddetails_offline_obj.getImage1_Base64();
+        String str_base64images2=class_farmponddetails_offline_obj.getImage2_Base64();
+        String str_base64images3=class_farmponddetails_offline_obj.getImage3_Base64();
+
+
+        arraylist_image1_base64.clear();
+        arraylist_image2_base64.clear();
+        arraylist_image3_base64.clear();
+
+        Class_base64toBitmapConversion class_base64toBitmapConversion_obj=new Class_base64toBitmapConversion();
+
+        arrayList_bitmap=class_base64toBitmapConversion_obj.base64tobitmap(class_farmponddetails_offline_obj);
+
+        // edit_pond_image1_iv.setImageBitmap(arrayList_bitmap.get(0));
+        if(str_base64images1.equalsIgnoreCase("noimage1")||
+                str_base64images1.equalsIgnoreCase("0") )
+        {
+
+        }else{
+            arraylist_image1_base64.add(str_base64images1);
+            edit_pond_image1_iv.setImageBitmap(arrayList_bitmap.get(0));
+        }
+
+
+        if(str_base64images2.equalsIgnoreCase("noimage2") ||
+                str_base64images2.equalsIgnoreCase("0"))
+        {
+
+        }else
+        {
+            arraylist_image2_base64.add(str_base64images2);
+            edit_pond_image2_iv.setImageBitmap(arrayList_bitmap.get(1));
+            str_image2present="yes";
+        }
+
+
+        if(str_base64images3.equalsIgnoreCase("noimage3") ||
+                str_base64images3.equalsIgnoreCase("0"))
+        {
+
+            str_validation_for_completed="no";
+            startdate_LL.setVisibility(View.GONE);
+            completeddate_LL.setVisibility(View.GONE);
+            nodays_LL.setVisibility(View.GONE);
+            machineno_LL.setVisibility(View.GONE);
+            farmpondcompleted_LL.setVisibility(View.GONE);
+            remarks_LL.setVisibility(View.GONE);
+            amount_LL.setVisibility(View.GONE);
+            amountcollected_LL.setVisibility(View.GONE);
+
+            farmpondlocationlabel_LL.setVisibility(View.GONE);
+            dblatitude_LL.setVisibility(View.GONE);
+            dblongitude_LL.setVisibility(View.GONE);
+
+
+        }else{
+            arraylist_image3_base64.add(str_base64images3);
+            edit_pond_image3_iv.setImageBitmap(arrayList_bitmap.get(2));
+
+            farmpondlocationlabel_LL.setVisibility(View.VISIBLE);
+            dblatitude_LL.setVisibility(View.VISIBLE);
+            dblongitude_LL.setVisibility(View.VISIBLE);
+
+            dblatitude_tv.setText(class_farmponddetails_offline_obj.getFarmpond_Latitude());
+            dblongitude_tv.setText(class_farmponddetails_offline_obj.getFarmpond_Longitude());
+
+            str_latitude=class_farmponddetails_offline_obj.getFarmpond_Latitude();
+            str_longitude=class_farmponddetails_offline_obj.getFarmpond_Longitude();
+
+        }
+
+
+
+        Log.e("daysDB",class_farmponddetails_offline_obj.getTotal_no_days().toString());
+
+        if(class_farmponddetails_offline_obj.getTotal_no_days().equalsIgnoreCase("0"))
+        {
+            edit_pond_completeddate_tv.setText(str_submitteddatetime);
+        }
+        if(class_farmponddetails_offline_obj.getStartDate().equalsIgnoreCase("0"))
+        {
+            edit_pond_startddate_tv.setText(str_submitteddatetime);
+        }
+
+
+        if(class_farmponddetails_offline_obj.getTotal_no_days().equalsIgnoreCase("0"))
+        {
+
+
+            edit_farmpond_completed_cb.setChecked(false);
+            startdate_LL.setVisibility(View.GONE);
+            completeddate_LL.setVisibility(View.GONE);
+            nodays_LL.setVisibility(View.GONE);
+            machineno_LL.setVisibility(View.GONE);
+            remarks_LL.setVisibility(View.GONE);
+            amount_LL.setVisibility(View.GONE);
+            amountcollected_LL.setVisibility(View.GONE);
+        }
+        else
+        {
+
+            edit_farmpond_completed_cb.setChecked(true);
+            startdate_LL.setVisibility(View.VISIBLE);
+            completeddate_LL.setVisibility(View.VISIBLE);
+            nodays_LL.setVisibility(View.VISIBLE);
+            machineno_LL.setVisibility(View.VISIBLE);
+            remarks_LL.setVisibility(View.VISIBLE);
+            amount_LL.setVisibility(View.GONE);
+            amountcollected_LL.setVisibility(View.VISIBLE);
+
+            str_validation_for_completed="yes";
+
+
+            if(class_farmponddetails_offline_obj.getStartDate().equalsIgnoreCase("0"))
+            {
+                edit_pond_startddate_tv.setText(str_submitteddatetime);
+            }
+            else{
+                edit_pond_startddate_tv.setText(class_farmponddetails_offline_obj.getStartDate().toString());
+            }
+            //s.substring(0, s.length() - 2)
+            if(class_farmponddetails_offline_obj.getConstructedDate().toString().trim().length()>12)
+            {
+                String s=class_farmponddetails_offline_obj.getConstructedDate();
+                s=s.substring(0, s.length() - 8);
+                edit_pond_completeddate_tv.setText(s.trim());
+            }
+            else{
+                edit_pond_completeddate_tv.setText(class_farmponddetails_offline_obj.getConstructedDate().toString());
+            }
+            // edit_pond_completeddate_tv.setText(class_farmponddetails_offline_obj.getConstructedDate().toString());
+            edit_pond_no_of_days_et.setText(class_farmponddetails_offline_obj.getTotal_no_days().toString());
+            edit_pond_total_amount_tv.setText(class_farmponddetails_offline_obj.getPondCost());
+
+            edit_amountcollected_et.setText(class_farmponddetails_offline_obj.getFarmpond_amttaken());
+
+            // Log.e("remarksID",class_farmponddetails_offline_obj.getFarmpond_remarks());
+
+            search_Remarkslist(class_farmponddetails_offline_obj.getFarmpond_remarks());
+            search_Machinelist(class_farmponddetails_offline_obj.getMachineCode());
+        }
+
+    }//
+
+
+
+    public void search_Remarkslist(String str_remarksID)
+    {
+
+        Log.e("remarks",str_remarksID);
+        if(str_remarksID.equalsIgnoreCase("0"))
+        {
+            // str_remarksID="4";
+            str_remarksID="100";
+        }
+
+        SQLiteDatabase db1 = this.openOrCreateDatabase("RemarksDetails_DB", Context.MODE_PRIVATE, null);
+
+        db1.execSQL("CREATE TABLE IF NOT EXISTS RemarksDetails_fromServer(SlNo INTEGER PRIMARY KEY AUTOINCREMENT,RemarksIDDB VARCHAR,RemarksNameDB VARCHAR);");
+        Cursor cursor = db1.rawQuery("SELECT DISTINCT * FROM RemarksDetails_fromServer", null);
+        int x = cursor.getCount();
+        int i = 0;
+        class_remarksdetails_array_obj = new Class_RemarksDetails[x];
+        if (cursor.moveToFirst()) {
+
+            do {
+                Class_RemarksDetails innerObj_class_remarkslist = new Class_RemarksDetails();
+                innerObj_class_remarkslist.setRemarks_ID(cursor.getString(cursor.getColumnIndex("RemarksIDDB")));
+                innerObj_class_remarkslist.setRemarks_Name(cursor.getString(cursor.getColumnIndex("RemarksNameDB")));
+
+
+                class_remarksdetails_array_obj[i] = innerObj_class_remarkslist;
+                i++;
+
+            } while (cursor.moveToNext());
+        }//if ends
+        db1.close();
+
+
+
+
+        SQLiteDatabase db2 = this.openOrCreateDatabase("RemarksDetails_DB", Context.MODE_PRIVATE, null);
+        Cursor cursor2 = db2.rawQuery("SELECT DISTINCT * FROM RemarksDetails_fromServer WHERE RemarksIDDB='" + str_remarksID + "'", null);
+        int x2 = cursor2.getCount();
+        Log.d("remarksScount", Integer.toString(x2));
+
+
+        Class_RemarksDetails class_remarksDetails_obj3 = new Class_RemarksDetails();
+        if (cursor2.moveToFirst()) {
+
+            do {
+                Class_RemarksDetails innerObj_class_remarkslist = new Class_RemarksDetails();
+
+                innerObj_class_remarkslist.setRemarks_ID(cursor2.getString(cursor.getColumnIndex("RemarksIDDB")));
+                innerObj_class_remarkslist.setRemarks_Name(cursor2.getString(cursor.getColumnIndex("RemarksNameDB")));
+                //
+
+                class_remarksDetails_obj3 = innerObj_class_remarkslist;
+
+
+            } while (cursor2.moveToNext());
+        }//if ends
+        db2.close();
+
+
+        String str_comparevalueR;
+        if(class_remarksDetails_obj3.getRemarks_ID().isEmpty()||class_remarksDetails_obj3.equals(null))
+        {  str_comparevalueR="NoRemarks";
+            Log.e("comparevalue",str_comparevalueR);
+        }
+        else{
+            str_comparevalueR=class_remarksDetails_obj3.getRemarks_Name().toString();
+            Log.e("comparevalueRe",str_comparevalueR);
+        }
+
+
+        if (x2 > 0) {
+
+            ArrayAdapter dataAdapter = new ArrayAdapter(getApplicationContext(), R.layout.spinnercenterstyle, class_remarksdetails_array_obj);
+            dataAdapter.setDropDownViewResource(R.layout.spinnercenterstyle);
+            edit_selectremarks_sp.setAdapter(dataAdapter);
+
+            edit_selectremarks_sp.setSelection(getIndex_remarks(edit_selectremarks_sp, str_comparevalueR));
+        }
+    }
+
+
+
+    private void selectImage()
+    {
+        final CharSequence[] items;
+
+        if(str_image3.equalsIgnoreCase("true"))
+        {
+            List<String> listItems1 = new ArrayList<String>();
+            listItems1.add("Take Photo");
+            listItems1.add("Cancel");
+
+            items = listItems1.toArray(new CharSequence[listItems1.size()]);
+        }
+        else
+        {
+            List<String> listItems2 = new ArrayList<String>();
+            listItems2.add("Take Photo");
+            listItems2.add("Choose from Library");
+            listItems2.add("Cancel");
+
+            items = listItems2.toArray(new CharSequence[listItems2.size()]);
+
+        }
+
+
+
+
+
+       /* final CharSequence[] items = {"Take Photo", "Choose from Library",
+                "Cancel"};*/
+        /* final CharSequence[] items = {"Take Photo","Cancel"};*/
+
+        AlertDialog.Builder builder = new AlertDialog.Builder(EditFarmPondDetails_Activity.this);
+        builder.setTitle("Add Photo!");
+        builder.setItems(items, new DialogInterface.OnClickListener() {
+            @Override
+            public void onClick(DialogInterface dialog, int item) {
+                boolean result = Class_utility.checkPermission(EditFarmPondDetails_Activity.this);
+                if (items[item].equals("Take Photo")) {
+                    userChoosenTask = "Take Photo";
+                    if (result)
+                        cameraIntent();
+                } else if (items[item].equals("Choose from Library"))
+                {
+                    userChoosenTask = "Choose from Library";
+                    if (result)
+                        galleryIntent();
+                } else if (items[item].equals("Cancel")) {
+                    dialog.dismiss();
+                }
+            }
+        });
+        builder.show();
+    }
+
+
+    @Override
+    public void onRequestPermissionsResult(int requestCode, String[] permissions, int[] grantResults) {
+        switch (requestCode) {
+            case Class_utility.MY_PERMISSIONS_REQUEST_READ_EXTERNAL_STORAGE:
+                if (grantResults.length > 0 && grantResults[0] == PackageManager.PERMISSION_GRANTED) {
+                    if (userChoosenTask.equals("Take Photo"))
+                        cameraIntent();
+                    else if (userChoosenTask.equals("Choose from Library"))
+                        galleryIntent();
+                } else {
+                    //code for deny
+                }
+                break;
+        }
+    }
+
+    private void cameraIntent() {
+        Intent intent = new Intent(MediaStore.ACTION_IMAGE_CAPTURE);
+        startActivityForResult(intent, REQUEST_CAMERA);
+    }
+
+
+    private void galleryIntent()
+    {
+        /*Intent intent = new Intent();
+        intent.setType("image/*");
+        intent.setAction(Intent.ACTION_GET_CONTENT);//
+        startActivityForResult(Intent.createChooser(intent, "Select File"), SELECT_FILE);*/
+
+        Intent intent = new Intent(Intent.ACTION_PICK, android.provider.MediaStore.Images.Media.EXTERNAL_CONTENT_URI);
+        startActivityForResult(intent, 2);
+    }
+
+    @Override
+    public void onActivityResult(int requestCode, int resultCode, Intent data) {
+        super.onActivityResult(requestCode, resultCode, data);
+
+        if (resultCode == Activity.RESULT_OK)
+        {
+            if (requestCode == SELECT_FILE) {
+                onSelectFromGalleryResult(data);
+            }
+            else if(requestCode == 2)
+            {
+
+
+                Uri selectedImage = data.getData();
+                String[] filePath = {MediaStore.Images.Media.DATA};
+                Cursor c = getContentResolver().query(selectedImage, filePath, null, null, null);
+                c.moveToFirst();
+                int columnIndex = c.getColumnIndex(filePath[0]);
+                String picturePath = c.getString(columnIndex);
+                c.close();
+                Bitmap thumbnail = (BitmapFactory.decodeFile(picturePath));
+                thumbnail = getResizedBitmap1(thumbnail, 400);
+                Log.w(" gallery.", picturePath + "");
+                BitMapToString1(thumbnail);
+
+                /*add_newpond_image1_iv.setImageBitmap(thumbnail);
+                BitMapToString1(thumbnail);*/
+
+            }
+            else if (requestCode == REQUEST_CAMERA)
+            {
+                onCaptureImageResult(data);}
+        }
+    }
+
+
+    //selection of gallery on hold
+    @SuppressWarnings("deprecation")
+    private void onSelectFromGalleryResult(Intent data) {
+        Bitmap bm = null;
+        if (data != null) {
+            try {
+                bm = MediaStore.Images.Media.getBitmap(getApplicationContext().getContentResolver(), data.getData());
+                BitMapToString(bm);
+            } catch (IOException e) {
+                e.printStackTrace();
+            }
+        }
+        //add_newpond_image1_iv.setImageBitmap(bm);
+       /* if(isInternetPresent){
+            SaveFarmerImage();
+        }else{
+
+            Toast.makeText(getApplicationContext(), "No Internet Connection", Toast.LENGTH_SHORT).show();
+
+        }*/
+
+    }
+    private void onCaptureImageResult(Intent data)
+    {
+        Bitmap bitmap_thumbnail = (Bitmap) data.getExtras().get("data");
+        ByteArrayOutputStream bytes = new ByteArrayOutputStream();
+        bitmap_thumbnail.compress(Bitmap.CompressFormat.JPEG, 90, bytes);
+        File destination = new File(Environment.getExternalStorageDirectory(),
+                System.currentTimeMillis() + ".jpg");
+        FileOutputStream fo;
+        try {
+            destination.createNewFile();
+            fo = new FileOutputStream(destination);
+            fo.write(bytes.toByteArray());
+            fo.close();
+        } catch (FileNotFoundException e) {
+            e.printStackTrace();
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+
+
+        if(str_image1.equals("true"))
+        {
+            str_image1="false";
+            arraylist_image1_base64.clear();
+            edit_pond_image1_iv.setImageBitmap(bitmap_thumbnail);
+            edit_removeimage1_ib.setVisibility(View.VISIBLE);
+
+            str_image1present="yes";
+
+            ByteArrayOutputStream baos = new ByteArrayOutputStream();
+            bitmap_thumbnail.compress(Bitmap.CompressFormat.PNG, 60, baos);
+            byte[] b = baos.toByteArray();
+            str_base64imagestring = Base64.encodeToString(b, Base64.DEFAULT);
+
+            arraylist_image1_base64.clear();
+            arraylist_image1_base64.add(str_base64imagestring);
+            // BitMapToString(thumbnail);
+        }
+        if(str_image2.equals("true"))
+        {
+            arraylist_image2_base64.clear();
+            edit_pond_image2_iv.setImageBitmap(bitmap_thumbnail);
+            edit_removeimage2_ib.setVisibility(View.VISIBLE);
+            str_image2="false";
+            str_image2present="yes";
+            ByteArrayOutputStream baos = new ByteArrayOutputStream();
+            bitmap_thumbnail.compress(Bitmap.CompressFormat.PNG, 60, baos);
+            byte[] b = baos.toByteArray();
+            str_base64imagestring = Base64.encodeToString(b, Base64.DEFAULT);
+
+            arraylist_image2_base64.clear();
+            arraylist_image2_base64.add(str_base64imagestring);
+            //BitMapToString(thumbnail);
+        }
+        if(str_image3.equals("true"))
+        {
+            arraylist_image3_base64.clear();
+            edit_pond_image3_iv.setImageBitmap(bitmap_thumbnail);
+            edit_removeimage3_ib.setVisibility(View.VISIBLE);
+
+            str_location="yes";
+            str_image3present="yes";
+            edit_farmpond_completed_cb.setChecked(true);
+
+            notcompleted_text_LL.setVisibility(View.GONE);
+
+            str_validation_for_completed="yes";
+            startdate_LL.setVisibility(View.VISIBLE);
+            completeddate_LL.setVisibility(View.VISIBLE);
+            nodays_LL.setVisibility(View.VISIBLE);
+            machineno_LL.setVisibility(View.VISIBLE);
+            farmpondcompleted_LL.setVisibility(View.VISIBLE);
+            remarks_LL.setVisibility(View.VISIBLE);
+            amount_LL.setVisibility(View.GONE);
+            amountcollected_LL.setVisibility(View.VISIBLE);
+            notcompleted_text_LL.setVisibility(View.GONE);
+
+            dblatitude_LL.setVisibility(View.GONE);
+            dblongitude_LL.setVisibility(View.GONE);
+
+            farmpondlocationlabel_LL.setVisibility(View.VISIBLE);
+            currentlatitude_LL.setVisibility(View.VISIBLE);
+            currentlongitude_LL.setVisibility(View.VISIBLE);
+
+
+
+            str_image3="false";
+            ByteArrayOutputStream baos = new ByteArrayOutputStream();
+            bitmap_thumbnail.compress(Bitmap.CompressFormat.PNG, 60, baos);
+            byte[] b = baos.toByteArray();
+            str_base64imagestring = Base64.encodeToString(b, Base64.DEFAULT);
+            arraylist_image3_base64.clear();
+            arraylist_image3_base64.add(str_base64imagestring);
+            // BitMapToString(bitmap_thumbnail);
+        }
+    }
+
+
+
+    public Bitmap getResizedBitmap1(Bitmap image, int maxSize) {
+        int width = image.getWidth();
+        int height = image.getHeight();
+
+        float bitmapRatio = (float) width / (float) height;
+        if (bitmapRatio > 1) {
+            width = maxSize;
+            height = (int) (width / bitmapRatio);
+        } else {
+            height = maxSize;
+            width = (int) (height * bitmapRatio);
+        }
+        return Bitmap.createScaledBitmap(image, width, height, true);
+    }
+
+
+    public String BitMapToString(Bitmap userImage1)
+    {
+        ByteArrayOutputStream baos = new ByteArrayOutputStream();
+        userImage1.compress(Bitmap.CompressFormat.PNG, 60, baos);
+        byte[] b = baos.toByteArray();
+        str_base64imagestring = Base64.encodeToString(b, Base64.DEFAULT);
+
+        return str_base64imagestring;
+    }
+
+
+
+
+    public void BitMapToString1(Bitmap userImage1)
+    {
+
+
+        if(str_image1.equalsIgnoreCase("true"))
+        {
+            str_image1="false";
+            edit_pond_image1_iv.setImageBitmap(userImage1);
+            edit_removeimage1_ib.setVisibility(View.VISIBLE);
+
+            str_image1present="yes";
+
+
+            ByteArrayOutputStream baos = new ByteArrayOutputStream();
+            userImage1.compress(Bitmap.CompressFormat.PNG, 90, baos);
+            byte[] b = baos.toByteArray();
+            str_base64imagestring = Base64.encodeToString(b, Base64.DEFAULT);
+            arraylist_image1_base64.clear();
+            arraylist_image1_base64.add(str_base64imagestring);
+            str_base64imagestring="";
+        }
+
+        if(str_image2.equalsIgnoreCase("true"))
+        {
+            str_image2="false";
+            edit_pond_image2_iv.setImageBitmap(userImage1);
+            edit_removeimage2_ib.setVisibility(View.VISIBLE);
+            str_image2present="yes";
+
+            str_base64imagestring="";
+            ByteArrayOutputStream baos = new ByteArrayOutputStream();
+            userImage1.compress(Bitmap.CompressFormat.PNG, 90, baos);
+            byte[] b = baos.toByteArray();
+            str_base64imagestring = Base64.encodeToString(b, Base64.DEFAULT);
+            arraylist_image2_base64.clear();
+            arraylist_image2_base64.add(str_base64imagestring);
+            str_base64imagestring="";
+
+
+        }
+
+
+        if(str_image3.equalsIgnoreCase("true"))
+        {
+            str_image3="false";
+            edit_pond_image3_iv.setImageBitmap(userImage1);
+            edit_removeimage3_ib.setVisibility(View.VISIBLE);
+
+
+            str_validation_for_completed="yes";
+            startdate_LL.setVisibility(View.VISIBLE);
+            completeddate_LL.setVisibility(View.VISIBLE);
+            nodays_LL.setVisibility(View.VISIBLE);
+            machineno_LL.setVisibility(View.VISIBLE);
+            farmpondcompleted_LL.setVisibility(View.VISIBLE);
+            remarks_LL.setVisibility(View.VISIBLE);
+            amount_LL.setVisibility(View.GONE);
+            amountcollected_LL.setVisibility(View.VISIBLE);
+
+
+            ByteArrayOutputStream baos = new ByteArrayOutputStream();
+            userImage1.compress(Bitmap.CompressFormat.PNG, 90, baos);
+            byte[] b = baos.toByteArray();
+            str_base64imagestring = Base64.encodeToString(b, Base64.DEFAULT);
+            arraylist_image3_base64.clear();
+            arraylist_image3_base64.add(str_base64imagestring);
+            str_base64imagestring="";
+
+        }
+
+
+
+        // return str_base64imagestring;
+    }
+//images
+
+//date
+    @SuppressLint("ValidFragment")
+    public static class DatePickerFragment_startdate extends DialogFragment
+            implements DatePickerDialog.OnDateSetListener
+
+    {
+
+        @Override
+        public Dialog onCreateDialog(Bundle savedInstanceState){
+            final Calendar calendar = Calendar.getInstance();
+            int year = calendar.get(Calendar.YEAR);
+            int month = calendar.get(Calendar.MONTH);
+            int day = calendar.get(Calendar.DAY_OF_MONTH);
+
+            DatePickerDialog dpd = new DatePickerDialog(getActivity(),
+                    AlertDialog.THEME_HOLO_LIGHT,this,year,month,day);
+
+            // Create a TextView programmatically.
+            TextView tv = new TextView(getActivity());
+
+            // Create a TextView programmatically
+            android.widget.RelativeLayout.LayoutParams lp = new RelativeLayout.LayoutParams(
+                    ActionBar.LayoutParams.WRAP_CONTENT, // Width of TextView
+                    ActionBar.LayoutParams.WRAP_CONTENT); // Height of TextView
+            tv.setLayoutParams(lp);
+            tv.setPadding(10, 10, 10, 10);
+            tv.setGravity(Gravity.CENTER);
+            tv.setTextSize(TypedValue.COMPLEX_UNIT_DIP,20);
+            tv.setText("This is a custom title.");
+            tv.setTextColor(Color.parseColor("#ff0000"));
+            tv.setBackgroundColor(Color.parseColor("#FFD2DAA7"));
+
+            // Set the newly created TextView as a custom tile of DatePickerDialog
+            //dpd.setCustomTitle(tv);
+
+            // Or you can simply set a tile for DatePickerDialog
+    /*
+        setTitle(CharSequence title)
+            Set the title text for this dialog's window.
+    */
+            // dpd.setTitle("Choose the Date"); // Uncomment this line to activate it
+
+            // Return the DatePickerDialog
+            return  dpd;
+        }
+
+        public void onDateSet(DatePicker view, int year, int month, int day){
+            // Do something with the chosen date
+            populateSetDate(year, month+1, day);
+        }
+        public  void populateSetDate(int year, int month, int day) {
+            //mEdit = (EditText)findViewById(R.id.editText1);
+            //mEdit.setText(month+"/"+day+"/"+year);
+
+            //dateMDY_string=month+"/"+day+"/"+year;
+            // String Dates = year + "-" +(month<10?("0"+month):(month)) + "-" + (day<10?("0"+day):(day));
+
+            String Dates = (day<10?("0"+day):(day)) + "-" +(month<10?("0"+month):(month)) + "-" + year;
+
+            String dateMDY_string=Dates;
+            edit_pond_startddate_tv.setText(Dates);
+
+            //dateMDY_string=year+"-"+month+"-"+day;
+
+            //Toast.makeText(getApplicationContext(), x, 1000).show();
+// tv_fromdate.setText(month+"/"+day+"/"+year);
+            //btn.setText(year+"-"+month+"-"+day);
+        }
+    }// end of datepickerclass
+
+
+
+    @SuppressLint("ValidFragment")
+    public static class DatePickerFragment_todate extends DialogFragment
+            implements DatePickerDialog.OnDateSetListener
+
+    {
+
+        @Override
+        public Dialog onCreateDialog(Bundle savedInstanceState){
+            final Calendar calendar = Calendar.getInstance();
+            int year = calendar.get(Calendar.YEAR);
+            int month = calendar.get(Calendar.MONTH);
+            int day = calendar.get(Calendar.DAY_OF_MONTH);
+
+            DatePickerDialog dpd = new DatePickerDialog(getActivity(),
+                    AlertDialog.THEME_HOLO_LIGHT,this,year,month,day);
+
+            // Create a TextView programmatically.
+            TextView tv = new TextView(getActivity());
+
+            // Create a TextView programmatically
+            android.widget.RelativeLayout.LayoutParams lp = new RelativeLayout.LayoutParams(
+                    ActionBar.LayoutParams.WRAP_CONTENT, // Width of TextView
+                    ActionBar.LayoutParams.WRAP_CONTENT); // Height of TextView
+            tv.setLayoutParams(lp);
+            tv.setPadding(10, 10, 10, 10);
+            tv.setGravity(Gravity.CENTER);
+            tv.setTextSize(TypedValue.COMPLEX_UNIT_DIP,20);
+            tv.setText("This is a custom title.");
+            tv.setTextColor(Color.parseColor("#ff0000"));
+            tv.setBackgroundColor(Color.parseColor("#FFD2DAA7"));
+
+            // Set the newly created TextView as a custom tile of DatePickerDialog
+            //dpd.setCustomTitle(tv);
+
+            // Or you can simply set a tile for DatePickerDialog
+    /*
+        setTitle(CharSequence title)
+            Set the title text for this dialog's window.
+    */
+            // dpd.setTitle("Choose the Date"); // Uncomment this line to activate it
+
+            // Return the DatePickerDialog
+            return  dpd;
+        }
+
+        public void onDateSet(DatePicker view, int year, int month, int day){
+            // Do something with the chosen date
+            populateSetDate(year, month+1, day);
+        }
+        public  void populateSetDate(int year, int month, int day) {
+            //mEdit = (EditText)findViewById(R.id.editText1);
+            //mEdit.setText(month+"/"+day+"/"+year);
+
+            //dateMDY_string=month+"/"+day+"/"+year;
+            // String Dates = year + "-" +(month<10?("0"+month):(month)) + "-" + (day<10?("0"+day):(day));
+
+            String Dates = (day<10?("0"+day):(day)) + "-" +(month<10?("0"+month):(month)) + "-" + year;
+
+            String dateMDY_string=Dates;
+            edit_pond_completeddate_tv.setText(Dates);
+
+            //dateMDY_string=year+"-"+month+"-"+day;
+
+            //Toast.makeText(getApplicationContext(), x, 1000).show();
+// tv_fromdate.setText(month+"/"+day+"/"+year);
+
+            //btn.setText(year+"-"+month+"-"+day);
+
+        }
+    }// end of datepickerclass
+
+//date
+
+
+
+
+
+
+
+
+
+
+
+}// end of class
 

@@ -1888,9 +1888,7 @@ public class ViewFarmers_Activity extends AppCompatActivity {
     public void  DBCreate_MachineDetailsRest(String str_machinename,String str_machineid)
     {
         SQLiteDatabase db1 = this.openOrCreateDatabase("FarmPond_db", Context.MODE_PRIVATE, null);
-
         db1.execSQL("CREATE TABLE IF NOT EXISTS MachineDetails_fromServerRest(SlNo INTEGER PRIMARY KEY AUTOINCREMENT,MachineNameDB VARCHAR,MachineIDDB VARCHAR);");
-
             String SQLiteQuery = "INSERT INTO MachineDetails_fromServerRest (MachineNameDB,MachineIDDB)" +
                     " VALUES ('"+str_machinename+"','"+str_machineid+"');";
 
