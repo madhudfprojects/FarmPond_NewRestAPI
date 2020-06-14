@@ -4,6 +4,7 @@ import android.annotation.SuppressLint;
 import android.app.Activity;
 import android.app.AlertDialog;
 import android.app.ProgressDialog;
+import android.app.Service;
 import android.content.ContentValues;
 import android.content.Context;
 import android.content.DialogInterface;
@@ -16,8 +17,12 @@ import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
 import android.graphics.Color;
 import android.graphics.drawable.Drawable;
+import android.location.Location;
+import android.location.LocationListener;
+import android.location.LocationManager;
 import android.net.Uri;
 import android.os.AsyncTask;
+import android.os.Build;
 import android.os.Environment;
 import android.provider.MediaStore;
 import android.support.v7.app.AppCompatActivity;
@@ -173,12 +178,20 @@ public class AddFarmPondActivity extends AppCompatActivity
     LinearLayout amountcollected_lesser_LL;
 
 
+
+
     private boolean isGPS = false;
+    private boolean canGetLocation = true;
+    ArrayList<String> permissions = new ArrayList<>();
+    ArrayList<String> permissionsToRequest;
+    ArrayList<String> permissionsRejected = new ArrayList<>();
+    private final static int ALL_PERMISSIONS_RESULT = 101;
+    private static final long MIN_DISTANCE_CHANGE_FOR_UPDATES = 10;
+    private static final long MIN_TIME_BW_UPDATES = 1000 * 60 * 1;
+    boolean isGPSON = false;
+    LocationManager locationManager;
+    Location loc;
     ProgressDialog dialog_location;
-    private FusedLocationProviderClient mFusedLocationClient;
-    private LocationRequest locationRequest;
-    private LocationCallback locationCallback;
-    private boolean isContinue = false;
 
 
     @Override
@@ -359,14 +372,11 @@ public class AddFarmPondActivity extends AppCompatActivity
         {
             double_currentlatitude = gpstracker_obj2.getLatitude();
             double_currentlongitude = gpstracker_obj2.getLongitude();
-
-
             str_latitude =Double.toString(double_currentlatitude);
             str_longitude =Double.toString(double_currentlongitude);
 
-
-            latitude_tv.setText(str_latitude);
-            longitude_tv.setText(str_longitude);
+            /*latitude_tv.setText(str_latitude);
+            longitude_tv.setText(str_longitude);*/
 
             Log.e("lat",str_latitude);
             Log.e("long",str_longitude);
@@ -490,7 +500,17 @@ public class AddFarmPondActivity extends AppCompatActivity
 
                 str_image3="true";
 
-                selectImage();
+                if (gps_enable())
+                {
+                    locationManager = (LocationManager) getSystemService(Service.LOCATION_SERVICE);
+                    isGPSON = locationManager.isProviderEnabled(LocationManager.GPS_PROVIDER);
+
+
+                    getLocation();
+                }
+
+
+               // selectImage();
             }
         });
 
@@ -1791,6 +1811,113 @@ public class AddFarmPondActivity extends AppCompatActivity
 
 
 
+
+    //location
+
+    public boolean gps_enable() {
+        isGPS = false;
+        new GpsUtils(this).turnGPSOn(new GpsUtils.onGpsListener() {
+            @Override
+            public void gpsStatus(boolean isGPSEnable) {
+                // turn on GPS
+                isGPS = isGPSEnable;
+            }
+        });
+
+        if (isGPS) {
+            return true;
+        } else {
+            return false;
+        }
+    }
+
+
+    private void getLocation()
+    {
+
+        try {
+            if (canGetLocation)
+            {
+                // Log.d(TAG, "Can get location");
+                if (isGPSON)
+                {
+                    // from GPS
+                    //Log.d(TAG, "GPS on");
+
+                    dialog_location.setMessage("Please wait location fetching...");
+                    dialog_location.setCanceledOnTouchOutside(false);
+                    dialog_location.show();
+
+
+                    for(int i=0;i<=50;i++)
+                    {
+                        locationManager.requestLocationUpdates(
+                                LocationManager.GPS_PROVIDER,
+                                MIN_TIME_BW_UPDATES,
+                                MIN_DISTANCE_CHANGE_FOR_UPDATES, (LocationListener) this);
+                        if(locationManager!=null)
+                        {}else{i--;}
+
+                    }
+                    if (locationManager != null)
+                    {
+                        loc = locationManager.getLastKnownLocation(LocationManager.GPS_PROVIDER);
+                        if (loc != null)
+                        {
+                            try {
+                                Thread.sleep(1 * 500);
+                            } catch (InterruptedException e) {
+                                e.printStackTrace();
+                            }
+
+                            Log.e("cameralat",String.valueOf(loc.getLatitude()));
+                            Log.e("cameralong",String.valueOf(loc.getLongitude()));
+
+                            latitude_tv.setText(str_latitude);
+                            longitude_tv.setText(str_longitude);
+
+                            dialog_location.dismiss();
+
+                            selectImage();
+
+                        }
+                    }
+                    else{
+                        dialog_location.dismiss();
+                    }
+                }
+                /*else if (isNetwork)
+                {
+                    // from Network Provider
+                    Log.d(TAG, "NETWORK_PROVIDER on");
+                    locationManager.requestLocationUpdates(
+                            LocationManager.NETWORK_PROVIDER,
+                            MIN_TIME_BW_UPDATES,
+                            MIN_DISTANCE_CHANGE_FOR_UPDATES, this);
+
+                    if (locationManager != null)
+                    {
+                        loc = locationManager.getLastKnownLocation(LocationManager.NETWORK_PROVIDER);
+
+                    }
+                } */
+                /*else
+                {
+                    loc.setLatitude(0);
+                    loc.setLongitude(0);
+                    updateUI(loc);
+                }*/
+            } else
+            {
+                //Log.d(TAG, "Can't get location");
+            }
+        } catch (SecurityException e) {
+            e.printStackTrace();
+        }
+    }
+
+
+    //location
 
 
 
