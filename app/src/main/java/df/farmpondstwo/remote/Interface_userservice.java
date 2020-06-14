@@ -5,6 +5,8 @@ import com.google.gson.JsonObject;
 
 import java.util.Map;
 
+import df.farmpondstwo.Class_addfarmponddetails_ToFromServer1;
+import df.farmpondstwo.Class_addfarmponddetails_ToFromServer2;
 import df.farmpondstwo.Class_farmponddetails_ToServer;
 import df.farmpondstwo.Models.AddFarmerRequest;
 import df.farmpondstwo.Models.AddFarmerRequestTest;
@@ -85,6 +87,12 @@ public interface Interface_userservice {
   @Headers("Content-Type: application/json;charset=utf-8")
   @POST("Authentication/Post_ActionFarmerData_Test")
   Call<ResponseData>Post_ActionFarmerPondData(@Body Class_farmponddetails_ToServer request);
+
+  @Headers({ "Content-Type: application/json;charset=UTF-8"})
+  @POST("Authentication/Post_ActionFarmerPondData")
+  Call<Class_addfarmponddetails_ToFromServer1>Post_ActionFarmerPondData(@Body Class_addfarmponddetails_ToFromServer2 request);
+
+
 
   Call<AddFarmerResponse> AddFarmerTest(@Part("Farmer_ID") RequestBody Farmer_ID,
                                         @Part("Village_ID") RequestBody Village_ID,
