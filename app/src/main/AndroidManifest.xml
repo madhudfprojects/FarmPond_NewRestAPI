@@ -26,6 +26,17 @@
         android:roundIcon="@drawable/laucher_icon_farmpond"
         android:supportsRtl="true"
         android:theme="@style/AppTheme">
+
+
+        <activity
+            android:name=".EditFarmPondDetails_Activity"
+            android:screenOrientation="portrait"
+            android:theme="@style/AppThemeNoActionBar" />
+        <activity
+            android:name=".AddFarmPondActivity"
+            android:screenOrientation="portrait"
+            android:theme="@style/AppThemeNoActionBar" />
+
         <activity android:name=".ViewFarmers_Activity" />
         <activity android:name=".Activity_FarmerHomeScreen" />
         <activity android:name=".Home_Activity" />
