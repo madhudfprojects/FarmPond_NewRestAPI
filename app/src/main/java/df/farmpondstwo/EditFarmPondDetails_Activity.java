@@ -6,6 +6,7 @@ import android.app.Activity;
 import android.app.DatePickerDialog;
 import android.app.Dialog;
 import android.app.DialogFragment;
+import android.content.ContentValues;
 import android.content.pm.PackageManager;
 import android.database.Cursor;
 import android.database.sqlite.SQLiteDatabase;
@@ -46,6 +47,7 @@ import android.widget.LinearLayout;
 import android.widget.RelativeLayout;
 import android.widget.Spinner;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import com.google.android.gms.location.FusedLocationProviderClient;
 import com.google.android.gms.location.LocationCallback;
@@ -56,11 +58,13 @@ import java.io.File;
 import java.io.FileNotFoundException;
 import java.io.FileOutputStream;
 import java.io.IOException;
+import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Calendar;
 import java.util.Date;
 import java.util.List;
+import java.util.concurrent.TimeUnit;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
@@ -604,13 +608,13 @@ public class EditFarmPondDetails_Activity extends AppCompatActivity {
             @Override
             public void onClick(View v)
             {
-               /* if(validation())
+                if(validation())
                 {
                     // AsyncTask_submit_edited_farmponddetails();
 
                     cancel_submit_ll.setVisibility(View.GONE);
                     update_editedDetails_PondDetails_DB();
-                }*/
+                }
             }
         });
 
@@ -2020,6 +2024,412 @@ public class EditFarmPondDetails_Activity extends AppCompatActivity {
 //date
 
 
+//validation
+
+    public boolean validation()
+    {
+        boolean b_pond_width1, b_pond_width2, b_pond_height1, b_pond_height2, b_pond_depth1, b_pond_depth2, b_pondimages,
+                b_pond_completed_date, b_no_days, b_datevalidation,b_enteramount,b_reason;
+
+        b_pond_width1 = b_pond_width2 = b_pond_height1 = b_pond_height2 = b_pond_depth1 = b_pond_depth2 = b_pondimages
+                = b_pond_completed_date = b_no_days = b_datevalidation=b_enteramount =b_reason=true;;
+
+
+        if (edit_pondwidth_et.getText().toString().length() == 0) {
+            edit_pondwidth_et.setError("Empty not allowed");
+            edit_pondwidth_et.requestFocus();
+            b_pond_width1 = false;
+        }
+
+        if (edit_pondwidth_et.getText().toString().length() <= 1) {
+            edit_pondwidth_et.setError("Enter Valid Width");
+            edit_pondwidth_et.requestFocus();
+            b_pond_width2 = false;
+        }
+
+        if (edit_pondheight_et.getText().toString().length() == 0) {
+            edit_pondheight_et.setError("Empty not allowed");
+            edit_pondheight_et.requestFocus();
+            b_pond_height1 = false;
+        }
+        if (edit_pondheight_et.getText().toString().length() <= 1) {
+            edit_pondheight_et.setError("Enter Valid Height");
+            edit_pondheight_et.requestFocus();
+            b_pond_height2 = false;
+        }
+
+
+        if (edit_ponddepth_et.getText().toString().length() == 0) {
+            edit_ponddepth_et.setError("Empty not allowed");
+            edit_ponddepth_et.requestFocus();
+            b_pond_depth1 = false;
+        }
+
+        if (edit_ponddepth_et.getText().toString().length() <= 1) {
+            edit_ponddepth_et.setError("Enter Valid Depth");
+            edit_ponddepth_et.requestFocus();
+            b_pond_depth2 = false;
+        }
+
+        // if (arraylist_image1_base64.size() == 0 || arraylist_image2_base64.size() == 0 || arraylist_image3_base64.size() == 0)
+            /*if (arraylist_image1_base64.size() == 0 ||
+                    arraylist_image2_base64.size() == 0 ||
+                    arraylist_image3_base64.size() == 0)*/
+           /* if(arraylist_image1_base64.get(0).equalsIgnoreCase("noimage1") ||
+                    arraylist_image2_base64.get(0).equalsIgnoreCase("noimage2"))*/
+
+        if(arraylist_image1_base64.get(0).equalsIgnoreCase("noimage1"))
+        {
+            Toast.makeText(getApplication(), "Add the 1st Pond Image", Toast.LENGTH_LONG).show();
+            b_pondimages = false;
+        }
+        else
+        {
+            if((str_image2present.equalsIgnoreCase("no")&&
+                    str_image3present.equalsIgnoreCase("yes")))
+            {
+                Toast.makeText(getApplication(),"Add the 2nd Pond Image",Toast.LENGTH_LONG).show();
+                b_pondimages=false;
+            }
+        }
+
+        if (str_validation_for_completed.equalsIgnoreCase("yes"))
+        {
+            // b_add_completed_date,b_no_days
+            if (edit_pond_completeddate_tv.getText().toString().equalsIgnoreCase("Click-for_calendar") ||
+                    edit_pond_completeddate_tv.getText().toString().equalsIgnoreCase("0")) {
+                Toast.makeText(getApplication(), "Add the completed Date", Toast.LENGTH_LONG).show();
+                b_pond_completed_date = false;
+            }
+            //Log.e("length", String.valueOf(add_newpond_no_of_days_et.getText().toString().trim().length()));
+            if (edit_pond_no_of_days_et.getText().toString().trim().length() <= 0) {
+                Toast.makeText(getApplication(), "Add days", Toast.LENGTH_LONG).show();
+                edit_pond_no_of_days_et.setError("Enter the Days");
+                edit_pond_no_of_days_et.requestFocus();
+                b_no_days = false;
+            }
+
+            // }
+
+
+            if(edit_pond_total_amount_tv.getText().toString().trim().length()>0)
+            {
+                if(edit_pond_total_amount_tv.getText().toString().equalsIgnoreCase("0"))
+                {
+                    Toast.makeText(getApplication(),"Enter No of days",Toast.LENGTH_LONG).show();
+                    /*edit_pond_total_amount_tv.setError("Enter the Days");
+                    edit_pond_total_amount_tv.requestFocus();*/
+                    b_no_days=false;
+                }
+            }
+
+            if(edit_amountcollected_et.getText().toString().trim().length()==0)
+            {
+                edit_amountcollected_et.setError("Enter Amount");
+                b_enteramount=false;
+            }
+
+            /*if(edit_amountcollected_et.getText().toString().trim().length()>0)
+            {
+                int x= Integer.parseInt(edit_amountcollected_et.getText().toString().trim());
+                if(x<=0) {
+                    edit_amountcollected_et.setError("Enter Valid Amount");
+                    b_enteramount = false;
+                }
+            }*/
+
+
+            if(str_remarksid.equalsIgnoreCase("100"))
+            {
+                Toast.makeText(getApplicationContext(), "Select the reason", Toast.LENGTH_SHORT).show();
+                b_reason=false;
+            }
+
+
+            if (edit_pond_no_of_days_et.getText().toString().equalsIgnoreCase(".") ||
+                    edit_pond_no_of_days_et.getText().toString().equalsIgnoreCase("0")) {
+                Toast.makeText(getApplication(), "Add days", Toast.LENGTH_LONG).show();
+                edit_pond_no_of_days_et.setError("Enter the Days");
+                edit_pond_no_of_days_et.requestFocus();
+                b_no_days = false;
+            }
+
+
+            if (edit_pond_no_of_days_et.getText().toString().trim().length() >= 0) {
+                SimpleDateFormat myFormat = new SimpleDateFormat("dd-MM-yyyy");
+                try {
+                    startDate = myFormat.parse(edit_pond_startddate_tv.getText().toString());   // initialize start date
+                } catch (ParseException e) {
+                    e.printStackTrace();
+                }
+                try {
+                    endDate = myFormat.parse(edit_pond_completeddate_tv.getText().toString());
+                } catch (ParseException e) {
+                    e.printStackTrace();
+                }
+
+                long long_days = endDate.getTime() - startDate.getTime();
+                long long_diffdays = TimeUnit.DAYS.convert(long_days, TimeUnit.MILLISECONDS);
+                long_diffdays = long_diffdays + 1;
+                Log.e("days", String.valueOf(long_diffdays));
+
+
+                long long_entereddays;
+
+                if (edit_pond_no_of_days_et.getText().toString().equalsIgnoreCase(".")
+                        || edit_pond_total_amount_tv.getText().toString().equalsIgnoreCase("0")) {
+                } else {
+
+
+                    if (edit_pond_no_of_days_et.getText().toString().trim().length() <= 0) {
+                        long_entereddays = 0;
+                    } else {
+
+                        String x = edit_pond_no_of_days_et.getText().toString().trim();
+                        long_entereddays = (long) Double.parseDouble(x);
+                        ;
+                        //long_entereddays = Long.parseLong(edit_pond_no_of_days_et.getText().toString().trim());
+                    }
+
+
+                    if (long_diffdays >= long_entereddays) {
+                    } else {
+                        // edit_pond_no_of_days_et.setError("No of Days is more than Completed Date");
+                        Toast.makeText(getApplication(), "No of Days is more than Completed Date", Toast.LENGTH_LONG).show();
+                        b_no_days = false;
+                    }
+
+                }
+
+            }
+
+
+            if ((edit_pond_startddate_tv.getText().toString().trim().length() != 0) &&
+                    (edit_pond_completeddate_tv.getText().toString().trim().length() != 0)) {
+        /*if(date1.compareTo(date2)<0){ //0 comes when two date are same,
+            //1 comes when date1 is higher then date2
+            //-1 comes when date1 is lower then date2 }*/
+
+                SimpleDateFormat mdyFormat = new SimpleDateFormat("dd-MM-yyyy");  //2017-06-22
+
+
+                String str_ddmmyyyy_startdate = edit_pond_startddate_tv.getText().toString().trim();
+                String str_ddmmyyyy_completedate = edit_pond_completeddate_tv.getText().toString().trim();
+
+
+                try {
+                    Date fromdate = mdyFormat.parse(str_ddmmyyyy_startdate);
+                    Date todate = mdyFormat.parse(str_ddmmyyyy_completedate);
+
+                    if (fromdate.compareTo(todate) <= 0) {
+                        b_datevalidation = true;
+                    } else {
+                        Toast.makeText(getApplicationContext(), "Kindly enter valid date", Toast.LENGTH_SHORT).show();
+                        b_datevalidation = false;
+                    }
+                } catch (ParseException e) {
+                    e.printStackTrace();
+                }//end of try catch
+
+            }
+
+        }
+
+
+
+        return ( b_pond_width1&&b_pond_width2&&b_pond_height1&&b_pond_height2&&b_pond_depth1&&b_pond_depth2&&b_pondimages
+                &&b_pond_completed_date&&b_no_days&&b_datevalidation&&b_enteramount&&b_reason);
+    }
+
+
+
+//validation
+
+
+
+
+
+    public void update_editedDetails_PondDetails_DB()
+    {
+
+
+        SQLiteDatabase db1 = this.openOrCreateDatabase("PondDetails_DB", Context.MODE_PRIVATE, null);
+        db1.execSQL("CREATE TABLE IF NOT EXISTS FarmPondDetails_fromServerRest(SlNo INTEGER PRIMARY KEY AUTOINCREMENT,FIDDB VARCHAR,TempFIDDB VARCHAR," +
+                "FNameDB VARCHAR,FMNameDB VARCHAR,FLNameDB VARCHAR,FYearIDDB VARCHAR,FStateIDDB VARCHAR,FDistrictIDDB VARCHAR," +
+                "FTalukIDDB VARCHAR,FPanchayatIDDB VARCHAR,FVillageIDDB VARCHAR,FageDB VARCHAR,FphonenumberDB VARCHAR," +
+                "FAnnualIncomeDB VARCHAR,FfamilymemberDB VARCHAR,FidprooftypeDB VARCHAR,FidproofnoDB VARCHAR,FphotoDB VARCHAR,FPondidDB VARCHAR,WidthDB VARCHAR," +
+                "HeightDB VARCHAR,DepthDB VARCHAR,LatitudeDB VARCHAR,LongitudeDB VARCHAR,Imageid1DB VARCHAR,Image1Base64DB VARCHAR," +
+                "Imageid2DB VARCHAR,Image2Base64DB VARCHAR,Imageid3DB VARCHAR,Image3Base64DB VARCHAR,EmployeeIDDB VARCHAR,SubmittedDateDB VARCHAR," +
+                "TotalDaysDB VARCHAR,StartDateDB VARCHAR,ConstructedDateDB VARCHAR,PondCostDB VARCHAR,McodeDB VARCHAR,FPondCodeDB VARCHAR," +
+                "FPondRemarksDB VARCHAR,FPondAmtTakenDB VARCHAR,FPondStatusDB VARCHAR," +
+                "FPondApprovalStatusDB VARCHAR,FPondApprovalRemarksDB VARCHAR,FPondApprovedbyDB VARCHAR,FPondApprovedDateDB VARCHAR,FPondDonorDB VARCHAR," +
+                "FPondLatitudeDB VARCHAR,FPondLongitudeDB VARCHAR," +
+                "FPondAcresDB VARCHAR,FPondGuntaDB VARCHAR,FPondCropBeforeDB VARCHAR,FPondCropAfterDB VARCHAR," +
+                "UploadedStatusFarmerprofile VARCHAR,UploadedStatus VARCHAR);");
+
+
+        String str_completeddate, str_nodays, str_pondcost, str_mcode, str_startdate,
+                str_farmpond_remarks,str_farmpond_amttaken,str_farmpondstatus;
+
+
+   /* Log.e("aftereditDate",edit_pond_completeddate_tv.getText().toString());
+    Log.e("aftereditdays",edit_pond_no_of_days_et.getText().toString());
+    Log.e("aftereditamount",edit_pond_total_amount_tv.getText().toString());
+    Log.e("aftereditmachine",str_machinecode);*/
+
+        if (str_validation_for_completed.equalsIgnoreCase("yes"))
+        {
+            str_completeddate = edit_pond_completeddate_tv.getText().toString();
+            str_nodays = edit_pond_no_of_days_et.getText().toString();
+
+            str_startdate = edit_pond_startddate_tv.getText().toString();
+            str_pondcost = edit_pond_total_amount_tv.getText().toString();
+            str_mcode = str_machinecode;
+
+            str_farmpond_remarks=str_remarksid;
+            //str_farmpond_amttaken=add_newpond_amountcollected_et.getText().toString();
+
+            str_farmpond_amttaken=edit_amountcollected_et.getText().toString();
+            str_farmpondstatus="3";
+
+        } else {
+            str_startdate = "0";
+            str_completeddate = "0";
+            str_nodays = "0";
+
+
+            str_pondcost = "0";
+            str_mcode = "0";
+            str_farmpond_remarks="4";
+            str_farmpond_amttaken="0";
+            str_farmpondstatus="3";
+        }
+
+
+        try {
+
+//String selectQuery = "UPDATE Table_Name SET uploadstatus = '0' WHERE id = "+update[i]+";";
+
+            Log.e("farmpondID", str_farmpond_id);
+            ContentValues cv = new ContentValues();
+    /*cv.put("FIDDB","Bob");
+    cv.put("FNameDB","19");*/
+
+            Log.e("Imageid1DB",image_id1_tv.getText().toString());
+            Log.e("Imageid2DB",image_id2_tv.getText().toString());
+            Log.e("Imageid3DB",image_id3_tv.getText().toString());
+
+
+            if(arraylist_image1_base64.isEmpty())
+            { arraylist_image1_base64.add("noimage1");}
+            if(arraylist_image2_base64.isEmpty())
+            {  arraylist_image2_base64.add("noimage2"); }
+            if( arraylist_image3_base64.isEmpty())
+            {arraylist_image3_base64.add("noimage3"); }
+
+
+        /*arraylist_image1_base64.add("noimage1");
+        arraylist_image2_base64.add("noimage2");
+        arraylist_image3_base64.add("noimage3");*/
+
+
+
+            //EmployeeIDDB
+            cv.put("WidthDB", edit_pondwidth_et.getText().toString());
+            cv.put("HeightDB", edit_pondheight_et.getText().toString());
+            cv.put("DepthDB", edit_ponddepth_et.getText().toString());
+
+
+            // "FPondAcresDB VARCHAR,FPondGuntaDB VARCHAR,FPondCropBeforeDB VARCHAR,FPondCropAfterDB VARCHAR," +
+            cv.put("FPondAcresDB", edit_landacres_et.getText().toString());
+            cv.put("FPondGuntaDB", edit_landgunta_et.getText().toString());
+            cv.put("FPondCropBeforeDB"," ");
+            cv.put("FPondCropAfterDB"," ");
+
+            cv.put("Imageid1DB", image_id1_tv.getText().toString());
+            cv.put("Image1Base64DB", arraylist_image1_base64.get(0));
+            cv.put("Imageid2DB", image_id2_tv.getText().toString());
+            cv.put("Image2Base64DB", arraylist_image2_base64.get(0));
+            cv.put("Imageid3DB", image_id3_tv.getText().toString());
+            cv.put("Image3Base64DB", arraylist_image3_base64.get(0));
+            cv.put("EmployeeIDDB", str_employee_id);
+
+
+        /*if(str_location.equalsIgnoreCase("yes")) {
+            cv.put("LatitudeDB", str_latitude);
+            cv.put("LongitudeDB", str_longitude);
+        }else{
+            cv.put("LatitudeDB", "0.0");
+            cv.put("LongitudeDB", "0.0");
+        }*/
+
+            Log.e("updateLatitude",str_latitude);
+            Log.e("updateLongitude",str_longitude);
+
+            cv.put("LatitudeDB", str_latitude);
+            cv.put("LongitudeDB", str_longitude); // vijaylat
+
+            cv.put("FPondLatitudeDB", str_latitude);
+            cv.put("FPondLongitudeDB", str_longitude);
+
+            cv.put("StartDateDB", str_startdate);
+            cv.put("SubmittedDateDB", str_submitteddatetime);
+            cv.put("TotalDaysDB", str_nodays);
+            cv.put("ConstructedDateDB", str_completeddate);
+            cv.put("PondCostDB", str_pondcost);
+            cv.put("McodeDB", str_mcode);
+            cv.put("FPondRemarksDB", str_farmpond_remarks);
+            cv.put("FPondAmtTakenDB", str_farmpond_amttaken);
+            cv.put("FPondStatusDB", "3");
+
+
+    /*"Imageid2DB VARCHAR,Image2Base64DB VARCHAR,Imageid3DB VARCHAR,Image3Base64DB VARCHAR,EmployeeIDDB VARCHAR,SubmittedDateDB VARCHAR," +
+            "TotalDaysDB VARCHAR,ConstructedDateDB VARCHAR,PondCostDB VARCHAR,McodeDB VARCHAR,FPondCodeDB VARCHAR," +
+            "UploadedStatusFarmerprofile VARCHAR,UploadedStatus VARCHAR);");*/
+
+
+            if (str_farmpond_id.contains("tempfarmpond")) {
+                cv.put("UploadedStatus", 2);
+            } else {
+                cv.put("UploadedStatus", 1);
+            }
+
+
+            db1.update("FarmPondDetails_fromServer", cv, "FPondidDB = ?", new String[]{str_farmpond_id});
+
+    /*Cursor cursor1 = db1.rawQuery("SELECT DISTINCT * FROM FarmPondDetails_fromServer WHERE FPondidDB='" + str_farmerpondID + "'", null);
+    int x = cursor1.getCount();*/
+
+            db1.close();
+
+
+       /* Toast.makeText(getApplicationContext(), "Edition Updated Successfully", Toast.LENGTH_SHORT).show();
+        Intent intent = new Intent(EditFarmPondDetails_Activity.this, EachFarmPondDetails_Activity.class);
+        startActivity(intent);
+        finish();*/
+
+            internetDectector = new Class_InternetDectector(getApplicationContext());
+            isInternetPresent = internetDectector.isConnectingToInternet();
+
+            if(isInternetPresent) {
+               /* fetch_DB_farmerprofile_offline_data();
+                fetch_DB_edited_offline_data();*/
+            }
+            else{
+                Toast.makeText(getApplicationContext(), "Edition Updated Successfully", Toast.LENGTH_SHORT).show();
+                Intent intent = new Intent(EditFarmPondDetails_Activity.this, EachFarmPondDetails_Activity.class);
+                startActivity(intent);
+                finish();
+            }
+
+
+        } catch (Exception e) {
+            e.printStackTrace();
+            Toast.makeText(getApplicationContext(),"error"+e.toString(),Toast.LENGTH_SHORT).show();
+        }
+
+
+    }
 
 
 
