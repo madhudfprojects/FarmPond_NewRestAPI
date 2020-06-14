@@ -1,9 +1,1089 @@
 <?xml version="1.0" encoding="utf-8"?>
-<android.support.constraint.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
-    xmlns:app="http://schemas.android.com/apk/res-auto"
+<LinearLayout
+    xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    tools:context="df.farmpondstwo.EditFarmPondDetails_Activity">
+    android:orientation="vertical"
+    tools:context=".EditFarmPondDetails_Activity">
 
-</android.support.constraint.ConstraintLayout>
+    <include
+        android:id="@+id/toolbar_farmponddetails"
+        layout="@layout/titlebar_custom" />
+    <ScrollView
+        xmlns:android="http://schemas.android.com/apk/res/android"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:background="#ffffff"
+        >
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:orientation="vertical"
+            android:layout_margin="15dp"
+            >
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:orientation="horizontal"
+                android:gravity="center_vertical"
+                android:layout_marginTop="10dp"
+                >
+                <TextView
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    android:text="FarmerName"
+                    android:textSize="30px"
+                    android:layout_weight="1"
+                    android:gravity="center"
+                    android:textColor="#20b6e8"
+                    />
+            </LinearLayout>
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:orientation="horizontal"
+                android:gravity="center_vertical"
+                android:layout_marginTop="10dp"
+                >
+                <TextView
+                    android:id="@+id/edit_ponddetails_farmername_et"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:hint="Enter FarmerName"
+                    android:textSize="20dp"
+                    android:gravity="center"
+                    android:textColor="@color/colorPrimaryDark"
+                    />
+            </LinearLayout>
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginLeft="60dp"
+                android:gravity="center_vertical"
+                android:orientation="horizontal">
+
+                <TextView
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    android:layout_weight="0.54"
+                    android:gravity="center_horizontal"
+                    android:text="Pond Width"
+                    android:textColor="@color/light_gray"
+                    android:textSize="15dp" />
+
+                <EditText
+                    android:id="@+id/edit_pondwidth_et"
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    android:layout_weight="1"
+                    android:maxLength="4"
+                    android:digits="0123456789"
+                    android:inputType="number"
+                    android:backgroundTint="@android:color/holo_red_light"
+                    android:textColor="@color/dark_black"
+                    android:textSize="17dp" />
+            </LinearLayout>
+
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginLeft="60dp"
+                android:gravity="center_vertical"
+                android:orientation="horizontal">
+
+                <TextView
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    android:layout_weight="0.54"
+                    android:gravity="center_horizontal"
+                    android:text="Pond Length"
+                    android:digits="0123456789"
+                    android:textColor="@color/light_gray"
+                    android:textSize="15dp" />
+
+                <EditText
+                    android:id="@+id/edit_pondheight_et"
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    android:maxLength="4"
+                    android:layout_weight="1"
+                    android:inputType="number"
+                    android:backgroundTint="@android:color/holo_red_light"
+                    android:textColor="@color/dark_black"
+                    android:textSize="17dp" />
+            </LinearLayout>
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginLeft="60dp"
+                android:gravity="center_vertical"
+                android:orientation="horizontal">
+
+                <TextView
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    android:layout_weight="0.54"
+                    android:gravity="center_horizontal"
+                    android:text="Pond Depth"
+                    android:textColor="@color/light_gray"
+                    android:textSize="15dp" />
+
+                <EditText
+                    android:id="@+id/edit_ponddepth_et"
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    android:layout_weight="1"
+                    android:maxLength="4"
+                    android:digits="0123456789"
+                    android:inputType="number"
+                    android:text=""
+                    android:backgroundTint="@android:color/holo_red_light"
+                    android:textColor="@color/dark_black"
+                    android:textSize="17dp" />
+            </LinearLayout>
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginLeft="60dp"
+                android:gravity="center_vertical"
+                android:orientation="horizontal">
+
+                <TextView
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    android:layout_weight="0.54"
+                    android:gravity="center_horizontal"
+                    android:text="Land Acres"
+                    android:textColor="@color/light_gray"
+                    android:textSize="15dp" />
+
+                <EditText
+                    android:id="@+id/edit_landacres_et"
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    android:layout_weight="1"
+                    android:maxLength="3"
+                    android:digits="0123456789"
+                    android:inputType="number"
+                    android:text=""
+                    android:backgroundTint="@android:color/holo_red_light"
+                    android:textColor="@color/dark_black"
+                    android:textSize="17dp" />
+            </LinearLayout>
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginLeft="60dp"
+                android:gravity="center_vertical"
+                android:orientation="horizontal">
+
+                <TextView
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    android:layout_weight="0.54"
+                    android:gravity="center_horizontal"
+                    android:text="Land Gunta"
+                    android:textColor="@color/light_gray"
+                    android:textSize="15dp" />
+
+                <EditText
+                    android:id="@+id/edit_landgunta_et"
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    android:layout_weight="1"
+                    android:maxLength="2"
+                    android:digits="0123456789"
+                    android:inputType="number"
+                    android:text=""
+                    android:backgroundTint="@android:color/holo_red_light"
+                    android:textColor="@color/dark_black"
+                    android:textSize="17dp" />
+            </LinearLayout>
+
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginLeft="60dp"
+                android:layout_marginTop="10dp"
+                android:gravity="center_vertical"
+                android:orientation="horizontal">
+
+                <TextView
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    android:layout_weight="0.54"
+                    android:gravity="center_horizontal"
+                    android:text="Submitted By:"
+                    android:textColor="@color/light_gray"
+                    android:textSize="15dp" />
+
+                <TextView
+                    android:id="@+id/submittedby_tv"
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    android:layout_weight="1"
+                    android:text=""
+                    android:textStyle="italic"
+
+                    android:backgroundTint="@android:color/holo_red_light"
+                    android:textColor="@color/dark_black"/>
+            </LinearLayout>
+
+            <LinearLayout
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginLeft="10dp"
+                android:layout_marginTop="10dp"
+                android:gravity="center_vertical"
+                android:visibility="gone"
+                android:orientation="horizontal">
+
+                <ImageView
+                    android:id="@+id/add_newpond_image1_1iv"
+                    android:layout_width="100dp"
+                    android:layout_height="100dp"
+                    android:layout_weight="0.5"
+                    android:gravity="center_horizontal"
+                    android:src="@mipmap/ic_launcher"
+                    />
+
+                <TextView
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    android:layout_weight="1"
+                    android:text="  "
+                    android:textColor="@color/dark_black"
+                    android:textSize="10dp" />
+
+                <ImageView
+                    android:id="@+id/add_newpond_image2_1iv"
+                    android:layout_width="100dp"
+                    android:layout_height="100dp"
+                    android:layout_weight="0.5"
+                    android:gravity="center_horizontal"
+                    android:src="@mipmap/ic_launcher"
+                    />
+
+                <TextView
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    android:layout_weight="1"
+                    android:text="  "
+                    android:textColor="@color/dark_black"
+                    android:textSize="10dp" />
+
+                <ImageView
+                    android:id="@+id/add_newpond_image3_1iv"
+                    android:layout_width="100dp"
+                    android:layout_height="100dp"
+                    android:layout_weight="0.5"
+                    android:gravity="center_horizontal"
+                    android:src="@mipmap/ic_launcher"
+                    />
+            </LinearLayout>
+
+
+
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="25dp"
+                android:gravity="center_vertical"
+                android:orientation="horizontal">
+
+
+                <TextView
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    android:layout_weight="0.54"
+                    android:gravity="center"
+                    android:text="Before Construction"
+                    android:textColor="@color/light_gray"
+                    android:textSize="13dp" />
+
+
+                <TextView
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    android:layout_weight="0.52"
+                    android:gravity="center"
+                    android:text="During                Construction"
+                    android:textColor="@color/light_gray"
+                    android:textSize="13dp" />
+
+                <TextView
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    android:layout_weight="0.52"
+                    android:gravity="center"
+                    android:text="After           Construction"
+                    android:textColor="@color/light_gray"
+                    android:textSize="13dp" />
+
+            </LinearLayout>
+
+
+
+
+
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginLeft="5dp"
+                android:gravity="center_vertical"
+                android:orientation="horizontal">
+
+
+                <RelativeLayout
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:gravity="center"
+                    android:paddingTop="20dp"
+                    android:layout_gravity="center"
+                    >
+
+                    <ImageView
+                        android:layout_width="100dp"
+                        android:layout_height="100dp"
+                        android:scaleType="fitXY"
+                        android:scaleX="1"
+                        android:scaleY="1"
+                        android:src="@drawable/add_farmpond_image"
+                        android:id="@+id/edit_pond_image1_iv" />
+
+                    <ImageButton
+                        android:visibility="gone"
+                        android:id="@+id/edit_removeimage1_ib"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:background="@android:drawable/ic_delete"
+                        android:layout_alignRight="@+id/edit_pond_image1_iv"
+                        android:layout_alignTop="@+id/edit_pond_image1_iv"
+                        android:layout_alignEnd="@+id/edit_pond_image1_iv" />
+                </RelativeLayout>
+
+                <TextView
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    android:layout_weight="1"
+                    android:text="  "
+                    android:textColor="@color/dark_black"
+                    android:textSize="10dp" />
+
+                <RelativeLayout
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:gravity="center"
+                    android:paddingTop="20dp"
+                    android:layout_gravity="center"
+                    >
+
+                    <ImageView
+                        android:layout_width="100dp"
+                        android:layout_height="100dp"
+                        android:scaleType="fitXY"
+                        android:scaleX="1"
+                        android:scaleY="1"
+                        android:src="@drawable/add_farmpond_image"
+                        android:id="@+id/edit_pond_image2_iv" />
+
+                    <ImageButton
+                        android:id="@+id/edit_removeimage2_ib"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_alignTop="@+id/edit_pond_image2_iv"
+                        android:layout_alignEnd="@+id/edit_pond_image2_iv"
+                        android:layout_alignRight="@+id/edit_pond_image2_iv"
+                        android:background="@android:drawable/ic_delete"
+                        android:visibility="gone" />
+                </RelativeLayout>
+
+                <TextView
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    android:layout_weight="1"
+                    android:text="  "
+                    android:textColor="@color/dark_black"
+                    android:textSize="10dp" />
+
+                <RelativeLayout
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:gravity="center"
+                    android:paddingTop="20dp"
+                    android:layout_gravity="center"
+                    >
+
+                    <ImageView
+                        android:layout_width="100dp"
+                        android:layout_height="100dp"
+                        android:scaleType="fitXY"
+                        android:scaleX="1"
+                        android:scaleY="1"
+                        android:src="@drawable/add_farmpond_image"
+                        android:id="@+id/edit_pond_image3_iv" />
+
+                    <ImageButton
+                        android:visibility="gone"
+                        android:id="@+id/edit_removeimage3_ib"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:background="@android:drawable/ic_delete"
+                        android:layout_alignRight="@+id/edit_pond_image3_iv"
+                        android:layout_alignTop="@+id/edit_pond_image3_iv"
+                        android:layout_alignEnd="@+id/edit_pond_image3_iv" />
+                </RelativeLayout>
+
+            </LinearLayout>
+
+
+
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="5dp"
+                android:layout_marginLeft="20dp"
+                android:gravity="center_vertical"
+
+                android:orientation="horizontal">
+
+                <TextView
+                    android:layout_width="0dp"
+                    android:id="@+id/image_id1_tv"
+                    android:layout_height="wrap_content"
+                    android:layout_weight="0.54"
+                    android:gravity="center_horizontal"
+                    android:textColor="@color/light_gray"
+                    android:textSize="15dp" />
+
+
+                <TextView
+                    android:layout_width="0dp"
+                    android:id="@+id/image_id2_tv"
+                    android:layout_height="wrap_content"
+                    android:layout_weight="0.54"
+                    android:gravity="center_horizontal"
+                    android:textColor="@color/light_gray"
+                    android:textSize="15dp" />
+
+                <TextView
+                    android:layout_width="0dp"
+                    android:id="@+id/image_id3_tv"
+                    android:layout_height="wrap_content"
+                    android:layout_weight="0.54"
+                    android:gravity="center_horizontal"
+                    android:textColor="@color/light_gray"
+                    android:textSize="15dp" />
+            </LinearLayout>
+
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="6dp"
+                android:gravity="start"
+                android:orientation="horizontal">
+
+                <TextView
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    android:layout_weight="0.54"
+                    android:gravity="start"
+                    android:text="Please submit the data in online mode \n for accurate pond location"
+                    android:textAppearance="@style/TextAppearance.MaterialComponents.Subtitle1"
+                    android:textColor="@color/color_red"
+                    android:textSize="15dp" />
+
+            </LinearLayout>
+
+
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="10dp"
+                android:gravity="start"
+                android:id="@+id/farmpondlocationlabel_LL"
+                android:orientation="horizontal">
+
+                <TextView
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    android:layout_weight="0.54"
+                    android:gravity="start"
+                    android:text="FarmPond Location:"
+                    android:textAppearance="@style/TextAppearance.MaterialComponents.Subtitle1"
+                    android:textColor="@color/dark_black_red"
+                    android:textSize="15dp" />
+
+            </LinearLayout>
+
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginLeft="30dp"
+                android:gravity="center_vertical"
+                android:id="@+id/currentlatitude_LL"
+                android:orientation="horizontal">
+
+                <TextView
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    android:layout_weight="0.54"
+                    android:text="Latitude"
+                    android:textColor="@color/light_gray"
+                    android:textSize="15dp" />
+
+                <TextView
+                    android:id="@+id/latitude_tv"
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    android:layout_weight="0.54"
+                    android:gravity="center_horizontal"
+                    android:text=""
+                    android:textColor="@color/light_gray"
+                    android:textSize="15dp" />
+            </LinearLayout>
+
+
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginLeft="30dp"
+                android:gravity="center_vertical"
+                android:id="@+id/currentlongitude_LL"
+                android:orientation="horizontal">
+
+                <TextView
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    android:layout_weight="0.54"
+                    android:text="longitude"
+                    android:textColor="@color/light_gray"
+                    android:textSize="15dp" />
+
+                <TextView
+                    android:id="@+id/longitude_tv"
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    android:layout_weight="0.54"
+                    android:gravity="center_horizontal"
+                    android:text=""
+                    android:textColor="@color/light_gray"
+                    android:textSize="15dp" />
+            </LinearLayout>
+
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginLeft="30dp"
+                android:gravity="center_vertical"
+                android:id="@+id/dblatitude_LL"
+                android:orientation="horizontal">
+
+                <TextView
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    android:layout_weight="0.54"
+                    android:text="Latitude"
+                    android:textColor="@color/light_gray"
+                    android:textSize="15dp" />
+
+                <TextView
+                    android:id="@+id/dblatitude_tv"
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    android:layout_weight="0.54"
+                    android:gravity="center_horizontal"
+                    android:text=""
+                    android:textColor="@color/light_gray"
+                    android:textSize="15dp" />
+            </LinearLayout>
+
+
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginLeft="30dp"
+                android:gravity="center_vertical"
+                android:id="@+id/dblongitude_LL"
+                android:orientation="horizontal">
+
+                <TextView
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    android:layout_weight="0.54"
+                    android:text="longitude"
+                    android:textColor="@color/light_gray"
+                    android:textSize="15dp" />
+
+                <TextView
+                    android:id="@+id/dblongitude_tv"
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    android:layout_weight="0.54"
+                    android:gravity="center_horizontal"
+                    android:text=""
+                    android:textColor="@color/light_gray"
+                    android:textSize="15dp" />
+            </LinearLayout>
+
+
+
+
+
+
+
+
+
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="10dp"
+                android:gravity="center"
+                android:id="@+id/notcompleted_text_LL"
+                android:orientation="horizontal">
+
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="Farm-Pond Under Construction"
+                    android:textAppearance="@style/TextAppearance.MaterialComponents.Subtitle1"
+                    android:textColor="@color/color_red"
+                    android:visibility="visible"
+                    android:textSize="15dp" />
+
+            </LinearLayout>
+
+
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="90dp"
+                android:layout_marginTop="10dp"
+                android:layout_marginLeft="20dp"
+                android:gravity="center_vertical"
+                android:id="@+id/farmpondcompleted_LL"
+                android:orientation="horizontal">
+
+                <CheckBox
+                    android:id="@+id/edit_farmpond_completed_cb"
+                    android:layout_width="wrap_content"
+                    android:layout_height="40dp"
+                    android:layout_marginTop="5dp"
+                    android:clickable="false"
+                    android:checked="true"
+                    android:buttonTint="@color/vivid_cyan"
+                    android:layoutDirection="rtl"
+                    android:text="Farmpond Completed"
+                    />
+            </LinearLayout>
+
+
+
+
+            <LinearLayout
+                android:id="@+id/startdate_LL"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:gravity="center"
+                android:orientation="horizontal">
+
+                <TextView
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    android:layout_weight="0.54"
+                    android:gravity="center"
+                    android:text="Start Date : "
+                    android:textColor="@color/dark_black"
+                    android:textSize="15dp" />
+
+                <TextView
+                    android:id="@+id/edit_pond_startddate_tv"
+                    android:layout_width="0dp"
+                    android:layout_height="40dp"
+                    android:layout_weight="1"
+                    android:background="@drawable/shadow_new"
+                    android:gravity="center"
+                    android:text="Click-for-calendar"
+                    android:textColor="@color/dark_black"
+                    android:textSize="17dp" />
+            </LinearLayout>
+
+
+
+
+
+
+
+            <LinearLayout
+                android:id="@+id/completeddate_LL"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="15dp"
+                android:gravity="center"
+                android:orientation="horizontal">
+
+                <TextView
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    android:layout_weight="0.54"
+                    android:gravity="center"
+                    android:text="Completed Date : "
+                    android:textColor="@color/dark_black"
+                    android:textSize="15dp" />
+
+                <TextView
+                    android:id="@+id/edit_pond_completeddate_tv"
+                    android:layout_width="0dp"
+                    android:layout_height="40dp"
+                    android:layout_weight="1"
+                    android:background="@drawable/shadow_new"
+                    android:gravity="center"
+                    android:text="Click-for-calendar"
+                    android:textColor="@color/dark_black"
+                    android:textSize="17dp" />
+            </LinearLayout>
+
+
+            <!-- <LinearLayout
+                 android:layout_width="match_parent"
+                 android:layout_height="wrap_content"
+                 android:layout_marginLeft="30dp"
+                 android:gravity="center_vertical"
+                 android:id="@+id/nodays_LL"
+                 android:orientation="horizontal">
+
+                 <TextView
+                     android:layout_width="wrap_content"
+                     android:layout_height="wrap_content"
+
+                     android:text="No Of Days"
+                     android:textColor="@color/dark_black"
+                     android:textSize="15dp" />
+
+                 <EditText
+
+                     android:id="@+id/edit_pond_no_of_days_et"
+                     android:layout_width="40dp"
+                     android:layout_height="wrap_content"
+                     android:maxLength="4"
+                     android:textSize="17dp"
+                     android:digits="0123456789."
+                     android:inputType="number"
+                     android:backgroundTint="@android:color/holo_red_light"
+                     android:textColor="@color/dark_black"/>
+
+                 <TextView
+
+                     android:id="@+id/edit_pondamount_tv"
+                     android:layout_width="wrap_content"
+                     android:layout_height="wrap_content"
+                     android:text="X2000 ="
+                     android:visibility="gone"
+                     android:textColor="@color/dark_black"
+                     android:textSize="15dp" />
+                 <TextView
+                     android:id="@+id/edit_pond_total_amount_tv"
+                     android:layout_width="wrap_content"
+                     android:layout_height="wrap_content"
+                     android:text=" "
+                     android:visibility="gone"
+                     android:textColor="@color/dark_black"
+                     android:textSize="15dp" />
+             </LinearLayout>-->
+
+
+            <LinearLayout
+                android:id="@+id/nodays_LL"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="20dp"
+                android:gravity="center"
+                android:orientation="horizontal">
+
+
+                <TextView
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    android:layout_weight="0.54"
+                    android:gravity="center"
+                    android:text="     No. of Days    : "
+                    android:textColor="@color/dark_black"
+                    android:textSize="15dp" />
+
+                <EditText
+                    android:id="@+id/edit_pond_no_of_days_et"
+                    android:layout_width="0dp"
+                    android:layout_height="30dp"
+                    android:layout_weight="1"
+                    android:background="@drawable/shadow_new"
+                    android:digits="0123456789."
+                    android:gravity="center"
+                    android:inputType="number"
+                    android:maxLength="4"
+                    android:textColor="@color/dark_black"
+                    android:textSize="17dp" />
+            </LinearLayout>
+
+
+
+
+
+
+
+
+            <LinearLayout
+                android:id="@+id/amount_LL"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="20dp"
+                android:gravity="center"
+                android:visibility="gone"
+                android:orientation="horizontal">
+
+                <TextView
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    android:layout_weight="0.54"
+                    android:gravity="center"
+                    android:text="             Amount  : "
+                    android:textColor="@color/dark_black"
+                    android:textSize="15dp" />
+
+                <TextView
+                    android:id="@+id/edit_pond_total_amount_tv"
+                    android:layout_width="0dp"
+                    android:layout_height="30dp"
+                    android:layout_weight="1"
+                    android:background="@drawable/shadow_new"
+                    android:gravity="center"
+                    android:text=" "
+                    android:textColor="@color/dark_black"
+                    android:textSize="15dp" />
+            </LinearLayout>
+
+
+
+
+
+
+
+
+            <LinearLayout
+                android:id="@+id/amountcollected_LL"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="20dp"
+                android:gravity="center"
+                android:orientation="horizontal">
+
+                <TextView
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    android:layout_weight="0.54"
+                    android:gravity="center"
+                    android:text="   Amount collected  : "
+                    android:textColor="@color/dark_black"
+                    android:textSize="15dp" />
+
+                <EditText
+                    android:id="@+id/edit_amountcollected_et"
+                    android:layout_width="0dp"
+                    android:layout_height="30dp"
+                    android:layout_weight="1"
+                    android:background="@drawable/shadow_new"
+                    android:digits="0123456789."
+                    android:maxLength="7"
+                    android:gravity="center"
+                    android:text=" "
+                    android:textColor="@color/dark_black"
+                    android:textSize="15dp" />
+            </LinearLayout>
+
+
+            <LinearLayout
+                android:id="@+id/amountcollected_lesser_LL"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="20dp"
+                android:gravity="center"
+                android:visibility="gone"
+                android:orientation="horizontal">
+
+                <TextView
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    android:layout_weight="0.54"
+                    android:gravity="center"
+                    android:text="Amount Collected is less than actual amount,\n Kindly select Reason"
+                    android:textColor="@color/color_red"
+                    android:textSize="15dp" />
+            </LinearLayout>
+
+
+
+
+
+
+            <TableRow
+                android:id="@+id/remarks_LL"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="10dp"
+                android:layout_marginRight="46dp"
+                android:layout_marginBottom="10dp"
+                android:gravity="center"
+                android:visibility="visible">
+
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginRight="10dp"
+                    android:text="Reason  : "
+                    android:textColor="@color/dark_black" />
+
+                <Spinner
+                    android:id="@+id/edit_selectremarks_sp"
+                    android:layout_width="150dp"
+                    android:layout_height="40dp"
+                    android:background="@drawable/spinnerarrow2"
+                    android:popupBackground="@drawable/layout_background" />
+
+            </TableRow>
+
+            <TableRow
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+
+                android:visibility="visible"
+                android:id="@+id/machineno_LL"
+                android:layout_marginLeft="30dp"
+                android:layout_gravity="center_vertical"
+                android:gravity="center_horizontal">
+
+
+                <TextView
+                    android:id="@+id/farmeridno_et"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="Machine No"
+                    android:textColor="@color/dark_black"
+
+                    />
+
+                <Spinner
+                    android:id="@+id/selectmachineno_sp"
+                    android:layout_width="150dp"
+                    android:layout_height="40dp"
+                    android:layout_marginLeft="18dp"
+                    android:background="@drawable/spinnerarrow2"
+                    android:paddingLeft="5dp"
+                    android:popupBackground="@drawable/layout_background" />
+
+
+
+            </TableRow>
+
+
+
+
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="10dp"
+                android:layout_marginLeft="20dp"
+                android:layout_marginBottom="10dp"
+                android:gravity="center_vertical"
+                android:id="@+id/cancel_submit_ll"
+                android:orientation="horizontal">
+
+                <Button
+                    android:id="@+id/edit_ponddetails_cancel_bt"
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    android:layout_weight="0.54"
+                    android:gravity="center_horizontal"
+                    android:text="Cancel"
+                    android:textColor="@color/color_red"
+                    android:textSize="15dp" />
+
+                <Button
+                    android:id="@+id/edit_ponddetails_submit_bt"
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    android:layout_weight="0.54"
+                    android:text="Submit"
+                    android:textColor="@color/color_red"
+                    android:textSize="15dp" />
+            </LinearLayout>
+
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginLeft="30dp"
+                android:layout_marginTop="10dp"
+                android:gravity="center_vertical"
+                android:id="@+id/fpondcompleted_ll"
+                android:visibility="gone"
+                android:orientation="horizontal">
+
+                <TextView
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    android:layout_weight="0.54"
+                    android:text="Farm pond details completed"
+                    android:textColor="@color/dark_green"
+                    android:textSize="15dp" />
+            </LinearLayout>
+
+
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginLeft="30dp"
+                android:layout_marginTop="10dp"
+                android:gravity="center_vertical"
+                android:orientation="horizontal">
+
+                <TextView
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    android:layout_weight="0.54"
+                    android:textColor="@color/light_gray"
+                    android:textSize="15dp" />
+            </LinearLayout>
+
+
+        </LinearLayout>
+
+
+
+
+
+
+    </ScrollView>
+
+
+
+</LinearLayout>
