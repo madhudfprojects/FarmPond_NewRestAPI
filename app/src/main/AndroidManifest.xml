@@ -53,6 +53,14 @@
 
         <activity android:name=".ViewFarmers_Activity" />
         <activity android:name=".Activity_FarmerHomeScreen" />
+        <activity android:name=".Activity_HomeScreen"
+            android:theme="@style/AppThemeNoActionBar" />
+        <activity android:name=".Activity_MarketingHomeScreen"
+            android:theme="@style/AppThemeNoActionBar" />
+        <activity android:name=".AddFarmer_Activity1"
+            android:theme="@style/AppThemeNoActionBar" />
+        <activity android:name=".Activity_ViewFarmers"
+            android:theme="@style/AppThemeNoActionBar"/>
         <activity android:name=".Home_Activity" />
 
     </application>
