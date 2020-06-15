@@ -521,26 +521,24 @@ public class EachFarmPondDetails_Activity extends AppCompatActivity {
                         double_currentlatitude = gpsLocation.getLatitude();
                         double_currentlongitude = gpsLocation.getLongitude();
 
-                        try {
-                            Thread.sleep(1 * 500);
-                        } catch (InterruptedException e) {
-                            e.printStackTrace();
-                        }
-
                         Log.e("lat",String.valueOf(double_currentlatitude));
                         Log.e("long",String.valueOf(double_currentlongitude));
-
-
-                        dialog_location.dismiss();
-
-                        Intent intent_addfarmpondactivity = new Intent(EachFarmPondDetails_Activity.this, AddFarmPondActivity.class);
-                        startActivity(intent_addfarmpondactivity);
-                        finish();
-
-
                     } else {
                         //showSettingsAlert("GPS");
                     }
+
+                    try {
+                        Thread.sleep(1 * 100);
+
+                    } catch (InterruptedException e) {
+                        e.printStackTrace();
+                    }
+
+                    dialog_location.dismiss();
+
+                    Intent intent_addfarmpondactivity = new Intent(EachFarmPondDetails_Activity.this, AddFarmPondActivity.class);
+                    startActivity(intent_addfarmpondactivity);
+                    finish();
 
 
                 }
