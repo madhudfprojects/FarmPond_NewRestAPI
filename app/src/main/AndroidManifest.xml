@@ -61,6 +61,8 @@
             android:theme="@style/AppThemeNoActionBar" />
         <activity android:name=".Activity_ViewFarmers"
             android:theme="@style/AppThemeNoActionBar"/>
+        <activity android:name=".Admin_Total_FarmpondDetails_Activity"
+            android:theme="@style/AppThemeNoActionBar" />
         <activity android:name=".Home_Activity" />
 
     </application>
