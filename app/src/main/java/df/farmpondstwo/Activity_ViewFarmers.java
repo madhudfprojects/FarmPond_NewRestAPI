@@ -1856,7 +1856,13 @@ public class Activity_ViewFarmers extends AppCompatActivity {
 
         Call<Location_Data> call = userService1.getLocationData("40");
 
-
+        final ProgressDialog progressDoalog;
+        progressDoalog = new ProgressDialog(Activity_ViewFarmers.this);
+        progressDoalog.setMessage("Loading....");
+        progressDoalog.setTitle("Please wait....");
+        progressDoalog.setProgressStyle(ProgressDialog.STYLE_SPINNER);
+        // show it
+        progressDoalog.show();
         call.enqueue(new Callback<Location_Data>() {
             @Override
             public void onResponse(Call<Location_Data> call, Response<Location_Data> response) {
@@ -1937,12 +1943,14 @@ public class Activity_ViewFarmers extends AppCompatActivity {
                                 String YearId = class_locaitonData.getLst().get(i).getYear().get(j).getAcademic_ID();
                                 DBCreate_YeardetailsRest_insert_2SQLiteDB(YearId,YearName,j);
                             }
-                            int sizeMachine=class_locaitonData.getLst().get(i).getClassMachineDetails().size();
-                            for(int j=0;j<sizeMachine;j++){
-                                Log.e("tag","Machine name=="+class_locaitonData.getLst().get(i).getClassMachineDetails().get(j).getMachine_Name());
-                                String MachineName = class_locaitonData.getLst().get(i).getClassMachineDetails().get(j).getMachine_Name();
-                                String MachineId = class_locaitonData.getLst().get(i).getClassMachineDetails().get(j).getMachine_ID();
-                                DBCreate_MachineDetailsRest(MachineName,MachineId);
+                            if(class_locaitonData.getLst().get(i).getClassMachineDetails()!=null) {
+                                int sizeMachine = class_locaitonData.getLst().get(i).getClassMachineDetails().size();
+                                for (int j = 0; j < sizeMachine; j++) {
+                                    Log.e("tag", "Machine name==" + class_locaitonData.getLst().get(i).getClassMachineDetails().get(j).getMachine_Name());
+                                    String MachineName = class_locaitonData.getLst().get(i).getClassMachineDetails().get(j).getMachine_Name();
+                                    String MachineId = class_locaitonData.getLst().get(i).getClassMachineDetails().get(j).getMachine_ID();
+                                    DBCreate_MachineDetailsRest(MachineName, MachineId);
+                                }
                             }
                         }
 
@@ -1952,12 +1960,13 @@ public class Activity_ViewFarmers extends AppCompatActivity {
                         uploadfromDB_Taluklist();
                         uploadfromDB_Villagelist();
                         uploadfromDB_Grampanchayatlist();
-
+                      //  progressDoalog.dismiss();
                     } else {
                         Toast.makeText(Activity_ViewFarmers.this, class_locaitonData.getMessage(), Toast.LENGTH_SHORT).show();
-
                     }
+                    progressDoalog.dismiss();
                 } else {
+                    progressDoalog.dismiss();
                     Log.e("Entered resp else", "");
                     DefaultResponse error = ErrorUtils.parseError(response);
                     // … and use it to show error information
@@ -1971,6 +1980,7 @@ public class Activity_ViewFarmers extends AppCompatActivity {
 
             @Override
             public void onFailure(Call call, Throwable t) {
+
                 Toast.makeText(Activity_ViewFarmers.this, t.getMessage(), Toast.LENGTH_SHORT).show();
             }
         });// end of call
@@ -2102,60 +2112,61 @@ public class Activity_ViewFarmers extends AppCompatActivity {
                                 DBCreate_ViewFarmerlistdetails_insert_2SQLiteDB(yearID,stateID,districtID,talukaID,villageID,panchayatID,farmerID,farmerCode,farmerFirstName,str_imageurl,farmpondcount,str_farmerbase64,farmerMiddleName,farmerLastName,farmerAge,farmerMobile,farmerIncome,farmerFamily,farmerIDType,farmerIDNumber,submittedDate,createdBy,createdDate,createdUser,responseoutput,responseAction);
                             }
 
-                            int sizePond=class_userData.getLst().get(i).getPond().size();
+                            if(class_userData.getLst().get(i).getPond()!=null) {
+                                int sizePond = class_userData.getLst().get(i).getPond().size();
 
-                            for(int j=0;j<sizePond;j++){
-                                String pondID=class_userData.getLst().get(i).getPond().get(j).getPondID();
-                                String farmerID=class_userData.getLst().get(i).getPond().get(j).getFarmerID();
-                                String academicID=class_userData.getLst().get(i).getPond().get(j).getAcademicID();
-                                String machineID=class_userData.getLst().get(i).getPond().get(j).getMachineID();
-                                String pondCode=class_userData.getLst().get(i).getPond().get(j).getPondCode();
-                                String pondLatitude=class_userData.getLst().get(i).getPond().get(j).getPondLatitude();
-                                String pondLongitude=class_userData.getLst().get(i).getPond().get(j).getPondLongitude();
-                                String pondLength=class_userData.getLst().get(i).getPond().get(j).getPondLength();
-                                String pondWidth=class_userData.getLst().get(i).getPond().get(j).getPondWidth();
-                                String pondDepth=class_userData.getLst().get(i).getPond().get(j).getPondDepth();
-                                String pondStart=class_userData.getLst().get(i).getPond().get(j).getPondStart();
-                                String pondEnd=class_userData.getLst().get(i).getPond().get(j).getPondEnd();
-                                String pondDays=class_userData.getLst().get(i).getPond().get(j).getPondDays();
-                                String pondCost=class_userData.getLst().get(i).getPond().get(j).getPondCost();
-                                String pondImage1=class_userData.getLst().get(i).getPond().get(j).getPondImage1();
-                                String pondImage2=class_userData.getLst().get(i).getPond().get(j).getPondImage2();
-                                String pondImage3=class_userData.getLst().get(i).getPond().get(j).getPondImage3();
-                                String pondStatus=class_userData.getLst().get(i).getPond().get(j).getPondStatus();
-                                String submittedDate=class_userData.getLst().get(i).getPond().get(j).getSubmittedDate();
-                                String submittedBy=class_userData.getLst().get(i).getPond().get(j).getSubmittedBy();
-                                String createdDate=class_userData.getLst().get(i).getPond().get(j).getCreatedDate();
-                                String createdBy=class_userData.getLst().get(i).getPond().get(j).getCreatedBy();
-                                String pondTempID=class_userData.getLst().get(i).getPond().get(j).getPondTempID();
-                                String responseOutput=class_userData.getLst().get(i).getPond().get(j).getResponse();
-                                String createdUser=class_userData.getLst().get(i).getPond().get(j).getCreatedUser();
-                                String submittedUser=class_userData.getLst().get(i).getPond().get(j).getSubmittedUser();
-                                String farmer_First_Name=class_userData.getLst().get(i).getPond().get(j).getFarmer_First_Name();
-                                String farmer_Middle_Name=class_userData.getLst().get(i).getPond().get(j).getFarmer_Middle_Name();
-                                String farmer_Last_Name=class_userData.getLst().get(i).getPond().get(j).getSubmittedUser();
+                                for (int j = 0; j < sizePond; j++) {
+                                    String pondID = class_userData.getLst().get(i).getPond().get(j).getPondID();
+                                    String farmerID = class_userData.getLst().get(i).getPond().get(j).getFarmerID();
+                                    String academicID = class_userData.getLst().get(i).getPond().get(j).getAcademicID();
+                                    String machineID = class_userData.getLst().get(i).getPond().get(j).getMachineID();
+                                    String pondCode = class_userData.getLst().get(i).getPond().get(j).getPondCode();
+                                    String pondLatitude = class_userData.getLst().get(i).getPond().get(j).getPondLatitude();
+                                    String pondLongitude = class_userData.getLst().get(i).getPond().get(j).getPondLongitude();
+                                    String pondLength = class_userData.getLst().get(i).getPond().get(j).getPondLength();
+                                    String pondWidth = class_userData.getLst().get(i).getPond().get(j).getPondWidth();
+                                    String pondDepth = class_userData.getLst().get(i).getPond().get(j).getPondDepth();
+                                    String pondStart = class_userData.getLst().get(i).getPond().get(j).getPondStart();
+                                    String pondEnd = class_userData.getLst().get(i).getPond().get(j).getPondEnd();
+                                    String pondDays = class_userData.getLst().get(i).getPond().get(j).getPondDays();
+                                    String pondCost = class_userData.getLst().get(i).getPond().get(j).getPondCost();
+                                    String pondImage1 = class_userData.getLst().get(i).getPond().get(j).getPondImage1();
+                                    String pondImage2 = class_userData.getLst().get(i).getPond().get(j).getPondImage2();
+                                    String pondImage3 = class_userData.getLst().get(i).getPond().get(j).getPondImage3();
+                                    String pondStatus = class_userData.getLst().get(i).getPond().get(j).getPondStatus();
+                                    String submittedDate = class_userData.getLst().get(i).getPond().get(j).getSubmittedDate();
+                                    String submittedBy = class_userData.getLst().get(i).getPond().get(j).getSubmittedBy();
+                                    String createdDate = class_userData.getLst().get(i).getPond().get(j).getCreatedDate();
+                                    String createdBy = class_userData.getLst().get(i).getPond().get(j).getCreatedBy();
+                                    String pondTempID = class_userData.getLst().get(i).getPond().get(j).getPondTempID();
+                                    String responseOutput = class_userData.getLst().get(i).getPond().get(j).getResponse();
+                                    String createdUser = class_userData.getLst().get(i).getPond().get(j).getCreatedUser();
+                                    String submittedUser = class_userData.getLst().get(i).getPond().get(j).getSubmittedUser();
+                                    String farmer_First_Name = class_userData.getLst().get(i).getPond().get(j).getFarmer_First_Name();
+                                    String farmer_Middle_Name = class_userData.getLst().get(i).getPond().get(j).getFarmer_Middle_Name();
+                                    String farmer_Last_Name = class_userData.getLst().get(i).getPond().get(j).getSubmittedUser();
 
-                                String Pond_Land_Acre=class_userData.getLst().get(i).getPond().get(j).getPond_Land_Acre();
-                                String Pond_Land_Gunta=class_userData.getLst().get(i).getPond().get(j).getPond_Land_Gunta();
-                                String Approval_Status=class_userData.getLst().get(i).getPond().get(j).getApproval_Status();
-                                String Response_Action=class_userData.getLst().get(i).getPond().get(j).getResponse_Action();
-                                String Approval_Remarks=class_userData.getLst().get(i).getPond().get(j).getApproval_Remarks();
-                                String Approval_By=class_userData.getLst().get(i).getPond().get(j).getApproval_By();
-                                String Approval_User=class_userData.getLst().get(i).getPond().get(j).getApproval_User();
-                                String Farmer_ID_Type=class_userData.getLst().get(i).getPond().get(j).getFarmer_ID_Type();
-                                String Farmer_ID_Number=class_userData.getLst().get(i).getPond().get(j).getFarmer_ID_Number();
-                                String Donor_Name=class_userData.getLst().get(i).getPond().get(j).getDonor_Name();
-                                String Crop_Before=class_userData.getLst().get(i).getPond().get(j).getCrop_Before();
-                                String Crop_After=class_userData.getLst().get(i).getPond().get(j).getCrop_After();
+                                    String Pond_Land_Acre = class_userData.getLst().get(i).getPond().get(j).getPond_Land_Acre();
+                                    String Pond_Land_Gunta = class_userData.getLst().get(i).getPond().get(j).getPond_Land_Gunta();
+                                    String Approval_Status = class_userData.getLst().get(i).getPond().get(j).getApproval_Status();
+                                    String Response_Action = class_userData.getLst().get(i).getPond().get(j).getResponse_Action();
+                                    String Approval_Remarks = class_userData.getLst().get(i).getPond().get(j).getApproval_Remarks();
+                                    String Approval_By = class_userData.getLst().get(i).getPond().get(j).getApproval_By();
+                                    String Approval_User = class_userData.getLst().get(i).getPond().get(j).getApproval_User();
+                                    String Farmer_ID_Type = class_userData.getLst().get(i).getPond().get(j).getFarmer_ID_Type();
+                                    String Farmer_ID_Number = class_userData.getLst().get(i).getPond().get(j).getFarmer_ID_Number();
+                                    String Donor_Name = class_userData.getLst().get(i).getPond().get(j).getDonor_Name();
+                                    String Crop_Before = class_userData.getLst().get(i).getPond().get(j).getCrop_Before();
+                                    String Crop_After = class_userData.getLst().get(i).getPond().get(j).getCrop_After();
 
-                                String str_imageurl = class_userData.getLst().get(i).getPond().get(j).getPondImage1();
+                                    String str_imageurl = class_userData.getLst().get(i).getPond().get(j).getPondImage1();
 
-                                String str_farmpondimageurl = str_imageurl;
-                                Log.e("url1","str_farmpondimageurl="+ str_farmpondimageurl);
+                                    String str_farmpondimageurl = str_imageurl;
+                                    Log.e("url1", "str_farmpondimageurl=" + str_farmpondimageurl);
 
-                                if(str_farmpondimageurl==null){
+                                    if (str_farmpondimageurl == null) {
 
-                                }else {
+                                    } else {
 
                                    /* InputStream inputstream_obj = null;
                                     try {
@@ -2169,16 +2180,17 @@ public class Activity_ViewFarmers extends AppCompatActivity {
                                     byte[] b = baos.toByteArray();
                                     str_base64image1 = Base64.encodeToString(b, Base64.DEFAULT);*/
 
-                                    DBCreate_FarmpondRest_details_2SQLiteDB(pondID, farmerID, academicID, machineID, pondCode, pondLatitude, pondLongitude, pondLength, pondWidth,
-                                            pondDepth, pondStart, pondEnd, pondDays, pondCost, pondImage1, pondImage2, pondImage3, pondStatus, submittedDate, submittedBy, createdDate,
-                                            createdBy, pondTempID, responseOutput, createdUser, submittedUser);
-                                    DBCreate_FarmpondsRest_details_2SQLiteDB(farmerID, farmer_First_Name, pondID, pondWidth, pondWidth,
-                                            pondDepth, pondImage1, str_base64image1, pondImage2, str_base64image1, pondImage3, str_base64image1,
-                                            pondDays, createdDate, pondEnd, pondCost, machineID,
-                                            pondCode, pondStart, "farmpond_remarks", "farmpond_amtcollected", "str_farmpond_status",
-                                            farmer_Middle_Name, farmer_Last_Name, "", "", "", Approval_Status,
-                                            "str_approvalremarks", "str_approvedby", "str_approveddate", "str_donorname", pondLatitude, pondLongitude,
-                                            Pond_Land_Acre, Pond_Land_Gunta, "str_crop_beforepond", "str_crop_afterpond");
+                                        DBCreate_FarmpondRest_details_2SQLiteDB(pondID, farmerID, academicID, machineID, pondCode, pondLatitude, pondLongitude, pondLength, pondWidth,
+                                                pondDepth, pondStart, pondEnd, pondDays, pondCost, pondImage1, pondImage2, pondImage3, pondStatus, submittedDate, submittedBy, createdDate,
+                                                createdBy, pondTempID, responseOutput, createdUser, submittedUser);
+                                        DBCreate_FarmpondsRest_details_2SQLiteDB(farmerID, farmer_First_Name, pondID, pondWidth, pondWidth,
+                                                pondDepth, pondImage1, str_base64image1, pondImage2, str_base64image1, pondImage3, str_base64image1,
+                                                pondDays, createdDate, pondEnd, pondCost, machineID,
+                                                pondCode, pondStart, "farmpond_remarks", "farmpond_amtcollected", "str_farmpond_status",
+                                                farmer_Middle_Name, farmer_Last_Name, "", "", "", Approval_Status,
+                                                "str_approvalremarks", "str_approvedby", "str_approveddate", "str_donorname", pondLatitude, pondLongitude,
+                                                Pond_Land_Acre, Pond_Land_Gunta, "str_crop_beforepond", "str_crop_afterpond");
+                                    }
                                 }
                             }
                         }

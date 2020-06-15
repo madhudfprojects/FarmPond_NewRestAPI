@@ -232,6 +232,7 @@ try{
                 Toast.makeText(MainActivity.this, ""+user_object.getLst().get(0).getUserEmail(), Toast.LENGTH_LONG).show();
 
                 SaveSharedPreference.setUserMailID(MainActivity.this,user_object.getLst().get(0).getUserID());
+                SaveSharedPreference.setUserName(MainActivity.this,user_object.getLst().get(0).getUserName());
 
                 editor_obj = sharedpreferencebookRest_usercredential_Obj.edit();
 
