@@ -28,6 +28,15 @@
         android:theme="@style/AppTheme">
 
 
+        <activity android:name=".MainActivity">
+            <intent-filter>
+                <action android:name="android.intent.action.MAIN" />
+
+                <category android:name="android.intent.category.LAUNCHER" />
+            </intent-filter>
+        </activity>
+
+
         <activity
             android:name=".EditFarmPondDetails_Activity"
             android:screenOrientation="portrait"
@@ -55,13 +64,7 @@
         <activity android:name=".Admin_Total_FarmpondDetails_Activity"
             android:theme="@style/AppThemeNoActionBar" />
         <activity android:name=".Home_Activity" />
-        <activity android:name=".MainActivity">
-            <intent-filter>
-                <action android:name="android.intent.action.MAIN" />
 
-                <category android:name="android.intent.category.LAUNCHER" />
-            </intent-filter>
-        </activity>
     </application>
 
 </manifest>

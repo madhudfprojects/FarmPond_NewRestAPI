@@ -43,6 +43,8 @@ public class EachFarmPondDetails_Activity extends AppCompatActivity {
     Double double_currentlongitude = 0.0;
     String str_latitude, str_longitude;
     String str_gps_yes;
+    Class_GPSTracker2  gpstracker_obj3;
+
 
     Boolean isInternetPresent = false;
     Class_InternetDectector internetDectector;
@@ -97,6 +99,8 @@ public class EachFarmPondDetails_Activity extends AppCompatActivity {
             public void onClick(View v)
             {
 
+
+
                 if (gps_enable())
                 {
                     locationManager = (LocationManager) getSystemService(Service.LOCATION_SERVICE);
@@ -113,7 +117,9 @@ public class EachFarmPondDetails_Activity extends AppCompatActivity {
                         }
                     }
 
-                    getLocation();
+                  //  getLocation();
+
+                    getLocation2();
 
                 }
 
@@ -484,6 +490,71 @@ public class EachFarmPondDetails_Activity extends AppCompatActivity {
         } catch (SecurityException e) {
             e.printStackTrace();
         }
+    }
+
+
+    private void getLocation2()
+    {
+        try {
+            if (canGetLocation)
+            {
+                // Log.d(TAG, "Can get location");
+                if (isGPSON)
+                {
+                    // from GPS
+                    //Log.d(TAG, "GPS on");
+
+                    dialog_location.setMessage("Please wait location fetching...");
+                    dialog_location.setCanceledOnTouchOutside(false);
+                    dialog_location.show();
+
+
+                    gpstracker_obj3 = new Class_GPSTracker2(EachFarmPondDetails_Activity.this);
+
+                    Location gpsLocation = gpstracker_obj3
+                            .getLocation(LocationManager.GPS_PROVIDER);
+
+
+                    if (gpsLocation != null)
+                    {
+
+                        double_currentlatitude = gpsLocation.getLatitude();
+                        double_currentlongitude = gpsLocation.getLongitude();
+
+                        try {
+                            Thread.sleep(1 * 500);
+                        } catch (InterruptedException e) {
+                            e.printStackTrace();
+                        }
+
+                        Log.e("lat",String.valueOf(double_currentlatitude));
+                        Log.e("long",String.valueOf(double_currentlongitude));
+
+
+                        dialog_location.dismiss();
+
+                        Intent intent_addfarmpondactivity = new Intent(EachFarmPondDetails_Activity.this, AddFarmPondActivity.class);
+                        startActivity(intent_addfarmpondactivity);
+                        finish();
+
+
+                    } else {
+                        //showSettingsAlert("GPS");
+                    }
+
+
+                }
+
+            } else
+            {
+                //Log.d(TAG, "Can't get location");
+            }
+        } catch (SecurityException e) {
+            e.printStackTrace();
+        }
+
+
+
     }
 
 
