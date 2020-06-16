@@ -113,7 +113,7 @@ public class Admin_Total_FarmpondDetails_Activity extends AppCompatActivity
 //
 //        params.put("User_ID","90");// for dynamic
 
-        retrofit2.Call call = userService1.getEmpWiseCount("90");
+        retrofit2.Call call = userService1.getEmpWiseCount(str_employee_id);
         final ProgressDialog progressDoalog;
         progressDoalog = new ProgressDialog(Admin_Total_FarmpondDetails_Activity.this);
         progressDoalog.setMessage("Loading....");

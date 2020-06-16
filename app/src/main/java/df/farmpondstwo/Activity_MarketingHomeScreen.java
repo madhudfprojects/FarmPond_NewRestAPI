@@ -686,7 +686,7 @@ public class Activity_MarketingHomeScreen extends AppCompatActivity {
         request.setFarmerFamily(class_farmerprofileoffline_array_obj[j].getStr_familymembers());
         request.setSubmittedDate(class_farmerprofileoffline_array_obj[j].getStr_submittedDateTime());
         request.setMobileTempID(class_farmerprofileoffline_array_obj[j].getStr_tempfarmerid());
-        request.setCreatedBy("40");
+        request.setCreatedBy(str_employee_id);
         Log.e("tag","FarmerFirstName=="+class_farmerprofileoffline_array_obj[j].getStr_fname());
         Log.e("tag","FarmerID=="+class_farmerprofileoffline_array_obj[j].getStr_farmerID());
 
@@ -2005,7 +2005,7 @@ public class Activity_MarketingHomeScreen extends AppCompatActivity {
         request.setFarmerFamily(familymembers);
         request.setSubmittedDate(submittedDateTime);
         request.setMobileTempID(tempfarmerid);
-        request.setCreatedBy("40");
+        request.setCreatedBy(str_employee_id);
       //  Log.e("tag","FarmerFirstName=="+class_farmerprofileoffline_array_obj[j].getStr_fname());
       //  Log.e("tag","FarmerID=="+class_farmerprofileoffline_array_obj[j].getStr_farmerID());
 
