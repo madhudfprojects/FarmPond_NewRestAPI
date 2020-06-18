@@ -2,6 +2,7 @@ package df.farmpondstwo;
 
 
 
+import android.annotation.SuppressLint;
 import android.app.Dialog;
 import android.app.Service;
 import android.content.Context;
@@ -53,6 +54,7 @@ public class Class_GPSTracker extends Service implements LocationListener  {
 
 
 
+    @SuppressLint("MissingPermission")
     public Location getLocation()
     {
         try {

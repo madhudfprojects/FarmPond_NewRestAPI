@@ -2,6 +2,7 @@ package df.farmpondstwo;
 
 
 import android.Manifest;
+import android.annotation.SuppressLint;
 import android.app.Dialog;
 import android.app.Service;
 import android.content.Context;
@@ -35,6 +36,7 @@ public class Class_GPSTracker2 extends Service implements LocationListener {
                 .getSystemService(LOCATION_SERVICE);
     }
 
+    @SuppressLint("MissingPermission")
     public Location getLocation(String provider)
     {
         if (locationManager.isProviderEnabled(provider))
@@ -49,6 +51,10 @@ public class Class_GPSTracker2 extends Service implements LocationListener {
                 // for ActivityCompat#requestPermissions for more details.
                 return null;
             }*/
+
+
+
+
 
 
             for(int i=0;i<50;i++) {
@@ -78,7 +84,9 @@ public class Class_GPSTracker2 extends Service implements LocationListener {
     }
 
     @Override
-    public void onStatusChanged(String provider, int status, Bundle extras) {
+    public void onStatusChanged(String provider, int status, Bundle extras)
+    {
+
     }
 
     @Override

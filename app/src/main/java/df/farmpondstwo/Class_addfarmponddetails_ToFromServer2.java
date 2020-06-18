@@ -32,6 +32,10 @@ import com.google.gson.annotations.SerializedName;
 public class Class_addfarmponddetails_ToFromServer2
 {
 
+
+    private String UploadedStatus;
+
+
     @SerializedName("Pond_ID")
     @Expose
     private String Pond_ID;
@@ -289,5 +293,11 @@ public class Class_addfarmponddetails_ToFromServer2
         Pond_Land_Acre = pond_Land_Acre;
     }
 
+    public String getUploadedStatus() {
+        return UploadedStatus;
+    }
 
+    public void setUploadedStatus(String uploadedStatus) {
+        UploadedStatus = uploadedStatus;
+    }
 }
