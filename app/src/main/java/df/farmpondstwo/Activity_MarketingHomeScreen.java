@@ -122,6 +122,8 @@ public class Activity_MarketingHomeScreen extends AppCompatActivity {
 
     Class_farmponddetails_offline[] class_farmponddetails_offline_array_obj,newfarmponddetails_offline_array_obj;
 
+    Class_farmponddetails[] class_farmponddetails_offline_array_objRest,newfarmponddetails_offline_array_objRest;
+
     Class_FarmerProfileOffline[] class_farmerprofileoffline_array_obj;
     Class_FarmerProfileOffline class_farmerprofileoffline_obj;
 
@@ -394,9 +396,9 @@ public class Activity_MarketingHomeScreen extends AppCompatActivity {
     {
 
         Log.e("dbFid",str_farmerid);
-        SQLiteDatabase db1 = this.openOrCreateDatabase("PondDetails_DB", Context.MODE_PRIVATE, null);
+        SQLiteDatabase db1 = this.openOrCreateDatabase("FarmPond_db", Context.MODE_PRIVATE, null);
 
-        db1.execSQL("CREATE TABLE IF NOT EXISTS FarmPondDetails_fromServer(SlNo INTEGER PRIMARY KEY AUTOINCREMENT,FIDDB VARCHAR," +
+        db1.execSQL("CREATE TABLE IF NOT EXISTS FarmPondDetails_fromServerRest(SlNo INTEGER PRIMARY KEY AUTOINCREMENT,FIDDB VARCHAR," +
                 "FNameDB VARCHAR,FMNameDB VARCHAR,FLNameDB VARCHAR,FYearIDDB VARCHAR,FStateIDDB VARCHAR,FDistrictIDDB VARCHAR," +
                 "FTalukIDDB VARCHAR,FPanchayatIDDB VARCHAR,FVillageIDDB VARCHAR,FageDB VARCHAR,FphonenumberDB VARCHAR," +
                 "FfamilymemberDB VARCHAR,FidproofnoIDDB VARCHAR,FphotoDB VARCHAR,FPondidDB VARCHAR,WidthDB VARCHAR," +
@@ -404,7 +406,7 @@ public class Activity_MarketingHomeScreen extends AppCompatActivity {
                 "Imageid2DB VARCHAR,Image2Base64DB VARCHAR,Imageid3DB VARCHAR,Image3Base64DB VARCHAR,EmployeeIDDB VARCHAR," +
                 "UploadedStatusFarmerprofile VARCHAR,UploadedStatus VARCHAR);");
 
-        String SQLiteQuery = "INSERT INTO FarmPondDetails_fromServer (FIDDB,FNameDB,FPondidDB,WidthDB,HeightDB,DepthDB,ImageidDB,ImageBase64DB,UploadedStatus)" +
+        String SQLiteQuery = "INSERT INTO FarmPondDetails_fromServerRest(FIDDB,FNameDB,FPondidDB,WidthDB,HeightDB,DepthDB,ImageidDB,ImageBase64DB,UploadedStatus)" +
                 " VALUES ('"+str_farmerid+"','"+str_farmername+"','"+str_farmpond_id+"','"+str_width+"'," +
                 "'"+str_height+"','"+str_depth+"','"+str_imageid+"','"+str_base64imagestring+"','"+str_employee_id+"','"+1+"');";
         db1.execSQL(SQLiteQuery);
@@ -512,9 +514,9 @@ public class Activity_MarketingHomeScreen extends AppCompatActivity {
     {
 
 
-        SQLiteDatabase db1 = this.openOrCreateDatabase("PondDetails_DB", Context.MODE_PRIVATE, null);
+        SQLiteDatabase db1 = this.openOrCreateDatabase("FarmPond_db", Context.MODE_PRIVATE, null);
 
-        db1.execSQL("CREATE TABLE IF NOT EXISTS FarmPondDetails_fromServer(SlNo INTEGER PRIMARY KEY AUTOINCREMENT,FIDDB VARCHAR,TempFIDDB VARCHAR," +
+        db1.execSQL("CREATE TABLE IF NOT EXISTS FarmPondDetails_fromServerRest(SlNo INTEGER PRIMARY KEY AUTOINCREMENT,FIDDB VARCHAR,TempFIDDB VARCHAR," +
                 "FNameDB VARCHAR,FMNameDB VARCHAR,FLNameDB VARCHAR,FYearIDDB VARCHAR,FStateIDDB VARCHAR,FDistrictIDDB VARCHAR," +
                 "FTalukIDDB VARCHAR,FPanchayatIDDB VARCHAR,FVillageIDDB VARCHAR,FageDB VARCHAR,FphonenumberDB VARCHAR," +
                 "FAnnualIncomeDB VARCHAR,FfamilymemberDB VARCHAR,FidprooftypeDB VARCHAR,FidproofnoDB VARCHAR,FphotoDB VARCHAR,FPondidDB VARCHAR,WidthDB VARCHAR," +
@@ -528,7 +530,7 @@ public class Activity_MarketingHomeScreen extends AppCompatActivity {
                 "UploadedStatusFarmerprofile VARCHAR,UploadedStatus VARCHAR);");
 
 
-        Cursor cursor1 = db1.rawQuery("SELECT * FROM FarmPondDetails_fromServer WHERE UploadedStatus='" + 1 + "'", null);
+        Cursor cursor1 = db1.rawQuery("SELECT * FROM FarmPondDetails_fromServerRest WHERE UploadedStatus='" + 1 + "'", null);
         int x = cursor1.getCount();
 
 
@@ -986,7 +988,7 @@ public class Activity_MarketingHomeScreen extends AppCompatActivity {
 
 
 
-                db1.execSQL("CREATE TABLE IF NOT EXISTS FarmPondDetails_fromServer(SlNo INTEGER PRIMARY KEY AUTOINCREMENT,FIDDB VARCHAR,TempFIDDB VARCHAR," +
+                db1.execSQL("CREATE TABLE IF NOT EXISTS FarmPondDetails_fromServerRest(SlNo INTEGER PRIMARY KEY AUTOINCREMENT,FIDDB VARCHAR,TempFIDDB VARCHAR," +
                         "FNameDB VARCHAR,FMNameDB VARCHAR,FLNameDB VARCHAR,FYearIDDB VARCHAR,FStateIDDB VARCHAR,FDistrictIDDB VARCHAR," +
                         "FTalukIDDB VARCHAR,FPanchayatIDDB VARCHAR,FVillageIDDB VARCHAR,FageDB VARCHAR,FphonenumberDB VARCHAR," +
                         "FAnnualIncomeDB VARCHAR,FfamilymemberDB VARCHAR,FidprooftypeDB VARCHAR,FidproofnoDB VARCHAR,FphotoDB VARCHAR,FPondidDB VARCHAR,WidthDB VARCHAR," +
@@ -1012,7 +1014,7 @@ public class Activity_MarketingHomeScreen extends AppCompatActivity {
                 //str_edit_completionStatus
                 cv.put("UploadedStatus",0);
 
-                db1.update("FarmPondDetails_fromServer", cv, "FPondidDB = ?", new String[]{str_farmpond_id});
+                db1.update("FarmPondDetails_fromServerRest", cv, "FPondidDB = ?", new String[]{str_farmpond_id});
                 db1.close();
 
                 fetch_DB_edited_offline_data_count1();
@@ -1034,9 +1036,9 @@ public class Activity_MarketingHomeScreen extends AppCompatActivity {
     {
 
 
-        SQLiteDatabase db1 = this.openOrCreateDatabase("PondDetails_DB", Context.MODE_PRIVATE, null);
+        SQLiteDatabase db1 = this.openOrCreateDatabase("FarmPond_db", Context.MODE_PRIVATE, null);
 
-        db1.execSQL("CREATE TABLE IF NOT EXISTS FarmPondDetails_fromServer(SlNo INTEGER PRIMARY KEY AUTOINCREMENT,FIDDB VARCHAR,TempFIDDB VARCHAR," +
+        db1.execSQL("CREATE TABLE IF NOT EXISTS FarmPondDetails_fromServerRest(SlNo INTEGER PRIMARY KEY AUTOINCREMENT,FIDDB VARCHAR,TempFIDDB VARCHAR," +
                 "FNameDB VARCHAR,FMNameDB VARCHAR,FLNameDB VARCHAR,FYearIDDB VARCHAR,FStateIDDB VARCHAR,FDistrictIDDB VARCHAR," +
                 "FTalukIDDB VARCHAR,FPanchayatIDDB VARCHAR,FVillageIDDB VARCHAR,FageDB VARCHAR,FphonenumberDB VARCHAR," +
                 "FAnnualIncomeDB VARCHAR,FfamilymemberDB VARCHAR,FidprooftypeDB VARCHAR,FidproofnoDB VARCHAR,FphotoDB VARCHAR,FPondidDB VARCHAR,WidthDB VARCHAR," +
@@ -1049,7 +1051,7 @@ public class Activity_MarketingHomeScreen extends AppCompatActivity {
                 "FPondAcresDB VARCHAR,FPondGuntaDB VARCHAR,FPondCropBeforeDB VARCHAR,FPondCropAfterDB VARCHAR," +
                 "UploadedStatusFarmerprofile VARCHAR,UploadedStatus VARCHAR);");
 
-        Cursor cursor1 = db1.rawQuery("SELECT * FROM FarmPondDetails_fromServer WHERE UploadedStatus='" + 2 + "'", null);
+        Cursor cursor1 = db1.rawQuery("SELECT * FROM FarmPondDetails_fromServerRest WHERE UploadedStatus='" + 2 + "'", null);
         int x = cursor1.getCount();
 
 
@@ -1060,88 +1062,83 @@ public class Activity_MarketingHomeScreen extends AppCompatActivity {
 
         int i = 0;
 
-        newfarmponddetails_offline_array_obj = new Class_farmponddetails_offline[x];
+        newfarmponddetails_offline_array_objRest = new Class_farmponddetails[x];
         if(x>0)
         {
             if (cursor1.moveToFirst()) {
 
                 do {
-                    Class_farmponddetails_offline innerObj_Class_farmponddetails_offline = new Class_farmponddetails_offline();
-                    innerObj_Class_farmponddetails_offline.setfarmer_id(cursor1.getString(cursor1.getColumnIndex("FIDDB")));
-                    innerObj_Class_farmponddetails_offline.setFarmer_Name(cursor1.getString(cursor1.getColumnIndex("FNameDB")));
-                    innerObj_Class_farmponddetails_offline.setFarmpond_Id(cursor1.getString(cursor1.getColumnIndex("FPondidDB")));
-                    innerObj_Class_farmponddetails_offline.setFarmpond_Width(cursor1.getString(cursor1.getColumnIndex("WidthDB")));
-                    innerObj_Class_farmponddetails_offline.setFarmpond_Height(cursor1.getString(cursor1.getColumnIndex("HeightDB")));
-                    innerObj_Class_farmponddetails_offline.setFarmpond_Depth(cursor1.getString(cursor1.getColumnIndex("DepthDB")));
+                    Class_farmponddetails innerObj_Class_farmponddetails = new Class_farmponddetails();
+                    innerObj_Class_farmponddetails.setFarmerID(cursor1.getString(cursor1.getColumnIndex("FIDDB")));
+                    innerObj_Class_farmponddetails.setFarmerFirstName(cursor1.getString(cursor1.getColumnIndex("FNameDB")));
+                    innerObj_Class_farmponddetails.setPondID(cursor1.getString(cursor1.getColumnIndex("FPondidDB")));
+                    innerObj_Class_farmponddetails.setPondWidth(cursor1.getString(cursor1.getColumnIndex("WidthDB")));
+                 //   innerObj_Class_farmponddetails.setPondDepth(cursor1.getString(cursor1.getColumnIndex("HeightDB")));
+                    innerObj_Class_farmponddetails.setPondDepth(cursor1.getString(cursor1.getColumnIndex("DepthDB")));
+                    innerObj_Class_farmponddetails.setAcademicID(cursor1.getString(cursor1.getColumnIndex("FYearIDDB")));
+                    innerObj_Class_farmponddetails.setPondLandAcre(cursor1.getString(cursor1.getColumnIndex("FPondAcresDB")));
+                    innerObj_Class_farmponddetails.setPondLandGunta(cursor1.getString(cursor1.getColumnIndex("FPondGuntaDB")));
+                    innerObj_Class_farmponddetails.setPondLatitude(cursor1.getString(cursor1.getColumnIndex("LatitudeDB")));
+                    innerObj_Class_farmponddetails.setPondLongitude(cursor1.getString(cursor1.getColumnIndex("LongitudeDB")));
+                   // innerObj_Class_farmponddetails.setImage1_ID(cursor1.getString(cursor1.getColumnIndex("Imageid1DB")));
 
-                    //"FPondAcresDB VARCHAR,FPondGuntaDB VARCHAR,FPondCropBeforeDB VARCHAR,FPondCropAfterDB VARCHAR," +
-                    innerObj_Class_farmponddetails_offline.setFarmpond_acres(cursor1.getString(cursor1.getColumnIndex("FPondAcresDB")));
-                    innerObj_Class_farmponddetails_offline.setFarmpond_gunta(cursor1.getString(cursor1.getColumnIndex("FPondGuntaDB")));
-
-
-
-                    innerObj_Class_farmponddetails_offline.setLatitude(cursor1.getString(cursor1.getColumnIndex("LatitudeDB")));
-                    innerObj_Class_farmponddetails_offline.setLongitude(cursor1.getString(cursor1.getColumnIndex("LongitudeDB")));
-
-
-                    innerObj_Class_farmponddetails_offline.setImage1_ID(cursor1.getString(cursor1.getColumnIndex("Imageid1DB")));
                     if(cursor1.getString(cursor1.getColumnIndex("Image1Base64DB")).equalsIgnoreCase("0") ||
                             cursor1.getString(cursor1.getColumnIndex("Image1Base64DB")).equalsIgnoreCase("noimage1") )
                     {
-                        innerObj_Class_farmponddetails_offline.setImage1_Base64("");
+                        innerObj_Class_farmponddetails.setPondImage1("");
                     }else{
-                    innerObj_Class_farmponddetails_offline.setImage1_Base64(cursor1.getString(cursor1.getColumnIndex("Image1Base64DB")));}
+                        innerObj_Class_farmponddetails.setPondImage1(cursor1.getString(cursor1.getColumnIndex("Image1Base64DB")));}
 
-                    innerObj_Class_farmponddetails_offline.setImage2_ID(cursor1.getString(cursor1.getColumnIndex("Imageid2DB")));
+                    innerObj_Class_farmponddetails.setPondImage2(cursor1.getString(cursor1.getColumnIndex("Imageid2DB")));
                     if(cursor1.getString(cursor1.getColumnIndex("Image2Base64DB")).equalsIgnoreCase("0") ||
                             cursor1.getString(cursor1.getColumnIndex("Image2Base64DB")).equalsIgnoreCase("noimage2") )
                     {
-                        innerObj_Class_farmponddetails_offline.setImage2_Base64("");
+                        innerObj_Class_farmponddetails.setPondImage2("");
                     }else{
 
-                    innerObj_Class_farmponddetails_offline.setImage2_Base64(cursor1.getString(cursor1.getColumnIndex("Image2Base64DB")));}
+                        innerObj_Class_farmponddetails.setPondImage2(cursor1.getString(cursor1.getColumnIndex("Image2Base64DB")));}
 
-                    innerObj_Class_farmponddetails_offline.setImage3_ID(cursor1.getString(cursor1.getColumnIndex("Imageid3DB")));
+                    innerObj_Class_farmponddetails.setPondImage3(cursor1.getString(cursor1.getColumnIndex("Imageid3DB")));
                     if(cursor1.getString(cursor1.getColumnIndex("Image3Base64DB")).equalsIgnoreCase("0") ||
                             cursor1.getString(cursor1.getColumnIndex("Image3Base64DB")).equalsIgnoreCase("noimage3") )
                     {
-                        innerObj_Class_farmponddetails_offline.setImage3_Base64("");
+                        innerObj_Class_farmponddetails.setPondImage3("");
                     }else {
 
-                        innerObj_Class_farmponddetails_offline.setImage3_Base64(cursor1.getString(cursor1.getColumnIndex("Image3Base64DB")));
+                        innerObj_Class_farmponddetails.setPondImage3(cursor1.getString(cursor1.getColumnIndex("Image3Base64DB")));
                     }
 
-                    innerObj_Class_farmponddetails_offline.setEmployeeID(cursor1.getString(cursor1.getColumnIndex("EmployeeIDDB")));
+                    innerObj_Class_farmponddetails.setCreatedBy(cursor1.getString(cursor1.getColumnIndex("EmployeeIDDB")));
 
                     Log.e("employeeid",cursor1.getString(cursor1.getColumnIndex("EmployeeIDDB")));
 
 
                     Log.e("submitteddate",cursor1.getString(cursor1.getColumnIndex("SubmittedDateDB")));
 
-                    innerObj_Class_farmponddetails_offline.setSubmittedDateTime(cursor1.getString(cursor1.getColumnIndex("SubmittedDateDB")));
+                    innerObj_Class_farmponddetails.setSubmittedDate(cursor1.getString(cursor1.getColumnIndex("SubmittedDateDB")));
 
 
-                    innerObj_Class_farmponddetails_offline.setConstructedDate(cursor1.getString(cursor1.getColumnIndex("ConstructedDateDB")));
-                    innerObj_Class_farmponddetails_offline.setTotal_no_days(cursor1.getString(cursor1.getColumnIndex("TotalDaysDB")));
-                    innerObj_Class_farmponddetails_offline.setPondCost(cursor1.getString(cursor1.getColumnIndex("PondCostDB")));
-                    innerObj_Class_farmponddetails_offline.setMachineCode(cursor1.getString(cursor1.getColumnIndex("McodeDB")));
+                    innerObj_Class_farmponddetails.setPondEnd(cursor1.getString(cursor1.getColumnIndex("ConstructedDateDB")));
+                    innerObj_Class_farmponddetails.setPondDays(cursor1.getString(cursor1.getColumnIndex("TotalDaysDB")));
+                    innerObj_Class_farmponddetails.setPondCost(cursor1.getString(cursor1.getColumnIndex("PondCostDB")));
+                    innerObj_Class_farmponddetails.setMachineID(cursor1.getString(cursor1.getColumnIndex("McodeDB")));
 
-                    innerObj_Class_farmponddetails_offline.setUploadedStatus(cursor1.getString(cursor1.getColumnIndex("UploadedStatus")));
+                    innerObj_Class_farmponddetails.setPondStatus(cursor1.getString(cursor1.getColumnIndex("UploadedStatus")));
 
-                    innerObj_Class_farmponddetails_offline.setStartDate(cursor1.getString(cursor1.getColumnIndex("StartDateDB")));
+                    innerObj_Class_farmponddetails.setPondStart(cursor1.getString(cursor1.getColumnIndex("StartDateDB")));
 
-                    innerObj_Class_farmponddetails_offline.setFarmpond_remarks(cursor1.getString(cursor1.getColumnIndex("FPondRemarksDB")));
-                    innerObj_Class_farmponddetails_offline.setFarmpond_amttaken(cursor1.getString(cursor1.getColumnIndex("FPondAmtTakenDB")));
+                    innerObj_Class_farmponddetails.setApprovalRemarks(cursor1.getString(cursor1.getColumnIndex("FPondRemarksDB")));
+                    innerObj_Class_farmponddetails.setPondCollectedAmount(cursor1.getString(cursor1.getColumnIndex("FPondAmtTakenDB")));
                     //"FPondRemarksDB VARCHAR,FPondAmtTakenDB VARCHAR,FPondStatusDB VARCHAR," +
 
-                    innerObj_Class_farmponddetails_offline.setFarmerTemp_Id(cursor1.getString(cursor1.getColumnIndex("TempFIDDB")));
+                    innerObj_Class_farmponddetails.setPondTempID(cursor1.getString(cursor1.getColumnIndex("TempFIDDB")));
 
-                    innerObj_Class_farmponddetails_offline.setFarmpondCode(cursor1.getString(cursor1.getColumnIndex("FPondCodeDB")));
+                    innerObj_Class_farmponddetails.setPondCode(cursor1.getString(cursor1.getColumnIndex("FPondCodeDB")));
 
                     Log.e("class_farmpondcode",cursor1.getString(cursor1.getColumnIndex("FPondCodeDB")));
                     Log.e("class_farmpondID",cursor1.getString(cursor1.getColumnIndex("FPondidDB")));
 
-                    newfarmponddetails_offline_array_obj[i] = innerObj_Class_farmponddetails_offline;
+                    newfarmponddetails_offline_array_objRest[i] = innerObj_Class_farmponddetails;
                     i++;
                 } while (cursor1.moveToNext());
             }//if ends
@@ -1151,15 +1148,16 @@ public class Activity_MarketingHomeScreen extends AppCompatActivity {
 
         db1.close();
 
-        Log.e("newlength", String.valueOf(newfarmponddetails_offline_array_obj.length));
+        Log.e("newlength", String.valueOf(newfarmponddetails_offline_array_objRest.length));
 
 
-        for(int k=0;k<newfarmponddetails_offline_array_obj.length;k++)
+        for(int k=0;k<newfarmponddetails_offline_array_objRest.length;k++)
         {
 
 
             if(x>0) {
-            //    AsyncTask_submit_New_farmponddetails(k);
+              //  AsyncTask_submit_New_farmponddetails(k);
+                Add_New_farmponddetails(k);
             }
         }
 
@@ -1168,7 +1166,7 @@ public class Activity_MarketingHomeScreen extends AppCompatActivity {
 
 
 
-    private void AsyncTask_submit_New_farmponddetails(final int k)
+  /*  private void AsyncTask_submit_New_farmponddetails(final int k)
     {
 
         final ProgressDialog pdLoading = new ProgressDialog(Activity_MarketingHomeScreen.this);
@@ -1235,8 +1233,8 @@ public class Activity_MarketingHomeScreen extends AppCompatActivity {
                 params.put("Height",newfarmponddetails_offline_array_obj[k].getFarmpond_Height());
                 params.put("Depth",newfarmponddetails_offline_array_obj[k].getFarmpond_Depth());
 
-                /*Log.e("latitude",newfarmponddetails_offline_array_obj[k].getLatitude());
-                Log.e("Longitude",newfarmponddetails_offline_array_obj[k].getLongitude());*/
+                *//*Log.e("latitude",newfarmponddetails_offline_array_obj[k].getLatitude());
+                Log.e("Longitude",newfarmponddetails_offline_array_obj[k].getLongitude());*//*
 
                 params.put("acres",newfarmponddetails_offline_array_obj[k].getFarmpond_acres());
                 params.put("gunta",newfarmponddetails_offline_array_obj[k].getFarmpond_gunta());
@@ -1247,9 +1245,9 @@ public class Activity_MarketingHomeScreen extends AppCompatActivity {
                 Log.e("latitude",str_latitude);
                 Log.e("Longitude",str_longitude);
 
-                /*params.put("Latitude",newfarmponddetails_offline_array_obj[k].getLatitude());
+                *//*params.put("Latitude",newfarmponddetails_offline_array_obj[k].getLatitude());
                 params.put("Longitude",newfarmponddetails_offline_array_obj[k].getLongitude());
-*/
+*//*
                 params.put("Latitude",str_latitude);
                 params.put("Longitude",str_longitude);
 
@@ -1280,9 +1278,124 @@ public class Activity_MarketingHomeScreen extends AppCompatActivity {
         RequestQueue requestQueue = Volley.newRequestQueue(this);
         Log.e("request",stringRequest.toString());
         requestQueue.add(stringRequest);
+    }*/
+
+    private void Add_New_farmponddetails(int k)
+    {
+
+
+        Interface_userservice userService;
+        userService = Class_ApiUtils.getUserService();
+
+
+        Class_addfarmponddetails_ToFromServer2 request=new Class_addfarmponddetails_ToFromServer2();
+        String str_latitude,str_longitude;
+
+        if(newfarmponddetails_offline_array_objRest[k].getPondImage3().equals("noimage3") ||
+                newfarmponddetails_offline_array_objRest[k].getPondImage3().equals("0"))
+        {
+            str_latitude="";
+            str_longitude="";
+        }else{
+
+            str_latitude= newfarmponddetails_offline_array_objRest[k].getPondLatitude();
+            str_longitude= newfarmponddetails_offline_array_objRest[k].getPondLongitude();
+
+        }
+
+        Log.e("latitude",str_latitude);
+        Log.e("Longitude",str_longitude);
+
+        request.setPond_ID(newfarmponddetails_offline_array_objRest[k].getPondID());
+        request.setFarmer_ID(newfarmponddetails_offline_array_objRest[k].getFarmerID());
+        request.setAcademic_ID(newfarmponddetails_offline_array_objRest[k].getAcademicID());
+        request.setMachine_ID(newfarmponddetails_offline_array_objRest[k].getMachineID());
+        request.setPond_Latitude(str_latitude);
+        request.setPond_Longitude(str_longitude);
+        request.setPond_Length(newfarmponddetails_offline_array_objRest[k].getPondLength());
+        request.setPond_Width(newfarmponddetails_offline_array_objRest[k].getPondWidth());
+        request.setPond_Depth(newfarmponddetails_offline_array_objRest[k].getPondDepth());
+        request.setPond_Start(newfarmponddetails_offline_array_objRest[k].getPondStart());
+        request.setPond_End(newfarmponddetails_offline_array_objRest[k].getPondEnd());
+        request.setPond_Days(newfarmponddetails_offline_array_objRest[k].getPondDays());
+        request.setPond_Cost(newfarmponddetails_offline_array_objRest[k].getPondCost());
+        request.setPond_Image_1(newfarmponddetails_offline_array_objRest[k].getPondImage1());
+        request.setPond_Image_2(newfarmponddetails_offline_array_objRest[k].getPondImage2());
+        request.setPond_Image_3(newfarmponddetails_offline_array_objRest[k].getPondImage3());
+        request.setSubmitted_Date(newfarmponddetails_offline_array_objRest[k].getSubmittedDate());
+        request.setCreated_By(newfarmponddetails_offline_array_objRest[k].getCreatedBy());
+        request.setPond_Temp_ID(newfarmponddetails_offline_array_objRest[k].getPondTempID());
+        request.setPond_Land_Gunta(newfarmponddetails_offline_array_objRest[k].getPondLandGunta());
+        request.setPond_Land_Acre(newfarmponddetails_offline_array_objRest[k].getPondLandAcre());
+
+        retrofit2.Call call = userService.Post_ActionFarmerPondData(request);
+
+
+
+
+        call.enqueue(new Callback<Class_addfarmponddetails_ToFromServer1>()
+        {
+            @Override
+            public void onResponse(retrofit2.Call<Class_addfarmponddetails_ToFromServer1> call, Response<Class_addfarmponddetails_ToFromServer1> response)
+            {
+
+               /* Class_farmponddetails_Response user_object= new Class_farmponddetails_Response();
+                user_object = (Class_farmponddetails_Response) response.body();*/
+
+                /*Class_farmponddetails_ToServer  user_object1= new Class_farmponddetails_ToServer();
+                user_object1 = (Class_farmponddetails_ToServer) response.body();
+*/
+
+              /*  Class_addfarmponddetails_ToFromServer1  user_object1= new Class_addfarmponddetails_ToFromServer1();
+                user_object1 = (Class_addfarmponddetails_ToFromServer1) response.body();*/
+
+                Class_addfarmponddetails_ToFromServer1  user_object1=response.body();
+
+
+                Log.e("response",user_object1.getStatus().toString());
+                Log.e("Addpondresponse",response.body().toString());
+
+                Log.e("response",user_object1.getLst2().getPond_Cost());
+
+
+                // Log.e("Addpond_count", String.valueOf(user_object1.getClass_addfarmponddetails_toFromServer2_obj().size()));
+
+                //Toast.makeText(AddFarmPondActivity.this, ""+user_object.getStatus().toString(), Toast.LENGTH_SHORT).show();
+                //Toast.makeText(AddFarmPondActivity.this, ""+user_object1.getClass_addfarmponddetails_toFromServer2_obj().get(0).getMachine_ID().toString(), Toast.LENGTH_SHORT).show();
+
+
+                //user_object1.getClass_addfarmponddetails_toFromServer2_obj().size();
+
+                //            Class_LoginResponse user_object= new Class_LoginResponse();
+                //              user_object = (Class_LoginResponse) response.body();
+
+                // Log.e("response",user_object.getStatus().toString());
+
+                //  Toast.makeText(AddFarmPondActivity.this, ""+user_object.getStatus().toString(), Toast.LENGTH_LONG).show();
+
+//                Toast.makeText(AddFarmPondActivity.this, ""+user_object.getMessage().toString(), Toast.LENGTH_LONG).show();
+
+              /*  if(response.isSuccessful())
+                {
+                    user_object = (User) response.body();
+
+                    Toast.makeText(MainActivity.this, ""+user_object.getEmail().toString(), Toast.LENGTH_SHORT).show();
+*/
+                //  Toast.makeText(MainActivity.this, "CAMU Token:"+user_object.getPass().toString(), Toast.LENGTH_SHORT).show();
+
+                // ResObj resObj = response.body();
+
+                // }
+            }
+
+            @Override
+            public void onFailure(Call call, Throwable t)
+            {
+                Toast.makeText(Activity_MarketingHomeScreen.this, "error"+t.getMessage(), Toast.LENGTH_SHORT).show();
+                Log.e("response_error",t.getMessage().toString());
+            }
+        });
     }
-
-
 
 
 
@@ -1320,9 +1433,9 @@ public class Activity_MarketingHomeScreen extends AppCompatActivity {
 
                 String str_response_farmpond_code=jsonObject.getString("farmpond_code");
 
-                SQLiteDatabase db1 = this.openOrCreateDatabase("PondDetails_DB", Context.MODE_PRIVATE, null);
+                SQLiteDatabase db1 = this.openOrCreateDatabase("FarmPond_db", Context.MODE_PRIVATE, null);
 
-                db1.execSQL("CREATE TABLE IF NOT EXISTS FarmPondDetails_fromServer(SlNo INTEGER PRIMARY KEY AUTOINCREMENT,FIDDB VARCHAR,TempFIDDB VARCHAR," +
+                db1.execSQL("CREATE TABLE IF NOT EXISTS FarmPondDetails_fromServerRest(SlNo INTEGER PRIMARY KEY AUTOINCREMENT,FIDDB VARCHAR,TempFIDDB VARCHAR," +
                         "FNameDB VARCHAR,FMNameDB VARCHAR,FLNameDB VARCHAR,FYearIDDB VARCHAR,FStateIDDB VARCHAR,FDistrictIDDB VARCHAR," +
                         "FTalukIDDB VARCHAR,FPanchayatIDDB VARCHAR,FVillageIDDB VARCHAR,FageDB VARCHAR,FphonenumberDB VARCHAR," +
                         "FAnnualIncomeDB VARCHAR,FfamilymemberDB VARCHAR,FidprooftypeDB VARCHAR,FidproofnoDB VARCHAR,FphotoDB VARCHAR,FPondidDB VARCHAR,WidthDB VARCHAR," +
@@ -1350,7 +1463,7 @@ public class Activity_MarketingHomeScreen extends AppCompatActivity {
                 // employee_id*/
                 cv.put("UploadedStatus",3);
 
-                db1.update("FarmPondDetails_fromServer", cv, "FPondidDB = ?", new String[]{str_farmpond_id});
+                db1.update("FarmPondDetails_fromServerRest", cv, "FPondidDB = ?", new String[]{str_farmpond_id});
                 db1.close();
 
                 fetch_DB_New_pond_count();
@@ -1474,10 +1587,10 @@ public class Activity_MarketingHomeScreen extends AppCompatActivity {
 
 
 
-                SQLiteDatabase db1 = this.openOrCreateDatabase("PondDetails_DB", Context.MODE_PRIVATE, null);
+                SQLiteDatabase db1 = this.openOrCreateDatabase("FarmPond_db", Context.MODE_PRIVATE, null);
 
 
-                db1.execSQL("CREATE TABLE IF NOT EXISTS FarmPondDetails_fromServer(SlNo INTEGER PRIMARY KEY AUTOINCREMENT,FIDDB VARCHAR,TempFIDDB VARCHAR," +
+                db1.execSQL("CREATE TABLE IF NOT EXISTS FarmPondDetails_fromServerRest(SlNo INTEGER PRIMARY KEY AUTOINCREMENT,FIDDB VARCHAR,TempFIDDB VARCHAR," +
                         "FNameDB VARCHAR,FMNameDB VARCHAR,FLNameDB VARCHAR,FYearIDDB VARCHAR,FStateIDDB VARCHAR,FDistrictIDDB VARCHAR," +
                         "FTalukIDDB VARCHAR,FPanchayatIDDB VARCHAR,FVillageIDDB VARCHAR,FageDB VARCHAR,FphonenumberDB VARCHAR," +
                         "FAnnualIncomeDB VARCHAR,FfamilymemberDB VARCHAR,FidprooftypeDB VARCHAR,FidproofnoDB VARCHAR,FphotoDB VARCHAR,FPondidDB VARCHAR,WidthDB VARCHAR," +
@@ -1496,7 +1609,7 @@ public class Activity_MarketingHomeScreen extends AppCompatActivity {
                 // employee_id*/
                 cv.put("UploadedStatusFarmerprofile",10);
 
-                db1.update("FarmPondDetails_fromServer", cv, "TempFIDDB = ?", new String[]{str_farmer_id});
+                db1.update("FarmPondDetails_fromServerRest", cv, "TempFIDDB = ?", new String[]{str_farmer_id});
                 db1.close();
 
                 SQLiteDatabase db_viewfarmerlist = this.openOrCreateDatabase("FarmPond_db", Context.MODE_PRIVATE, null);
@@ -1544,10 +1657,10 @@ public class Activity_MarketingHomeScreen extends AppCompatActivity {
 
     public void fetch_DB_farmerprofile_offline_data_count()
     {
-        SQLiteDatabase db1 = this.openOrCreateDatabase("PondDetails_DB", Context.MODE_PRIVATE, null);
+        SQLiteDatabase db1 = this.openOrCreateDatabase("FarmPond_db", Context.MODE_PRIVATE, null);
 
 
-        db1.execSQL("CREATE TABLE IF NOT EXISTS FarmPondDetails_fromServer(SlNo INTEGER PRIMARY KEY AUTOINCREMENT,FIDDB VARCHAR,TempFIDDB VARCHAR," +
+        db1.execSQL("CREATE TABLE IF NOT EXISTS FarmPondDetails_fromServerRest(SlNo INTEGER PRIMARY KEY AUTOINCREMENT,FIDDB VARCHAR,TempFIDDB VARCHAR," +
                 "FNameDB VARCHAR,FMNameDB VARCHAR,FLNameDB VARCHAR,FYearIDDB VARCHAR,FStateIDDB VARCHAR,FDistrictIDDB VARCHAR," +
                 "FTalukIDDB VARCHAR,FPanchayatIDDB VARCHAR,FVillageIDDB VARCHAR,FageDB VARCHAR,FphonenumberDB VARCHAR," +
                 "FAnnualIncomeDB VARCHAR,FfamilymemberDB VARCHAR,FidprooftypeDB VARCHAR,FidproofnoDB VARCHAR,FphotoDB VARCHAR,FPondidDB VARCHAR,WidthDB VARCHAR," +
@@ -1560,7 +1673,7 @@ public class Activity_MarketingHomeScreen extends AppCompatActivity {
                 "FPondAcresDB VARCHAR,FPondGuntaDB VARCHAR,FPondCropBeforeDB VARCHAR,FPondCropAfterDB VARCHAR," +
                 "UploadedStatusFarmerprofile VARCHAR,UploadedStatus VARCHAR);");
 
-        Cursor cursor1 = db1.rawQuery("SELECT * FROM FarmPondDetails_fromServer WHERE UploadedStatusFarmerprofile='" + 9 + "'", null);
+        Cursor cursor1 = db1.rawQuery("SELECT * FROM FarmPondDetails_fromServerRest WHERE UploadedStatusFarmerprofile='" + 9 + "'", null);
         int x = cursor1.getCount();
 
         Log.e("profilecount", String.valueOf(x));
@@ -1574,9 +1687,9 @@ public class Activity_MarketingHomeScreen extends AppCompatActivity {
     public void fetch_DB_edited_offline_data_count1()
     {
 
-        SQLiteDatabase db1 = this.openOrCreateDatabase("PondDetails_DB", Context.MODE_PRIVATE, null);
+        SQLiteDatabase db1 = this.openOrCreateDatabase("FarmPond_db", Context.MODE_PRIVATE, null);
 
-        db1.execSQL("CREATE TABLE IF NOT EXISTS FarmPondDetails_fromServer(SlNo INTEGER PRIMARY KEY AUTOINCREMENT,FIDDB VARCHAR,TempFIDDB VARCHAR," +
+        db1.execSQL("CREATE TABLE IF NOT EXISTS FarmPondDetails_fromServerRest(SlNo INTEGER PRIMARY KEY AUTOINCREMENT,FIDDB VARCHAR,TempFIDDB VARCHAR," +
                 "FNameDB VARCHAR,FMNameDB VARCHAR,FLNameDB VARCHAR,FYearIDDB VARCHAR,FStateIDDB VARCHAR,FDistrictIDDB VARCHAR," +
                 "FTalukIDDB VARCHAR,FPanchayatIDDB VARCHAR,FVillageIDDB VARCHAR,FageDB VARCHAR,FphonenumberDB VARCHAR," +
                 "FAnnualIncomeDB VARCHAR,FfamilymemberDB VARCHAR,FidprooftypeDB VARCHAR,FidproofnoDB VARCHAR,FphotoDB VARCHAR,FPondidDB VARCHAR,WidthDB VARCHAR," +
@@ -1589,7 +1702,7 @@ public class Activity_MarketingHomeScreen extends AppCompatActivity {
                 "FPondAcresDB VARCHAR,FPondGuntaDB VARCHAR,FPondCropBeforeDB VARCHAR,FPondCropAfterDB VARCHAR," +
                 "UploadedStatusFarmerprofile VARCHAR,UploadedStatus VARCHAR);");
 
-        Cursor cursor1 = db1.rawQuery("SELECT * FROM FarmPondDetails_fromServer WHERE UploadedStatus='" + 1 + "'", null);
+        Cursor cursor1 = db1.rawQuery("SELECT * FROM FarmPondDetails_fromServerRest WHERE UploadedStatus='" + 1 + "'", null);
         int x = cursor1.getCount();
 
 

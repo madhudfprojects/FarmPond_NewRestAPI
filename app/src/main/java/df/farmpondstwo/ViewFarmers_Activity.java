@@ -1593,14 +1593,14 @@ public class ViewFarmers_Activity extends AppCompatActivity {
                                 String responseOutput=class_userData.getLst().get(i).getPond().get(j).getResponse();
                                 String createdUser=class_userData.getLst().get(i).getPond().get(j).getCreatedUser();
                                 String submittedUser=class_userData.getLst().get(i).getPond().get(j).getSubmittedUser();
-                                String farmer_First_Name=class_userData.getLst().get(i).getPond().get(j).getFarmer_First_Name();
-                                String farmer_Middle_Name=class_userData.getLst().get(i).getPond().get(j).getFarmer_Middle_Name();
+                                String farmer_First_Name=class_userData.getLst().get(i).getPond().get(j).getFarmerFirstName();
+                                String farmer_Middle_Name=class_userData.getLst().get(i).getPond().get(j).getFarmerMiddleName();
                                 String farmer_Last_Name=class_userData.getLst().get(i).getPond().get(j).getSubmittedUser();
 
-                                String Pond_Land_Acre=class_userData.getLst().get(i).getPond().get(j).getPond_Land_Acre();
-                                String Pond_Land_Gunta=class_userData.getLst().get(i).getPond().get(j).getPond_Land_Gunta();
-                                String Approval_Status=class_userData.getLst().get(i).getPond().get(j).getApproval_Status();
-                                String Response_Action=class_userData.getLst().get(i).getPond().get(j).getResponse_Action();
+                                String Pond_Land_Acre=class_userData.getLst().get(i).getPond().get(j).getPondLandAcre();
+                                String Pond_Land_Gunta=class_userData.getLst().get(i).getPond().get(j).getPondLandGunta();
+                                String Approval_Status=class_userData.getLst().get(i).getPond().get(j).getApprovalStatus();
+                                String Response_Action=class_userData.getLst().get(i).getPond().get(j).getResponseAction();
 
 
                                String str_imageurl = class_userData.getLst().get(i).getPond().get(j).getPondImage1();
