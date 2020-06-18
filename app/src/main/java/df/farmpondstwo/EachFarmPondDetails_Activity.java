@@ -4,8 +4,14 @@ import android.Manifest;
 import android.annotation.TargetApi;
 import android.app.ProgressDialog;
 import android.app.Service;
+import android.content.Context;
 import android.content.Intent;
+import android.content.SharedPreferences;
 import android.content.pm.PackageManager;
+import android.database.Cursor;
+import android.database.sqlite.SQLiteDatabase;
+import android.graphics.Bitmap;
+import android.graphics.BitmapFactory;
 import android.location.Location;
 import android.location.LocationListener;
 import android.location.LocationManager;
@@ -13,12 +19,14 @@ import android.os.Build;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.support.v7.widget.Toolbar;
+import android.util.Base64;
 import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.BaseAdapter;
 import android.widget.ImageView;
+import android.widget.LinearLayout;
 import android.widget.ListView;
 import android.widget.TextView;
 
@@ -36,7 +44,18 @@ public class EachFarmPondDetails_Activity extends AppCompatActivity {
 
     private ListView farmpondlist_listview;
 
-    Class_farmponddetails[] class_farmponddetails_array_obj;
+  //  Class_farmponddetails[] class_farmponddetails_array_obj;
+    Class_farmponddetails_offline[] class_farmponddetails_array_obj;
+
+
+    //listview
+    byte[] imageBytes;
+    Bitmap bmp_decodedImage1, bmp_decodedImage2, bmp_decodedImage3;
+    byte[] image_bytearray;
+    Class_farmponddetails_offline farmponddetails_obj;
+  //Class_farmponddetails farmponddetails_obj;
+
+    //listview
 
     Class_GPSTracker gpstracker_obj, gpstracker_obj2;
     Double double_currentlatitude = 0.0;
@@ -63,6 +82,26 @@ public class EachFarmPondDetails_Activity extends AppCompatActivity {
     ProgressDialog dialog_location;
 
 
+
+    SharedPreferences sharedpref_farmerid_Obj;
+    String str_farmerID, str_farmername, str_farmerID_notification;
+    public static final String sharedpreferenc_farmerid = "sharedpreference_farmer_id";
+    public static final String Key_FarmerID = "farmer_id";
+    public static final String Key_FarmerName = "farmer_name";
+
+
+    String sel_yearsp, sel_statesp, sel_districtsp, sel_taluksp, sel_villagesp, sel_grampanchayatsp;
+
+    public static final String sharedpreferenc_selectedspinner = "sharedpreferenc_selectedspinner";
+    public static final String Key_sel_yearsp = "sel_yearsp";
+    public static final String Key_sel_statesp = "sel_statesp";
+    public static final String Key_sel_districtsp = "sel_districtsp";
+    public static final String Key_sel_taluksp = "sel_taluksp";
+    public static final String Key_sel_villagesp = "sel_villagesp";
+    public static final String Key_sel_grampanchayatsp = "sel_grampanchayatsp";
+    SharedPreferences sharedpref_spinner_Obj;
+
+
     @Override
     protected void onCreate(Bundle savedInstanceState)
     {
@@ -86,6 +125,68 @@ public class EachFarmPondDetails_Activity extends AppCompatActivity {
 
         str_gps_yes = "no";
         farmpondlist_listview = (ListView) findViewById(R.id.farmpondlist_listview);
+
+        sharedpref_farmerid_Obj = getSharedPreferences(sharedpreferenc_farmerid, Context.MODE_PRIVATE);
+        str_farmerID = sharedpref_farmerid_Obj.getString(Key_FarmerID, "").trim();
+
+
+        sharedpref_farmerid_Obj = getSharedPreferences(sharedpreferenc_farmerid, Context.MODE_PRIVATE);
+        str_farmername = sharedpref_farmerid_Obj.getString(Key_FarmerName, "").trim();
+
+        sharedpref_spinner_Obj = getSharedPreferences(sharedpreferenc_selectedspinner, Context.MODE_PRIVATE);
+        sel_yearsp = sharedpref_spinner_Obj.getString(Key_sel_yearsp, "").trim();
+        sel_statesp = sharedpref_spinner_Obj.getString(Key_sel_statesp, "").trim();
+        sel_districtsp = sharedpref_spinner_Obj.getString(Key_sel_districtsp, "").trim();
+        sel_taluksp = sharedpref_spinner_Obj.getString(Key_sel_taluksp, "").trim();
+        sel_villagesp = sharedpref_spinner_Obj.getString(Key_sel_villagesp, "").trim();
+        sel_grampanchayatsp = sharedpref_spinner_Obj.getString(Key_sel_grampanchayatsp, "").trim();
+
+
+
+        internetDectector = new Class_InternetDectector(getApplicationContext());
+        isInternetPresent = internetDectector.isConnectingToInternet();
+
+        Intent intent = getIntent();
+        if (isInternetPresent) {
+            //AsyncTask_fetch_farmponddetails();
+
+
+            if ((intent.equals(null)))
+            {
+                Data_from_PondDetails_DB(str_farmerID);
+            } else {
+                str_farmerID_notification = intent.getStringExtra("farmer_ID");//farmer_ID
+                if (str_farmerID_notification == null || str_farmerID_notification.isEmpty()) {
+                    Log.e("null", "null");
+                    Data_from_PondDetails_DB(str_farmerID);
+
+                } else {
+                    Log.e("FCMfarmer_ID", str_farmerID_notification);
+                    Data_from_PondDetails_DB(str_farmerID_notification);
+                }
+
+            }
+
+        }else {
+
+            str_farmerID_notification = intent.getStringExtra("farmer_ID");//farmer_ID
+            if (str_farmerID_notification == null || str_farmerID_notification.isEmpty()) {
+                Log.e("null", "null");
+                Data_from_PondDetails_DB(str_farmerID);
+
+            } else {
+                Log.e("FCMfarmer_ID", str_farmerID_notification);
+                Data_from_PondDetails_DB(str_farmerID_notification);
+            }
+
+        }
+
+
+
+
+
+
+
 
 
 
@@ -161,6 +262,10 @@ public class EachFarmPondDetails_Activity extends AppCompatActivity {
 
 
 
+
+
+
+
     }//end Of create
 
 
@@ -175,6 +280,110 @@ public class EachFarmPondDetails_Activity extends AppCompatActivity {
 
 
 
+    public void Data_from_PondDetails_DB(String str_farmerID)
+    {
+
+        Log.e("farmerID", str_farmerID);
+        SQLiteDatabase db1 = this.openOrCreateDatabase("PondDetails_DB", Context.MODE_PRIVATE, null);
+
+        db1.execSQL("CREATE TABLE IF NOT EXISTS FarmPondDetails_fromServerRest(SlNo INTEGER PRIMARY KEY AUTOINCREMENT,FIDDB VARCHAR,TempFIDDB VARCHAR," +
+                "FNameDB VARCHAR,FMNameDB VARCHAR,FLNameDB VARCHAR,FYearIDDB VARCHAR,FStateIDDB VARCHAR,FDistrictIDDB VARCHAR," +
+                "FTalukIDDB VARCHAR,FPanchayatIDDB VARCHAR,FVillageIDDB VARCHAR,FageDB VARCHAR,FphonenumberDB VARCHAR," +
+                "FAnnualIncomeDB VARCHAR,FfamilymemberDB VARCHAR,FidprooftypeDB VARCHAR,FidproofnoDB VARCHAR,FphotoDB VARCHAR,FPondidDB VARCHAR,WidthDB VARCHAR," +
+                "HeightDB VARCHAR,DepthDB VARCHAR,LatitudeDB VARCHAR,LongitudeDB VARCHAR,Imageid1DB VARCHAR,Image1Base64DB VARCHAR," +
+                "Imageid2DB VARCHAR,Image2Base64DB VARCHAR,Imageid3DB VARCHAR,Image3Base64DB VARCHAR,EmployeeIDDB VARCHAR,SubmittedDateDB VARCHAR," +
+                "TotalDaysDB VARCHAR,StartDateDB VARCHAR,ConstructedDateDB VARCHAR,PondCostDB VARCHAR,McodeDB VARCHAR,FPondCodeDB VARCHAR," +
+                "FPondRemarksDB VARCHAR,FPondAmtTakenDB VARCHAR,FPondStatusDB VARCHAR," +
+                "FPondApprovalStatusDB VARCHAR,FPondApprovalRemarksDB VARCHAR,FPondApprovedbyDB VARCHAR,FPondApprovedDateDB VARCHAR,FPondDonorDB VARCHAR," +
+                "FPondLatitudeDB VARCHAR,FPondLongitudeDB VARCHAR," +
+                "FPondAcresDB VARCHAR,FPondGuntaDB VARCHAR,FPondCropBeforeDB VARCHAR,FPondCropAfterDB VARCHAR," +
+                "UploadedStatusFarmerprofile VARCHAR,UploadedStatus VARCHAR);");
+
+
+        // Cursor cursor1 = db1.rawQuery("SELECT DISTINCT * FROM FarmPondDetails_fromServer WHERE FIDDB='" + str_farmerID + "'", null);
+        //Cursor cursor1 = db1.rawQuery("SELECT DISTINCT * FROM FarmPondDetails_fromServer WHERE FIDDB='" + str_farmerID + "' AND FphonenumberDB='" + "empty" + "'", null);
+
+        Cursor cursor1 = db1.rawQuery("SELECT DISTINCT * FROM FarmPondDetails_fromServerRest WHERE FIDDB='" + str_farmerID + "' AND FAnnualIncomeDB='" + "empty" + "'", null);
+
+        //  Cursor cursor1 = db1.rawQuery("SELECT DISTINCT * FROM ViewFarmerList  WHERE DispFarmerTable_YearID='" + str_yearid + "' AND DispFarmerTable_StateID='" + str_stateid + "' AND DispFarmerTable_DistrictID='" + str_distid + "'  AND DispFarmerTable_TalukID='" + str_talukid + "' AND DispFarmerTable_VillageID='" + str_villageid + "' AND DispFarmerTable_GrampanchayatID='" + str_panchayatid + "'", null);
+        int x = cursor1.getCount();
+
+        if (x == 0) {
+            cursor1 = db1.rawQuery("SELECT DISTINCT * FROM FarmPondDetails_fromServerRest WHERE FIDDB='" + str_farmerID + "'", null);
+            x = cursor1.getCount();
+        }
+
+
+        // int x=0;
+        Log.e("Eachfarmpond_count", String.valueOf(x));
+
+
+        int i = 0;
+        // Class_farmponddetails_offline[] class_farmponddetails_array_obj;
+        class_farmponddetails_array_obj = new Class_farmponddetails_offline[x];
+        if (x > 0) {
+            if (cursor1.moveToFirst()) {
+
+                do {
+                    Class_farmponddetails_offline innerObj_class_farmpondetails = new Class_farmponddetails_offline();
+
+                    innerObj_class_farmpondetails.setfarmer_id(cursor1.getString(cursor1.getColumnIndex("FIDDB")));
+                   // innerObj_class_farmpondetails.setFarmer_First_Name(cursor1.getString(cursor1.getColumnIndex("FNameDB")));
+                    innerObj_class_farmpondetails.setFarmpond_Id(cursor1.getString(cursor1.getColumnIndex("FPondidDB")));
+                    innerObj_class_farmpondetails.setFarmpond_Width(cursor1.getString(cursor1.getColumnIndex("WidthDB")));
+                    innerObj_class_farmpondetails.setFarmpond_Height(cursor1.getString(cursor1.getColumnIndex("HeightDB")));
+                    innerObj_class_farmpondetails.setFarmpond_Depth(cursor1.getString(cursor1.getColumnIndex("DepthDB")));
+
+                    //innerObj_class_farmpondetails.setImage1_ID(cursor1.getString(cursor1.getColumnIndex("Imageid1DB")));
+                    innerObj_class_farmpondetails.setImage1_Base64(cursor1.getString(cursor1.getColumnIndex("Image1Base64DB")));
+
+                   // innerObj_class_farmpondetails.setImage2_ID(cursor1.getString(cursor1.getColumnIndex("Imageid2DB")));
+                    innerObj_class_farmpondetails.setImage2_Base64(cursor1.getString(cursor1.getColumnIndex("Image2Base64DB")));
+
+                    //innerObj_class_farmpondetails.setImage3_ID(cursor1.getString(cursor1.getColumnIndex("Imageid3DB")));
+                    innerObj_class_farmpondetails.setImage3_Base64(cursor1.getString(cursor1.getColumnIndex("Image3Base64DB")));
+
+                  // innerObj_class_farmpondetails.setuploadstatus(cursor1.getString(cursor1.getColumnIndex("UploadedStatus")));
+
+                    innerObj_class_farmpondetails.setFarmpondCode(cursor1.getString(cursor1.getColumnIndex("FPondCodeDB")));
+
+                    innerObj_class_farmpondetails.setFarmpond_status(cursor1.getString(cursor1.getColumnIndex("FPondApprovalStatusDB")));
+                    innerObj_class_farmpondetails.setFarmpond_remarks(cursor1.getString(cursor1.getColumnIndex("FPondApprovalRemarksDB")));
+                    innerObj_class_farmpondetails.setFarmpond_Approvedby(cursor1.getString(cursor1.getColumnIndex("FPondApprovedbyDB")));
+                   // innerObj_class_farmpondetails.setFarmpond_ApprovedDate(cursor1.getString(cursor1.getColumnIndex("FPondApprovedDateDB")));
+                    innerObj_class_farmpondetails.setFarmpond_Donor(cursor1.getString(cursor1.getColumnIndex("FPondDonorDB")));
+
+
+                    Log.e("farmpondcode", cursor1.getString(cursor1.getColumnIndex("FPondCodeDB")));
+
+                    class_farmponddetails_array_obj[i] = innerObj_class_farmpondetails;
+                    i++;
+                } while (cursor1.moveToNext());
+            }//if ends
+
+
+        }
+
+
+        db1.close();
+
+        if (x > 0) {
+            if (class_farmponddetails_array_obj != null)
+            {
+                CustomAdapter_forOffline adapter = new CustomAdapter_forOffline();
+                farmpondlist_listview.setAdapter(adapter);
+
+                int y = class_farmponddetails_array_obj.length;
+
+                Log.e("length adapter", "" + y);
+            } else {
+                Log.d("length adapter", "zero");
+            }
+
+        }
+
+
+    }
 
 
 
@@ -185,7 +394,10 @@ public class EachFarmPondDetails_Activity extends AppCompatActivity {
 
 
 
-    private class Holder {
+
+
+
+    private class Holder_offline {
         TextView holder_farmername;
         TextView holder_pondwidth;
         TextView holder_pondheight;
@@ -196,13 +408,28 @@ public class EachFarmPondDetails_Activity extends AppCompatActivity {
         ImageView holder_farmpond_image2;
         ImageView holder_farmpond_image3;
         ImageView holder_editfarmerponddetails;
+        LinearLayout holder_listview_ll;
+        LinearLayout holder_notsubmittedtoserver_ll;
+
+
+        LinearLayout holder_approvalstatus_ll;
+        LinearLayout holder_approvalremarks_ll;
+        LinearLayout holder_approvedby_ll;
+        LinearLayout holder_donorname_ll;
+
+        TextView holder_farmpond_approvalstatus_tv;
+        TextView holder_farmpond_approvalremarks_tv;
+        TextView holder_farmpond_approvedby_tv;
+        TextView holder_farmpond_donorname_tv;
     }
 
 
-    public class CustomAdapter extends BaseAdapter {
+
+    public class CustomAdapter_forOffline extends BaseAdapter
+    {
 
 
-        public CustomAdapter() {
+        public CustomAdapter_forOffline() {
 
             super();
             Log.d("Inside CustomAdapter()", "Inside CustomAdapter()");
@@ -219,7 +446,6 @@ public class EachFarmPondDetails_Activity extends AppCompatActivity {
         @Override
         public Object getItem(int position) {
             String x = Integer.toString(position);
-            System.out.println("getItem position" + x);
             Log.d("getItem position", "x");
             return class_farmponddetails_array_obj[position];
         }
@@ -228,157 +454,271 @@ public class EachFarmPondDetails_Activity extends AppCompatActivity {
         @Override
         public long getItemId(int position) {
             String x = Integer.toString(position);
-            System.out.println("getItemId position" + x);
+
             Log.d("getItemId position", x);
             return position;
         }
 
         @Override
-        public View getView(int position, View convertView, ViewGroup parent) {
+        public View getView(int position, View convertView1, ViewGroup parent) {
 
-            final Holder holder;
+            final Holder_offline holder;
 
             Log.d("CustomAdapter", "position: " + position);
 
-            if (convertView == null) {
-                holder = new Holder();
-                convertView = LayoutInflater.from(getApplicationContext()).inflate(R.layout.listview_row_item_farmponddetails, parent, false);
+            if (convertView1 == null) {
+                holder = new Holder_offline();
+                convertView1 = LayoutInflater.from(getApplicationContext()).inflate(R.layout.listview_row_item_farmponddetails_new, parent, false);
 
 
                 //
 
 
-                holder.holder_farmername = (TextView) convertView.findViewById(R.id.farmername_tv);
-                holder.holder_pondwidth = (TextView) convertView.findViewById(R.id.pond_width);
-                holder.holder_pondheight = (TextView) convertView.findViewById(R.id.pond_height);
-                holder.holder_ponddepth = (TextView) convertView.findViewById(R.id.pond_depth);
+                holder.holder_listview_ll = (LinearLayout) convertView1.findViewById(R.id.listview_ll);
+                holder.holder_farmername = (TextView) convertView1.findViewById(R.id.farmername_tv);
+                holder.holder_pondheight = (TextView) convertView1.findViewById(R.id.pond_height);
+                holder.holder_pondwidth = (TextView) convertView1.findViewById(R.id.pond_width);
+                holder.holder_ponddepth = (TextView) convertView1.findViewById(R.id.pond_depth);
 
-                holder.holder_farmpond_image1 = (ImageView) convertView.findViewById(R.id.farmpondimage1_iv);
-                holder.holder_farmpond_image2 = (ImageView) convertView.findViewById(R.id.farmpondimage2_iv);
-                holder.holder_farmpond_image3 = (ImageView) convertView.findViewById(R.id.farmpondimage3_iv);
-                holder.holder_farmer_id = (TextView) convertView.findViewById(R.id.farmer_id_tv);
-                holder.holder_farmpond_id = (TextView) convertView.findViewById(R.id.farmpond_id_tv);
-                holder.holder_editfarmerponddetails = (ImageView) convertView.findViewById(R.id.editfarmerponddetails_iv);
 
-                Log.d("Inside If convertView", "Inside If convertView");
+                holder.holder_farmpond_image1 = (ImageView) convertView1.findViewById(R.id.farmpondimage1_iv);
+                holder.holder_farmpond_image2 = (ImageView) convertView1.findViewById(R.id.farmpondimage2_iv);
+                holder.holder_farmpond_image3 = (ImageView) convertView1.findViewById(R.id.farmpondimage3_iv);
+                holder.holder_farmer_id = (TextView) convertView1.findViewById(R.id.farmer_id_tv);
+                holder.holder_farmpond_id = (TextView) convertView1.findViewById(R.id.farmpond_id_tv);
+                holder.holder_editfarmerponddetails = (ImageView) convertView1.findViewById(R.id.editfarmerponddetails_iv);
+                holder.holder_notsubmittedtoserver_ll = (LinearLayout) convertView1.findViewById(R.id.notsubmittedtoserver_ll);
 
-                convertView.setTag(holder);
+                holder.holder_approvalstatus_ll = (LinearLayout) convertView1.findViewById(R.id.approvalstatus_ll);
+                holder.holder_approvalremarks_ll = (LinearLayout) convertView1.findViewById(R.id.approvalremarks_ll);
+                holder.holder_approvedby_ll = (LinearLayout) convertView1.findViewById(R.id.approvedby_ll);
+                holder.holder_donorname_ll = (LinearLayout) convertView1.findViewById(R.id.donorname_ll);
+
+
+                // android:id="@+id/approvalstatus_ll"
+                //android:id="@+id/approvalremarks_ll"
+                //android:id="@+id/approvedby_ll"
+                //android:id="@+id/donorname_ll"
+
+
+                holder.holder_farmpond_approvalstatus_tv = (TextView) convertView1.findViewById(R.id.farmpond_approvalstatus_tv);
+                holder.holder_farmpond_approvalremarks_tv = (TextView) convertView1.findViewById(R.id.farmpond_approvalremarks_tv);
+                holder.holder_farmpond_approvedby_tv = (TextView) convertView1.findViewById(R.id.farmpond_approvedby_tv);
+                holder.holder_farmpond_donorname_tv = (TextView) convertView1.findViewById(R.id.farmpond_donorname_tv);
+
+
+                Log.d("Inside If convertView1", "Inside If convertView1");
+
+                convertView1.setTag(holder);
 
             } else {
-                holder = (Holder) convertView.getTag();
-                Log.d("Inside else convertView", "Inside else convertView");
+                holder = (Holder_offline) convertView1.getTag();
+                Log.d("else convertView1", "else convertView1");
             }
 
-            final Class_farmponddetails farmponddetails_obj = (Class_farmponddetails) getItem(position);
+            // Class_farmponddetails_offline farmponddetails_obj;
+            farmponddetails_obj = (Class_farmponddetails_offline) getItem(position);
 
 
-            if (farmponddetails_obj != null) {
-                //holder.holder_farmername.setText(farmponddetails_obj.getFarmer_Name());
-                holder.holder_farmername.setText("Add Farmername");
-                holder.holder_pondwidth.setText(farmponddetails_obj.getPondWidth());
-                holder.holder_pondheight.setText(farmponddetails_obj.getPondLength());
-                holder.holder_ponddepth.setText(farmponddetails_obj.getPondDepth());
+            if (farmponddetails_obj != null)
+            {
+                if (!(farmponddetails_obj.getFarmpond_Width().equalsIgnoreCase("empty"))) {
+                    holder.holder_farmername.setText(farmponddetails_obj.getFarmer_Name());
+                    holder.holder_pondwidth.setText(farmponddetails_obj.getFarmpond_Width());
+                    holder.holder_pondheight.setText(farmponddetails_obj.getFarmpond_Height());
+                    holder.holder_ponddepth.setText(farmponddetails_obj.getFarmpond_Depth());
 
-                holder.holder_editfarmerponddetails.setOnClickListener(new View.OnClickListener() {
-                    @Override
-                    public void onClick(View v) {
+                    holder.holder_farmpond_id.setText(farmponddetails_obj.getFarmpondCode());
 
-                        gpstracker_obj2 = new Class_GPSTracker(EachFarmPondDetails_Activity.this);
-
-
-                        if (gpstracker_obj2.canGetLocation()) {
-                            double_currentlatitude = gpstracker_obj2.getLatitude();
-                            double_currentlongitude = gpstracker_obj2.getLongitude();
+                    if (farmponddetails_obj.getFarmpondCode().contains("temp")) {
+                        holder.holder_notsubmittedtoserver_ll.setVisibility(View.VISIBLE);
+                    } else {
+                        holder.holder_notsubmittedtoserver_ll.setVisibility(View.GONE);
+                    }
 
 
-                            str_latitude = Double.toString(double_currentlatitude);
-                            str_longitude = Double.toString(double_currentlongitude);
+                   /* Log.e("approvalstatus", farmponddetails_obj.getFarmpond_ApprovalStatus());
+                    Log.e("approvalremarks", farmponddetails_obj.getFarmpond_ApprovalRemarks());
+                    Log.e("approvedby", farmponddetails_obj.getFarmpond_Approvedby());
+                    Log.e("donorname", farmponddetails_obj.getFarmpond_Donor());*/
+
+                   /* if (farmponddetails_obj.getFarmpond_ApprovalStatus().equals(null)||
+                            farmponddetails_obj.getFarmpond_ApprovalStatus().isEmpty() ||
+                            farmponddetails_obj.getFarmpond_ApprovalStatus().equalsIgnoreCase("no") ||
+                            farmponddetails_obj.getFarmpond_ApprovalStatus().equalsIgnoreCase("0")) {
+                        holder.holder_approvalstatus_ll.setVisibility(View.GONE);
+                    } else {
+                        holder.holder_approvalstatus_ll.setVisibility(View.VISIBLE);
+                        if (farmponddetails_obj.getFarmpond_ApprovalStatus().equals(null) ||
+                                farmponddetails_obj.getFarmpond_ApprovalStatus().equalsIgnoreCase("Pending") ||
+                                farmponddetails_obj.getFarmpond_ApprovalStatus().equalsIgnoreCase("Rejected") ||
+                                farmponddetails_obj.getFarmpond_ApprovalStatus().equalsIgnoreCase("Deleted")
+                        ) {
+
+                            holder.holder_farmpond_approvalstatus_tv.setTextColor(getResources().getColor(R.color.color_red));
+                            holder.holder_farmpond_approvalstatus_tv.setText(farmponddetails_obj.getFarmpond_ApprovalStatus());
+                        } else {
+
+                            holder.holder_farmpond_approvalstatus_tv.setTextColor(getResources().getColor(R.color.dark_green));
+                            holder.holder_farmpond_approvalstatus_tv.setText(farmponddetails_obj.getFarmpond_ApprovalStatus());
+                        }
+                    }*/
 
 
-                            Log.e("lat", str_latitude);
-                            Log.e("long", str_longitude);
+                   /* if (farmponddetails_obj.getFarmpond_ApprovalRemarks().isEmpty() ||
+                            farmponddetails_obj.getFarmpond_ApprovalRemarks().equalsIgnoreCase("no") ||
+                            farmponddetails_obj.getFarmpond_ApprovalRemarks().equalsIgnoreCase("0")) {
+                        holder.holder_approvalremarks_ll.setVisibility(View.GONE);
+                    } else {
+                        holder.holder_approvalremarks_ll.setVisibility(View.VISIBLE);
+                        holder.holder_farmpond_approvalremarks_tv.setText(farmponddetails_obj.getFarmpond_ApprovalRemarks());
+                    }
+
+                    if (farmponddetails_obj.getFarmpond_Approvedby().isEmpty() ||
+                            farmponddetails_obj.getFarmpond_Approvedby().equalsIgnoreCase("no") ||
+                            farmponddetails_obj.getFarmpond_Approvedby().equalsIgnoreCase("0")) {
+                        holder.holder_approvedby_ll.setVisibility(View.GONE);
+                    } else {
+                        holder.holder_approvedby_ll.setVisibility(View.VISIBLE);
+                        holder.holder_farmpond_approvedby_tv.setText(farmponddetails_obj.getFarmpond_Approvedby());
+                    }
+
+                    if (farmponddetails_obj.getFarmpond_Donor().isEmpty() ||
+                            farmponddetails_obj.getFarmpond_Donor().equalsIgnoreCase("no") ||
+                            farmponddetails_obj.getFarmpond_Donor().equalsIgnoreCase("0")
+                    ) {
+                        holder.holder_donorname_ll.setVisibility(View.GONE);
+                    } else {
+                        holder.holder_donorname_ll.setVisibility(View.VISIBLE);
+                        holder.holder_farmpond_donorname_tv.setText(farmponddetails_obj.getFarmpond_Donor());
+                    }
+*/
 
 
-                            str_gps_yes = "yes";
-                            Log.e("editstring", str_gps_yes);
+
+                    holder.holder_farmer_id.setText(farmponddetails_obj.getfarmer_id());
+
+                    final String str_farmpond_id = farmponddetails_obj.getFarmpond_Id();
+                    final String str_farmer_id = farmponddetails_obj.getfarmer_id();
+                    final String str_farmername = farmponddetails_obj.getFarmer_Name();
+
+                    final String str_approved = farmponddetails_obj.getFarmpond_ApprovalStatus();
+
+
+                    holder.holder_editfarmerponddetails.setOnClickListener(new View.OnClickListener() {
+                        @Override
+                        public void onClick(View v) {
+                            //edit_farmponddetails_alertdialog_offline(farmponddetails_obj);
+
+
+                            gpstracker_obj2 = new Class_GPSTracker(EachFarmPondDetails_Activity.this);
+
+
+                            if (gpstracker_obj2.canGetLocation()) {
+                                double_currentlatitude = gpstracker_obj2.getLatitude();
+                                double_currentlongitude = gpstracker_obj2.getLongitude();
+
+
+                                str_latitude = Double.toString(double_currentlatitude);
+                                str_longitude = Double.toString(double_currentlongitude);
+
+
+                                Log.e("lat", str_latitude);
+                                Log.e("long", str_longitude);
+
+
+                                str_gps_yes = "yes";
+                                Log.e("editstring", str_gps_yes);
+                                // edit_farmponddetails_alertdialog(farmponddetails_obj);
+
+
+                            } else {
+                                Log.e("editstring", str_gps_yes);
+                                str_gps_yes = "no";
+                                gpstracker_obj2.showSettingsAlert();
+                            }
+
+
+                            if (str_gps_yes.equalsIgnoreCase("yes"))
+                            {
+                               // edit_farmponddetails_alertdialog_offline(str_farmername, str_farmer_id, str_farmpond_id, str_approved);
+                            }
+
+
                             // edit_farmponddetails_alertdialog(farmponddetails_obj);
 
+                            //   edit_farmponddetails_alertdialog_offline(str_farmername, str_farmer_id, str_farmpond_id);
 
-                        } else {
-                            Log.e("editstring", str_gps_yes);
-                            str_gps_yes = "no";
-                            gpstracker_obj2.showSettingsAlert();
+
                         }
+                    });
 
 
-                        if (str_gps_yes.equalsIgnoreCase("yes"))
-                        {
-                           // edit_farmponddetails_alertdialog(farmponddetails_obj);
-                        }
+                    //Log.e("image",farmponddetails_obj.getImage1_Base64());
+
+                    String str_image1_Base64 = farmponddetails_obj.getImage1_Base64();
+                    String str_image2_Base64 = farmponddetails_obj.getImage2_Base64();
+                    String str_image3_Base64 = farmponddetails_obj.getImage3_Base64();
 
 
+                    // Log.e("image offline", str_image1_Base64);
 
+
+                    if (str_image1_Base64.equalsIgnoreCase("noimage1") ||
+                            str_image1_Base64.equalsIgnoreCase("empty") ||
+                            str_image1_Base64.equalsIgnoreCase("0"))//str_base64image1="noimage1" str_imageid1="0",empty
+                    {
+                        Log.e("no image", str_image1_Base64.toString());
+
+                        Bitmap bitmap = BitmapFactory.decodeResource(getApplicationContext().getResources(), R.drawable.no_image);
+                        holder.holder_farmpond_image1.setImageBitmap(bitmap);
+                    } else {
+
+                        //  Log.e("Eachimage1",str_image1_Base64);
+
+                        imageBytes = Base64.decode(str_image1_Base64, Base64.DEFAULT);
+                        bmp_decodedImage1 = BitmapFactory.decodeByteArray(imageBytes, 0, imageBytes.length);
+                        holder.holder_farmpond_image1.setImageBitmap(bmp_decodedImage1);
                     }
-                });
 
-                /*if (farmponddetails_obj.getClass_farmpondimages_obj().size() > 0)
-                {
-                    for (int j = 0; j < farmponddetails_obj.getClass_farmpondimages_obj().size(); j++) {
 
-                        Log.e("imageurl", str_farmpondbaseimage_url + farmponddetails_obj.getClass_farmpondimages_obj().get(j).getImage_url().toString());
+                    if (str_image2_Base64.equalsIgnoreCase("noimage2") ||
+                            str_image2_Base64.equalsIgnoreCase("empty") ||
+                            str_image2_Base64.equalsIgnoreCase("0"))//str_base64image2="noimage2" str_imageid2="0"
+                    {
+                        Bitmap bitmap = BitmapFactory.decodeResource(getApplicationContext().getResources(), R.drawable.no_image);
+                        holder.holder_farmpond_image2.setImageBitmap(bitmap);
+                    } else {
 
-                        String str_farmpondimageurl = str_farmpondbaseimage_url + farmponddetails_obj.getClass_farmpondimages_obj().get(j).getImage_url().toString();
 
-                        if (j == 0) {
-                            Picasso.get()
-                                    .load(str_farmpondimageurl)
-                                    .into(holder.holder_farmpond_image1, new Callback() {
-                                        @Override
-                                        public void onSuccess() {
-                                        }
+                        imageBytes = Base64.decode(str_image2_Base64, Base64.DEFAULT);
+                        bmp_decodedImage2 = BitmapFactory.decodeByteArray(imageBytes, 0, imageBytes.length);
+                        holder.holder_farmpond_image2.setImageBitmap(bmp_decodedImage2);
+                    }
 
-                                        @Override
-                                        public void onError(Exception e) {
-                                        }
-                                    });
-                        }
-                        if (j == 1) {
-                            Picasso.get()
-                                    .load(str_farmpondimageurl)
-                                    .into(holder.holder_farmpond_image2, new Callback() {
-                                        @Override
-                                        public void onSuccess() {
-                                        }
 
-                                        @Override
-                                        public void onError(Exception e) {
-                                        }
-                                    });
-                        }
-                        if (j == 2) {
-                            Picasso.get()
-                                    .load(str_farmpondimageurl)
-                                    .into(holder.holder_farmpond_image3, new Callback() {
-                                        @Override
-                                        public void onSuccess() {
-                                        }
+                    if (str_image3_Base64.equalsIgnoreCase("noimage3") ||
+                            str_image3_Base64.equalsIgnoreCase("empty") ||
+                            str_image3_Base64.equalsIgnoreCase("0"))//str_base64image3="noimage3" str_imageid3="0";
+                    {
+                        Bitmap bitmap = BitmapFactory.decodeResource(getApplicationContext().getResources(), R.drawable.no_image);
+                        holder.holder_farmpond_image3.setImageBitmap(bitmap);
+                    } else {
+                        imageBytes = Base64.decode(str_image3_Base64, Base64.DEFAULT);
+                        bmp_decodedImage3 = BitmapFactory.decodeByteArray(imageBytes, 0, imageBytes.length);
+                        holder.holder_farmpond_image3.setImageBitmap(bmp_decodedImage3);
+                    }
+                } else {
 
-                                        @Override
-                                        public void onError(Exception e) {
-                                        }
-                                    });
-                        }
-                    } // end for 1
-                }// end if 2*/
-
+                    holder.holder_listview_ll.setVisibility(View.GONE);
+                }
 
             }// end if 1
 
-            return convertView;
+            return convertView1;
 
         }//End of custom getView
     }//End of CustomAdapter
-
 
 
 
