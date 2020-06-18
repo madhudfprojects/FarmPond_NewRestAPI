@@ -68,12 +68,14 @@ import retrofit2.Call;
 import retrofit2.Callback;
 import retrofit2.Response;
 
+import static android.content.ContentValues.TAG;
+
 public class AddFarmPondActivity extends AppCompatActivity
 {
 
-    Class_GPSTracker gpstracker_obj1,gpstracker_obj2;
+/*    Class_GPSTracker gpstracker_obj1,gpstracker_obj2;
     Double double_currentlatitude=0.0;
-    Double double_currentlongitude=0.0;
+    Double double_currentlongitude=0.0;*/
     String str_latitude,str_longitude;
 
 
@@ -83,6 +85,9 @@ public class AddFarmPondActivity extends AppCompatActivity
     Boolean isInternetPresent = false;
     Toolbar toolbar;
 
+    double latitude,longitude;
+    String lat_str,log_str;
+    AppLocationService appLocationService;
 
     ImageView add_newfarmpond_iv;
 
@@ -363,11 +368,26 @@ public class AddFarmPondActivity extends AppCompatActivity
         // System.out.println("Days: " + int_days);
 
 
+        appLocationService = new AppLocationService(
+                AddFarmPondActivity.this);
+        android.location.Location nwLocation = appLocationService.getLocation(LocationManager.GPS_PROVIDER);
+
+        if (nwLocation != null) {
+            latitude = nwLocation.getLatitude();
+            longitude = nwLocation.getLongitude();
+            lat_str=Double.toString(latitude);
+            log_str=Double.toString(longitude);
+            Log.e(TAG,"latitude"+lat_str);
+            Log.e(TAG,"longitude"+log_str);
+            Toast.makeText(this," before latitude="+lat_str+" longitude="+log_str,Toast.LENGTH_LONG).show();
+            str_latitude =Double.toString(latitude);
+            str_longitude =Double.toString(longitude);
+
+        }
 
 
 
-
-        gpstracker_obj2 = new Class_GPSTracker(AddFarmPondActivity.this);
+     /*   gpstracker_obj2 = new Class_GPSTracker(AddFarmPondActivity.this);
         if(gpstracker_obj2.canGetLocation())
         {
             double_currentlatitude = gpstracker_obj2.getLatitude();
@@ -375,8 +395,8 @@ public class AddFarmPondActivity extends AppCompatActivity
             str_latitude =Double.toString(double_currentlatitude);
             str_longitude =Double.toString(double_currentlongitude);
 
-            /*latitude_tv.setText(str_latitude);
-            longitude_tv.setText(str_longitude);*/
+            *//*latitude_tv.setText(str_latitude);
+            longitude_tv.setText(str_longitude);*//*
 
             Log.e("lat",str_latitude);
             Log.e("long",str_longitude);
@@ -389,9 +409,9 @@ public class AddFarmPondActivity extends AppCompatActivity
 
         }else
         {
-            gpstracker_obj2.showSettingsAlert();
+            //gpstracker_obj2.showSettingsAlert();
         }
-
+*/
         //newfarmpond_count();
         //checkthecount();
 
@@ -419,7 +439,7 @@ public class AddFarmPondActivity extends AppCompatActivity
                     {
                         cancel_submit_addnew_ll.setVisibility(View.GONE);
 
-                        gpstracker_obj1 = new Class_GPSTracker(AddFarmPondActivity.this);
+                       /* gpstracker_obj1 = new Class_GPSTracker(AddFarmPondActivity.this);
                         if (gpstracker_obj1.canGetLocation()) {
 
 
@@ -437,17 +457,11 @@ public class AddFarmPondActivity extends AppCompatActivity
                             internetDectector = new Class_InternetDectector(getApplicationContext());
                             isInternetPresent = internetDectector.isConnectingToInternet();
 
-
-
-
-
-                            AsyncCallWS_Insert_into_DB task = new AsyncCallWS_Insert_into_DB(AddFarmPondActivity.this);
-                            task.execute();
-
-
                         } else {
                             gpstracker_obj1.showSettingsAlert();
-                        }
+                        }*/
+                        AsyncCallWS_Insert_into_DB task = new AsyncCallWS_Insert_into_DB(AddFarmPondActivity.this);
+                        task.execute();
                     }
 
                 }
@@ -506,11 +520,28 @@ public class AddFarmPondActivity extends AppCompatActivity
                     isGPSON = locationManager.isProviderEnabled(LocationManager.GPS_PROVIDER);
 
 
-                    getLocation();
+                    //getLocation();
+                    appLocationService = new AppLocationService(
+                            AddFarmPondActivity.this);
+                    android.location.Location nwLocation = appLocationService.getLocation(LocationManager.GPS_PROVIDER);
+
+                    if (nwLocation != null) {
+                        latitude = nwLocation.getLatitude();
+                        longitude = nwLocation.getLongitude();
+                        lat_str=Double.toString(latitude);
+                        log_str=Double.toString(longitude);
+                        Log.e(TAG,"latitude"+lat_str);
+                        Log.e(TAG,"longitude"+log_str);
+                        Toast.makeText(AddFarmPondActivity.this," after camera latitude="+lat_str+" longitude="+log_str,Toast.LENGTH_LONG).show();
+                        str_latitude =Double.toString(latitude);
+                        str_longitude =Double.toString(longitude);
+                        latitude_tv.setText(str_latitude);
+                        longitude_tv.setText(str_longitude);
+                    }
                 }
 
 
-               // selectImage();
+                selectImage();
             }
         });
 
