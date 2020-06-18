@@ -90,10 +90,24 @@ public class Class_farmponddetails_offline
     private String Farmpond_Latitude;
     private String Farmpond_Longitude;
 
+    private String Farmpond_yearid;
 
 
+    public String getFarmer_Id() {
+        return Farmer_Id;
+    }
 
+    public void setFarmer_Id(String farmer_Id) {
+        Farmer_Id = farmer_Id;
+    }
 
+    public String getFarmpond_yearid() {
+        return Farmpond_yearid;
+    }
+
+    public void setFarmpond_yearid(String farmpond_yearid) {
+        Farmpond_yearid = farmpond_yearid;
+    }
 
     public String getFarmerTemp_Id() {
         return FarmerTemp_Id;
