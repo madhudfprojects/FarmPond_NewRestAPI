@@ -1518,7 +1518,7 @@ public class AddFarmPondActivity extends AppCompatActivity
 
 
 
-            SQLiteDatabase db1 = this.openOrCreateDatabase("PondDetails_DB", Context.MODE_PRIVATE, null);
+            SQLiteDatabase db1 = this.openOrCreateDatabase("FarmPond_db", Context.MODE_PRIVATE, null);
 
 
 

@@ -284,7 +284,7 @@ public class EachFarmPondDetails_Activity extends AppCompatActivity {
     {
 
         Log.e("farmerID", str_farmerID);
-        SQLiteDatabase db1 = this.openOrCreateDatabase("PondDetails_DB", Context.MODE_PRIVATE, null);
+        SQLiteDatabase db1 = this.openOrCreateDatabase("FarmPond_db", Context.MODE_PRIVATE, null);
 
         db1.execSQL("CREATE TABLE IF NOT EXISTS FarmPondDetails_fromServerRest(SlNo INTEGER PRIMARY KEY AUTOINCREMENT,FIDDB VARCHAR,TempFIDDB VARCHAR," +
                 "FNameDB VARCHAR,FMNameDB VARCHAR,FLNameDB VARCHAR,FYearIDDB VARCHAR,FStateIDDB VARCHAR,FDistrictIDDB VARCHAR," +
@@ -605,7 +605,11 @@ public class EachFarmPondDetails_Activity extends AppCompatActivity {
                     final String str_approved = farmponddetails_obj.getFarmpond_ApprovalStatus();
 
 
-                    holder.holder_editfarmerponddetails.setOnClickListener(new View.OnClickListener() {
+
+
+
+                    holder.holder_editfarmerponddetails.setOnClickListener(new View.OnClickListener()
+                    {
                         @Override
                         public void onClick(View v) {
                             //edit_farmponddetails_alertdialog_offline(farmponddetails_obj);
