@@ -392,6 +392,7 @@ public class Activity_ViewFarmers extends AppCompatActivity {
         sharedpreferencebook_usercredential_Obj=getSharedPreferences(sharedpreferencebook_usercredential, Context.MODE_PRIVATE);
         str_employee_id=sharedpreferencebook_usercredential_Obj.getString(KeyValue_employeeid, "").trim();
 
+        Log.e("tag","str_employee_id="+str_employee_id);
         str_imageurltobase64_farmerimage="empty";
 
 
@@ -1854,7 +1855,7 @@ public class Activity_ViewFarmers extends AppCompatActivity {
 
     private void GetDropdownValuesRestData(){
 
-        Call<Location_Data> call = userService1.getLocationData("40");
+        Call<Location_Data> call = userService1.getLocationData(str_employee_id);
 
         final ProgressDialog progressDoalog;
         progressDoalog = new ProgressDialog(Activity_ViewFarmers.this);
@@ -1989,7 +1990,7 @@ public class Activity_ViewFarmers extends AppCompatActivity {
 
     private void GetFarmer_PondValuesRestData(){
 
-        Call<UserData> call = userService1.getUserData("40");
+        Call<UserData> call = userService1.getUserData(str_employee_id);
 
         final ProgressDialog progressDoalog;
         progressDoalog = new ProgressDialog(Activity_ViewFarmers.this);
@@ -2004,7 +2005,8 @@ public class Activity_ViewFarmers extends AppCompatActivity {
             public void onResponse(Call<UserData> call, Response<UserData> response) {
                 //   Log.e("Entered resp", response.message());
                 //     Log.e("Entered resp", response.body().getMessage());
-
+                Log.e("TAG", "response 33: "+new Gson().toJson(response) );
+                Log.e("response body", String.valueOf(response.body()));
                 if (response.isSuccessful()) {
                     UserData class_userData = response.body();
                     Log.e("response.body", response.body().getLst().toString());
@@ -2739,7 +2741,7 @@ public class Activity_ViewFarmers extends AppCompatActivity {
     }*/
     private void NormalLoginNew(){
 
-        Call call = userService1.getLocationDataNew("40");
+        Call call = userService1.getLocationDataNew(str_employee_id);
 
         call.enqueue(new Callback()
         {
