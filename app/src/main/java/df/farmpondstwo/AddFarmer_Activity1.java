@@ -1298,8 +1298,10 @@ String str_idproof_type,str_idproof_no;
 //insert into new farmerdetails
  public void insert_farmerdetails_into_ViewFarmerList()
     {
-        str_tempfid="tempfarmerID"+String.valueOf(System.currentTimeMillis());
+      //  str_tempfid="tempfarmerID"+String.valueOf(System.currentTimeMillis());
     //str_tempfid=str_farmerid;
+        str_tempfid="tempfarmerID"+String.valueOf(System.currentTimeMillis()+"_"+str_employee_id);
+
         str_farmerid="0";
     String str_farmerFname=farmerfirstname_et.getText().toString();
     String str_farmerimage="empty";

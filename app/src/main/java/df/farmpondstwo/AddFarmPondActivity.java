@@ -68,12 +68,14 @@ import retrofit2.Call;
 import retrofit2.Callback;
 import retrofit2.Response;
 
+import static android.content.ContentValues.TAG;
+
 public class AddFarmPondActivity extends AppCompatActivity
 {
 
-    Class_GPSTracker gpstracker_obj1,gpstracker_obj2;
-    Double double_currentlatitude=0.0;
-    Double double_currentlongitude=0.0;
+    //  Class_GPSTracker gpstracker_obj1,gpstracker_obj2;
+    //   Double double_currentlatitude=0.0;
+    //  Double double_currentlongitude=0.0;
     String str_latitude,str_longitude;
 
 
@@ -193,7 +195,9 @@ public class AddFarmPondActivity extends AppCompatActivity
     Location loc;
     ProgressDialog dialog_location;
 
-
+    double latitude,longitude;
+    String lat_str,log_str;
+    AppLocationService appLocationService;
     @Override
     protected void onCreate(Bundle savedInstanceState)
     {
@@ -209,6 +213,7 @@ public class AddFarmPondActivity extends AppCompatActivity
         // Set upon the actionbar
 
         getSupportActionBar().setDisplayHomeAsUpEnabled(true);
+        dialog_location = new ProgressDialog(AddFarmPondActivity.this);
 
 
         TextView title= (TextView) toolbar.findViewById(R.id.title_name);
@@ -363,11 +368,31 @@ public class AddFarmPondActivity extends AppCompatActivity
         // System.out.println("Days: " + int_days);
 
 
+        //  locationListenerActivity = new LocationActivity(AddFarmPondActivity.this);
 
 
+        //locationListenerActivity.fetchlocation();
 
+        appLocationService = new AppLocationService(
+                AddFarmPondActivity.this);
+        android.location.Location nwLocation = appLocationService.getLocation(LocationManager.GPS_PROVIDER);
 
-        gpstracker_obj2 = new Class_GPSTracker(AddFarmPondActivity.this);
+        if (nwLocation != null) {
+            latitude = nwLocation.getLatitude();
+            longitude = nwLocation.getLongitude();
+            lat_str=Double.toString(latitude);
+            log_str=Double.toString(longitude);
+            Log.e(TAG,"latitude"+lat_str);
+            Log.e(TAG,"longitude"+log_str);
+            Toast.makeText(this," before latitude="+lat_str+" longitude="+log_str,Toast.LENGTH_LONG).show();
+            str_latitude =Double.toString(latitude);
+            str_longitude =Double.toString(longitude);
+
+        } else {
+            //showSettingsAlert("NETWORK");
+        }
+
+       /* gpstracker_obj2 = new Class_GPSTracker(AddFarmPondActivity.this);
         if(gpstracker_obj2.canGetLocation())
         {
             double_currentlatitude = gpstracker_obj2.getLatitude();
@@ -375,8 +400,8 @@ public class AddFarmPondActivity extends AppCompatActivity
             str_latitude =Double.toString(double_currentlatitude);
             str_longitude =Double.toString(double_currentlongitude);
 
-            /*latitude_tv.setText(str_latitude);
-            longitude_tv.setText(str_longitude);*/
+            *//*latitude_tv.setText(str_latitude);
+            longitude_tv.setText(str_longitude);*//*
 
             Log.e("lat",str_latitude);
             Log.e("long",str_longitude);
@@ -390,7 +415,7 @@ public class AddFarmPondActivity extends AppCompatActivity
         }else
         {
             gpstracker_obj2.showSettingsAlert();
-        }
+        }*/
 
         //newfarmpond_count();
         //checkthecount();
@@ -411,7 +436,7 @@ public class AddFarmPondActivity extends AppCompatActivity
             public void onClick(View v)
             {
 
-               // doLogin();
+                // doLogin();
 
                 if(1<2)
                 {
@@ -419,7 +444,7 @@ public class AddFarmPondActivity extends AppCompatActivity
                     {
                         cancel_submit_addnew_ll.setVisibility(View.GONE);
 
-                        gpstracker_obj1 = new Class_GPSTracker(AddFarmPondActivity.this);
+                        /*gpstracker_obj1 = new Class_GPSTracker(AddFarmPondActivity.this);
                         if (gpstracker_obj1.canGetLocation()) {
 
 
@@ -439,15 +464,13 @@ public class AddFarmPondActivity extends AppCompatActivity
 
 
 
-
-
-                            AsyncCallWS_Insert_into_DB task = new AsyncCallWS_Insert_into_DB(AddFarmPondActivity.this);
-                            task.execute();
-
-
                         } else {
                             gpstracker_obj1.showSettingsAlert();
-                        }
+                        }*/
+
+                        AsyncCallWS_Insert_into_DB task = new AsyncCallWS_Insert_into_DB(AddFarmPondActivity.this);
+                        task.execute();
+
                     }
 
                 }
@@ -505,12 +528,32 @@ public class AddFarmPondActivity extends AppCompatActivity
                     locationManager = (LocationManager) getSystemService(Service.LOCATION_SERVICE);
                     isGPSON = locationManager.isProviderEnabled(LocationManager.GPS_PROVIDER);
 
+                    //  locationListenerActivity.fetchlocation();
+                    //getLocation();
+                    appLocationService = new AppLocationService(
+                            AddFarmPondActivity.this);
+                    android.location.Location nwLocation = appLocationService.getLocation(LocationManager.GPS_PROVIDER);
 
-                    getLocation();
+                    if (nwLocation != null) {
+                        latitude = nwLocation.getLatitude();
+                        longitude = nwLocation.getLongitude();
+                        lat_str=Double.toString(latitude);
+                        log_str=Double.toString(longitude);
+                        Log.e(TAG,"latitude"+lat_str);
+                        Log.e(TAG,"longitude"+log_str);
+                        Toast.makeText(AddFarmPondActivity.this," after camera latitude="+lat_str+" longitude="+log_str,Toast.LENGTH_LONG).show();
+                        str_latitude =Double.toString(latitude);
+                        str_longitude =Double.toString(longitude);
+                        latitude_tv.setText(str_latitude);
+                        longitude_tv.setText(str_longitude);
+                    } else {
+                        //showSettingsAlert("NETWORK");
+                    }
+                    selectImage();
                 }
 
 
-               // selectImage();
+                // selectImage();
             }
         });
 
@@ -912,25 +955,6 @@ public class AddFarmPondActivity extends AppCompatActivity
         return ( b_pond_width1&&b_pond_width2&&b_pond_height1&&b_pond_height2&&b_pond_depth1&&b_pond_depth2&&b_pondimages
                 &&b_add_completed_date&&b_no_days&&b_datevalidation&&b_enteramount&&b_reason);
     }
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
 
 
 
@@ -1518,26 +1542,7 @@ public class AddFarmPondActivity extends AppCompatActivity
 
 
 
-            SQLiteDatabase db1 = this.openOrCreateDatabase("PondDetails_DB", Context.MODE_PRIVATE, null);
-
-
-
-
-
-            /*
-            db1.execSQL("CREATE TABLE IF NOT EXISTS FarmPondDetails_fromServer(SlNo INTEGER PRIMARY KEY AUTOINCREMENT,FIDDB VARCHAR,TempFIDDB VARCHAR," +
-                    "FNameDB VARCHAR,FMNameDB VARCHAR,FLNameDB VARCHAR,FYearIDDB VARCHAR,FStateIDDB VARCHAR,FDistrictIDDB VARCHAR," +
-                    "FTalukIDDB VARCHAR,FPanchayatIDDB VARCHAR,FVillageIDDB VARCHAR,FageDB VARCHAR,FphonenumberDB VARCHAR," +
-                    "FAnnualIncomeDB VARCHAR,FfamilymemberDB VARCHAR,FidprooftypeDB VARCHAR,FidproofnoDB VARCHAR,FphotoDB VARCHAR,FPondidDB VARCHAR,WidthDB VARCHAR," +
-                    "HeightDB VARCHAR,DepthDB VARCHAR,LatitudeDB VARCHAR,LongitudeDB VARCHAR,Imageid1DB VARCHAR,Image1Base64DB VARCHAR," +
-                    "Imageid2DB VARCHAR,Image2Base64DB VARCHAR,Imageid3DB VARCHAR,Image3Base64DB VARCHAR,EmployeeIDDB VARCHAR,SubmittedDateDB VARCHAR," +
-                    "TotalDaysDB VARCHAR,StartDateDB VARCHAR,ConstructedDateDB VARCHAR,PondCostDB VARCHAR,McodeDB VARCHAR,FPondCodeDB VARCHAR," +
-                    "FPondRemarksDB VARCHAR,FPondAmtTakenDB VARCHAR,FPondStatusDB VARCHAR," +
-                    "FPondApprovalStatusDB VARCHAR,FPondApprovalRemarksDB VARCHAR,FPondApprovedbyDB VARCHAR,FPondApprovedDateDB VARCHAR,FPondDonorDB VARCHAR," +
-                    "FPondLatitudeDB VARCHAR,FPondLongitudeDB VARCHAR," +
-                    "FPondAcresDB VARCHAR,FPondGuntaDB VARCHAR,FPondCropBeforeDB VARCHAR,FPondCropAfterDB VARCHAR," +
-                    "UploadedStatusFarmerprofile VARCHAR,UploadedStatus VARCHAR);");
-                    */
+            SQLiteDatabase db1 = this.openOrCreateDatabase("FarmPond_db", Context.MODE_PRIVATE, null);
 
 
             db1.execSQL("CREATE TABLE IF NOT EXISTS FarmPondDetails_fromServerRest(SlNo INTEGER PRIMARY KEY AUTOINCREMENT,FIDDB VARCHAR,TempFIDDB VARCHAR," +
@@ -1645,15 +1650,7 @@ public class AddFarmPondActivity extends AppCompatActivity
         int_farmpondcount=int_farmpondcount+1;
         String x= String.valueOf(int_farmpondcount);
 
-        SQLiteDatabase db_viewfarmerlist = this.openOrCreateDatabase("FarmerListdb", Context.MODE_PRIVATE, null);
-
-        /*
-        db_viewfarmerlist.execSQL("CREATE TABLE IF NOT EXISTS ViewFarmerList(DispFarmerTable_YearID VARCHAR,DispFarmerTable_StateID VARCHAR," +
-                "DispFarmerTable_DistrictID VARCHAR,DispFarmerTable_TalukID VARCHAR,DispFarmerTable_VillageID VARCHAR," +
-                "DispFarmerTable_GrampanchayatID VARCHAR,DispFarmerTable_FarmerID VARCHAR,DispFarmerTable_Farmer_Code VARCHAR," +
-                "DispFarmerTable_FarmerName VARCHAR,FarmerImageB64str_DB VARCHAR,DispFarmerTable_FarmerImage VARCHAR,LocalFarmerImg BLOB,Farmpondcount VARCHAR);");
-
-*/
+        SQLiteDatabase db_viewfarmerlist = this.openOrCreateDatabase("FarmPond_db", Context.MODE_PRIVATE, null);
 
 
         db_viewfarmerlist.execSQL("CREATE TABLE IF NOT EXISTS ViewFarmerListRest(MTempId INTEGER PRIMARY KEY,DispFarmerTable_YearID VARCHAR,DispFarmerTable_StateID VARCHAR," +
@@ -1664,13 +1661,11 @@ public class AddFarmPondActivity extends AppCompatActivity
                 "FarmerImageB64str_DB VARCHAR,DispFarmerTable_FarmerImage VARCHAR," +
                 "LocalFarmerImg BLOB,Farmpondcount VARCHAR,Submitted_Date VARCHAR,Created_By VARCHAR,Created_Date VARCHAR,Created_User VARCHAR,Response VARCHAR,Response_Action VARCHAR);");
 
-
-
         ContentValues cv = new ContentValues();
         cv.put("Farmpondcount",String.valueOf(int_farmpondcount));
 
 
-        db_viewfarmerlist.update("ViewFarmerList", cv, "DispFarmerTable_FarmerID = ?", new String[]{str_farmerID});
+        db_viewfarmerlist.update("ViewFarmerListRest", cv, "DispFarmerTable_FarmerID = ?", new String[]{str_farmerID});
         db_viewfarmerlist.close();
 
 
@@ -1692,22 +1687,6 @@ public class AddFarmPondActivity extends AppCompatActivity
         }
 
     }
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
 
     private void doLogin()
     {
@@ -1832,7 +1811,7 @@ public class AddFarmPondActivity extends AppCompatActivity
     }
 
 
-    private void getLocation()
+   /* private void getLocation()
     {
 
         try {
@@ -1849,7 +1828,7 @@ public class AddFarmPondActivity extends AppCompatActivity
                     dialog_location.show();
 
 
-                    for(int i=0;i<=50;i++)
+                *//*    for(int i=0;i<=50;i++)
                     {
                         locationManager.requestLocationUpdates(
                                 LocationManager.GPS_PROVIDER,
@@ -1858,7 +1837,7 @@ public class AddFarmPondActivity extends AppCompatActivity
                         if(locationManager!=null)
                         {}else{i--;}
 
-                    }
+                    }*//*
                     if (locationManager != null)
                     {
                         loc = locationManager.getLastKnownLocation(LocationManager.GPS_PROVIDER);
@@ -1888,7 +1867,7 @@ public class AddFarmPondActivity extends AppCompatActivity
                         dialog_location.dismiss();
                     }
                 }
-                /*else if (isNetwork)
+                *//*else if (isNetwork)
                 {
                     // from Network Provider
                     Log.d(TAG, "NETWORK_PROVIDER on");
@@ -1902,13 +1881,13 @@ public class AddFarmPondActivity extends AppCompatActivity
                         loc = locationManager.getLastKnownLocation(LocationManager.NETWORK_PROVIDER);
 
                     }
-                } */
-                /*else
+                } *//*
+ *//*else
                 {
                     loc.setLatitude(0);
                     loc.setLongitude(0);
                     updateUI(loc);
-                }*/
+                }*//*
             } else
             {
                 //Log.d(TAG, "Can't get location");
@@ -1916,7 +1895,7 @@ public class AddFarmPondActivity extends AppCompatActivity
         } catch (SecurityException e) {
             e.printStackTrace();
         }
-    }
+    }*/
 
 
     //location
