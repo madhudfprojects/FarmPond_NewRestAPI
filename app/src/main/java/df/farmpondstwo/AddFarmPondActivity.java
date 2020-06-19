@@ -1906,6 +1906,11 @@ public class AddFarmPondActivity extends AppCompatActivity
         {
 
             //fetch_DB_farmerprofile_offline_data();
+
+            Toast.makeText(getApplicationContext(), "New FarmPond has been added", Toast.LENGTH_SHORT).show();
+            Intent intent = new Intent(AddFarmPondActivity.this, EachFarmPondDetails_Activity.class);
+            startActivity(intent);
+            finish();
         }else
         {
             Toast.makeText(getApplicationContext(), "New FarmPond has been added", Toast.LENGTH_SHORT).show();

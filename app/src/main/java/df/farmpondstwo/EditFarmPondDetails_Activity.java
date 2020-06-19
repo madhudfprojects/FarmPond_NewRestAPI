@@ -962,8 +962,7 @@ public class EditFarmPondDetails_Activity extends AppCompatActivity {
 
         SQLiteDatabase db1 = this.openOrCreateDatabase("FarmPond_db", Context.MODE_PRIVATE, null);
         db1.execSQL("CREATE TABLE IF NOT EXISTS MachineDetails_fromServerRest(SlNo INTEGER PRIMARY KEY AUTOINCREMENT,MachineNameDB VARCHAR,MachineIDDB VARCHAR);");
-
-        Cursor cursor = db1.rawQuery("SELECT DISTINCT * FROM MachineDetails_fromServer", null);
+        Cursor cursor = db1.rawQuery("SELECT DISTINCT * FROM MachineDetails_fromServerRest", null);
         int x = cursor.getCount();
         Log.d("cursor count", Integer.toString(x));
 
@@ -1015,7 +1014,7 @@ public class EditFarmPondDetails_Activity extends AppCompatActivity {
 
         // Cursor cursor = db1.rawQuery("SELECT DISTINCT * FROM MachineDetails_fromServer WHERE MachineIDDB='" + str_machineID + "'", null);
 
-        Cursor cursor = db1.rawQuery("SELECT DISTINCT * FROM MachineDetails_fromServer", null);
+        Cursor cursor = db1.rawQuery("SELECT DISTINCT * FROM MachineDetails_fromServerRest", null);
         int x = cursor.getCount();
 
         Log.d("cursor count", Integer.toString(x));
@@ -1032,11 +1031,7 @@ public class EditFarmPondDetails_Activity extends AppCompatActivity {
 
                 class_machineDetails_array_obj[i] = innerObj_class_machinelist;
                 i++;
-
             } while (cursor.moveToNext());
-
-
-
         }//if ends
 
         db1.close();
@@ -1045,7 +1040,7 @@ public class EditFarmPondDetails_Activity extends AppCompatActivity {
         SQLiteDatabase db2 = this.openOrCreateDatabase("FarmPond_db", Context.MODE_PRIVATE, null);
         db1.execSQL("CREATE TABLE IF NOT EXISTS MachineDetails_fromServerRest(SlNo INTEGER PRIMARY KEY AUTOINCREMENT,MachineNameDB VARCHAR,MachineIDDB VARCHAR);");
 
-        Cursor cursor1 = db2.rawQuery("SELECT DISTINCT * FROM MachineDetails_fromServer WHERE MachineIDDB='" + str_machineID + "'", null);
+        Cursor cursor1 = db2.rawQuery("SELECT DISTINCT * FROM MachineDetails_fromServerRest WHERE MachineIDDB='" + str_machineID + "'", null);
         //Cursor cursor1 = db1.rawQuery("SELECT DISTINCT * FROM MachineDetails_fromServer", null);
         int x1 = cursor1.getCount();
         int i1 = 0;
@@ -1076,14 +1071,6 @@ public class EditFarmPondDetails_Activity extends AppCompatActivity {
             Log.e("comparevalueelse",str_comparevalue);
         }
 
-
-
-
-
-
-
-
-
         if (x > 0) {
 
             ArrayAdapter dataAdapter = new ArrayAdapter(getApplicationContext(), R.layout.spinnercenterstyle, class_machineDetails_array_obj);
@@ -1100,7 +1087,7 @@ public class EditFarmPondDetails_Activity extends AppCompatActivity {
 
 
 
-        SQLiteDatabase db1 = this.openOrCreateDatabase("RemarksDetails_DB", Context.MODE_PRIVATE, null);
+        SQLiteDatabase db1 = this.openOrCreateDatabase("FarmPond_db", Context.MODE_PRIVATE, null);
 
         db1.execSQL("CREATE TABLE IF NOT EXISTS RemarksDetails_fromServer(SlNo INTEGER PRIMARY KEY AUTOINCREMENT,RemarksIDDB VARCHAR,RemarksNameDB VARCHAR);");
         Cursor cursor = db1.rawQuery("SELECT DISTINCT * FROM RemarksDetails_fromServer", null);
@@ -1176,8 +1163,9 @@ public class EditFarmPondDetails_Activity extends AppCompatActivity {
     {
 
         Log.e("editfarmerID",str_farmerpondID);
-        SQLiteDatabase db1 = this.openOrCreateDatabase("PondDetails_DB", Context.MODE_PRIVATE, null);
+        SQLiteDatabase db1 = this.openOrCreateDatabase("FarmPond_db", Context.MODE_PRIVATE, null);
 
+        //FarmPond_db
         db1.execSQL("CREATE TABLE IF NOT EXISTS FarmPondDetails_fromServerRest(SlNo INTEGER PRIMARY KEY AUTOINCREMENT,FIDDB VARCHAR,TempFIDDB VARCHAR," +
                 "FNameDB VARCHAR,FMNameDB VARCHAR,FLNameDB VARCHAR,FYearIDDB VARCHAR,FStateIDDB VARCHAR,FDistrictIDDB VARCHAR," +
                 "FTalukIDDB VARCHAR,FPanchayatIDDB VARCHAR,FVillageIDDB VARCHAR,FageDB VARCHAR,FphonenumberDB VARCHAR," +
@@ -1193,7 +1181,7 @@ public class EditFarmPondDetails_Activity extends AppCompatActivity {
 
 
 
-        Cursor cursor1 = db1.rawQuery("SELECT DISTINCT * FROM FarmPondDetails_fromServer WHERE FPondidDB='" + str_farmerpondID + "'", null);
+        Cursor cursor1 = db1.rawQuery("SELECT DISTINCT * FROM FarmPondDetails_fromServerRest WHERE FPondidDB='" + str_farmerpondID + "'", null);
         int x = cursor1.getCount();
 
         Log.e("Editfarmerid", String.valueOf(x));
@@ -2279,7 +2267,8 @@ public class EditFarmPondDetails_Activity extends AppCompatActivity {
     {
 
 
-        SQLiteDatabase db1 = this.openOrCreateDatabase("PondDetails_DB", Context.MODE_PRIVATE, null);
+        SQLiteDatabase db1 = this.openOrCreateDatabase("FarmPond_db", Context.MODE_PRIVATE, null);
+
         db1.execSQL("CREATE TABLE IF NOT EXISTS FarmPondDetails_fromServerRest(SlNo INTEGER PRIMARY KEY AUTOINCREMENT,FIDDB VARCHAR,TempFIDDB VARCHAR," +
                 "FNameDB VARCHAR,FMNameDB VARCHAR,FLNameDB VARCHAR,FYearIDDB VARCHAR,FStateIDDB VARCHAR,FDistrictIDDB VARCHAR," +
                 "FTalukIDDB VARCHAR,FPanchayatIDDB VARCHAR,FVillageIDDB VARCHAR,FageDB VARCHAR,FphonenumberDB VARCHAR," +
