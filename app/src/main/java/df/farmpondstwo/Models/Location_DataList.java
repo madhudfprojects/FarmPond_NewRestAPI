@@ -24,7 +24,7 @@ public class Location_DataList {
     @SerializedName("Year")
     @Expose
     private List<Year> year = null;
-    @SerializedName("Class_MachineDetails")
+    @SerializedName("Machine")
     @Expose
     private List<Class_MachineDetails> classMachineDetails;
     @SerializedName("Machine_Cost")

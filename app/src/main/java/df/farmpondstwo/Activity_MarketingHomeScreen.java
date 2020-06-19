@@ -1,6 +1,5 @@
 package df.farmpondstwo;
 
-import android.annotation.SuppressLint;
 import android.app.AlertDialog;
 import android.app.ProgressDialog;
 import android.content.ContentValues;
@@ -11,15 +10,11 @@ import android.content.SharedPreferences;
 import android.content.pm.PackageManager;
 import android.database.Cursor;
 import android.database.sqlite.SQLiteDatabase;
-import android.graphics.Bitmap;
-import android.graphics.BitmapFactory;
 import android.graphics.Color;
 import android.net.Uri;
-import android.os.AsyncTask;
 import android.os.Bundle;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
-import android.util.Base64;
 import android.util.Log;
 import android.view.Menu;
 import android.view.MenuItem;
@@ -36,15 +31,9 @@ import com.android.volley.toolbox.StringRequest;
 import com.android.volley.toolbox.Volley;
 import com.google.gson.Gson;
 
-import org.json.JSONArray;
 import org.json.JSONException;
 import org.json.JSONObject;
 
-import java.io.ByteArrayOutputStream;
-import java.io.IOException;
-import java.io.InputStream;
-import java.net.URL;
-import java.nio.charset.StandardCharsets;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
@@ -52,8 +41,6 @@ import java.util.Map;
 import df.farmpondstwo.Models.AddFarmerRequest;
 import df.farmpondstwo.Models.AddFarmerResList;
 import df.farmpondstwo.Models.AddFarmerResponse;
-import df.farmpondstwo.Models.AdminEmpTotalPondCountList;
-import df.farmpondstwo.Models.AdminEmpoyeeTotalPondCount;
 import df.farmpondstwo.Models.Class_FarmerProfileOffline;
 import df.farmpondstwo.Models.Class_farmponddetails;
 import df.farmpondstwo.Models.DefaultResponse;
@@ -1357,7 +1344,42 @@ public class Activity_MarketingHomeScreen extends AppCompatActivity {
 
                 Log.e("response",user_object1.getLst2().getPond_Cost());
 
+                Log.e("response",response.toString());
+                Log.e("TAG", "response 33: "+new Gson().toJson(response) );
+                Log.e("response body", String.valueOf(response.body()));
+                //   DefaultResponse error1 = ErrorUtils.parseError(response);
+                   /* Log.e("response new:",error1.getMsg());
+                    Log.e("response new status:", String.valueOf(error1.getstatus()));*/
+                // Log.e("response",Gson.fromJson(response.toString(),AddFarmer_Activity1.class));
 
+                if(response.isSuccessful())
+                {
+                    //  progressDoalog.dismiss();
+                    Class_addfarmponddetails_ToFromServer1  class_loginresponse = response.body();
+                    Log.e("tag","res=="+class_loginresponse.toString());
+                    if(class_loginresponse.getStatus().equals("true")) {
+
+                        Class_addfarmponddetails_ToFromServer2 class_addfarmponddetails_toFromServer2 = response.body().getLst2();
+                        Log.e("tag","class_addfarmponddetails_toFromServer2 farmerID="+class_addfarmponddetails_toFromServer2.getFarmer_ID());
+                        Log.e("tag","class_addfarmponddetails_toFromServer2 PondID="+class_addfarmponddetails_toFromServer2.getPond_ID());
+
+                    }else if(class_loginresponse.getStatus().equals("false")){
+                        //     progressDoalog.dismiss();
+                        Toast.makeText(Activity_MarketingHomeScreen.this, class_loginresponse.getMessage(), Toast.LENGTH_SHORT).show();
+
+                    }
+                } else {
+                    //   progressDoalog.dismiss();
+
+                    DefaultResponse error = ErrorUtils.parseError(response);
+                    // … and use it to show error information
+
+                    // … or just log the issue like we’re doing :)
+                    Log.d("error message", error.getMsg());
+
+                    Toast.makeText(Activity_MarketingHomeScreen.this, error.getMsg(), Toast.LENGTH_SHORT).show();
+
+                }
                 // Log.e("Addpond_count", String.valueOf(user_object1.getClass_addfarmponddetails_toFromServer2_obj().size()));
 
                 //Toast.makeText(AddFarmPondActivity.this, ""+user_object.getStatus().toString(), Toast.LENGTH_SHORT).show();

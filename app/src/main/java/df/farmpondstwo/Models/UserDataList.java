@@ -9,7 +9,7 @@ public class UserDataList {
     @SerializedName("Farmer")
     @Expose
     private List<Farmer> farmer = null;
-    @SerializedName("Class_farmponddetails")
+    @SerializedName("Pond")
     @Expose
     private List<Class_farmponddetails> classfarmponddetails = null;
     @SerializedName("Response")
