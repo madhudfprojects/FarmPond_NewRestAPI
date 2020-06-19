@@ -30,7 +30,9 @@ import android.os.Bundle;
 import android.support.v7.widget.Toolbar;
 import android.util.Base64;
 import android.util.Log;
+import android.view.MenuItem;
 import android.view.View;
+import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
 import android.widget.Button;
 import android.widget.CheckBox;
@@ -626,7 +628,35 @@ public class AddFarmPondActivity extends AppCompatActivity
 
 
 
+        selectmachineno_sp.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
+            @Override
+            public void onItemSelected(AdapterView<?> parent, View view, int position, long id)
+            {
 
+                class_machineDetails_obj = (Class_MachineDetails) selectmachineno_sp.getSelectedItem();
+                //str_machinecode = class_machineDetails_obj.getMachine_Code().toString();
+                str_machinecode = class_machineDetails_obj.getMachine_ID().toString();
+            }
+
+            @Override
+            public void onNothingSelected(AdapterView<?> parent) {
+
+            }
+        });
+
+        selectremarks_sp.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
+            @Override
+            public void onItemSelected(AdapterView<?> parent, View view, int position, long id)
+            {
+                class_remarksdetails_obj=(Class_RemarksDetails)selectremarks_sp.getSelectedItem();
+                str_remarksid=class_remarksdetails_obj.getRemarks_ID().toString();
+            }
+
+            @Override
+            public void onNothingSelected(AdapterView<?> parent) {
+
+            }
+        });
 
 
 
@@ -1684,7 +1714,7 @@ public class AddFarmPondActivity extends AppCompatActivity
         db1.execSQL("CREATE TABLE IF NOT EXISTS MachineDetails_fromServerRest(SlNo INTEGER PRIMARY KEY AUTOINCREMENT,MachineNameDB VARCHAR,MachineIDDB VARCHAR);");
         Cursor cursor = db1.rawQuery("SELECT DISTINCT * FROM MachineDetails_fromServerRest", null);
         int x = cursor.getCount();
-        Log.d("cursor count", Integer.toString(x));
+        Log.e("Machinecount", Integer.toString(x));
 
 
         int i = 0;
@@ -1699,6 +1729,8 @@ public class AddFarmPondActivity extends AppCompatActivity
                 innerObj_class_machinelist.setMachine_ID(cursor.getString(cursor.getColumnIndex("MachineIDDB")));
                 //
 
+
+                Log.e("machine",innerObj_class_machinelist.getMachine_ID());
                 class_machineDetails_array_obj[i] = innerObj_class_machinelist;
                 i++;
 
@@ -1719,6 +1751,8 @@ public class AddFarmPondActivity extends AppCompatActivity
         }
 
     }
+
+
 
 
 
@@ -2114,6 +2148,62 @@ public class AddFarmPondActivity extends AppCompatActivity
 
 
 
+    @Override
+    public void onBackPressed() {
+
+        AlertDialog.Builder dialog = new AlertDialog.Builder(AddFarmPondActivity.this);
+        dialog.setCancelable(false);
+        dialog.setTitle(R.string.app_name);
+        dialog.setMessage("Are you sure want to go back");
+
+        dialog.setPositiveButton("Yes", new DialogInterface.OnClickListener() {
+            @Override
+            public void onClick(DialogInterface dialog, int id) {
+                Intent i = new Intent(AddFarmPondActivity.this, EachFarmPondDetails_Activity.class);
+                startActivity(i);
+                finish();
+            }
+        })
+                .setNegativeButton("No", new DialogInterface.OnClickListener() {
+                    @Override
+                    public void onClick(DialogInterface dialog, int which) {
+                        //Action for "Cancel".
+                        dialog.dismiss();
+                    }
+                });
+
+        final AlertDialog alert = dialog.create();
+        alert.setOnShowListener(new DialogInterface.OnShowListener() {
+            @Override
+            public void onShow(DialogInterface arg0) {
+                alert.getButton(AlertDialog.BUTTON_NEGATIVE).setTextColor(Color.RED);
+                alert.getButton(AlertDialog.BUTTON_POSITIVE).setTextColor(Color.parseColor("#004D40"));
+            }
+        });
+        alert.show();
+    }
+
+
+    @Override
+    public boolean onOptionsItemSelected(MenuItem item)
+    {
+        // Handle action bar item clicks here. The action bar will
+        // automatically handle clicks on the Home/Up button, so long
+        // as you specify a parent activity in AndroidManifest.xml.
+        int id = item.getItemId();
+
+
+        if (id == android.R.id.home) {
+            //  Toast.makeText(getApplicationContext(),"Back button clicked", Toast.LENGTH_SHORT).show();
+           /* Intent i = new Intent(EditFarmPondDetails_Activity.this, EachFarmPondDetails_Activity.class);
+            startActivity(i);
+             finish();*/
+            onBackPressed();
+            return true;
+        }
+
+        return super.onOptionsItemSelected(item);
+    }
 
 
 
