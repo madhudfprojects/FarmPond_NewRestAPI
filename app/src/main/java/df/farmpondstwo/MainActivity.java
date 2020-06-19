@@ -168,6 +168,20 @@ public class MainActivity extends AppCompatActivity
         normallogin_bt =(Button)findViewById(R.id.normallogin_bt);
 
         //normal login comment while releasing apk
+        if(SaveSharedPreference.getUserName(MainActivity.this).length() == 0)
+        {
+            // call Login Activity
+        }
+        else
+        {
+            Log.e("sharedvalue",SaveSharedPreference.getUserName(MainActivity.this).toString());
+
+            Intent i=new Intent(MainActivity.this,Activity_HomeScreen.class);
+            startActivity(i);
+            finish();
+
+            // Stay at the current activity.
+        }
 
         normallogin_bt.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -188,6 +202,7 @@ public class MainActivity extends AppCompatActivity
 
             }
         });
+
 
         //normal login comment while releasing apk
 

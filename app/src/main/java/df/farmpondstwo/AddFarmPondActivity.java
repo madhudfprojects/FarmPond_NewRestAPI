@@ -521,8 +521,8 @@ public class AddFarmPondActivity extends AppCompatActivity
 
                 str_image3="true";
 
-                if (gps_enable())
-                {
+             //   if (gps_enable())
+               // {
                     locationManager = (LocationManager) getSystemService(Service.LOCATION_SERVICE);
                     isGPSON = locationManager.isProviderEnabled(LocationManager.GPS_PROVIDER);
 
@@ -544,7 +544,7 @@ public class AddFarmPondActivity extends AppCompatActivity
                         latitude_tv.setText(str_latitude);
                         longitude_tv.setText(str_longitude);
                     }
-                }
+               // }
 
 
                 selectImage();
