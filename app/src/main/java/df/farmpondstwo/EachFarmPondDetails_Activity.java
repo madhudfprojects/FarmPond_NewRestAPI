@@ -30,12 +30,7 @@ import android.widget.LinearLayout;
 import android.widget.ListView;
 import android.widget.TextView;
 
-import com.squareup.picasso.Callback;
-import com.squareup.picasso.Picasso;
-
 import java.util.ArrayList;
-
-import df.farmpondstwo.Models.Class_farmponddetails;
 
 public class EachFarmPondDetails_Activity extends AppCompatActivity {
 

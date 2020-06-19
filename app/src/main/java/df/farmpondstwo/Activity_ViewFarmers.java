@@ -2431,9 +2431,6 @@ public class Activity_ViewFarmers extends AppCompatActivity {
 
                    GetDropdownValuesRestData();
                     GetFarmer_PondValuesRestData();
-                    //      NormalLoginNew();
-                    //GetFarmerDetails();
-
 
                 } else {
                     Toast.makeText(getApplicationContext(), "No Internet Connection", Toast.LENGTH_SHORT).show();
@@ -2442,16 +2439,12 @@ public class Activity_ViewFarmers extends AppCompatActivity {
 
                 if (isInternetPresent2) {
                     //    GetFarmerDetails();
-
-
                 } else {
                     Toast.makeText(getApplicationContext(), "No Internet Connection", Toast.LENGTH_SHORT).show();
 
                 }
 
                 if (isInternetPresent2) {
-
-
                     //   AsyncTask_fetch_farmponddetails();
 
                 } else {
