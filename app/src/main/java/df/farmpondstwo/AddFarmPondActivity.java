@@ -514,7 +514,8 @@ public class AddFarmPondActivity extends AppCompatActivity
             }
         });
 
-        add_newpond_image3_iv.setOnClickListener(new View.OnClickListener() {
+        add_newpond_image3_iv.setOnClickListener(new View.OnClickListener()
+        {
             @Override
             public void onClick(View v)
             {
@@ -650,6 +651,7 @@ public class AddFarmPondActivity extends AppCompatActivity
             {
                 class_remarksdetails_obj=(Class_RemarksDetails)selectremarks_sp.getSelectedItem();
                 str_remarksid=class_remarksdetails_obj.getRemarks_ID().toString();
+               Toast.makeText(getApplicationContext(),""+str_remarksid,Toast.LENGTH_SHORT).show();
             }
 
             @Override
@@ -1619,15 +1621,6 @@ public class AddFarmPondActivity extends AppCompatActivity
                     "FPondLatitudeDB VARCHAR,FPondLongitudeDB VARCHAR," +
                     "FPondAcresDB VARCHAR,FPondGuntaDB VARCHAR,FPondCropBeforeDB VARCHAR,FPondCropAfterDB VARCHAR," +
                     "UploadedStatusFarmerprofile VARCHAR,UploadedStatus VARCHAR);");
-
-           /* String SQLiteQuery = "INSERT INTO FarmPondDetails_fromServer (FIDDB,FNameDB,FPondidDB,WidthDB,HeightDB,DepthDB," +
-                    "LatitudeDB,LongitudeDB,Imageid1DB,Image1Base64DB,Imageid2DB,Image2Base64DB,Imageid3DB,Image3Base64DB," +
-                    "EmployeeIDDB,UploadedStatus)" +
-                " VALUES ('"+str_farmerid_db+"','"+str_farmername_db+"','"+str_farmpond_id+"','"+str_width+"'," +
-                "'"+str_height+"','"+str_depth+"','"+str_latitude+"','"+str_longitude+"','"+str_imageid1+"'," +
-                    "'"+arraylist_image1_base64.get(0)+"'," +
-                "'"+str_imageid2+"','"+arraylist_image2_base64.get(0)+"','"+str_imageid3+"'," +
-                    "'"+arraylist_image3_base64.get(0)+"','"+str_employee_id+"','"+2+"');";*/
 
 
             String str_farmerMName,str_farmerLName,str_yearID,str_stateID,str_districtID,str_talukID,str_panchayatID,str_villageID,

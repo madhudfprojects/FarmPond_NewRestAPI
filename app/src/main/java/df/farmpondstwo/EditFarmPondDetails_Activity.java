@@ -1038,7 +1038,7 @@ public class EditFarmPondDetails_Activity extends AppCompatActivity {
 
 
         SQLiteDatabase db2 = this.openOrCreateDatabase("FarmPond_db", Context.MODE_PRIVATE, null);
-        db1.execSQL("CREATE TABLE IF NOT EXISTS MachineDetails_fromServerRest(SlNo INTEGER PRIMARY KEY AUTOINCREMENT,MachineNameDB VARCHAR,MachineIDDB VARCHAR);");
+        db2.execSQL("CREATE TABLE IF NOT EXISTS MachineDetails_fromServerRest(SlNo INTEGER PRIMARY KEY AUTOINCREMENT,MachineNameDB VARCHAR,MachineIDDB VARCHAR);");
 
         Cursor cursor1 = db2.rawQuery("SELECT DISTINCT * FROM MachineDetails_fromServerRest WHERE MachineIDDB='" + str_machineID + "'", null);
         //Cursor cursor1 = db1.rawQuery("SELECT DISTINCT * FROM MachineDetails_fromServer", null);
@@ -1450,7 +1450,7 @@ public class EditFarmPondDetails_Activity extends AppCompatActivity {
 
             edit_amountcollected_et.setText(class_farmponddetails_offline_obj.getFarmpond_amttaken());
 
-            // Log.e("remarksID",class_farmponddetails_offline_obj.getFarmpond_remarks());
+             Log.e("remarksID",class_farmponddetails_offline_obj.getFarmpond_remarks());
 
             search_Remarkslist(class_farmponddetails_offline_obj.getFarmpond_remarks());
             search_Machinelist(class_farmponddetails_offline_obj.getMachineCode());
@@ -1470,7 +1470,7 @@ public class EditFarmPondDetails_Activity extends AppCompatActivity {
             str_remarksID="100";
         }
 
-        SQLiteDatabase db1 = this.openOrCreateDatabase("RemarksDetails_DB", Context.MODE_PRIVATE, null);
+        SQLiteDatabase db1 = this.openOrCreateDatabase("FarmPond_db", Context.MODE_PRIVATE, null);
 
         db1.execSQL("CREATE TABLE IF NOT EXISTS RemarksDetails_fromServer(SlNo INTEGER PRIMARY KEY AUTOINCREMENT,RemarksIDDB VARCHAR,RemarksNameDB VARCHAR);");
         Cursor cursor = db1.rawQuery("SELECT DISTINCT * FROM RemarksDetails_fromServer", null);
@@ -1495,7 +1495,7 @@ public class EditFarmPondDetails_Activity extends AppCompatActivity {
 
 
 
-        SQLiteDatabase db2 = this.openOrCreateDatabase("RemarksDetails_DB", Context.MODE_PRIVATE, null);
+        SQLiteDatabase db2 = this.openOrCreateDatabase("FarmPond_db", Context.MODE_PRIVATE, null);
         Cursor cursor2 = db2.rawQuery("SELECT DISTINCT * FROM RemarksDetails_fromServer WHERE RemarksIDDB='" + str_remarksID + "'", null);
         int x2 = cursor2.getCount();
         Log.d("remarksScount", Integer.toString(x2));
@@ -1520,7 +1520,8 @@ public class EditFarmPondDetails_Activity extends AppCompatActivity {
 
 
         String str_comparevalueR;
-        if(class_remarksDetails_obj3.getRemarks_ID().isEmpty()||class_remarksDetails_obj3.equals(null))
+
+        if(class_remarksDetails_obj3.equals(null)||class_remarksDetails_obj3.getRemarks_ID().isEmpty())
         {  str_comparevalueR="NoRemarks";
             Log.e("comparevalue",str_comparevalueR);
         }

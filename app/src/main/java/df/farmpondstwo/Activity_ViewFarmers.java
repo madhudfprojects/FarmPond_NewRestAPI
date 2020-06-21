@@ -1168,6 +1168,24 @@ public class Activity_ViewFarmers extends AppCompatActivity {
                                                           String str_acres,String str_gunta,String str_crop_beforepond,String str_crop_afterpond)
 
     {
+        if(str_farmpond_remarks==null)
+        {
+            str_farmpond_remarks="NoRemarks";
+        }else{
+            if(str_farmpond_remarks.toString().trim().length()==0)
+            { str_farmpond_remarks="NoRemarks"; }
+                else{
+            }
+        }
+
+
+
+        if(str_acres==null)
+        { str_acres="0";
+        }
+        if(str_gunta==null){ str_gunta="0"; }
+
+
         if(str_constr_date==null){
             str_constr_date="nodate";
         }
@@ -2074,10 +2092,22 @@ public class Activity_ViewFarmers extends AppCompatActivity {
                         userDataLists = new UserDataList[yearlist.size()];
                      //   Log.e("tag","Pond Id=="+class_userData.getLst().get(0).getPond().get(0).getPondID());
 
-                        for (int i = 0; i < userDataLists.length; i++) {
+                        for (int i = 0; i < userDataLists.length; i++)
+                        {
 
                             String str_farmpondbaseimage_url, str_base64image = null, str_base64image1 = null, str_base64image2 = null, str_base64image3 = null;
+
+                            String str_imageid1,str_imageid2,str_imageid3;
+                            str_base64image1="noimage1";str_base64image2="noimage2";str_base64image3="noimage3";
+                            str_imageid1="0";str_imageid2="0";str_imageid3="0";
+                            str_farmpond_remarks="NoRemarks";
+
+
                             str_farmpondbaseimage_url = Class_URL.URL_farmpondbaselink.toString().trim();
+
+
+
+
 
                             Log.e("status", String.valueOf(class_userData.getStatus()));
                             // Log.e("tag","farmer name=="+class_userData.getLst().get(0).getFarmer().get(0).getFarmerFirstName());
@@ -2313,18 +2343,23 @@ public class Activity_ViewFarmers extends AppCompatActivity {
                                 str_base64image2="iVBORw0KGgoAAAANSUhEUgAAABAAAAAQCAMAAAAoLQ9TAAAAA3NCSVQICAjb4U/gAAAACXBIWXMAAARuAAAEbgHQo7JoAAAAGXRFWHRTb2Z0d2FyZQB3d3cuaW5rc2NhcGUub3Jnm+48GgAAAGxQTFRF////AP//KK6GJK2JJK+JJq2HJa6HJa+JJa6IJa6IJa6IJq6IKK+JKK+KK7CLLrGNM7OPNLOQNbSRObWTPLeVQLiWRLmZRrqaVsCjY8WqacetgNC5htK9j9XCltjGndrJruHTtuTXueXZvufcQhO/KQAAAAp0Uk5TAAEmcH+As7Xm9myQZpsAAAB3SURBVBhXZY9HEgMhEAMFLLPQzjnH/f8ffcCmtkzfNFXSSJIkHy0li14FFzIA5OAkyfVUeicpMCJIPle1XZG9YtXLYQOd7Kfn7wNgSjBbAJPnESApwW7Yw+NMORiwfp2ul2K0Ejq9375J3fgtkH1brK3ejPub/wG/CwjxA06BTgAAAABJRU5ErkJggg==";
                                 str_base64image3="iVBORw0KGgoAAAANSUhEUgAAABAAAAAQCAMAAAAoLQ9TAAAAA3NCSVQICAjb4U/gAAAACXBIWXMAAARuAAAEbgHQo7JoAAAAGXRFWHRTb2Z0d2FyZQB3d3cuaW5rc2NhcGUub3Jnm+48GgAAAGxQTFRF////AP//KK6GJK2JJK+JJq2HJa6HJa+JJa6IJa6IJa6IJq6IKK+JKK+KK7CLLrGNM7OPNLOQNbSRObWTPLeVQLiWRLmZRrqaVsCjY8WqacetgNC5htK9j9XCltjGndrJruHTtuTXueXZvufcQhO/KQAAAAp0Uk5TAAEmcH+As7Xm9myQZpsAAAB3SURBVBhXZY9HEgMhEAMFLLPQzjnH/f8ffcCmtkzfNFXSSJIkHy0li14FFzIA5OAkyfVUeicpMCJIPle1XZG9YtXLYQOd7Kfn7wNgSjBbAJPnESApwW7Yw+NMORiwfp2ul2K0Ejq9375J3fgtkH1brK3ejPub/wG/CwjxA06BTgAAAABJRU5ErkJggg==";
 */
-                                str_base64image1="empty";
-                                str_base64image2="empty";
-                                str_base64image3="empty";
-                                DBCreate_FarmpondsRest_details_2SQLiteDB(farmerID, farmer_First_Name, pondID, pondWidth, pondWidth,
+
+                                pondImage1="0"; pondImage2="0"; pondImage3="0";
+                                str_approveddate="0";
+                                DBCreate_FarmpondsRest_details_2SQLiteDB(farmerID, farmer_First_Name, pondID, pondWidth, pondLength,
                                         pondDepth, pondImage1, str_base64image1, pondImage2, str_base64image2, pondImage3, str_base64image3,
                                         pondDays, createdDate, pondEnd, pondCost, machineID,
-                                        pondCode, pondStart, "farmpond_remarks", CollectedAmount, pondStatus,
+                                        pondCode, pondStart, str_farmpond_remarks, CollectedAmount, pondStatus,
                                         farmer_Middle_Name, farmer_Last_Name, "", Farmer_ID_Type, Farmer_ID_Number, Approval_Status,
-                                        Approval_Remarks, Approval_By, "str_approveddate", Donor_Name, pondLatitude, pondLongitude,
+                                        Approval_Remarks, Approval_By, str_approveddate, Donor_Name, pondLatitude, pondLongitude,
                                         Pond_Land_Acre, Pond_Land_Gunta, Crop_Before, Crop_After);
                             }
                         }
+
+
+
+
+
 
                         //  uploadfromDB_Farmerlist();
                         progressDoalog.dismiss();
