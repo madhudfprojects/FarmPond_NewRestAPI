@@ -534,7 +534,8 @@ public class AddFarmPondActivity extends AppCompatActivity
                     appLocationService = new AppLocationService( AddFarmPondActivity.this);
                     android.location.Location nwLocation = appLocationService.getLocation(LocationManager.GPS_PROVIDER);
 
-                    if (nwLocation != null) {
+                    if (nwLocation != null)
+                    {
                         latitude = nwLocation.getLatitude();
                         longitude = nwLocation.getLongitude();
                         lat_str=Double.toString(latitude);
@@ -1802,9 +1803,9 @@ public class AddFarmPondActivity extends AppCompatActivity
     public void DB_ViewFarmerlist_pondcount(String str_farmerID)
     {
 
-        SQLiteDatabase db_viewfarmerlist = this.openOrCreateDatabase("FarmerListdb", Context.MODE_PRIVATE, null);
+        SQLiteDatabase db_viewfarmerlist = this.openOrCreateDatabase("FarmPond_db", Context.MODE_PRIVATE, null);
 
-        db_viewfarmerlist.execSQL("CREATE TABLE IF NOT EXISTS ViewFarmerList(DispFarmerTable_YearID VARCHAR,DispFarmerTable_StateID VARCHAR," +
+        db_viewfarmerlist.execSQL("CREATE TABLE IF NOT EXISTS ViewFarmerListRest(DispFarmerTable_YearID VARCHAR,DispFarmerTable_StateID VARCHAR," +
                 "DispFarmerTable_DistrictID VARCHAR,DispFarmerTable_TalukID VARCHAR,DispFarmerTable_VillageID VARCHAR," +
                 "DispFarmerTable_GrampanchayatID VARCHAR,DispFarmerTable_FarmerID VARCHAR,DispFarmerTable_Farmer_Code VARCHAR," +
                 "DispFarmerTable_FarmerName VARCHAR,FarmerMName_DB VARCHAR,FarmerLName_DB VARCHAR,Farmerage_DB VARCHAR," +
@@ -1813,7 +1814,7 @@ public class AddFarmPondActivity extends AppCompatActivity
                 "LocalFarmerImg BLOB,Farmpondcount VARCHAR);");
 
 
-        Cursor cursor1 = db_viewfarmerlist.rawQuery("SELECT * FROM ViewFarmerList WHERE DispFarmerTable_FarmerID='" + str_farmerID + "'", null);
+        Cursor cursor1 = db_viewfarmerlist.rawQuery("SELECT * FROM ViewFarmerListRest WHERE DispFarmerTable_FarmerID='" + str_farmerID + "'", null);
         int x = cursor1.getCount();
 
 
