@@ -210,6 +210,8 @@ public class EditFarmPondDetails_Activity extends AppCompatActivity {
 
 
     AppLocationService appLocationService;
+    double latitude,longitude;
+    String lat_str,log_str;
 
     @Override
     protected void onCreate(Bundle savedInstanceState)
@@ -426,9 +428,26 @@ public class EditFarmPondDetails_Activity extends AppCompatActivity {
         gpstracker_obj2 = new Class_GPSTracker(EditFarmPondDetails_Activity.this);
         if(gpstracker_obj2.canGetLocation())
         {
-            double_currentlatitude = gpstracker_obj2.getLatitude();
-            double_currentlongitude = gpstracker_obj2.getLongitude();
+            appLocationService = new AppLocationService(
+                    EditFarmPondDetails_Activity.this);
+            android.location.Location nwLocation = appLocationService.getLocation(LocationManager.GPS_PROVIDER);
 
+            if (nwLocation != null)
+            {
+                double_currentlatitude = nwLocation.getLatitude();
+                double_currentlongitude = nwLocation.getLongitude();
+                lat_str=Double.toString(double_currentlatitude);
+                log_str=Double.toString(double_currentlongitude);
+                Log.e(TAG,"latitude"+lat_str);
+                Log.e(TAG,"longitude"+log_str);
+                Toast.makeText(EditFarmPondDetails_Activity.this," Edit latitude="+lat_str+" longitude="+log_str,Toast.LENGTH_LONG).show();
+                str_latitude =Double.toString(latitude);
+                str_longitude =Double.toString(longitude);
+
+            }
+          /*  double_currentlatitude = gpstracker_obj2.getLatitude();
+            double_currentlongitude = gpstracker_obj2.getLongitude();
+*/
 
            /* str_latitude =Double.toString(double_currentlatitude);
             str_longitude =Double.toString(double_currentlongitude);

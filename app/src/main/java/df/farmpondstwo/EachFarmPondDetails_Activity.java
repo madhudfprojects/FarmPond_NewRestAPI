@@ -32,8 +32,11 @@ import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.ListView;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import java.util.ArrayList;
+
+import static android.content.ContentValues.TAG;
 
 public class EachFarmPondDetails_Activity extends AppCompatActivity {
 
@@ -98,7 +101,9 @@ public class EachFarmPondDetails_Activity extends AppCompatActivity {
     public static final String Key_sel_villagesp = "sel_villagesp";
     public static final String Key_sel_grampanchayatsp = "sel_grampanchayatsp";
     SharedPreferences sharedpref_spinner_Obj;
-
+    AppLocationService appLocationService;
+    double latitude,longitude;
+    String lat_str,log_str;
 
     @Override
     protected void onCreate(Bundle savedInstanceState)
@@ -220,6 +225,7 @@ public class EachFarmPondDetails_Activity extends AppCompatActivity {
 
                     getLocation2();
 
+
                 }
 
 
@@ -227,7 +233,7 @@ public class EachFarmPondDetails_Activity extends AppCompatActivity {
                     gpstracker_obj = new Class_GPSTracker(EachFarmPondDetails_Activity.this);
 
 
-                if(1>=3)
+               /* if(1>=3)
                 {
                 if (gpstracker_obj.canGetLocation()) {
                     double_currentlatitude = gpstracker_obj.getLatitude();
@@ -242,8 +248,8 @@ public class EachFarmPondDetails_Activity extends AppCompatActivity {
                     Log.e("gpslong", str_longitude);
 
                     Intent intent_addfarmpondactivity = new Intent(EachFarmPondDetails_Activity.this, AddFarmPondActivity.class);
-                    /*intent_addfarmpondactivity.putExtra("farmername", str_farmername);
-                    intent_addfarmpondactivity.putExtra("farmer_id", str_farmer_id);*/
+                    *//*intent_addfarmpondactivity.putExtra("farmername", str_farmername);
+                    intent_addfarmpondactivity.putExtra("farmer_id", str_farmer_id);*//*
                     startActivity(intent_addfarmpondactivity);
                     finish();
 
@@ -252,7 +258,7 @@ public class EachFarmPondDetails_Activity extends AppCompatActivity {
                     gpstracker_obj.showSettingsAlert();
                 }
 
-            }
+            }*/
 
 
             }
@@ -613,11 +619,33 @@ public class EachFarmPondDetails_Activity extends AppCompatActivity {
                         @Override
                         public void onClick(View v) {
                             //edit_farmponddetails_alertdialog_offline(farmponddetails_obj);
+                           /* gpstracker_obj2 = new Class_GPSTracker(EachFarmPondDetails_Activity.this);
+                            if (gpstracker_obj2.canGetLocation()) {
+                            appLocationService = new AppLocationService(
+                                    EachFarmPondDetails_Activity.this);
+                            android.location.Location nwLocation = appLocationService.getLocation(LocationManager.GPS_PROVIDER);
 
+                            if (nwLocation != null)
+                            {
+                                latitude = nwLocation.getLatitude();
+                                longitude = nwLocation.getLongitude();
+                                lat_str=Double.toString(latitude);
+                                log_str=Double.toString(longitude);
+                                Log.e(TAG,"latitude"+lat_str);
+                                Log.e(TAG,"longitude"+log_str);
+                                Toast.makeText(EachFarmPondDetails_Activity.this," Each latitude="+lat_str+" longitude="+log_str,Toast.LENGTH_LONG).show();
+                                str_latitude =Double.toString(latitude);
+                                str_longitude =Double.toString(longitude);
+                                str_gps_yes = "yes";
 
-                            gpstracker_obj2 = new Class_GPSTracker(EachFarmPondDetails_Activity.this);
+                            }
+                            }else {
+                                Log.e("editstring", str_gps_yes);
+                                str_gps_yes = "no";
+                                 gpstracker_obj2.showSettingsAlert();
+                            }*/
 
-
+                         /*   gpstracker_obj2 = new Class_GPSTracker(EachFarmPondDetails_Activity.this);
                             if (gpstracker_obj2.canGetLocation()) {
                                 double_currentlatitude = gpstracker_obj2.getLatitude();
                                 double_currentlongitude = gpstracker_obj2.getLongitude();
@@ -631,19 +659,84 @@ public class EachFarmPondDetails_Activity extends AppCompatActivity {
                                 Log.e("long", str_longitude);
 
 
-                                str_gps_yes = "yes";
                                 Log.e("editstring", str_gps_yes);
 
 
 
-                            } else {
-                                Log.e("editstring", str_gps_yes);
-                                str_gps_yes = "no";
-                                gpstracker_obj2.showSettingsAlert();
+                            }*/
+                            if (gps_enable())
+                            {
+                                locationManager = (LocationManager) getSystemService(Service.LOCATION_SERVICE);
+                                isGPSON = locationManager.isProviderEnabled(LocationManager.GPS_PROVIDER);
+
+                                if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.M)
+                                {
+                                    if (permissionsToRequest.size() > 0)
+                                    {
+                                        requestPermissions(permissionsToRequest.toArray(new String[permissionsToRequest.size()]),
+                                                ALL_PERMISSIONS_RESULT);
+                                        //  Log.d(TAG, "Permission requests");
+                                        canGetLocation = false;
+                                    }
+                                }
+                            }
+                            try {
+                                if (canGetLocation)
+                                {
+                                    // Log.d(TAG, "Can get location");
+                                    if (isGPSON)
+                                    {
+                                        // from GPS
+                                        //Log.d(TAG, "GPS on");
+
+                                        dialog_location.setMessage("Please wait location fetching...");
+                                        dialog_location.setCanceledOnTouchOutside(false);
+                                        dialog_location.show();
+
+                                        appLocationService = new AppLocationService(
+                                                EachFarmPondDetails_Activity.this);
+                                        android.location.Location nwLocation = appLocationService.getLocation(LocationManager.GPS_PROVIDER);
+                                        str_gps_yes = "yes";
+
+                                        if (nwLocation != null)
+                                        {
+                                            latitude = nwLocation.getLatitude();
+                                            longitude = nwLocation.getLongitude();
+                                            lat_str=Double.toString(latitude);
+                                            log_str=Double.toString(longitude);
+                                            Log.e(TAG,"latitude"+lat_str);
+                                            Log.e(TAG,"longitude"+log_str);
+                                            Toast.makeText(EachFarmPondDetails_Activity.this," before latitude="+lat_str+" longitude="+log_str,Toast.LENGTH_LONG).show();
+                                            str_latitude =Double.toString(latitude);
+                                            str_longitude =Double.toString(longitude);
+
+                                        }
+                                        try {
+                                            Thread.sleep(1 * 100);
+
+                                        } catch (InterruptedException e) {
+                                            e.printStackTrace();
+                                        }
+
+                                        dialog_location.dismiss();
+
+                                     /*   Intent intent_addfarmpondactivity = new Intent(EachFarmPondDetails_Activity.this, AddFarmPondActivity.class);
+                                        startActivity(intent_addfarmpondactivity);
+                                        finish();
+*/
+
+                                    }
+
+                                } else
+                                {
+                                    str_gps_yes = "no";
+                                    //Log.d(TAG, "Can't get location");
+                                }
+                            } catch (SecurityException e) {
+                                e.printStackTrace();
                             }
 
-
-
+                            Log.e("tag","str_gps_yes="+str_gps_yes);
                             if (str_gps_yes.equalsIgnoreCase("yes"))
                             {
 
@@ -926,7 +1019,7 @@ public class EachFarmPondDetails_Activity extends AppCompatActivity {
                     dialog_location.show();
 
 
-                    gpstracker_obj3 = new Class_GPSTracker2(EachFarmPondDetails_Activity.this);
+                  /*  gpstracker_obj3 = new Class_GPSTracker2(EachFarmPondDetails_Activity.this);
 
                     Location gpsLocation = gpstracker_obj3
                             .getLocation(LocationManager.GPS_PROVIDER);
@@ -942,8 +1035,25 @@ public class EachFarmPondDetails_Activity extends AppCompatActivity {
                         Log.e("long",String.valueOf(double_currentlongitude));
                     } else {
                         //showSettingsAlert("GPS");
-                    }
+                    }*/
 
+                    appLocationService = new AppLocationService(
+                            EachFarmPondDetails_Activity.this);
+                    android.location.Location nwLocation = appLocationService.getLocation(LocationManager.GPS_PROVIDER);
+
+                    if (nwLocation != null)
+                    {
+                        latitude = nwLocation.getLatitude();
+                        longitude = nwLocation.getLongitude();
+                        lat_str=Double.toString(latitude);
+                        log_str=Double.toString(longitude);
+                        Log.e(TAG,"latitude"+lat_str);
+                        Log.e(TAG,"longitude"+log_str);
+                        Toast.makeText(EachFarmPondDetails_Activity.this," before latitude="+lat_str+" longitude="+log_str,Toast.LENGTH_LONG).show();
+                        str_latitude =Double.toString(latitude);
+                        str_longitude =Double.toString(longitude);
+
+                    }
                     try {
                         Thread.sleep(1 * 100);
 
@@ -1038,7 +1148,30 @@ public class EachFarmPondDetails_Activity extends AppCompatActivity {
                 } else {
                    // Log.d(TAG, "No rejected permissions.");
                     canGetLocation = true;
-                    getLocation();
+                   // getLocation();
+                    appLocationService = new AppLocationService(
+                            EachFarmPondDetails_Activity.this);
+                    android.location.Location nwLocation = appLocationService.getLocation(LocationManager.GPS_PROVIDER);
+
+                    if (nwLocation != null)
+                    {
+                        latitude = nwLocation.getLatitude();
+                        longitude = nwLocation.getLongitude();
+                        lat_str=Double.toString(latitude);
+                        log_str=Double.toString(longitude);
+                        Log.e(TAG,"latitude"+lat_str);
+                        Log.e(TAG,"longitude"+log_str);
+                        Toast.makeText(this," before latitude="+lat_str+" longitude="+log_str,Toast.LENGTH_LONG).show();
+                        str_latitude =Double.toString(latitude);
+                        str_longitude =Double.toString(longitude);
+
+                        Intent intent_addfarmpondactivity = new Intent(EachFarmPondDetails_Activity.this, AddFarmPondActivity.class);
+                        startActivity(intent_addfarmpondactivity);
+                        finish();
+                    }else{
+                      //  gpstracker_obj.showSettingsAlert();
+                    }
+
                 }
                 break;
         }
