@@ -860,6 +860,7 @@ public class Activity_MarketingHomeScreen extends AppCompatActivity {
                     str_edit_lat=str_edit_long="3.0";
                 }
 
+
                 Log.e("imageid1",str_imageID_1);
                 Log.e("imageid2",str_imageID_2);
                 Log.e("imageid3",str_imageID_3);
