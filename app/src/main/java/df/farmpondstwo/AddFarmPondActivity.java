@@ -335,8 +335,8 @@ public class AddFarmPondActivity extends AppCompatActivity
         str_image1=str_image2=str_image3="false";
         str_cancelclicked="false";
         add_newpond_farmername_et.setText(str_farmername);
-        //submittedby_tv.setText(str_submitter_mailid);
-        submittedby_tv.setText("Add Submitter MailID");
+        submittedby_tv.setText(str_submitter_mailid);
+
 
 
         Calendar c = Calendar.getInstance();

@@ -1386,7 +1386,9 @@ public class EditFarmPondDetails_Activity extends AppCompatActivity {
         }
 
 
-        if(class_farmponddetails_offline_obj.getTotal_no_days().equalsIgnoreCase("0"))
+        Log.e("no_days",class_farmponddetails_offline_obj.getTotal_no_days());
+        if(class_farmponddetails_offline_obj.getTotal_no_days().equalsIgnoreCase("0")
+        ||str_base64images3.equalsIgnoreCase("noimage3") )
         {
 
 
