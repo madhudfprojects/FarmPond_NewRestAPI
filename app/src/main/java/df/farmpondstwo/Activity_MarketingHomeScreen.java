@@ -1478,10 +1478,10 @@ public class Activity_MarketingHomeScreen extends AppCompatActivity {
                 Class_addfarmponddetails_ToFromServer1  user_object1=response.body();
 
 
-                Log.e("response",user_object1.getStatus().toString());
-                Log.e("Addpondresponse",response.body().toString());
+              //  Log.e("response",user_object1.getStatus().toString());
+                //Log.e("Addpondresponse",response.body().toString());
 
-                Log.e("response",user_object1.getLst2().getPond_Cost());
+                //Log.e("response",user_object1.getLst2().getPond_Cost());
 
                 Log.e("response",response.toString());
                 Log.e("TAG", "response 33: "+new Gson().toJson(response) );
