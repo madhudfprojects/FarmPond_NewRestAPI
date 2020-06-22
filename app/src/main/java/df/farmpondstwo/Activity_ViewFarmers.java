@@ -1170,11 +1170,16 @@ public class Activity_ViewFarmers extends AppCompatActivity {
     {
         if(str_farmpond_remarks==null)
         {
-            str_farmpond_remarks="NoRemarks";
+            str_farmpond_remarks="100";
         }else{
             if(str_farmpond_remarks.toString().trim().length()==0)
-            { str_farmpond_remarks="NoRemarks"; }
+            { str_farmpond_remarks="100"; }
                 else{
+                    if(str_farmpond_remarks.equalsIgnoreCase("NoRemarks"))
+                    {
+                        str_farmpond_remarks="100";
+                    }
+                    else{ }
             }
         }
 
@@ -5675,6 +5680,15 @@ Log.e("tag","pond FIDDB="+str_farmerid);
 
         for(int i=0;i<int_jsonarrayremarkslength;i++)
         {
+
+            if(i==0)
+            {
+                String SQLiteQuery = "INSERT INTO RemarksDetails_fromServer (RemarksIDDB,RemarksNameDB)" +
+                        " VALUES ('"+"100"+"','"+"Select"+"');";
+                db1.execSQL(SQLiteQuery);
+            }
+
+
             String str_remarksid=class_remarksdetails_array_obj[i].getRemarks_ID().trim();
             String str_remarksname=class_remarksdetails_array_obj[i].getRemarks_Name().trim();
             String SQLiteQuery = "INSERT INTO RemarksDetails_fromServer (RemarksIDDB,RemarksNameDB)" +
