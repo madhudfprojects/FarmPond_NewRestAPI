@@ -38,6 +38,7 @@ import android.util.Base64;
 import android.util.Log;
 import android.util.TypedValue;
 import android.view.Gravity;
+import android.view.MenuItem;
 import android.view.View;
 import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
@@ -73,6 +74,8 @@ import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
 import df.farmpondstwo.Models.Class_MachineDetails;
+
+import static android.content.ContentValues.TAG;
 
 
 public class EditFarmPondDetails_Activity extends AppCompatActivity {
@@ -206,6 +209,7 @@ public class EditFarmPondDetails_Activity extends AppCompatActivity {
     ProgressDialog dialog_location;
 
 
+    AppLocationService appLocationService;
 
     @Override
     protected void onCreate(Bundle savedInstanceState)
@@ -495,7 +499,8 @@ public class EditFarmPondDetails_Activity extends AppCompatActivity {
             }
         });
 
-        edit_pond_image3_iv.setOnClickListener(new View.OnClickListener() {
+        edit_pond_image3_iv.setOnClickListener(new View.OnClickListener()
+        {
             @Override
             public void onClick(View v)
             {
@@ -514,44 +519,6 @@ public class EditFarmPondDetails_Activity extends AppCompatActivity {
 
 
                     getLocation();
-                }
-
-
-
-                if(3>=3)
-                {
-                    gpstracker_obj3 = new Class_GPSTracker(EditFarmPondDetails_Activity.this);
-                    if (gpstracker_obj3.canGetLocation()) {
-                        double_currentlatitude = gpstracker_obj3.getLatitude();
-                        double_currentlongitude = gpstracker_obj3.getLongitude();
-
-
-                        str_currentlatitude = Double.toString(double_currentlatitude);
-                        str_currentlongitude = Double.toString(double_currentlongitude);
-
-                        str_latitude = " ";
-                        str_longitude = " ";
-                        str_latitude = str_currentlatitude;
-                        str_longitude = str_currentlongitude;
-
-                        latitude_tv.setText(str_currentlatitude);
-                        longitude_tv.setText(str_currentlongitude);
-
-                  /*  Log.e("lat",str_latitude);
-                    Log.e("long",str_longitude);*/
-
-                        if (str_currentlatitude.equals("0.0") || str_currentlongitude.equals("0.0")) {
-                            alertdialog_refresh_latandlong();
-                        } else {
-                            selectImage();
-                        }
-
-
-                    } else {
-                        gpstracker_obj3.showSettingsAlert();
-                    }
-
-
                 }
 
                 //selectImage();
@@ -962,8 +929,7 @@ public class EditFarmPondDetails_Activity extends AppCompatActivity {
 
         SQLiteDatabase db1 = this.openOrCreateDatabase("FarmPond_db", Context.MODE_PRIVATE, null);
         db1.execSQL("CREATE TABLE IF NOT EXISTS MachineDetails_fromServerRest(SlNo INTEGER PRIMARY KEY AUTOINCREMENT,MachineNameDB VARCHAR,MachineIDDB VARCHAR);");
-
-        Cursor cursor = db1.rawQuery("SELECT DISTINCT * FROM MachineDetails_fromServer", null);
+        Cursor cursor = db1.rawQuery("SELECT DISTINCT * FROM MachineDetails_fromServerRest", null);
         int x = cursor.getCount();
         Log.d("cursor count", Integer.toString(x));
 
@@ -1015,7 +981,7 @@ public class EditFarmPondDetails_Activity extends AppCompatActivity {
 
         // Cursor cursor = db1.rawQuery("SELECT DISTINCT * FROM MachineDetails_fromServer WHERE MachineIDDB='" + str_machineID + "'", null);
 
-        Cursor cursor = db1.rawQuery("SELECT DISTINCT * FROM MachineDetails_fromServer", null);
+        Cursor cursor = db1.rawQuery("SELECT DISTINCT * FROM MachineDetails_fromServerRest", null);
         int x = cursor.getCount();
 
         Log.d("cursor count", Integer.toString(x));
@@ -1032,20 +998,16 @@ public class EditFarmPondDetails_Activity extends AppCompatActivity {
 
                 class_machineDetails_array_obj[i] = innerObj_class_machinelist;
                 i++;
-
             } while (cursor.moveToNext());
-
-
-
         }//if ends
 
         db1.close();
 
 
         SQLiteDatabase db2 = this.openOrCreateDatabase("FarmPond_db", Context.MODE_PRIVATE, null);
-        db1.execSQL("CREATE TABLE IF NOT EXISTS MachineDetails_fromServerRest(SlNo INTEGER PRIMARY KEY AUTOINCREMENT,MachineNameDB VARCHAR,MachineIDDB VARCHAR);");
+        db2.execSQL("CREATE TABLE IF NOT EXISTS MachineDetails_fromServerRest(SlNo INTEGER PRIMARY KEY AUTOINCREMENT,MachineNameDB VARCHAR,MachineIDDB VARCHAR);");
 
-        Cursor cursor1 = db2.rawQuery("SELECT DISTINCT * FROM MachineDetails_fromServer WHERE MachineIDDB='" + str_machineID + "'", null);
+        Cursor cursor1 = db2.rawQuery("SELECT DISTINCT * FROM MachineDetails_fromServerRest WHERE MachineIDDB='" + str_machineID + "'", null);
         //Cursor cursor1 = db1.rawQuery("SELECT DISTINCT * FROM MachineDetails_fromServer", null);
         int x1 = cursor1.getCount();
         int i1 = 0;
@@ -1076,14 +1038,6 @@ public class EditFarmPondDetails_Activity extends AppCompatActivity {
             Log.e("comparevalueelse",str_comparevalue);
         }
 
-
-
-
-
-
-
-
-
         if (x > 0) {
 
             ArrayAdapter dataAdapter = new ArrayAdapter(getApplicationContext(), R.layout.spinnercenterstyle, class_machineDetails_array_obj);
@@ -1100,7 +1054,7 @@ public class EditFarmPondDetails_Activity extends AppCompatActivity {
 
 
 
-        SQLiteDatabase db1 = this.openOrCreateDatabase("RemarksDetails_DB", Context.MODE_PRIVATE, null);
+        SQLiteDatabase db1 = this.openOrCreateDatabase("FarmPond_db", Context.MODE_PRIVATE, null);
 
         db1.execSQL("CREATE TABLE IF NOT EXISTS RemarksDetails_fromServer(SlNo INTEGER PRIMARY KEY AUTOINCREMENT,RemarksIDDB VARCHAR,RemarksNameDB VARCHAR);");
         Cursor cursor = db1.rawQuery("SELECT DISTINCT * FROM RemarksDetails_fromServer", null);
@@ -1176,8 +1130,9 @@ public class EditFarmPondDetails_Activity extends AppCompatActivity {
     {
 
         Log.e("editfarmerID",str_farmerpondID);
-        SQLiteDatabase db1 = this.openOrCreateDatabase("PondDetails_DB", Context.MODE_PRIVATE, null);
+        SQLiteDatabase db1 = this.openOrCreateDatabase("FarmPond_db", Context.MODE_PRIVATE, null);
 
+        //FarmPond_db
         db1.execSQL("CREATE TABLE IF NOT EXISTS FarmPondDetails_fromServerRest(SlNo INTEGER PRIMARY KEY AUTOINCREMENT,FIDDB VARCHAR,TempFIDDB VARCHAR," +
                 "FNameDB VARCHAR,FMNameDB VARCHAR,FLNameDB VARCHAR,FYearIDDB VARCHAR,FStateIDDB VARCHAR,FDistrictIDDB VARCHAR," +
                 "FTalukIDDB VARCHAR,FPanchayatIDDB VARCHAR,FVillageIDDB VARCHAR,FageDB VARCHAR,FphonenumberDB VARCHAR," +
@@ -1193,7 +1148,7 @@ public class EditFarmPondDetails_Activity extends AppCompatActivity {
 
 
 
-        Cursor cursor1 = db1.rawQuery("SELECT DISTINCT * FROM FarmPondDetails_fromServer WHERE FPondidDB='" + str_farmerpondID + "'", null);
+        Cursor cursor1 = db1.rawQuery("SELECT DISTINCT * FROM FarmPondDetails_fromServerRest WHERE FPondidDB='" + str_farmerpondID + "'", null);
         int x = cursor1.getCount();
 
         Log.e("Editfarmerid", String.valueOf(x));
@@ -1330,6 +1285,8 @@ public class EditFarmPondDetails_Activity extends AppCompatActivity {
         String str_base64images2=class_farmponddetails_offline_obj.getImage2_Base64();
         String str_base64images3=class_farmponddetails_offline_obj.getImage3_Base64();
 
+       // Log.e("str_base64images1",class_farmponddetails_offline_obj.getImage1_Base64());
+
 
         arraylist_image1_base64.clear();
         arraylist_image2_base64.clear();
@@ -1343,6 +1300,7 @@ public class EditFarmPondDetails_Activity extends AppCompatActivity {
         if(str_base64images1.equalsIgnoreCase("noimage1")||
                 str_base64images1.equalsIgnoreCase("0") )
         {
+            arraylist_image1_base64.add("noimage1");
 
         }else{
             arraylist_image1_base64.add(str_base64images1);
@@ -1353,6 +1311,7 @@ public class EditFarmPondDetails_Activity extends AppCompatActivity {
         if(str_base64images2.equalsIgnoreCase("noimage2") ||
                 str_base64images2.equalsIgnoreCase("0"))
         {
+            arraylist_image2_base64.add("noimage2");
 
         }else
         {
@@ -1462,7 +1421,7 @@ public class EditFarmPondDetails_Activity extends AppCompatActivity {
 
             edit_amountcollected_et.setText(class_farmponddetails_offline_obj.getFarmpond_amttaken());
 
-            // Log.e("remarksID",class_farmponddetails_offline_obj.getFarmpond_remarks());
+             Log.e("remarksID",class_farmponddetails_offline_obj.getFarmpond_remarks());
 
             search_Remarkslist(class_farmponddetails_offline_obj.getFarmpond_remarks());
             search_Machinelist(class_farmponddetails_offline_obj.getMachineCode());
@@ -1482,7 +1441,7 @@ public class EditFarmPondDetails_Activity extends AppCompatActivity {
             str_remarksID="100";
         }
 
-        SQLiteDatabase db1 = this.openOrCreateDatabase("RemarksDetails_DB", Context.MODE_PRIVATE, null);
+        SQLiteDatabase db1 = this.openOrCreateDatabase("FarmPond_db", Context.MODE_PRIVATE, null);
 
         db1.execSQL("CREATE TABLE IF NOT EXISTS RemarksDetails_fromServer(SlNo INTEGER PRIMARY KEY AUTOINCREMENT,RemarksIDDB VARCHAR,RemarksNameDB VARCHAR);");
         Cursor cursor = db1.rawQuery("SELECT DISTINCT * FROM RemarksDetails_fromServer", null);
@@ -1507,7 +1466,7 @@ public class EditFarmPondDetails_Activity extends AppCompatActivity {
 
 
 
-        SQLiteDatabase db2 = this.openOrCreateDatabase("RemarksDetails_DB", Context.MODE_PRIVATE, null);
+        SQLiteDatabase db2 = this.openOrCreateDatabase("FarmPond_db", Context.MODE_PRIVATE, null);
         Cursor cursor2 = db2.rawQuery("SELECT DISTINCT * FROM RemarksDetails_fromServer WHERE RemarksIDDB='" + str_remarksID + "'", null);
         int x2 = cursor2.getCount();
         Log.d("remarksScount", Integer.toString(x2));
@@ -1532,7 +1491,8 @@ public class EditFarmPondDetails_Activity extends AppCompatActivity {
 
 
         String str_comparevalueR;
-        if(class_remarksDetails_obj3.getRemarks_ID().isEmpty()||class_remarksDetails_obj3.equals(null))
+
+        if(class_remarksDetails_obj3.equals(null)||class_remarksDetails_obj3.getRemarks_ID().isEmpty())
         {  str_comparevalueR="NoRemarks";
             Log.e("comparevalue",str_comparevalueR);
         }
@@ -2138,16 +2098,16 @@ public class EditFarmPondDetails_Activity extends AppCompatActivity {
             // }
 
 
-            if(edit_pond_total_amount_tv.getText().toString().trim().length()>0)
+           /* if(edit_pond_total_amount_tv.getText().toString().trim().length()>0)
             {
                 if(edit_pond_total_amount_tv.getText().toString().equalsIgnoreCase("0"))
                 {
                     Toast.makeText(getApplication(),"Enter No of days",Toast.LENGTH_LONG).show();
-                    /*edit_pond_total_amount_tv.setError("Enter the Days");
-                    edit_pond_total_amount_tv.requestFocus();*/
+                    *//*edit_pond_total_amount_tv.setError("Enter the Days");
+                    edit_pond_total_amount_tv.requestFocus();*//*
                     b_no_days=false;
                 }
-            }
+            }*/
 
             if(edit_amountcollected_et.getText().toString().trim().length()==0)
             {
@@ -2279,7 +2239,8 @@ public class EditFarmPondDetails_Activity extends AppCompatActivity {
     {
 
 
-        SQLiteDatabase db1 = this.openOrCreateDatabase("PondDetails_DB", Context.MODE_PRIVATE, null);
+        SQLiteDatabase db1 = this.openOrCreateDatabase("FarmPond_db", Context.MODE_PRIVATE, null);
+
         db1.execSQL("CREATE TABLE IF NOT EXISTS FarmPondDetails_fromServerRest(SlNo INTEGER PRIMARY KEY AUTOINCREMENT,FIDDB VARCHAR,TempFIDDB VARCHAR," +
                 "FNameDB VARCHAR,FMNameDB VARCHAR,FLNameDB VARCHAR,FYearIDDB VARCHAR,FStateIDDB VARCHAR,FDistrictIDDB VARCHAR," +
                 "FTalukIDDB VARCHAR,FPanchayatIDDB VARCHAR,FVillageIDDB VARCHAR,FageDB VARCHAR,FphonenumberDB VARCHAR," +
@@ -2421,7 +2382,7 @@ public class EditFarmPondDetails_Activity extends AppCompatActivity {
             }
 
 
-            db1.update("FarmPondDetails_fromServer", cv, "FPondidDB = ?", new String[]{str_farmpond_id});
+            db1.update("FarmPondDetails_fromServerRest", cv, "FPondidDB = ?", new String[]{str_farmpond_id});
 
     /*Cursor cursor1 = db1.rawQuery("SELECT DISTINCT * FROM FarmPondDetails_fromServer WHERE FPondidDB='" + str_farmerpondID + "'", null);
     int x = cursor1.getCount();*/
@@ -2437,9 +2398,15 @@ public class EditFarmPondDetails_Activity extends AppCompatActivity {
             internetDectector = new Class_InternetDectector(getApplicationContext());
             isInternetPresent = internetDectector.isConnectingToInternet();
 
-            if(isInternetPresent) {
+            if(isInternetPresent)
+            {
                /* fetch_DB_farmerprofile_offline_data();
                 fetch_DB_edited_offline_data();*/
+
+                Toast.makeText(getApplicationContext(), "Edition Updated Successfully", Toast.LENGTH_SHORT).show();
+                Intent intent = new Intent(EditFarmPondDetails_Activity.this, EachFarmPondDetails_Activity.class);
+                startActivity(intent);
+                finish();
             }
             else{
                 Toast.makeText(getApplicationContext(), "Edition Updated Successfully", Toast.LENGTH_SHORT).show();
@@ -2492,12 +2459,41 @@ public class EditFarmPondDetails_Activity extends AppCompatActivity {
                     // from GPS
                     //Log.d(TAG, "GPS on");
 
+                    dialog_location = new ProgressDialog(EditFarmPondDetails_Activity.this);
                     dialog_location.setMessage("Please wait location fetching...");
                     dialog_location.setCanceledOnTouchOutside(false);
                     dialog_location.show();
 
+                    appLocationService = new AppLocationService( EditFarmPondDetails_Activity.this);
+                    android.location.Location nwLocation = appLocationService.getLocation(LocationManager.GPS_PROVIDER);
 
-                    for(int i=0;i<=50;i++)
+
+                    if (nwLocation != null)
+                    {
+                        Double latitude = nwLocation.getLatitude();
+                        Double longitude = nwLocation.getLongitude();
+                        str_latitude=Double.toString(latitude);
+                        str_longitude=Double.toString(longitude);
+                        Log.e(TAG,"latitude"+str_latitude);
+                        Log.e(TAG,"longitude"+str_longitude);
+                        Toast.makeText(EditFarmPondDetails_Activity.this," after camera latitude="+str_latitude+" longitude="+str_longitude,Toast.LENGTH_LONG).show();
+                        latitude_tv.setText(str_latitude);
+                        longitude_tv.setText(str_longitude);
+
+                        try {
+                            Thread.sleep(1 * 500);
+                        } catch (InterruptedException e) {
+                            e.printStackTrace();
+                        }
+
+                        dialog_location.dismiss();
+                        selectImage();
+                    }
+                    else{
+                        dialog_location.dismiss();
+                    }
+
+                  /*  for(int i=0;i<=50;i++)
                     {
                         locationManager.requestLocationUpdates(
                                 LocationManager.GPS_PROVIDER,
@@ -2534,7 +2530,7 @@ public class EditFarmPondDetails_Activity extends AppCompatActivity {
                     }
                     else{
                         dialog_location.dismiss();
-                    }
+                    }*/
                 }
                 /*else if (isNetwork)
                 {
@@ -2573,6 +2569,64 @@ public class EditFarmPondDetails_Activity extends AppCompatActivity {
     //location
 
 
+
+
+    @Override
+    public void onBackPressed() {
+
+        AlertDialog.Builder dialog = new AlertDialog.Builder(EditFarmPondDetails_Activity.this);
+        dialog.setCancelable(false);
+        dialog.setTitle(R.string.app_name);
+        dialog.setMessage("Are you sure want to go back");
+
+        dialog.setPositiveButton("Yes", new DialogInterface.OnClickListener() {
+            @Override
+            public void onClick(DialogInterface dialog, int id) {
+                Intent i = new Intent(EditFarmPondDetails_Activity.this, EachFarmPondDetails_Activity.class);
+                startActivity(i);
+                finish();
+            }
+        })
+                .setNegativeButton("No", new DialogInterface.OnClickListener() {
+                    @Override
+                    public void onClick(DialogInterface dialog, int which) {
+                        //Action for "Cancel".
+                        dialog.dismiss();
+                    }
+                });
+
+        final AlertDialog alert = dialog.create();
+        alert.setOnShowListener(new DialogInterface.OnShowListener() {
+            @Override
+            public void onShow(DialogInterface arg0) {
+                alert.getButton(AlertDialog.BUTTON_NEGATIVE).setTextColor(Color.RED);
+                alert.getButton(AlertDialog.BUTTON_POSITIVE).setTextColor(Color.parseColor("#004D40"));
+            }
+        });
+        alert.show();
+    }
+
+
+    @Override
+    public boolean onOptionsItemSelected(MenuItem item)
+    {
+        // Handle action bar item clicks here. The action bar will
+        // automatically handle clicks on the Home/Up button, so long
+        // as you specify a parent activity in AndroidManifest.xml.
+        int id = item.getItemId();
+
+
+        if (id == android.R.id.home) {
+            //  Toast.makeText(getApplicationContext(),"Back button clicked", Toast.LENGTH_SHORT).show();
+           /* Intent i = new Intent(EditFarmPondDetails_Activity.this, EachFarmPondDetails_Activity.class);
+            startActivity(i);
+             finish();*/
+            onBackPressed();
+            return true;
+        }
+
+        return super.onOptionsItemSelected(item);
+    }
 
 
 

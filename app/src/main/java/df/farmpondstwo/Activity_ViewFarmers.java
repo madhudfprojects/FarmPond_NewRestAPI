@@ -69,6 +69,7 @@ import com.nostra13.universalimageloader.core.assist.ImageScaleType;
 import com.nostra13.universalimageloader.core.assist.QueueProcessingType;
 import com.nostra13.universalimageloader.core.display.FadeInBitmapDisplayer;
 
+import org.json.JSONArray;
 import org.json.JSONException;
 import org.json.JSONObject;
 
@@ -265,7 +266,7 @@ public class Activity_ViewFarmers extends AppCompatActivity {
     Class_farmponddetails[] class_farmerandpond_details_array_obj;
 
     Class_MachineDetails[] class_machinedetails_array_obj;
-    //Class_RemarksDetails[] class_remarksdetails_array_obj;
+    Class_RemarksDetails[] class_remarksdetails_array_obj;
 
 
     public static final String sharedpreferencebook_usercredential = "sharedpreferencebook_usercredential";
@@ -1167,6 +1168,24 @@ public class Activity_ViewFarmers extends AppCompatActivity {
                                                           String str_acres,String str_gunta,String str_crop_beforepond,String str_crop_afterpond)
 
     {
+        if(str_farmpond_remarks==null)
+        {
+            str_farmpond_remarks="NoRemarks";
+        }else{
+            if(str_farmpond_remarks.toString().trim().length()==0)
+            { str_farmpond_remarks="NoRemarks"; }
+                else{
+            }
+        }
+
+
+
+        if(str_acres==null)
+        { str_acres="0";
+        }
+        if(str_gunta==null){ str_gunta="0"; }
+
+
         if(str_constr_date==null){
             str_constr_date="nodate";
         }
@@ -1999,7 +2018,8 @@ public class Activity_ViewFarmers extends AppCompatActivity {
                                 String YearId = class_locaitonData.getLst().get(i).getYear().get(j).getAcademic_ID();
                                 DBCreate_YeardetailsRest_insert_2SQLiteDB(YearId,YearName,j);
                             }
-                            if(class_locaitonData.getLst().get(i).getClassMachineDetails()!=null) {
+                            if(class_locaitonData.getLst().get(i).getClassMachineDetails()!=null)
+                            {
                                 int sizeMachine = class_locaitonData.getLst().get(i).getClassMachineDetails().size();
                                 for (int j = 0; j < sizeMachine; j++) {
                                     Log.e("tag", "Machine name==" + class_locaitonData.getLst().get(i).getClassMachineDetails().get(j).getMachine_Name());
@@ -2072,10 +2092,22 @@ public class Activity_ViewFarmers extends AppCompatActivity {
                         userDataLists = new UserDataList[yearlist.size()];
                      //   Log.e("tag","Pond Id=="+class_userData.getLst().get(0).getPond().get(0).getPondID());
 
-                        for (int i = 0; i < userDataLists.length; i++) {
+                        for (int i = 0; i < userDataLists.length; i++)
+                        {
 
                             String str_farmpondbaseimage_url, str_base64image = null, str_base64image1 = null, str_base64image2 = null, str_base64image3 = null;
+
+                            String str_imageid1,str_imageid2,str_imageid3;
+                            str_base64image1="noimage1";str_base64image2="noimage2";str_base64image3="noimage3";
+                            str_imageid1="0";str_imageid2="0";str_imageid3="0";
+                            str_farmpond_remarks="NoRemarks";
+
+
                             str_farmpondbaseimage_url = Class_URL.URL_farmpondbaselink.toString().trim();
+
+
+
+
 
                             Log.e("status", String.valueOf(class_userData.getStatus()));
                             // Log.e("tag","farmer name=="+class_userData.getLst().get(0).getFarmer().get(0).getFarmerFirstName());
@@ -2311,18 +2343,23 @@ public class Activity_ViewFarmers extends AppCompatActivity {
                                 str_base64image2="iVBORw0KGgoAAAANSUhEUgAAABAAAAAQCAMAAAAoLQ9TAAAAA3NCSVQICAjb4U/gAAAACXBIWXMAAARuAAAEbgHQo7JoAAAAGXRFWHRTb2Z0d2FyZQB3d3cuaW5rc2NhcGUub3Jnm+48GgAAAGxQTFRF////AP//KK6GJK2JJK+JJq2HJa6HJa+JJa6IJa6IJa6IJq6IKK+JKK+KK7CLLrGNM7OPNLOQNbSRObWTPLeVQLiWRLmZRrqaVsCjY8WqacetgNC5htK9j9XCltjGndrJruHTtuTXueXZvufcQhO/KQAAAAp0Uk5TAAEmcH+As7Xm9myQZpsAAAB3SURBVBhXZY9HEgMhEAMFLLPQzjnH/f8ffcCmtkzfNFXSSJIkHy0li14FFzIA5OAkyfVUeicpMCJIPle1XZG9YtXLYQOd7Kfn7wNgSjBbAJPnESApwW7Yw+NMORiwfp2ul2K0Ejq9375J3fgtkH1brK3ejPub/wG/CwjxA06BTgAAAABJRU5ErkJggg==";
                                 str_base64image3="iVBORw0KGgoAAAANSUhEUgAAABAAAAAQCAMAAAAoLQ9TAAAAA3NCSVQICAjb4U/gAAAACXBIWXMAAARuAAAEbgHQo7JoAAAAGXRFWHRTb2Z0d2FyZQB3d3cuaW5rc2NhcGUub3Jnm+48GgAAAGxQTFRF////AP//KK6GJK2JJK+JJq2HJa6HJa+JJa6IJa6IJa6IJq6IKK+JKK+KK7CLLrGNM7OPNLOQNbSRObWTPLeVQLiWRLmZRrqaVsCjY8WqacetgNC5htK9j9XCltjGndrJruHTtuTXueXZvufcQhO/KQAAAAp0Uk5TAAEmcH+As7Xm9myQZpsAAAB3SURBVBhXZY9HEgMhEAMFLLPQzjnH/f8ffcCmtkzfNFXSSJIkHy0li14FFzIA5OAkyfVUeicpMCJIPle1XZG9YtXLYQOd7Kfn7wNgSjBbAJPnESApwW7Yw+NMORiwfp2ul2K0Ejq9375J3fgtkH1brK3ejPub/wG/CwjxA06BTgAAAABJRU5ErkJggg==";
 */
-                                str_base64image1="empty";
-                                str_base64image2="empty";
-                                str_base64image3="empty";
-                                DBCreate_FarmpondsRest_details_2SQLiteDB(farmerID, farmer_First_Name, pondID, pondWidth, pondWidth,
+
+                                pondImage1="0"; pondImage2="0"; pondImage3="0";
+                                str_approveddate="0";
+                                DBCreate_FarmpondsRest_details_2SQLiteDB(farmerID, farmer_First_Name, pondID, pondWidth, pondLength,
                                         pondDepth, pondImage1, str_base64image1, pondImage2, str_base64image2, pondImage3, str_base64image3,
                                         pondDays, createdDate, pondEnd, pondCost, machineID,
-                                        pondCode, pondStart, "farmpond_remarks", CollectedAmount, pondStatus,
+                                        pondCode, pondStart, str_farmpond_remarks, CollectedAmount, pondStatus,
                                         farmer_Middle_Name, farmer_Last_Name, "", Farmer_ID_Type, Farmer_ID_Number, Approval_Status,
-                                        Approval_Remarks, Approval_By, "str_approveddate", Donor_Name, pondLatitude, pondLongitude,
+                                        Approval_Remarks, Approval_By, str_approveddate, Donor_Name, pondLatitude, pondLongitude,
                                         Pond_Land_Acre, Pond_Land_Gunta, Crop_Before, Crop_After);
                             }
                         }
+
+
+
+
+
 
                         //  uploadfromDB_Farmerlist();
                         progressDoalog.dismiss();
@@ -2426,6 +2463,7 @@ public class Activity_ViewFarmers extends AppCompatActivity {
                     deleteViewFarmerlistTable_B4insertion();
                     delete_FarmPondDetails_fromServer_B4insertion();
 
+                    DBCreate_RemarksDetails();
                     ViewFarmerlistdetailsRestTable_B4insertion();
                     FarmpondRest_detailsTable_B4insertion();
 
@@ -5554,6 +5592,90 @@ Log.e("tag","pond FIDDB="+str_farmerid);
 
 
 
+    public void  DBCreate_RemarksDetails()
+    {
+
+        SQLiteDatabase db2 = this.openOrCreateDatabase("FarmPond_db", Context.MODE_PRIVATE, null);
+        db2.execSQL("CREATE TABLE IF NOT EXISTS RemarksDetails_fromServer(SlNo INTEGER PRIMARY KEY AUTOINCREMENT,RemarksIDDB VARCHAR,RemarksNameDB VARCHAR);");
+        Cursor cursor = db2 .rawQuery("SELECT * FROM RemarksDetails_fromServer", null);
+        int x = cursor.getCount();
+        if (x > 0) {
+            db2 .delete("RemarksDetails_fromServer", null, null);
+        }
+        db2.close();
+
+
+
+
+        try {
+
+            //  Log.e("machine_length", String.valueOf(response.length()));
+
+            String response="[\n" +
+                    "    {\n" +
+                    "        \"Option_ID\": \"4\",\n" +
+                    "        \"Option_Value\": \"NoRemarks\"\n" +
+                    "    },\n" +
+                    "    {\n" +
+                    "        \"Option_ID\": \"3\",\n" +
+                    "        \"Option_Value\": \"Day/Night Work\"\n" +
+                    "    },\n" +
+                    "    {\n" +
+                    "        \"Option_ID\": \"2\",\n" +
+                    "        \"Option_Value\": \"Operator Not Available\"\n" +
+                    "    },\n" +
+                    "    {\n" +
+                    "        \"Option_ID\": \"1\",\n" +
+                    "        \"Option_Value\": \"Machine Failure\"\n" +
+                    "    }\n" +
+                    "]";
+            JSONArray jsonArray = new JSONArray(response);
+
+            Log.e("remarks_length", String.valueOf(jsonArray.length()));
+
+            int_jsonarrayremarkslength=jsonArray.length();
+
+
+            class_remarksdetails_array_obj = new Class_RemarksDetails[int_jsonarrayremarkslength];
+
+            for(int i=0;i<int_jsonarrayremarkslength;i++)
+            {
+
+                JSONObject jresponse = jsonArray.getJSONObject(i);
+                // Log.e("jresponse",jresponse.toString());
+
+               /* Class_RemarksDetails class_remarksdetails_innerobj =
+                        new Gson().fromJson(String.valueOf(jsonArray.getJSONObject(i).toString()), Class_RemarksDetails.class);
+*/
+                Class_RemarksDetails class_remarksdetails_innerobj =
+                        new Gson().fromJson((jsonArray.getJSONObject(i).toString()), Class_RemarksDetails.class);
+
+                class_remarksdetails_array_obj[i]=class_remarksdetails_innerobj;
+
+                //  Log.e("remarksname",class_remarksdetails_innerobj.getRemarks_Name()); //machine_code
+                Log.e("remarks_id",jresponse.getString("Option_ID"));
+                Log.e("remarks_name",jresponse.getString("Option_Value"));
+            }
+        } catch (JSONException e) {
+            e.printStackTrace();
+            Log.e("error_remarks",e.toString());
+        }
+
+        SQLiteDatabase db1 = this.openOrCreateDatabase("FarmPond_db", Context.MODE_PRIVATE, null);
+
+        db1.execSQL("CREATE TABLE IF NOT EXISTS RemarksDetails_fromServer(SlNo INTEGER PRIMARY KEY AUTOINCREMENT,RemarksIDDB VARCHAR,RemarksNameDB VARCHAR);");
+
+        for(int i=0;i<int_jsonarrayremarkslength;i++)
+        {
+            String str_remarksid=class_remarksdetails_array_obj[i].getRemarks_ID().trim();
+            String str_remarksname=class_remarksdetails_array_obj[i].getRemarks_Name().trim();
+            String SQLiteQuery = "INSERT INTO RemarksDetails_fromServer (RemarksIDDB,RemarksNameDB)" +
+                    " VALUES ('"+str_remarksid+"','"+str_remarksname+"');";
+            db1.execSQL(SQLiteQuery);
+        }
+        db1.close();
+
+    }
 
 
 

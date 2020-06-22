@@ -177,8 +177,9 @@ public class Activity_MarketingHomeScreen extends AppCompatActivity {
 
         //working
          //fetch_DB_farmerprofile_offline_data();
-           fetch_DB_edited_offline_data();
-            fetch_DB_Edited_farmerprofile_offline_data();
+
+          /* fetch_DB_edited_offline_data();
+            fetch_DB_Edited_farmerprofile_offline_data();*/
         }
         else
         {
@@ -641,7 +642,7 @@ public class Activity_MarketingHomeScreen extends AppCompatActivity {
             for(int j=0;j<class_farmponddetails_offline_array_objRest.length;j++)
             {
 
-                Edit_farmponddetails(j);
+               // Edit_farmponddetails(j);
            //    AsyncTask_submit_edited_farmponddetails(j);
             }
 

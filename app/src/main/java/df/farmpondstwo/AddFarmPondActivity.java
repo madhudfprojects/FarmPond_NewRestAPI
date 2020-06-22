@@ -30,7 +30,9 @@ import android.os.Bundle;
 import android.support.v7.widget.Toolbar;
 import android.util.Base64;
 import android.util.Log;
+import android.view.MenuItem;
 import android.view.View;
+import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
 import android.widget.Button;
 import android.widget.CheckBox;
@@ -512,7 +514,8 @@ public class AddFarmPondActivity extends AppCompatActivity
             }
         });
 
-        add_newpond_image3_iv.setOnClickListener(new View.OnClickListener() {
+        add_newpond_image3_iv.setOnClickListener(new View.OnClickListener()
+        {
             @Override
             public void onClick(View v)
             {
@@ -531,7 +534,8 @@ public class AddFarmPondActivity extends AppCompatActivity
                     appLocationService = new AppLocationService( AddFarmPondActivity.this);
                     android.location.Location nwLocation = appLocationService.getLocation(LocationManager.GPS_PROVIDER);
 
-                    if (nwLocation != null) {
+                    if (nwLocation != null)
+                    {
                         latitude = nwLocation.getLatitude();
                         longitude = nwLocation.getLongitude();
                         lat_str=Double.toString(latitude);
@@ -626,7 +630,36 @@ public class AddFarmPondActivity extends AppCompatActivity
 
 
 
+        selectmachineno_sp.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
+            @Override
+            public void onItemSelected(AdapterView<?> parent, View view, int position, long id)
+            {
 
+                class_machineDetails_obj = (Class_MachineDetails) selectmachineno_sp.getSelectedItem();
+                //str_machinecode = class_machineDetails_obj.getMachine_Code().toString();
+                str_machinecode = class_machineDetails_obj.getMachine_ID().toString();
+            }
+
+            @Override
+            public void onNothingSelected(AdapterView<?> parent) {
+
+            }
+        });
+
+        selectremarks_sp.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
+            @Override
+            public void onItemSelected(AdapterView<?> parent, View view, int position, long id)
+            {
+                class_remarksdetails_obj=(Class_RemarksDetails)selectremarks_sp.getSelectedItem();
+                str_remarksid=class_remarksdetails_obj.getRemarks_ID().toString();
+               Toast.makeText(getApplicationContext(),""+str_remarksid,Toast.LENGTH_SHORT).show();
+            }
+
+            @Override
+            public void onNothingSelected(AdapterView<?> parent) {
+
+            }
+        });
 
 
 
@@ -1590,15 +1623,6 @@ public class AddFarmPondActivity extends AppCompatActivity
                     "FPondAcresDB VARCHAR,FPondGuntaDB VARCHAR,FPondCropBeforeDB VARCHAR,FPondCropAfterDB VARCHAR," +
                     "UploadedStatusFarmerprofile VARCHAR,UploadedStatus VARCHAR);");
 
-           /* String SQLiteQuery = "INSERT INTO FarmPondDetails_fromServer (FIDDB,FNameDB,FPondidDB,WidthDB,HeightDB,DepthDB," +
-                    "LatitudeDB,LongitudeDB,Imageid1DB,Image1Base64DB,Imageid2DB,Image2Base64DB,Imageid3DB,Image3Base64DB," +
-                    "EmployeeIDDB,UploadedStatus)" +
-                " VALUES ('"+str_farmerid_db+"','"+str_farmername_db+"','"+str_farmpond_id+"','"+str_width+"'," +
-                "'"+str_height+"','"+str_depth+"','"+str_latitude+"','"+str_longitude+"','"+str_imageid1+"'," +
-                    "'"+arraylist_image1_base64.get(0)+"'," +
-                "'"+str_imageid2+"','"+arraylist_image2_base64.get(0)+"','"+str_imageid3+"'," +
-                    "'"+arraylist_image3_base64.get(0)+"','"+str_employee_id+"','"+2+"');";*/
-
 
             String str_farmerMName,str_farmerLName,str_yearID,str_stateID,str_districtID,str_talukID,str_panchayatID,str_villageID,
                     str_farmerage,str_Fphonenumber,str_FannualIncome,str_Ffamilymember,str_FIDprooftype,str_FIDproofno,str_Fphoto;
@@ -1684,7 +1708,7 @@ public class AddFarmPondActivity extends AppCompatActivity
         db1.execSQL("CREATE TABLE IF NOT EXISTS MachineDetails_fromServerRest(SlNo INTEGER PRIMARY KEY AUTOINCREMENT,MachineNameDB VARCHAR,MachineIDDB VARCHAR);");
         Cursor cursor = db1.rawQuery("SELECT DISTINCT * FROM MachineDetails_fromServerRest", null);
         int x = cursor.getCount();
-        Log.d("cursor count", Integer.toString(x));
+        Log.e("Machinecount", Integer.toString(x));
 
 
         int i = 0;
@@ -1699,6 +1723,8 @@ public class AddFarmPondActivity extends AppCompatActivity
                 innerObj_class_machinelist.setMachine_ID(cursor.getString(cursor.getColumnIndex("MachineIDDB")));
                 //
 
+
+                Log.e("machine",innerObj_class_machinelist.getMachine_ID());
                 class_machineDetails_array_obj[i] = innerObj_class_machinelist;
                 i++;
 
@@ -1719,6 +1745,8 @@ public class AddFarmPondActivity extends AppCompatActivity
         }
 
     }
+
+
 
 
 
@@ -1775,9 +1803,9 @@ public class AddFarmPondActivity extends AppCompatActivity
     public void DB_ViewFarmerlist_pondcount(String str_farmerID)
     {
 
-        SQLiteDatabase db_viewfarmerlist = this.openOrCreateDatabase("FarmerListdb", Context.MODE_PRIVATE, null);
+        SQLiteDatabase db_viewfarmerlist = this.openOrCreateDatabase("FarmPond_db", Context.MODE_PRIVATE, null);
 
-        db_viewfarmerlist.execSQL("CREATE TABLE IF NOT EXISTS ViewFarmerList(DispFarmerTable_YearID VARCHAR,DispFarmerTable_StateID VARCHAR," +
+        db_viewfarmerlist.execSQL("CREATE TABLE IF NOT EXISTS ViewFarmerListRest(DispFarmerTable_YearID VARCHAR,DispFarmerTable_StateID VARCHAR," +
                 "DispFarmerTable_DistrictID VARCHAR,DispFarmerTable_TalukID VARCHAR,DispFarmerTable_VillageID VARCHAR," +
                 "DispFarmerTable_GrampanchayatID VARCHAR,DispFarmerTable_FarmerID VARCHAR,DispFarmerTable_Farmer_Code VARCHAR," +
                 "DispFarmerTable_FarmerName VARCHAR,FarmerMName_DB VARCHAR,FarmerLName_DB VARCHAR,Farmerage_DB VARCHAR," +
@@ -1786,7 +1814,7 @@ public class AddFarmPondActivity extends AppCompatActivity
                 "LocalFarmerImg BLOB,Farmpondcount VARCHAR);");
 
 
-        Cursor cursor1 = db_viewfarmerlist.rawQuery("SELECT * FROM ViewFarmerList WHERE DispFarmerTable_FarmerID='" + str_farmerID + "'", null);
+        Cursor cursor1 = db_viewfarmerlist.rawQuery("SELECT * FROM ViewFarmerListRest WHERE DispFarmerTable_FarmerID='" + str_farmerID + "'", null);
         int x = cursor1.getCount();
 
 
@@ -1872,6 +1900,11 @@ public class AddFarmPondActivity extends AppCompatActivity
         {
 
             //fetch_DB_farmerprofile_offline_data();
+
+            Toast.makeText(getApplicationContext(), "New FarmPond has been added", Toast.LENGTH_SHORT).show();
+            Intent intent = new Intent(AddFarmPondActivity.this, EachFarmPondDetails_Activity.class);
+            startActivity(intent);
+            finish();
         }else
         {
             Toast.makeText(getApplicationContext(), "New FarmPond has been added", Toast.LENGTH_SHORT).show();
@@ -2114,6 +2147,62 @@ public class AddFarmPondActivity extends AppCompatActivity
 
 
 
+    @Override
+    public void onBackPressed() {
+
+        AlertDialog.Builder dialog = new AlertDialog.Builder(AddFarmPondActivity.this);
+        dialog.setCancelable(false);
+        dialog.setTitle(R.string.app_name);
+        dialog.setMessage("Are you sure want to go back");
+
+        dialog.setPositiveButton("Yes", new DialogInterface.OnClickListener() {
+            @Override
+            public void onClick(DialogInterface dialog, int id) {
+                Intent i = new Intent(AddFarmPondActivity.this, EachFarmPondDetails_Activity.class);
+                startActivity(i);
+                finish();
+            }
+        })
+                .setNegativeButton("No", new DialogInterface.OnClickListener() {
+                    @Override
+                    public void onClick(DialogInterface dialog, int which) {
+                        //Action for "Cancel".
+                        dialog.dismiss();
+                    }
+                });
+
+        final AlertDialog alert = dialog.create();
+        alert.setOnShowListener(new DialogInterface.OnShowListener() {
+            @Override
+            public void onShow(DialogInterface arg0) {
+                alert.getButton(AlertDialog.BUTTON_NEGATIVE).setTextColor(Color.RED);
+                alert.getButton(AlertDialog.BUTTON_POSITIVE).setTextColor(Color.parseColor("#004D40"));
+            }
+        });
+        alert.show();
+    }
+
+
+    @Override
+    public boolean onOptionsItemSelected(MenuItem item)
+    {
+        // Handle action bar item clicks here. The action bar will
+        // automatically handle clicks on the Home/Up button, so long
+        // as you specify a parent activity in AndroidManifest.xml.
+        int id = item.getItemId();
+
+
+        if (id == android.R.id.home) {
+            //  Toast.makeText(getApplicationContext(),"Back button clicked", Toast.LENGTH_SHORT).show();
+           /* Intent i = new Intent(EditFarmPondDetails_Activity.this, EachFarmPondDetails_Activity.class);
+            startActivity(i);
+             finish();*/
+            onBackPressed();
+            return true;
+        }
+
+        return super.onOptionsItemSelected(item);
+    }
 
 
 
