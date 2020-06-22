@@ -184,10 +184,11 @@ public class Activity_MarketingHomeScreen extends AppCompatActivity {
         else
         {
             //working
-            fetch_DB_farmerprofile_offline_data_count();
+
+            /*fetch_DB_farmerprofile_offline_data_count();
             fetch_DB_edited_offline_data_count1();
             fetch_DB_New_pond_count();
-
+*/
             Toast.makeText(getApplicationContext(),"No Internet",Toast.LENGTH_SHORT).show();
         }
 
@@ -235,8 +236,8 @@ public class Activity_MarketingHomeScreen extends AppCompatActivity {
                 {
 
 
-                    fetch_DB_farmerprofile_offline_data();
-                    fetch_DB_edited_offline_data();
+                   /* fetch_DB_farmerprofile_offline_data();
+                    fetch_DB_edited_offline_data();*/
 
                 }
                 else{

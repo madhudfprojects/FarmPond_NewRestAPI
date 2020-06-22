@@ -2206,6 +2206,7 @@ public class Activity_ViewFarmers extends AppCompatActivity {
                                     str_farmerbase64 = str_base64image;
                                 }
 
+                                Log.e("submitdate",submittedDate);
                                 DBCreate_ViewFarmerlistdetails_insert_2SQLiteDB(yearID, stateID, districtID, talukaID, villageID, panchayatID, farmerID, farmerCode, farmerFirstName, str_imageurl, farmpondcount, str_farmerbase64, farmerMiddleName, farmerLastName, farmerAge, farmerMobile, farmerIncome, farmerFamily, farmerIDType, farmerIDNumber, submittedDate, createdBy, createdDate, createdUser, responseoutput, responseAction);
                             }
 
