@@ -1310,17 +1310,7 @@ String str_idproof_type,str_idproof_no;
 
     SQLiteDatabase db_viewfarmerlist = this.openOrCreateDatabase("FarmPond_db", Context.MODE_PRIVATE, null);
 
-    /*db_viewfarmerlist.execSQL("CREATE TABLE IF NOT EXISTS ViewFarmerList(DispFarmerTable_YearID VARCHAR,DispFarmerTable_StateID VARCHAR," +
-            "DispFarmerTable_DistrictID VARCHAR,DispFarmerTable_TalukID VARCHAR,DispFarmerTable_VillageID VARCHAR," +
-            "DispFarmerTable_GrampanchayatID VARCHAR,DispFarmerTable_FarmerID VARCHAR,DispFarmerTable_Farmer_Code VARCHAR," +
-            "DispFarmerTable_FarmerName VARCHAR,DispFarmerTable_FarmerImage VARCHAR,LocalFarmerImg BLOB);");*/
 
-
-   /* db_viewfarmerlist.execSQL("CREATE TABLE IF NOT EXISTS ViewFarmerList(DispFarmerTable_YearID VARCHAR,DispFarmerTable_StateID VARCHAR," +
-            "DispFarmerTable_DistrictID VARCHAR,DispFarmerTable_TalukID VARCHAR,DispFarmerTable_VillageID VARCHAR," +
-            "DispFarmerTable_GrampanchayatID VARCHAR,DispFarmerTable_FarmerID VARCHAR,DispFarmerTable_Farmer_Code VARCHAR," +
-            "DispFarmerTable_FarmerName VARCHAR,DispFarmerTable_FarmerImage VARCHAR,LocalFarmerImg BLOB,Farmpondcount VARCHAR);");
-*/
 
     /*db_viewfarmerlist.execSQL("CREATE TABLE IF NOT EXISTS ViewFarmerList(DispFarmerTable_YearID VARCHAR,DispFarmerTable_StateID VARCHAR," +
             "DispFarmerTable_DistrictID VARCHAR,DispFarmerTable_TalukID VARCHAR,DispFarmerTable_VillageID VARCHAR," +
@@ -2597,123 +2587,12 @@ String str_farmpond_id,str_width, str_height,str_depth,str_imageid1,str_base64im
 
         for(int j=0;j<class_farmerprofileoffline_array_obj.length;j++)
         {
-
-         //   AsyncTask_submit_farmerprofiledetails(j);
-
-           /* String FarmerID="0";
-            String stateid=class_farmerprofileoffline_array_obj[j].getStr_stateid();
-            String districtid=class_farmerprofileoffline_array_obj[j].getStr_districtid();
-            String talukid=class_farmerprofileoffline_array_obj[j].getStr_talukid();
-            String panchayatid=class_farmerprofileoffline_array_obj[j].getStr_panchayatid();
-            String villageid=class_farmerprofileoffline_array_obj[j].getStr_villageid();
-            String fname=class_farmerprofileoffline_array_obj[j].getStr_fname();
-            String mname=class_farmerprofileoffline_array_obj[j].getStr_mname();
-            String lname=class_farmerprofileoffline_array_obj[j].getStr_lname();
-            String phonenumber=class_farmerprofileoffline_array_obj[j].getStr_phonenumber();
-            String idprooftyp=class_farmerprofileoffline_array_obj[j].getStr_idprooftype();
-            String idproofno=class_farmerprofileoffline_array_obj[j].getStr_idproofno();
-            String farmerimage=class_farmerprofileoffline_array_obj[j].getStr_farmerimage();
-            String age=class_farmerprofileoffline_array_obj[j].getStr_age();
-            String annualincome=class_farmerprofileoffline_array_obj[j].getStr_annualincome();
-            String familymembers=class_farmerprofileoffline_array_obj[j].getStr_familymembers();
-            String submittedDateTime=class_farmerprofileoffline_array_obj[j].getStr_submittedDateTime();
-            String tempfarmerid=class_farmerprofileoffline_array_obj[j].getStr_tempfarmerid();
-            String empId="40";*/
-
-          //  AddFarmerDetails(FarmerID,stateid,districtid,talukid,panchayatid,villageid,fname,mname,lname,phonenumber,idprooftyp,idproofno,farmerimage,age,annualincome,familymembers,submittedDateTime,tempfarmerid,empId);
             AddFarmerDetails(j);
-
         }
 
     }
 
-  /*  private void AsyncTask_submit_farmerprofiledetails(final int j)
-    {
 
-        final ProgressDialog pdLoading = new ProgressDialog(AddFarmer_Activity1.this);
-        pdLoading.setMessage("\tLoading...");
-        pdLoading.setCancelable(false);
-        pdLoading.show();
-
-        String str_fetchfarmponddetails_url = Class_URL.URL_Add_farmerdetails.toString().trim();
-
-        StringRequest stringRequest = new StringRequest(com.android.volley.Request.Method.POST, str_fetchfarmponddetails_url,
-                new com.android.volley.Response.Listener<String>() {
-                    @Override
-                    public void onResponse(String response)
-                    {
-                        pdLoading.dismiss();
-
-                        Log.e("volley profile response",response);//volley response: {"statusMessage":"success"}
-                        parse_submitted_farmerprofiledetails_resp(response,class_farmerprofileoffline_array_obj[j].getStr_farmerID());
-
-                    }
-                },
-                new com.android.volley.Response.ErrorListener() {
-                    @Override
-                    public void onErrorResponse(VolleyError error)
-                    {
-                        pdLoading.dismiss();
-                        Toast.makeText(AddFarmer_Activity1.this,"WS:"+error.toString(),Toast.LENGTH_LONG).show();
-                    }
-                }){
-            @Override
-            protected Map<String,String> getParams()
-            {
-
-
-                Map<String,String> params = new HashMap<String, String>();
-
-
-
-
-                try{
-
-
-                    Log.e("employeeID param",class_farmerprofileoffline_array_obj[j].getStr_employeeid());
-
-                    params.put("year_id",class_farmerprofileoffline_array_obj[j].getStr_yearid()); //
-                    params.put("State",class_farmerprofileoffline_array_obj[j].getStr_stateid());
-                    params.put("District",class_farmerprofileoffline_array_obj[j].getStr_districtid());
-                    params.put("Taluk",class_farmerprofileoffline_array_obj[j].getStr_talukid());
-                    params.put("Grampanchayat",class_farmerprofileoffline_array_obj[j].getStr_panchayatid());
-                    params.put("Village",class_farmerprofileoffline_array_obj[j].getStr_villageid());
-                    params.put("Firstname",class_farmerprofileoffline_array_obj[j].getStr_fname());
-                    params.put("Middlename",class_farmerprofileoffline_array_obj[j].getStr_mname());
-                    params.put("LastName",class_farmerprofileoffline_array_obj[j].getStr_lname());
-                    params.put("Age",class_farmerprofileoffline_array_obj[j].getStr_age());
-                    params.put("PhoneNumber",class_farmerprofileoffline_array_obj[j].getStr_phonenumber());
-                    params.put("annual_income",class_farmerprofileoffline_array_obj[j].getStr_annualincome());
-                    params.put("family_members",class_farmerprofileoffline_array_obj[j].getStr_familymembers());
-                    params.put("Id_proof_type",class_farmerprofileoffline_array_obj[j].getStr_idprooftype());
-                    params.put("id_proof_no",class_farmerprofileoffline_array_obj[j].getStr_idproofno());
-                    params.put("image_link",class_farmerprofileoffline_array_obj[j].getStr_farmerimage());
-
-                    params.put("employee_id",class_farmerprofileoffline_array_obj[j].getStr_employeeid());
-
-                    params.put("submitted_date",class_farmerprofileoffline_array_obj[j].getStr_submittedDateTime());
-
-
-
-                }
-                catch (Exception e)
-                {
-                    Log.e("upload error", e.getMessage());
-                    e.printStackTrace();
-                }
-
-                //Log.e("image", arraylist_image1_base64.get(0).toString());
-                //  Log.e("Edit request", String.valueOf(params));
-                return params;
-
-            }
-        };
-
-        RequestQueue requestQueue = Volley.newRequestQueue(this);
-        Log.e("request",stringRequest.toString());
-        requestQueue.add(stringRequest);
-    }
-*/
 
     private void AddFarmerDetailsNew()
     {
@@ -2804,31 +2683,8 @@ String str_farmpond_id,str_width, str_height,str_depth,str_imageid1,str_base64im
         });// end of call
     }
 
-  /*  private void AddFarmerDetails(String FarmerID,String stateid,String districtid,String talukid,String panchayatid,String villageid,
-                                  String fname,String mname,String lname,String phonenumber,String idprooftyp,String idproofno,String farmerimage,String age,String annualincome,String familymembers,String submittedDateTime,String tempfarmerid,String empId)
-    {*/
-
-     /*   AddFarmerRequest request = new AddFarmerRequest();
-        request.setFarmerID("0");
-        request.setStateID(stateid);
-        request.setDistrictID(districtid);
-        request.setTalukaID(talukid);
-        request.setPanchayatID(panchayatid);
-        request.setVillageID(villageid);
-        request.setFarmerFirstName(fname);
-        request.setFarmerMiddleName(mname);
-        request.setFarmerLastName(lname);
-        request.setFarmerMobile(phonenumber);
-        request.setFarmerIDType(idprooftyp);
-        request.setFarmerIDNumber(idproofno);
-        request.setFarmerPhoto(farmerimage);
-        request.setFarmerAge(age);
-        request.setFarmerIncome(annualincome);
-        request.setFarmerFamily(familymembers);
-        request.setSubmittedDate(submittedDateTime);
-        request.setMobileTempID(tempfarmerid);
-        request.setCreatedBy("40");*/
-     private void AddFarmerDetails(final int j){
+     private void AddFarmerDetails(final int j)
+     {
            AddFarmerRequest request = new AddFarmerRequest();
             request.setFarmerID(class_farmerprofileoffline_array_obj[j].getStr_farmerID());
             request.setStateID(class_farmerprofileoffline_array_obj[j].getStr_stateid());
@@ -2851,49 +2707,6 @@ String str_farmpond_id,str_width, str_height,str_depth,str_imageid1,str_base64im
         request.setCreatedBy(str_employee_id);
         Log.e("tag","FarmerFirstName=="+class_farmerprofileoffline_array_obj[j].getStr_fname());
         Log.e("tag","FarmerID=="+class_farmerprofileoffline_array_obj[j].getStr_farmerID());
-
-       /* RequestBody farmerId = RequestBody.create(MediaType.parse("text/plain"), class_farmerprofileoffline_array_obj[j].getStr_farmerID());
-        RequestBody stateId = RequestBody.create(MediaType.parse("text/plain"),class_farmerprofileoffline_array_obj[j].getStr_stateid());
-        RequestBody districtId = RequestBody.create(MediaType.parse("text/plain"),class_farmerprofileoffline_array_obj[j].getStr_districtid());
-        RequestBody talukaId = RequestBody.create(MediaType.parse("text/plain"),class_farmerprofileoffline_array_obj[j].getStr_talukid());
-        RequestBody panchayatId = RequestBody.create(MediaType.parse("text/plain"),class_farmerprofileoffline_array_obj[j].getStr_panchayatid());
-        RequestBody villageId = RequestBody.create(MediaType.parse("text/plain"),class_farmerprofileoffline_array_obj[j].getStr_villageid());
-        RequestBody fname = RequestBody.create(MediaType.parse("text/plain"),class_farmerprofileoffline_array_obj[j].getStr_fname());
-        RequestBody mname = RequestBody.create(MediaType.parse("text/plain"),class_farmerprofileoffline_array_obj[j].getStr_mname());
-        RequestBody lname = RequestBody.create(MediaType.parse("text/plain"),class_farmerprofileoffline_array_obj[j].getStr_lname());
-        RequestBody phoneNum = RequestBody.create(MediaType.parse("text/plain"),class_farmerprofileoffline_array_obj[j].getStr_phonenumber());
-        RequestBody idType = RequestBody.create(MediaType.parse("text/plain"),class_farmerprofileoffline_array_obj[j].getStr_idprooftype());
-        RequestBody idPronum = RequestBody.create(MediaType.parse("text/plain"),class_farmerprofileoffline_array_obj[j].getStr_idproofno());
-        RequestBody farmerImg = RequestBody.create(MediaType.parse("text/plain"),class_farmerprofileoffline_array_obj[j].getStr_farmerimage());
-        RequestBody age = RequestBody.create(MediaType.parse("text/plain"),class_farmerprofileoffline_array_obj[j].getStr_age());
-        RequestBody annualIncome = RequestBody.create(MediaType.parse("text/plain"),class_farmerprofileoffline_array_obj[j].getStr_annualincome());
-        RequestBody familyMember = RequestBody.create(MediaType.parse("text/plain"),class_farmerprofileoffline_array_obj[j].getStr_familymembers());
-        RequestBody submittedData = RequestBody.create(MediaType.parse("text/plain"),"01-06-2020");
-        RequestBody tempFarmerID = RequestBody.create(MediaType.parse("text/plain"),class_farmerprofileoffline_array_obj[j].getStr_tempfarmerid());
-        RequestBody empId = RequestBody.create(MediaType.parse("text/plain"),"40");*/
-
-       /* RequestBody farmerId = RequestBody.create(MediaType.parse("text/plain"), "0");
-        RequestBody stateId = RequestBody.create(MediaType.parse("text/plain"),"29");
-        RequestBody districtId = RequestBody.create(MediaType.parse("text/plain"),"528");
-        RequestBody talukaId = RequestBody.create(MediaType.parse("text/plain"),"5499");
-        RequestBody panchayatId = RequestBody.create(MediaType.parse("text/plain"),"216281");
-        RequestBody villageId = RequestBody.create(MediaType.parse("text/plain"),"604790");
-        RequestBody fname = RequestBody.create(MediaType.parse("text/plain"),"MAdhu");
-        RequestBody mname = RequestBody.create(MediaType.parse("text/plain"),"l");
-        RequestBody lname = RequestBody.create(MediaType.parse("text/plain"),"k");
-        RequestBody phoneNum = RequestBody.create(MediaType.parse("text/plain"),"9838393935");
-        RequestBody idType = RequestBody.create(MediaType.parse("text/plain"),"");
-        RequestBody idPronum = RequestBody.create(MediaType.parse("text/plain"),"0");
-        RequestBody farmerImg = RequestBody.create(MediaType.parse("text/plain"),"");
-        RequestBody age = RequestBody.create(MediaType.parse("text/plain"),"22");
-        RequestBody annualIncome = RequestBody.create(MediaType.parse("text/plain"),"500000");
-        RequestBody familyMember = RequestBody.create(MediaType.parse("text/plain"),"6");
-        RequestBody submittedData = RequestBody.create(MediaType.parse("text/plain"),"01-06-2020");
-        RequestBody empId = RequestBody.create(MediaType.parse("text/plain"),"40");
-        RequestBody tempFarmerID = RequestBody.create(MediaType.parse("text/plain"),"");*/
-      //  Log.e("tag","submittedData="+class_farmerprofileoffline_array_obj[j].getStr_submittedDateTime());
-      //  Log.e("tag","Request="+farmerId+","+ stateId+","+districtId+","+ talukaId+","+ panchayatId+","+ villageId+","+fname+","+mname+","+ lname+","+ phoneNum+","+idType+","+idPronum+","+farmerImg+","+age+","+annualIncome+","+familyMember+","+submittedData+","+tempFarmerID+","+empId);
-
 
          Call<AddFarmerResponse> call = userService1.AddFarmer(request);
         Log.e("TAG", "Request 33: "+new Gson().toJson(request) );
@@ -3005,180 +2818,6 @@ String str_farmpond_id,str_width, str_height,str_depth,str_imageid1,str_base64im
                 }
             });// end of call
     }
-
-//    private void AddFarmerDetails_Test(final int j)
-//    {
-//
-//       /* RequestBody farmerId = RequestBody.create(MediaType.parse("text/plain"), class_farmerprofileoffline_array_obj[j].getStr_farmerID());
-//        RequestBody stateId = RequestBody.create(MediaType.parse("text/plain"),class_farmerprofileoffline_array_obj[j].getStr_stateid());
-//        RequestBody districtId = RequestBody.create(MediaType.parse("text/plain"),class_farmerprofileoffline_array_obj[j].getStr_districtid());
-//        RequestBody talukaId = RequestBody.create(MediaType.parse("text/plain"),class_farmerprofileoffline_array_obj[j].getStr_talukid());
-//        RequestBody panchayatId = RequestBody.create(MediaType.parse("text/plain"),class_farmerprofileoffline_array_obj[j].getStr_panchayatid());
-//        RequestBody villageId = RequestBody.create(MediaType.parse("text/plain"),class_farmerprofileoffline_array_obj[j].getStr_villageid());
-//        RequestBody fname = RequestBody.create(MediaType.parse("text/plain"),class_farmerprofileoffline_array_obj[j].getStr_fname());
-//        RequestBody mname = RequestBody.create(MediaType.parse("text/plain"),class_farmerprofileoffline_array_obj[j].getStr_mname());
-//        RequestBody lname = RequestBody.create(MediaType.parse("text/plain"),class_farmerprofileoffline_array_obj[j].getStr_lname());
-//        RequestBody phoneNum = RequestBody.create(MediaType.parse("text/plain"),class_farmerprofileoffline_array_obj[j].getStr_phonenumber());
-//        RequestBody idType = RequestBody.create(MediaType.parse("text/plain"),class_farmerprofileoffline_array_obj[j].getStr_idprooftype());
-//        RequestBody idPronum = RequestBody.create(MediaType.parse("text/plain"),class_farmerprofileoffline_array_obj[j].getStr_idproofno());
-//        RequestBody farmerImg = RequestBody.create(MediaType.parse("text/plain"),class_farmerprofileoffline_array_obj[j].getStr_farmerimage());
-//        RequestBody age = RequestBody.create(MediaType.parse("text/plain"),class_farmerprofileoffline_array_obj[j].getStr_age());
-//        RequestBody annualIncome = RequestBody.create(MediaType.parse("text/plain"),class_farmerprofileoffline_array_obj[j].getStr_annualincome());
-//        RequestBody familyMember = RequestBody.create(MediaType.parse("text/plain"),class_farmerprofileoffline_array_obj[j].getStr_familymembers());
-//        RequestBody submittedData = RequestBody.create(MediaType.parse("text/plain"),"01-06-2020");
-//        RequestBody tempFarmerID = RequestBody.create(MediaType.parse("text/plain"),class_farmerprofileoffline_array_obj[j].getStr_tempfarmerid());
-//        RequestBody empId = RequestBody.create(MediaType.parse("text/plain"),"40");*/
-//
-//        RequestBody farmerId = RequestBody.create(MediaType.parse("text/plain"), "0");
-//        RequestBody villageId = RequestBody.create(MediaType.parse("text/plain"),"604790");
-//        RequestBody fname = RequestBody.create(MediaType.parse("text/plain"),"MAdhu");
-//        RequestBody Farmer_Mobile = RequestBody.create(MediaType.parse("text/plain"),"8904674048");
-//       // RequestBody idPronum = RequestBody.create(MediaType.parse("text/plain"),"0");*/
-//        RequestBody submittedData = RequestBody.create(MediaType.parse("text/plain"),"01-06-2020");
-//        RequestBody empId = RequestBody.create(MediaType.parse("text/plain"),"40");
-//        RequestBody tempFarmerID = RequestBody.create(MediaType.parse("text/plain"),"1");
-//      //  Log.e("tag","submittedData="+class_farmerprofileoffline_array_obj[j].getStr_submittedDateTime());
-//     //   Log.e("tag","Request="+farmerId+","+ stateId+","+districtId+","+ talukaId+","+ panchayatId+","+ villageId+","+fname+","+mname+","+ lname+","+ phoneNum+","+idType+","+idPronum+","+farmerImg+","+age+","+annualIncome+","+familyMember+","+submittedData+","+tempFarmerID+","+empId);
-//
-//
-//        // Call<AddFarmerResponse> call = userService1.AddFarmer(request);
-//        Call<AddFarmerResponse> call = userService1.AddFarmerTest(farmerId, villageId, fname,Farmer_Mobile,submittedData,empId,tempFarmerID);
-//        Log.e("TAG", "Request 33: "+new Gson().toJson(call.request()) );
-//        /*final ProgressDialog progressDoalog;
-//        progressDoalog = new ProgressDialog(AddFarmer_Activity1.this);
-//        progressDoalog.setMessage("Loading....");
-//        progressDoalog.setTitle("Please wait....");
-//        progressDoalog.setCancelable(false);
-//        progressDoalog.setProgressStyle(ProgressDialog.STYLE_SPINNER);
-//        // show it
-//        progressDoalog.show();*/
-//        call.enqueue(new Callback<AddFarmerResponse>()
-//        {
-//            @Override
-//            public void onResponse(Call<AddFarmerResponse> call, Response<AddFarmerResponse> response)
-//            {
-//                Log.e("response",response.toString());
-//                Log.e("TAG", "response 33: "+new Gson().toJson(response) );
-//                Log.e("response body", String.valueOf(response.body()));
-//                //   DefaultResponse error1 = ErrorUtils.parseError(response);
-//                   /* Log.e("response new:",error1.getMsg());
-//                    Log.e("response new status:", String.valueOf(error1.getstatus()));*/
-//                // Log.e("response",Gson.fromJson(response.toString(),AddFarmer_Activity1.class));
-//
-//                if(response.isSuccessful())
-//                {
-//                    //  progressDoalog.dismiss();
-//                    AddFarmerResponse  class_loginresponse = response.body();
-//                    Log.e("tag","res=="+class_loginresponse.toString());
-//                        /*if(class_loginresponse.getStatus().equals("true")) {
-//
-//                            List<AddFarmerResList> addFarmerResList = response.body().getLst();
-//                            Log.e("tag","addFarmerResList NAme="+addFarmerResList.get(0).getFarmerFirstName());
-//                            Log.e("tag","addFarmerResList farmerID="+addFarmerResList.get(0).getFarmerID());
-//
-//                        }else if(class_loginresponse.getStatus().equals("false")){
-//                       //     progressDoalog.dismiss();
-//                            Toast.makeText(AddFarmer_Activity1.this, class_loginresponse.getMessage(), Toast.LENGTH_SHORT).show();
-//
-//                        }*/
-//                } else {
-//                    //   progressDoalog.dismiss();
-//
-//                    DefaultResponse error = ErrorUtils.parseError(response);
-//                    // … and use it to show error information
-//
-//                    // … or just log the issue like we’re doing :)
-//                    Log.d("error message", error.getMsg());
-//
-//                    Toast.makeText(AddFarmer_Activity1.this, error.getMsg(), Toast.LENGTH_SHORT).show();
-//
-//                }
-//            }
-//
-//            @Override
-//            public void onFailure(Call call, Throwable t)
-//            {
-//                Log.e("TAG", "onFailure: "+t.toString() );
-//
-//                Log.e("tag","Error:"+t.getMessage());
-//                Toast.makeText(AddFarmer_Activity1.this, t.getMessage(), Toast.LENGTH_SHORT).show();
-//            }
-//        });// end of call
-//    }
-
-   /* public void parse_submitted_farmerprofiledetails_resp(String response,String str_farmer_id)
-    {
-
-        try {
-            JSONObject jsonObject = new JSONObject(response);
-
-
-            if (jsonObject.getString("statusMessage").equalsIgnoreCase("Success"))
-            {
-
-                String str_response_farmer_id=jsonObject.getString("farmer_id");
-
-                SQLiteDatabase db1 = this.openOrCreateDatabase("FarmPond_db", Context.MODE_PRIVATE, null);
-
-                db1.execSQL("CREATE TABLE IF NOT EXISTS FarmPondDetails_fromServerRest(SlNo INTEGER PRIMARY KEY AUTOINCREMENT,FIDDB VARCHAR,TempFIDDB VARCHAR," +
-                        "FNameDB VARCHAR,FMNameDB VARCHAR,FLNameDB VARCHAR,FYearIDDB VARCHAR,FStateIDDB VARCHAR,FDistrictIDDB VARCHAR," +
-                        "FTalukIDDB VARCHAR,FPanchayatIDDB VARCHAR,FVillageIDDB VARCHAR,FageDB VARCHAR,FphonenumberDB VARCHAR," +
-                        "FAnnualIncomeDB VARCHAR,FfamilymemberDB VARCHAR,FidprooftypeDB VARCHAR,FidproofnoDB VARCHAR,FphotoDB VARCHAR,FPondidDB VARCHAR,WidthDB VARCHAR," +
-                        "HeightDB VARCHAR,DepthDB VARCHAR,LatitudeDB VARCHAR,LongitudeDB VARCHAR,Imageid1DB VARCHAR,Image1Base64DB VARCHAR," +
-                        "Imageid2DB VARCHAR,Image2Base64DB VARCHAR,Imageid3DB VARCHAR,Image3Base64DB VARCHAR,EmployeeIDDB VARCHAR,SubmittedDateDB VARCHAR," +
-                        "TotalDaysDB VARCHAR,StartDateDB VARCHAR,ConstructedDateDB VARCHAR,PondCostDB VARCHAR,McodeDB VARCHAR,FPondCodeDB VARCHAR," +
-                        "FPondRemarksDB VARCHAR,FPondAmtTakenDB VARCHAR,FPondStatusDB VARCHAR," +
-                        "FPondApprovalStatusDB VARCHAR,FPondApprovalRemarksDB VARCHAR,FPondApprovedbyDB VARCHAR,FPondApprovedDateDB VARCHAR,FPondDonorDB VARCHAR," +
-                        "FPondLatitudeDB VARCHAR,FPondLongitudeDB VARCHAR," +
-                        "FPondAcresDB VARCHAR,FPondGuntaDB VARCHAR,FPondCropBeforeDB VARCHAR,FPondCropAfterDB VARCHAR," +
-                        "UploadedStatusFarmerprofile VARCHAR,UploadedStatus VARCHAR);");
-
-
-
-                ContentValues cv = new ContentValues();
-                cv.put("FIDDB",str_response_farmer_id);
-                *//*cv.put("employee_id",str_response_image_id3);
-                // employee_id*//*
-                cv.put("UploadedStatusFarmerprofile",10);
-
-                db1.update("FarmPondDetails_fromServerRest", cv, "TempFIDDB = ?", new String[]{str_farmer_id});
-                db1.close();
-
-
-
-
-
-
-                SQLiteDatabase db_viewfarmerlist = this.openOrCreateDatabase("FarmPond_db", Context.MODE_PRIVATE, null);
-
-
-                db_viewfarmerlist.execSQL("CREATE TABLE IF NOT EXISTS ViewFarmerListRest(DispFarmerTable_YearID VARCHAR,DispFarmerTable_StateID VARCHAR," +
-                        "DispFarmerTable_DistrictID VARCHAR,DispFarmerTable_TalukID VARCHAR,DispFarmerTable_VillageID VARCHAR," +
-                        "DispFarmerTable_GrampanchayatID VARCHAR,DispFarmerTable_FarmerID VARCHAR,DispFarmerTable_Farmer_Code VARCHAR," +
-                        "DispFarmerTable_FarmerName VARCHAR,FarmerMName_DB VARCHAR,FarmerLName_DB VARCHAR,Farmerage_DB VARCHAR," +
-                        "Farmercellno_DB VARCHAR,FIncome_DB VARCHAR,Ffamilymember_DB VARCHAR,FIDprooftype_DB VARCHAR,FIDProofNo_DB VARCHAR,UploadedStatusFarmerprofile_DB VARCHAR," +
-                        "FarmerImageB64str_DB VARCHAR,DispFarmerTable_FarmerImage VARCHAR," +
-                        "LocalFarmerImg BLOB,Farmpondcount VARCHAR);");
-
-
-                ContentValues cv_farmelistupdate = new ContentValues();
-                cv_farmelistupdate.put("DispFarmerTable_Farmer_Code",str_response_farmer_id);
-                cv_farmelistupdate.put("DispFarmerTable_FarmerID",str_response_farmer_id);
-
-
-                db_viewfarmerlist.update("ViewFarmerListRest", cv_farmelistupdate, "DispFarmerTable_Farmer_Code = ?", new String[]{str_farmer_id});
-                db_viewfarmerlist.close();
-
-            }
-            else{
-
-            }
-        } catch (JSONException e) {
-            e.printStackTrace();
-            Log.e("error",e.toString());
-        }
-
-    }*/
 
 
 

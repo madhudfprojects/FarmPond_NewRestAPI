@@ -481,7 +481,7 @@ public class Activity_MarketingHomeScreen extends AppCompatActivity {
         {
 
             //AsyncTask_submit_farmerprofiledetails(j);
-            Log.e("tag","Edit FarmerId =="+class_farmerprofileoffline_array_obj[j].getStr_farmerID());
+            Log.e("tag","AddFarmerId =="+class_farmerprofileoffline_array_obj[j].getStr_farmerID());
             AddFarmerDetails(j);
         }
 
