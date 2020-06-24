@@ -252,15 +252,6 @@ public class EditFarmPondDetails_Activity extends AppCompatActivity {
         str_perdayamount=sharedpreferencebook_usercredential_Obj.getString(KeyValue_perdayamount, "").trim();
 
 
-        //fetch the details previous activity
-       /* Intent intent = getIntent();
-        String jsonString = intent.getStringExtra("jsonObject");
-      //  Log.e("intent",jsonString);
-       // class_farmponddetails_obj = new Gson().fromJson(jsonString, Class_farmponddetails.class);
-
-        class_farmponddetails_offline_obj= new Gson().fromJson(jsonString, Class_farmponddetails_offline.class);
-*/
-
 
         /*String str_farmername =class_farmponddetails_obj.getFarmer_Name().toString() ;
         str_farmpond_id=class_farmponddetails_obj.getFarmpond_Id().toString();*/
@@ -545,6 +536,7 @@ public class EditFarmPondDetails_Activity extends AppCompatActivity {
                 {
                     locationManager = (LocationManager) getSystemService(Service.LOCATION_SERVICE);
                     isGPSON = locationManager.isProviderEnabled(LocationManager.GPS_PROVIDER);
+
 
 
                     getLocation();
@@ -2490,7 +2482,8 @@ public class EditFarmPondDetails_Activity extends AppCompatActivity {
         try {
             if (canGetLocation)
             {
-                // Log.d(TAG, "Can get location");
+                 Log.e("Cangetlocation", String.valueOf(canGetLocation));
+                Log.e("isGPSON", String.valueOf(isGPSON));
                 if (isGPSON)
                 {
                     // from GPS
@@ -2519,7 +2512,8 @@ public class EditFarmPondDetails_Activity extends AppCompatActivity {
 
                         try {
                             Thread.sleep(1 * 500);
-                        } catch (InterruptedException e) {
+                        } catch (InterruptedException e)
+                        {
                             e.printStackTrace();
                         }
 
@@ -2528,6 +2522,7 @@ public class EditFarmPondDetails_Activity extends AppCompatActivity {
                     }
                     else{
                         dialog_location.dismiss();
+                        Toast.makeText(EditFarmPondDetails_Activity.this," after camera latitude="+str_latitude+" longitude="+str_longitude,Toast.LENGTH_LONG).show();
                     }
 
                   /*  for(int i=0;i<=50;i++)

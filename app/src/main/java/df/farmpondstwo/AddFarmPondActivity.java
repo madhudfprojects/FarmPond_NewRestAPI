@@ -564,6 +564,9 @@ public class AddFarmPondActivity extends AppCompatActivity
                         latitude_tv.setText(str_latitude);
                         longitude_tv.setText(str_longitude);
                     }
+                    else{
+                        Toast.makeText(AddFarmPondActivity.this," after camera latitude="+lat_str+" longitude="+log_str,Toast.LENGTH_LONG).show();
+                    }
                // }
 
 
