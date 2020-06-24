@@ -1920,10 +1920,10 @@ public class AddFarmPondActivity extends AppCompatActivity
 
             fetch_DB_farmerprofile_offline_data();
 
-            Toast.makeText(getApplicationContext(), "New FarmPond has been added", Toast.LENGTH_SHORT).show();
+           /* Toast.makeText(getApplicationContext(), "New FarmPond has been added", Toast.LENGTH_SHORT).show();
             Intent intent = new Intent(AddFarmPondActivity.this, EachFarmPondDetails_Activity.class);
             startActivity(intent);
-            finish();
+            finish();*/
 
         }else
         {
@@ -2034,6 +2034,8 @@ public class AddFarmPondActivity extends AppCompatActivity
 
     private void AddFarmerDetails(final int j)
     {
+
+
         AddFarmerRequest request = new AddFarmerRequest();
         request.setFarmerID(class_farmerprofileoffline_array_obj[j].getStr_farmerID());
         request.setStateID(class_farmerprofileoffline_array_obj[j].getStr_stateid());
