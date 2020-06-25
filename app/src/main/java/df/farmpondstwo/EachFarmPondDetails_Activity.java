@@ -711,6 +711,10 @@ public class EachFarmPondDetails_Activity extends AppCompatActivity {
                                             str_longitude =Double.toString(longitude);
 
                                         }
+                                        else{
+                                            Toast.makeText(EachFarmPondDetails_Activity.this," before latitude="+lat_str+" longitude="+log_str,Toast.LENGTH_LONG).show();
+                                        }
+
                                         try {
                                             Thread.sleep(1 * 100);
 
@@ -835,21 +839,8 @@ public class EachFarmPondDetails_Activity extends AppCompatActivity {
 
         dialog.setPositiveButton("Yes", new DialogInterface.OnClickListener() {
             @Override
-            public void onClick(DialogInterface dialog, int id) {
-               /* Class_farmponddetails_offline inner_obj=new Class_farmponddetails_offline();
-                inner_obj=farmponddetails_obj;
-
-                Gson gson = new Gson();
-                String str_json = gson.toJson(inner_obj);*/
-
-
-
-
-                /*Intent i = new Intent(EachFarmPondDetails_Activity.this, EditFarmPondDetails_Activity.class);
-                i.putExtra("jsonObject", str_json.toString());
-                startActivity(i);
-                finish();*/
-
+            public void onClick(DialogInterface dialog, int id)
+            {
 
                 Intent i = new Intent(EachFarmPondDetails_Activity.this, EditFarmPondDetails_Activity.class);
                 i.putExtra("farmer_name", str_farmername);
