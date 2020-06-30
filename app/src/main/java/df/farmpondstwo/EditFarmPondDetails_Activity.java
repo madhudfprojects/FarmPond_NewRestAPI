@@ -464,9 +464,23 @@ public class EditFarmPondDetails_Activity extends AppCompatActivity {
                 Log.e(TAG,"latitude"+lat_str);
                 Log.e(TAG,"longitude"+log_str);
                 Toast.makeText(EditFarmPondDetails_Activity.this," Edit latitude="+lat_str+" longitude="+log_str,Toast.LENGTH_LONG).show();
-                str_latitude =Double.toString(latitude);
-                str_longitude =Double.toString(longitude);
+                latitude_tv.setText(lat_str);
+                longitude_tv.setText(log_str);
 
+              /*  if(lat_str==null||log_str==null||lat_str.equals("0.0")||log_str.equals("0.0"))
+                {
+                    alertdialog_refresh_latandlong();
+                }
+                else{
+                    latitude_tv.setText(lat_str);
+                    longitude_tv.setText(log_str);
+                }*/
+            }else {
+                if(lat_str==null||log_str==null||lat_str.equals("0.0")||log_str.equals("0.0"))
+                {
+                    alertdialog_refresh_latandlong();
+                }
+                Toast.makeText(EditFarmPondDetails_Activity.this, " after camera latitude=" + lat_str + " longitude=" + log_str, Toast.LENGTH_LONG).show();
             }
           /*  double_currentlatitude = gpstracker_obj2.getLatitude();
             double_currentlongitude = gpstracker_obj2.getLongitude();

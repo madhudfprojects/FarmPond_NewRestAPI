@@ -1044,7 +1044,13 @@ public class EachFarmPondDetails_Activity extends AppCompatActivity {
                         str_latitude =Double.toString(latitude);
                         str_longitude =Double.toString(longitude);
 
-                    }
+                    }/*else {
+                        if(str_latitude==null||str_longitude==null||str_latitude.equals("0.0")||str_longitude.equals("0.0"))
+                        {
+                            alertdialog_refresh_latandlong();
+                        }
+                        Toast.makeText(EachFarmPondDetails_Activity.this, " after camera latitude=" + str_latitude + " longitude=" + str_longitude, Toast.LENGTH_LONG).show();
+                    }*/
                     try {
                         Thread.sleep(1 * 100);
 
@@ -1076,6 +1082,33 @@ public class EachFarmPondDetails_Activity extends AppCompatActivity {
 
     //location
 
+    public void alertdialog_refresh_latandlong() {
+
+        AlertDialog.Builder dialog = new AlertDialog.Builder(EachFarmPondDetails_Activity.this);
+        dialog.setCancelable(false);
+        dialog.setTitle(R.string.app_name);
+        dialog.setMessage("Click Ok to fetch latitude and Longitude");
+
+        dialog.setPositiveButton("Ok", new DialogInterface.OnClickListener() {
+            @Override
+            public void onClick(DialogInterface dialog, int id) {
+
+                Intent i = new Intent(EachFarmPondDetails_Activity.this, EachFarmPondDetails_Activity.class);
+                startActivity(i);
+                finish();
+            }
+        });
+
+        final AlertDialog alert = dialog.create();
+        alert.setOnShowListener(new DialogInterface.OnShowListener() {
+            @Override
+            public void onShow(DialogInterface arg0) {
+                //  alert.getButton(AlertDialog.BUTTON_NEGATIVE).setTextColor(Color.RED);
+                alert.getButton(AlertDialog.BUTTON_POSITIVE).setTextColor(Color.parseColor("#004D40"));
+            }
+        });
+        alert.show();
+    }
 
 
 
