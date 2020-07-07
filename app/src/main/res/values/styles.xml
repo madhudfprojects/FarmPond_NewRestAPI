@@ -24,5 +24,15 @@
         <item name="android:itemBackground">@color/colorwhite</item>
     </style>
 
+    <style name="CollapsingToolbarLayoutExpandedTextStyle" parent="AppTheme">
+        <item name="android:textColor">@android:color/transparent</item>
+        <item name="android:textSize">0sp</item>
+        <item name="windowNoTitle">true</item>
+
+    </style>
+
+    <style name="collapsed">
+        <item name="android:textColor">@android:color/white</item>
+    </style>
 
 </resources>

@@ -1,3 +1,7 @@
 <resources>
     <string name="app_name">FarmPond_NewRestAPI</string>
+    <string name="txtdateformat">yyyyMMdd_HHmmss</string>
+    <string name="txtFileDocumentUploadImg">FarmerIMG_</string>
+    <string name="txtFileExtension">.png</string>
+
 </resources>

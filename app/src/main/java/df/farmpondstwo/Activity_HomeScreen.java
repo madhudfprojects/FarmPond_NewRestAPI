@@ -103,18 +103,18 @@ public class Activity_HomeScreen extends AppCompatActivity implements GoogleApiC
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_home);
+        setContentView(R.layout.activity_main_new);
 
     /*    getSupportActionBar().setDisplayHomeAsUpEnabled(false);
         getSupportActionBar().setTitle("Home");*/
-        toolbar = (Toolbar) findViewById(R.id.toolbar_n_actionbar);
+     /*   toolbar = (Toolbar) findViewById(R.id.toolbar_n_actionbar);
         setSupportActionBar(toolbar);
         getSupportActionBar().setDisplayHomeAsUpEnabled(true);
 
         TextView title = (TextView) toolbar.findViewById(R.id.title_name);
         title.setText("Home");
         getSupportActionBar().setTitle("");
-
+*/
         //admin_view_rl=(RelativeLayout)findViewById(R.id.admin_view_rl);
         admin_view_ll = (LinearLayout) findViewById(R.id.admin_view_ll);
 
@@ -174,6 +174,7 @@ public class Activity_HomeScreen extends AppCompatActivity implements GoogleApiC
 //                finish();
 //                // call Login Activity
             } else {
+                str_Googlelogin_Username=SaveSharedPreference.getUserName(Activity_HomeScreen.this);
                 // Stay at the current activity.
             }
 

@@ -383,8 +383,17 @@ public class CameraPhotoCapture extends Activity {
                         /**************  Decode an input stream into a bitmap. *********/
                         bitmap = BitmapFactory.decodeStream(getContentResolver().openInputStream(uri));
                          
-                        compressImage(imagepathfordeletion); // imagepathfordeletion is original path of image
+                       // compressImage(imagepathfordeletion); // imagepathfordeletion is original path of image
                         									 // calling the compressImage method
+
+                       String imageFilePath= CommonUtils.compressImage(imagepathfordeletion);
+                        scaledBitmap=BitmapFactory.decodeFile(imageFilePath);
+                        compressedfilepaths=imageFilePath;
+                        /*Bitmap thumbnail = (BitmapFactory.decodeFile(imageFilePath));
+                        thumbnail = getResizedBitmap1(thumbnail, 400);
+                        Log.w(" gallery.", picturePath + "");
+                        add_farmerimage_iv.setImageBitmap(thumbnail);*/
+
                         if (bitmap != null) {
                              
                             /********* Creates a new bitmap, scaled from an existing bitmap. ***********/

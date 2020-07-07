@@ -159,11 +159,8 @@ public class MainActivity extends AppCompatActivity
         sharedpref_userimage_Obj=getSharedPreferences(sharedpreferenc_userimage, Context.MODE_PRIVATE);
         str_profileimage = sharedpref_userimage_Obj.getString(key_userimage, "").trim();
 
-
-
         sharedpreferencebookRest_usercredential_Obj=this.getSharedPreferences(sharedpreferencebook_User_Credential, Context.MODE_PRIVATE);
         sharedpreferencebook_usercredential_Obj=this.getSharedPreferences(sharedpreferencebook_usercredential, Context.MODE_PRIVATE);
-
 
         normallogin_bt =(Button)findViewById(R.id.normallogin_bt);
 

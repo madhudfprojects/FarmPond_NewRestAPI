@@ -28,7 +28,6 @@
         android:supportsRtl="true"
         android:theme="@style/AppTheme">
 
-
         <activity android:name=".MainActivity">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
@@ -53,9 +52,10 @@
             android:theme="@style/AppThemeNoActionBar" />
 
         <activity android:name=".ViewFarmers_Activity" />
+        <activity android:name=".CameraPhotoCapture" />
+
         <activity android:name=".Activity_FarmerHomeScreen" />
-        <activity android:name=".Activity_HomeScreen"
-            android:theme="@style/AppThemeNoActionBar" />
+        <activity android:name=".Activity_HomeScreen" />
         <activity android:name=".Activity_MarketingHomeScreen"
             android:theme="@style/AppThemeNoActionBar" />
         <activity android:name=".AddFarmer_Activity1"
