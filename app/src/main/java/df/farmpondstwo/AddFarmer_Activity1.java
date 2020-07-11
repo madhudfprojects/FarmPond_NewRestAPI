@@ -1753,7 +1753,7 @@ public class AddFarmer_Activity1 extends AppCompatActivity {
         if (requestCode == 1) {
             if (resultCode == RESULT_OK) {
                 Log.e("tag", "mCurrentPhotoPath="+mCurrentPhotoPath);
-               imageFilePath= CommonUtils.compressImage(mCurrentPhotoPath);
+                imageFilePath= CommonUtils.compressImage(mCurrentPhotoPath);
                 Log.e("CameraDemo", "Pic saved");
                 Uri imageUri = Uri.parse(imageFilePath);
                 if (imageUri.getPath() != null) {
@@ -1813,7 +1813,7 @@ public class AddFarmer_Activity1 extends AppCompatActivity {
         userImage1.compress(Bitmap.CompressFormat.PNG, 60, baos);
         byte[] b = baos.toByteArray();
         str_img = Base64.encodeToString(b, Base64.DEFAULT);
-          Log.e("tag","image size=="+String.valueOf(b.length));
+        Log.e("tag","image size=="+String.valueOf(b.length));
 //                if (str_img.equals("") || str_img.equals(null)) {
         arraylist_farmerimage_base64.clear();
         arraylist_farmerimage_base64.add(str_img);

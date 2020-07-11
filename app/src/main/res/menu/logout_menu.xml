@@ -16,6 +16,14 @@
         android:icon="@drawable/ic_edit"
         android:title="@string/edit"
         app:showAsAction="never"/>-->
+
+    <item
+        android:id="@+id/contactus"
+        android:icon="@mipmap/ic_launcher"
+        android:iconTint="@color/colorwhite"
+        android:title="ContactUs"
+        app:showAsAction="never"/>
+
     <item
         android:id="@+id/logout"
         android:icon="@mipmap/ic_launcher"

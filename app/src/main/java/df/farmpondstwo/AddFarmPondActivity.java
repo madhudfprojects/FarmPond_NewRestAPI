@@ -1339,7 +1339,8 @@ public class AddFarmPondActivity extends AppCompatActivity {
             dialog.dismiss();
 
 
-            if (str_DBerror_check.equalsIgnoreCase("no")) {
+            if (str_DBerror_check.equalsIgnoreCase("no"))
+            {
 
                 DB_ViewFarmerlist_updatepondcount(str_farmerID);
 
@@ -1807,7 +1808,8 @@ public class AddFarmPondActivity extends AppCompatActivity {
         Log.e("length", String.valueOf(class_farmerprofileoffline_array_obj.length));
 
 
-        for (int j = 0; j < class_farmerprofileoffline_array_obj.length; j++) {
+        for (int j = 0; j < class_farmerprofileoffline_array_obj.length; j++)
+        {
             AddFarmerDetails(j);
         }
         if (x == 0) {

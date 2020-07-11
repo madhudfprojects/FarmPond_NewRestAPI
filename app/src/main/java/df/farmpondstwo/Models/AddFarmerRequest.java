@@ -63,6 +63,8 @@ public class AddFarmerRequest {
     @Expose
     private Object mobileTempID;
 
+
+
     public String getFarmerID() {
         return farmerID;
     }
@@ -214,4 +216,7 @@ public class AddFarmerRequest {
     public void setMobileTempID(Object mobileTempID) {
         this.mobileTempID = mobileTempID;
     }
+
+
+
 }
