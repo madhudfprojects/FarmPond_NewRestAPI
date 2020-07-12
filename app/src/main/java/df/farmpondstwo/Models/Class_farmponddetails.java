@@ -3,6 +3,8 @@ package df.farmpondstwo.Models;
 import com.google.gson.annotations.Expose;
 import com.google.gson.annotations.SerializedName;
 
+import java.util.List;
+
 public class Class_farmponddetails
 {
     @SerializedName("Pond_ID")
@@ -50,15 +52,6 @@ public class Class_farmponddetails
     @SerializedName("Pond_CollectedAmount")
     @Expose
     private String pondCollectedAmount;
-    @SerializedName("Pond_Image_1")
-    @Expose
-    private String pondImage1;
-    @SerializedName("Pond_Image_2")
-    @Expose
-    private String pondImage2;
-    @SerializedName("Pond_Image_3")
-    @Expose
-    private String pondImage3;
     @SerializedName("Pond_Status")
     @Expose
     private String pondStatus;
@@ -131,6 +124,43 @@ public class Class_farmponddetails
     @SerializedName("Crop_After")
     @Expose
     private String cropAfter;
+    @SerializedName("PondImage")
+    @Expose
+    private List<PondImage> pondImage = null;
+
+    @SerializedName("Pond_Image_1")
+    @Expose
+    private String pondImage1;
+    @SerializedName("Pond_Image_2")
+    @Expose
+    private String pondImage2;
+    @SerializedName("Pond_Image_3")
+    @Expose
+    private String pondImage3;
+
+    public String getPondImage1() {
+        return pondImage1;
+    }
+
+    public void setPondImage1(String pondImage1) {
+        this.pondImage1 = pondImage1;
+    }
+
+    public String getPondImage2() {
+        return pondImage2;
+    }
+
+    public void setPondImage2(String pondImage2) {
+        this.pondImage2 = pondImage2;
+    }
+
+    public String getPondImage3() {
+        return pondImage3;
+    }
+
+    public void setPondImage3(String pondImage3) {
+        this.pondImage3 = pondImage3;
+    }
 
     public String getPondID() {
         return pondID;
@@ -244,38 +274,6 @@ public class Class_farmponddetails
         this.pondCost = pondCost;
     }
 
-    public String getPondCollectedAmount() {
-        return pondCollectedAmount;
-    }
-
-    public void setPondCollectedAmount(String pondCollectedAmount) {
-        this.pondCollectedAmount = pondCollectedAmount;
-    }
-
-    public String getPondImage1() {
-        return pondImage1;
-    }
-
-    public void setPondImage1(String pondImage1) {
-        this.pondImage1 = pondImage1;
-    }
-
-    public String getPondImage2() {
-        return pondImage2;
-    }
-
-    public void setPondImage2(String pondImage2) {
-        this.pondImage2 = pondImage2;
-    }
-
-    public String getPondImage3() {
-        return pondImage3;
-    }
-
-    public void setPondImage3(String pondImage3) {
-        this.pondImage3 = pondImage3;
-    }
-
     public String getPondStatus() {
         return pondStatus;
     }
@@ -324,13 +322,6 @@ public class Class_farmponddetails
         this.pondTempID = pondTempID;
     }
 
-    public String getResponse() {
-        return response;
-    }
-
-    public void setResponse(String response) {
-        this.response = response;
-    }
 
     public String getCreatedUser() {
         return createdUser;
@@ -338,6 +329,54 @@ public class Class_farmponddetails
 
     public void setCreatedUser(String createdUser) {
         this.createdUser = createdUser;
+    }
+
+    public String getFarmerFirstName() {
+        return farmerFirstName;
+    }
+
+    public void setFarmerFirstName(String farmerFirstName) {
+        this.farmerFirstName = farmerFirstName;
+    }
+
+    public String getFarmerMiddleName() {
+        return farmerMiddleName;
+    }
+
+    public void setFarmerMiddleName(String farmerMiddleName) {
+        this.farmerMiddleName = farmerMiddleName;
+    }
+
+    public String getFarmerLastName() {
+        return farmerLastName;
+    }
+
+    public void setFarmerLastName(String farmerLastName) {
+        this.farmerLastName = farmerLastName;
+    }
+
+    public List<PondImage> getPondImage() {
+        return pondImage;
+    }
+
+    public void setPondImage(List<PondImage> pondImage) {
+        this.pondImage = pondImage;
+    }
+
+    public String getPondCollectedAmount() {
+        return pondCollectedAmount;
+    }
+
+    public void setPondCollectedAmount(String pondCollectedAmount) {
+        this.pondCollectedAmount = pondCollectedAmount;
+    }
+
+    public String getResponse() {
+        return response;
+    }
+
+    public void setResponse(String response) {
+        this.response = response;
     }
 
     public String getSubmittedUser() {
@@ -428,46 +467,21 @@ public class Class_farmponddetails
         this.responseAction = responseAction;
     }
 
-    public String getFarmerFirstName() {
-        return farmerFirstName;
-    }
-
-    public void setFarmerFirstName(String farmerFirstName) {
-        this.farmerFirstName = farmerFirstName;
-    }
-
-    public String getFarmerMiddleName() {
-        return farmerMiddleName;
-    }
-
-    public void setFarmerMiddleName(String farmerMiddleName) {
-        this.farmerMiddleName = farmerMiddleName;
-    }
-
-    public String getFarmerLastName() {
-        return farmerLastName;
-    }
-
-    public void setFarmerLastName(String farmerLastName) {
-        this.farmerLastName = farmerLastName;
-    }
-
-    public String getCropBefore() {
-        return cropBefore;
-    }
-
     public void setCropBefore(String cropBefore) {
         this.cropBefore = cropBefore;
-    }
-
-    public String getCropAfter() {
-        return cropAfter;
     }
 
     public void setCropAfter(String cropAfter) {
         this.cropAfter = cropAfter;
     }
 
+    public String getCropBefore() {
+        return cropBefore;
+    }
+
+    public String getCropAfter() {
+        return cropAfter;
+    }
 }
 
 

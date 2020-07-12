@@ -1492,7 +1492,9 @@ public class AddFarmPondActivity extends AppCompatActivity {
                     "FPondApprovalStatusDB VARCHAR,FPondApprovalRemarksDB VARCHAR,FPondApprovedbyDB VARCHAR,FPondApprovedDateDB VARCHAR,FPondDonorDB VARCHAR," +
                     "FPondLatitudeDB VARCHAR,FPondLongitudeDB VARCHAR," +
                     "FPondAcresDB VARCHAR,FPondGuntaDB VARCHAR,FPondCropBeforeDB VARCHAR,FPondCropAfterDB VARCHAR," +
-                    "UploadedStatusFarmerprofile VARCHAR,UploadedStatus VARCHAR);");
+                    "UploadedStatusFarmerprofile VARCHAR,UploadedStatus VARCHAR," +
+                    "newpondImageId1 VARCHAR,pondImageType1 VARCHAR,newpondImageId2 VARCHAR,pondImageType2 VARCHAR,newpondImageId3 VARCHAR,pondImageType3 VARCHAR);");
+
 
 
             String str_farmerMName, str_farmerLName, str_yearID, str_stateID, str_districtID, str_talukID, str_panchayatID, str_villageID,
@@ -1751,7 +1753,9 @@ public class AddFarmPondActivity extends AppCompatActivity {
                 "FPondApprovalStatusDB VARCHAR,FPondApprovalRemarksDB VARCHAR,FPondApprovedbyDB VARCHAR,FPondApprovedDateDB VARCHAR,FPondDonorDB VARCHAR," +
                 "FPondLatitudeDB VARCHAR,FPondLongitudeDB VARCHAR," +
                 "FPondAcresDB VARCHAR,FPondGuntaDB VARCHAR,FPondCropBeforeDB VARCHAR,FPondCropAfterDB VARCHAR," +
-                "UploadedStatusFarmerprofile VARCHAR,UploadedStatus VARCHAR);");
+                "UploadedStatusFarmerprofile VARCHAR,UploadedStatus VARCHAR," +
+                "newpondImageId1 VARCHAR,pondImageType1 VARCHAR,newpondImageId2 VARCHAR,pondImageType2 VARCHAR,newpondImageId3 VARCHAR,pondImageType3 VARCHAR);");
+
 
 
         Cursor cursor1 = db1.rawQuery("SELECT * FROM FarmPondDetails_fromServerRest WHERE UploadedStatusFarmerprofile='" + 9 + "'", null);
@@ -1894,7 +1898,9 @@ public class AddFarmPondActivity extends AppCompatActivity {
                             "FPondApprovalStatusDB VARCHAR,FPondApprovalRemarksDB VARCHAR,FPondApprovedbyDB VARCHAR,FPondApprovedDateDB VARCHAR,FPondDonorDB VARCHAR," +
                             "FPondLatitudeDB VARCHAR,FPondLongitudeDB VARCHAR," +
                             "FPondAcresDB VARCHAR,FPondGuntaDB VARCHAR,FPondCropBeforeDB VARCHAR,FPondCropAfterDB VARCHAR," +
-                            "UploadedStatusFarmerprofile VARCHAR,UploadedStatus VARCHAR);");
+                            "UploadedStatusFarmerprofile VARCHAR,UploadedStatus VARCHAR," +
+                            "newpondImageId1 VARCHAR,pondImageType1 VARCHAR,newpondImageId2 VARCHAR,pondImageType2 VARCHAR,newpondImageId3 VARCHAR,pondImageType3 VARCHAR);");
+
 
 
                     ContentValues cv = new ContentValues();
@@ -1967,7 +1973,9 @@ public class AddFarmPondActivity extends AppCompatActivity {
                 "FPondApprovalStatusDB VARCHAR,FPondApprovalRemarksDB VARCHAR,FPondApprovedbyDB VARCHAR,FPondApprovedDateDB VARCHAR,FPondDonorDB VARCHAR," +
                 "FPondLatitudeDB VARCHAR,FPondLongitudeDB VARCHAR," +
                 "FPondAcresDB VARCHAR,FPondGuntaDB VARCHAR,FPondCropBeforeDB VARCHAR,FPondCropAfterDB VARCHAR," +
-                "UploadedStatusFarmerprofile VARCHAR,UploadedStatus VARCHAR);");
+                "UploadedStatusFarmerprofile VARCHAR,UploadedStatus VARCHAR," +
+                "newpondImageId1 VARCHAR,pondImageType1 VARCHAR,newpondImageId2 VARCHAR,pondImageType2 VARCHAR,newpondImageId3 VARCHAR,pondImageType3 VARCHAR);");
+
 
         Cursor cursor1 = db1.rawQuery("SELECT * FROM FarmPondDetails_fromServerRest WHERE UploadedStatus='" + 2 + "'", null);
         int x = cursor1.getCount();

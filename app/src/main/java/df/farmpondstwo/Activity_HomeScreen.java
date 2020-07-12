@@ -129,7 +129,6 @@ public class Activity_HomeScreen extends AppCompatActivity implements GoogleApiC
         sharedpref_flag_Obj = getSharedPreferences(sharedpreferenc_flag, Context.MODE_PRIVATE);
         str_flag = sharedpref_flag_Obj.getString(key_flag, "").trim();
 
-
         sharedpreferencebook_usercredential_Obj = getSharedPreferences(sharedpreferencebook_usercredential, Context.MODE_PRIVATE);
         str_employeecategory = sharedpreferencebook_usercredential_Obj.getString(KeyValue_employeecategory, "").trim();
 

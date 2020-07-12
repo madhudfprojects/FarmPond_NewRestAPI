@@ -1347,7 +1347,9 @@ public class AddFarmer_Activity1 extends AppCompatActivity {
                 "FPondApprovalStatusDB VARCHAR,FPondApprovalRemarksDB VARCHAR,FPondApprovedbyDB VARCHAR,FPondApprovedDateDB VARCHAR,FPondDonorDB VARCHAR," +
                 "FPondLatitudeDB VARCHAR,FPondLongitudeDB VARCHAR," +
                 "FPondAcresDB VARCHAR,FPondGuntaDB VARCHAR,FPondCropBeforeDB VARCHAR,FPondCropAfterDB VARCHAR," +
-                "UploadedStatusFarmerprofile VARCHAR,UploadedStatus VARCHAR);");
+                "UploadedStatusFarmerprofile VARCHAR,UploadedStatus VARCHAR," +
+                "newpondImageId1 VARCHAR,pondImageType1 VARCHAR,newpondImageId2 VARCHAR,pondImageType2 VARCHAR,newpondImageId3 VARCHAR,pondImageType3 VARCHAR);");
+
 
         String str_yearID, str_stateID, str_districtID, str_talukID, str_panchayatID, str_villageID, str_farmerFname, str_farmerMName,
                 str_farmerLName, str_farmerage, str_Fphonenumber, str_FannualIncome, str_Ffamilymember, str_FIDprooftype,
@@ -1813,7 +1815,10 @@ public class AddFarmer_Activity1 extends AppCompatActivity {
         userImage1.compress(Bitmap.CompressFormat.PNG, 60, baos);
         byte[] b = baos.toByteArray();
         str_img = Base64.encodeToString(b, Base64.DEFAULT);
-          Log.e("tag","image size=="+String.valueOf(b.length));
+        Log.e("tag","byte array img1=="+String.valueOf(b));
+        Log.e("tag","byte array img2=="+b);
+        Log.e("tag","byte array img3=="+baos.toByteArray());
+        Log.e("tag","image size=="+String.valueOf(b.length));
 //                if (str_img.equals("") || str_img.equals(null)) {
         arraylist_farmerimage_base64.clear();
         arraylist_farmerimage_base64.add(str_img);
@@ -2324,7 +2329,9 @@ public class AddFarmer_Activity1 extends AppCompatActivity {
                 "FPondApprovalStatusDB VARCHAR,FPondApprovalRemarksDB VARCHAR,FPondApprovedbyDB VARCHAR,FPondApprovedDateDB VARCHAR,FPondDonorDB VARCHAR," +
                 "FPondLatitudeDB VARCHAR,FPondLongitudeDB VARCHAR," +
                 "FPondAcresDB VARCHAR,FPondGuntaDB VARCHAR,FPondCropBeforeDB VARCHAR,FPondCropAfterDB VARCHAR," +
-                "UploadedStatusFarmerprofile VARCHAR,UploadedStatus VARCHAR);");
+                "UploadedStatusFarmerprofile VARCHAR,UploadedStatus VARCHAR," +
+                "newpondImageId1 VARCHAR,pondImageType1 VARCHAR,newpondImageId2 VARCHAR,pondImageType2 VARCHAR,newpondImageId3 VARCHAR,pondImageType3 VARCHAR);");
+
 
 
         try {
@@ -2394,7 +2401,9 @@ public class AddFarmer_Activity1 extends AppCompatActivity {
                 "FPondApprovalStatusDB VARCHAR,FPondApprovalRemarksDB VARCHAR,FPondApprovedbyDB VARCHAR,FPondApprovedDateDB VARCHAR,FPondDonorDB VARCHAR," +
                 "FPondLatitudeDB VARCHAR,FPondLongitudeDB VARCHAR," +
                 "FPondAcresDB VARCHAR,FPondGuntaDB VARCHAR,FPondCropBeforeDB VARCHAR,FPondCropAfterDB VARCHAR," +
-                "UploadedStatusFarmerprofile VARCHAR,UploadedStatus VARCHAR);");
+                "UploadedStatusFarmerprofile VARCHAR,UploadedStatus VARCHAR," +
+                "newpondImageId1 VARCHAR,pondImageType1 VARCHAR,newpondImageId2 VARCHAR,pondImageType2 VARCHAR,newpondImageId3 VARCHAR,pondImageType3 VARCHAR);");
+
 
 
         Cursor cursor1 = db1.rawQuery("SELECT * FROM FarmPondDetails_fromServerRest WHERE UploadedStatusFarmerprofile='" + 9 + "'", null);
@@ -2555,7 +2564,7 @@ public class AddFarmer_Activity1 extends AppCompatActivity {
         request.setFarmerMobile(class_farmerprofileoffline_array_obj[j].getStr_phonenumber());
         request.setFarmerIDType(class_farmerprofileoffline_array_obj[j].getStr_idprooftype());
         request.setFarmerIDNumber(class_farmerprofileoffline_array_obj[j].getStr_idproofno());
-        request.setFarmerPhoto(class_farmerprofileoffline_array_obj[j].getStr_farmerimage());
+        request.setFarmerPhoto("[B@9003116");
         request.setFarmerAge(class_farmerprofileoffline_array_obj[j].getStr_age());
         request.setFarmerIncome(class_farmerprofileoffline_array_obj[j].getStr_annualincome());
         request.setFarmerFamily(class_farmerprofileoffline_array_obj[j].getStr_familymembers());
@@ -2615,7 +2624,9 @@ public class AddFarmer_Activity1 extends AppCompatActivity {
                             "FPondApprovalStatusDB VARCHAR,FPondApprovalRemarksDB VARCHAR,FPondApprovedbyDB VARCHAR,FPondApprovedDateDB VARCHAR,FPondDonorDB VARCHAR," +
                             "FPondLatitudeDB VARCHAR,FPondLongitudeDB VARCHAR," +
                             "FPondAcresDB VARCHAR,FPondGuntaDB VARCHAR,FPondCropBeforeDB VARCHAR,FPondCropAfterDB VARCHAR," +
-                            "UploadedStatusFarmerprofile VARCHAR,UploadedStatus VARCHAR);");
+                            "UploadedStatusFarmerprofile VARCHAR,UploadedStatus VARCHAR," +
+                            "newpondImageId1 VARCHAR,pondImageType1 VARCHAR,newpondImageId2 VARCHAR,pondImageType2 VARCHAR,newpondImageId3 VARCHAR,pondImageType3 VARCHAR);");
+
 
 
                     ContentValues cv = new ContentValues();

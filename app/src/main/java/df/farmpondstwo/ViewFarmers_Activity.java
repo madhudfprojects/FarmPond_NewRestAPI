@@ -2051,7 +2051,9 @@ public class ViewFarmers_Activity extends AppCompatActivity {
                 "FPondApprovalStatusDB VARCHAR,FPondApprovalRemarksDB VARCHAR,FPondApprovedbyDB VARCHAR,FPondApprovedDateDB VARCHAR,FPondDonorDB VARCHAR," +
                 "FPondLatitudeDB VARCHAR,FPondLongitudeDB VARCHAR," +
                 "FPondAcresDB VARCHAR,FPondGuntaDB VARCHAR,FPondCropBeforeDB VARCHAR,FPondCropAfterDB VARCHAR," +
-                "UploadedStatusFarmerprofile VARCHAR,UploadedStatus VARCHAR);");
+                "UploadedStatusFarmerprofile VARCHAR,UploadedStatus VARCHAR," +
+                "newpondImageId1 VARCHAR,pondImageType1 VARCHAR,newpondImageId2 VARCHAR,pondImageType2 VARCHAR,newpondImageId3 VARCHAR,pondImageType3 VARCHAR);");
+
 
 
         Log.e("remarks",str_farmpond_remarks);

@@ -301,7 +301,8 @@ public class EachFarmPondDetails_Activity extends AppCompatActivity {
                 "FPondApprovalStatusDB VARCHAR,FPondApprovalRemarksDB VARCHAR,FPondApprovedbyDB VARCHAR,FPondApprovedDateDB VARCHAR,FPondDonorDB VARCHAR," +
                 "FPondLatitudeDB VARCHAR,FPondLongitudeDB VARCHAR," +
                 "FPondAcresDB VARCHAR,FPondGuntaDB VARCHAR,FPondCropBeforeDB VARCHAR,FPondCropAfterDB VARCHAR," +
-                "UploadedStatusFarmerprofile VARCHAR,UploadedStatus VARCHAR);");
+                "UploadedStatusFarmerprofile VARCHAR,UploadedStatus VARCHAR," +
+                "newpondImageId1 VARCHAR,pondImageType1 VARCHAR,newpondImageId2 VARCHAR,pondImageType2 VARCHAR,newpondImageId3 VARCHAR,pondImageType3 VARCHAR);");
 
 
         // Cursor cursor1 = db1.rawQuery("SELECT DISTINCT * FROM FarmPondDetails_fromServer WHERE FIDDB='" + str_farmerID + "'", null);

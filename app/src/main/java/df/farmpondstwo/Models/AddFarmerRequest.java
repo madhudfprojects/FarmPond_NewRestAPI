@@ -44,6 +44,7 @@ public class AddFarmerRequest {
     @SerializedName("Farmer_Photo")
     @Expose
     private String farmerPhoto;
+
     @SerializedName("Farmer_Age")
     @Expose
     private String farmerAge;
