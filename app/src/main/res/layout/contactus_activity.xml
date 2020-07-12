@@ -1,0 +1,164 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:orientation="vertical"
+    android:background="#e0f7fa"
+    tools:context=".EachFarmPondDetails_Activity">
+
+    <include
+        android:id="@+id/toolbar_farmponddetails"
+        layout="@layout/titlebar_custom" />
+
+    <ScrollView xmlns:android="http://schemas.android.com/apk/res/android"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:background="#fafafa">
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_margin="15dp"
+            android:orientation="vertical">
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="10dp"
+                android:gravity="center"
+                android:orientation="horizontal">
+
+                <TextView
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    android:layout_weight="0.54"
+                    android:digits="0123456789"
+                    android:gravity="center_horizontal"
+                    android:text="Any queries in Web App and Mobile App"
+                    android:textColor="@color/dark_black"
+                    android:textStyle="bold"
+                    android:textSize="17dp" />
+
+
+            </LinearLayout>
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="10dp"
+                android:gravity="center"
+                android:orientation="horizontal">
+
+                <TextView
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    android:layout_weight="0.54"
+                    android:digits="0123456789"
+                    android:gravity="center_horizontal"
+                    android:text="Contact Helpline"
+                    android:textColor="@color/dark_black_red"
+
+                    android:textSize="17dp" />
+
+
+            </LinearLayout>
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="10dp"
+                android:gravity="center"
+                android:orientation="horizontal">
+
+               <!-- <TextView
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    android:layout_weight="0.54"
+                    android:digits="0123456789"
+                    android:gravity="right"
+                    android:textColor="@color/light_gray"
+                    android:textSize="15dp" />-->
+
+                <TextView
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    android:layout_weight="0.8"
+                    android:gravity="center"
+                    android:text=" 9706907789"
+                    android:textColor="@color/dark_black_red"
+                    android:textSize="15dp" />
+
+
+            </LinearLayout>
+
+
+
+
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:layout_marginTop="10dp"
+                android:orientation="horizontal">
+
+                <View
+                    android:layout_width="5dp"
+                    android:layout_height="match_parent"
+                    android:layout_marginTop="2dp"
+                    android:background="@color/dark_black_red" />
+
+            </LinearLayout>
+
+
+
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="10dp"
+                android:gravity="center"
+                android:orientation="horizontal">
+
+                <TextView
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    android:layout_weight="0.54"
+                    android:gravity="center_horizontal"
+                    android:text="DF Agri Version"
+                    android:textColor="@color/dark_black_red"
+                    android:textStyle="bold"
+                    android:textSize="17dp" />
+
+
+            </LinearLayout>
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="10dp"
+                android:gravity="center"
+                android:orientation="horizontal">
+
+
+                <TextView
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    android:layout_weight="0.8"
+                    android:gravity="center"
+                    android:text="1.2"
+                    android:textColor="@color/dark_black_red"
+                    android:textSize="15dp" />
+
+
+            </LinearLayout>
+
+
+
+
+
+
+        </LinearLayout>
+      </ScrollView>
+
+</LinearLayout>

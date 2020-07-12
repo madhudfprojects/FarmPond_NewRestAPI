@@ -1,10 +1,15 @@
 package df.farmpondstwo;
 
+import android.annotation.SuppressLint;
 import android.app.ProgressDialog;
+import android.content.ContentValues;
 import android.content.Context;
 import android.content.Intent;
 import android.content.SharedPreferences;
 import android.content.pm.PackageManager;
+import android.database.sqlite.SQLiteDatabase;
+import android.graphics.Bitmap;
+import android.graphics.BitmapFactory;
 import android.graphics.Point;
 import android.os.AsyncTask;
 import android.os.Build;
@@ -35,6 +40,7 @@ import com.google.android.gms.auth.api.signin.GoogleSignInResult;
 import com.google.android.gms.common.ConnectionResult;
 import com.google.android.gms.common.api.GoogleApiClient;
 import com.google.firebase.iid.FirebaseInstanceId;
+import com.google.gson.Gson;
 
 import org.ksoap2.SoapEnvelope;
 import org.ksoap2.serialization.SoapObject;
@@ -42,7 +48,19 @@ import org.ksoap2.serialization.SoapPrimitive;
 import org.ksoap2.serialization.SoapSerializationEnvelope;
 import org.ksoap2.transport.HttpTransportSE;
 
+import java.io.ByteArrayOutputStream;
 import java.util.UUID;
+
+import df.farmpondstwo.Models.AddFarmerRequest;
+import df.farmpondstwo.Models.AddFarmerResList;
+import df.farmpondstwo.Models.AddFarmerResponse;
+import df.farmpondstwo.Models.DefaultResponse;
+import df.farmpondstwo.Models.ErrorUtils;
+import df.farmpondstwo.remote.Class_ApiUtils;
+import df.farmpondstwo.remote.Interface_userservice;
+import retrofit2.Call;
+import retrofit2.Callback;
+import retrofit2.Response;
 
 public class Activity_HomeScreen extends AppCompatActivity implements GoogleApiClient.OnConnectionFailedListener {
 
@@ -100,6 +118,7 @@ public class Activity_HomeScreen extends AppCompatActivity implements GoogleApiC
 
     private boolean isGPS = false;
 
+    @SuppressLint("WrongThread")
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -140,6 +159,30 @@ public class Activity_HomeScreen extends AppCompatActivity implements GoogleApiC
             admin_view_ll.setVisibility(View.VISIBLE);
         }*/
 
+
+
+
+        Bitmap bitmap = BitmapFactory.decodeResource(getResources(), R.drawable.success);
+        ByteArrayOutputStream stream = new ByteArrayOutputStream();
+        bitmap.compress(Bitmap.CompressFormat.JPEG, 100, stream);
+        byte[] bitMapData = stream.toByteArray();
+
+
+        Log.e("array", String.valueOf(bitMapData));
+
+        int length;
+        length = bitMapData.length;
+        Log.e("arraylength", String.valueOf(length));
+
+        String x="";
+        for(int i=0;i<length;i++)
+        {
+        x= x+String.valueOf(bitMapData[i]);
+        }
+        Log.e("x",x);
+
+
+
         try {
             versioncode = this.getPackageManager().getPackageInfo(this.getPackageName(), 0).versionName;
         } catch (PackageManager.NameNotFoundException e) {
@@ -150,6 +193,15 @@ public class Activity_HomeScreen extends AppCompatActivity implements GoogleApiC
 
       /*  int xy=db.getCount();
         Log.e("xy", String.valueOf(xy));*/
+
+
+
+
+
+
+
+
+
 
 
 
@@ -636,20 +688,6 @@ public class Activity_HomeScreen extends AppCompatActivity implements GoogleApiC
 
 
 
-
-
-
-
-
-
-
-
-
-
-
-
-
-
     @Override
     public boolean onCreateOptionsMenu(Menu menu) {
         // Inflate the menu; this adds items to the action bar if it is present.
@@ -658,19 +696,37 @@ public class Activity_HomeScreen extends AppCompatActivity implements GoogleApiC
     }
 
     @Override
-    public boolean onOptionsItemSelected(MenuItem item) {
+    public boolean onOptionsItemSelected(MenuItem item)
+    {
         // Handle action bar item clicks here. The action bar will
         // automatically handle clicks on the Home/Up button, so long
         // as you specify a parent activity in AndroidManifest.xml.
         int id = item.getItemId();
 
         //noinspection SimplifiableIfStatement
-        if (id == R.id.logout) {
+
+        if(id==R.id.contactus)
+        {
+
+            Intent i = new Intent(Activity_HomeScreen.this, ContactUs_Activity.class);
+            startActivity(i);
+            finish();
+            return true;
+
+
+        }
+
+
+
+
+        if (id == R.id.logout)
+        {
             // Toast.makeText(CalenderActivity.this, "Action clicked", Toast.LENGTH_LONG).show();
             internetDectector = new Class_InternetDectector(getApplicationContext());
             isInternetPresent = internetDectector.isConnectingToInternet();
 
-            if (isInternetPresent) {
+            if (isInternetPresent)
+            {
 
 //                SharedPreferences settings = PreferenceManager.getDefaultSharedPreferences(getApplicationContext());
 //                SharedPreferences.Editor editor = settings.edit();
@@ -694,7 +750,8 @@ public class Activity_HomeScreen extends AppCompatActivity implements GoogleApiC
             }
             return true;
         }
-        if (id == android.R.id.home) {
+        if (id == android.R.id.home)
+        {
             //  Toast.makeText(getApplicationContext(),"Back button clicked", Toast.LENGTH_SHORT).show();
             Intent i = new Intent(Activity_HomeScreen.this, Activity_HomeScreen.class);
             startActivity(i);
