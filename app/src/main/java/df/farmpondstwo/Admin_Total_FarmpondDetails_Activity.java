@@ -45,8 +45,7 @@ import retrofit2.Call;
 import retrofit2.Callback;
 import retrofit2.Response;
 
-public class Admin_Total_FarmpondDetails_Activity extends AppCompatActivity
-{
+public class Admin_Total_FarmpondDetails_Activity extends AppCompatActivity {
 
     Toolbar toolbar;
     Class_InternetDectector internetDectector;
@@ -61,18 +60,17 @@ public class Admin_Total_FarmpondDetails_Activity extends AppCompatActivity
 
     SharedPreferences sharedpreferencebook_usercredential_Obj;
 
-    String str_farmerID,str_employee_id;
+    String str_farmerID, str_employee_id;
 
     AdminEmpTotalPondCountList[] class_manageremployeeisecount_array_obj;
     AdminEmpTotalPondCountList class_manageremployeeisecount_obj;
     private ListView employeecount_listview;
-    String str_totalfarmpondcount,str_todaysdate,str_todayTotalCount;
-    TextView total_farmpond_allstate_tv,todaysdate_tv,todaysdate_tv1;
+    String str_totalfarmpondcount, str_todaysdate, str_todayTotalCount;
+    TextView total_farmpond_allstate_tv, todaysdate_tv, todaysdate_tv1;
     Interface_userservice userService1;
 
     @Override
-    protected void onCreate(Bundle savedInstanceState)
-    {
+    protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_admin_total_farmpond_details);
 
@@ -86,29 +84,28 @@ public class Admin_Total_FarmpondDetails_Activity extends AppCompatActivity
         getSupportActionBar().setTitle("");
 
         userService1 = Class_ApiUtils.getUserService();
-        total_farmpond_allstate_tv=(TextView)findViewById(R.id.total_farmpond_allstate_tv);
-        todaysdate_tv1=(TextView)findViewById(R.id.todaysdate_tv1);
+        total_farmpond_allstate_tv = (TextView) findViewById(R.id.total_farmpond_allstate_tv);
+        todaysdate_tv1 = (TextView) findViewById(R.id.todaysdate_tv1);
 
-        todaysdate_tv=(TextView)findViewById(R.id.todaysdate_tv);
+        todaysdate_tv = (TextView) findViewById(R.id.todaysdate_tv);
         employeecount_listview = (ListView) findViewById(R.id.employeecount_listview);
 
-        sharedpreferencebook_usercredential_Obj=getSharedPreferences(sharedpreferencebook_usercredential, Context.MODE_PRIVATE);
-        str_employee_id=sharedpreferencebook_usercredential_Obj.getString(KeyValue_employeeid, "").trim();
+        sharedpreferencebook_usercredential_Obj = getSharedPreferences(sharedpreferencebook_usercredential, Context.MODE_PRIVATE);
+        str_employee_id = sharedpreferencebook_usercredential_Obj.getString(KeyValue_employeeid, "").trim();
 
 
-        str_totalfarmpondcount=str_todaysdate="Not Available";
+        str_totalfarmpondcount = str_todaysdate = "Not Available";
         internetDectector = new Class_InternetDectector(getApplicationContext());
         isInternetPresent = internetDectector.isConnectingToInternet();
 
-        if (isInternetPresent)
-        {
+        if (isInternetPresent) {
             GetEmpWiseCount();
-          //  AsyncTask_fetch_empwise_count();
+            //  AsyncTask_fetch_empwise_count();
         }
 
     }//end of class
 
-    private void GetEmpWiseCount(){
+    private void GetEmpWiseCount() {
 //        Map<String,String> params = new HashMap<String, String>();
 //
 //        params.put("User_ID","90");// for dynamic
@@ -122,69 +119,64 @@ public class Admin_Total_FarmpondDetails_Activity extends AppCompatActivity
         progressDoalog.setProgressStyle(ProgressDialog.STYLE_SPINNER);
         // show it
         progressDoalog.show();
-        call.enqueue(new Callback<AdminEmpoyeeTotalPondCount>()
-        {
+        call.enqueue(new Callback<AdminEmpoyeeTotalPondCount>() {
             @Override
-            public void onResponse(Call<AdminEmpoyeeTotalPondCount> call, Response<AdminEmpoyeeTotalPondCount> response)
-            {
-                Log.e("response",response.toString());
-                Log.e("TAG", "response: "+new Gson().toJson(response) );
+            public void onResponse(Call<AdminEmpoyeeTotalPondCount> call, Response<AdminEmpoyeeTotalPondCount> response) {
+                Log.e("response", response.toString());
+                Log.e("TAG", "response: " + new Gson().toJson(response));
                 Log.e("response body", String.valueOf(response.body()));
 
-                if(response.isSuccessful())
-                {
+                if (response.isSuccessful()) {
                     //  progressDoalog.dismiss();
-                    AdminEmpoyeeTotalPondCount  class_loginresponse = response.body();
-                    Log.e("tag","res=="+class_loginresponse.toString());
-                    if(class_loginresponse.getStatus()) {
+                    AdminEmpoyeeTotalPondCount class_loginresponse = response.body();
+                    Log.e("tag", "res==" + class_loginresponse.toString());
+                    if (class_loginresponse.getStatus()) {
 
                         List<AdminEmpTotalPondCountList> addFarmerResList = response.body().getEmployeeList();
-                        Log.e("tag","addFarmerResList NAme="+addFarmerResList.get(0).getEmployeeName());
-                        Log.e("tag","addFarmerResList farmerID="+addFarmerResList.get(0).getEmployeeCount());
+                        Log.e("tag", "addFarmerResList NAme=" + addFarmerResList.get(0).getEmployeeName());
+                        Log.e("tag", "addFarmerResList farmerID=" + addFarmerResList.get(0).getEmployeeCount());
 
-                        str_totalfarmpondcount=class_loginresponse.getTotalCount();
-                        str_todaysdate=class_loginresponse.getTodaysDate();
-                        str_todayTotalCount=class_loginresponse.getTotalTodaysCount();
+                        str_totalfarmpondcount = class_loginresponse.getTotalCount();
+                        str_todaysdate = class_loginresponse.getTodaysDate();
+                        str_todayTotalCount = class_loginresponse.getTotalTodaysCount();
 
-                      //  JSONArray response_jsonarray = jsonObject.getJSONArray("Employees_wise_details");
+                        //  JSONArray response_jsonarray = jsonObject.getJSONArray("Employees_wise_details");
 
-                    //    Log.e("employeewise", String.valueOf(response_jsonarray.length()));
+                        //    Log.e("employeewise", String.valueOf(response_jsonarray.length()));
 
 
-                        int int_jsonarraylength=addFarmerResList.size();// response_jsonarray.length();
+                        int int_jsonarraylength = addFarmerResList.size();// response_jsonarray.length();
 
                         class_manageremployeeisecount_array_obj = new AdminEmpTotalPondCountList[int_jsonarraylength];
 
 
-                        for(int i=0;i<int_jsonarraylength;i++)
-                        {
-                          //  AdminEmpTotalPondCountList class_manageremployeeisecount__innerobj = new Gson().fromJson(String.valueOf(addFarmerResList.get(i).toString()), Class_ManagerEmployeeWiseCount.class);
-                            AdminEmpTotalPondCountList adminEmpTotalPondCountList=new AdminEmpTotalPondCountList(addFarmerResList.get(i).getEmployeeName(),addFarmerResList.get(i).getEmployeeCount(),addFarmerResList.get(i).getTodaysCount());
-                            class_manageremployeeisecount_array_obj[i]=adminEmpTotalPondCountList;
+                        for (int i = 0; i < int_jsonarraylength; i++) {
+                            //  AdminEmpTotalPondCountList class_manageremployeeisecount__innerobj = new Gson().fromJson(String.valueOf(addFarmerResList.get(i).toString()), Class_ManagerEmployeeWiseCount.class);
+                            AdminEmpTotalPondCountList adminEmpTotalPondCountList = new AdminEmpTotalPondCountList(addFarmerResList.get(i).getEmployeeName(), addFarmerResList.get(i).getEmployeeCount(), addFarmerResList.get(i).getTodaysCount());
+                            class_manageremployeeisecount_array_obj[i] = adminEmpTotalPondCountList;
 
                         }
 
-                        if (class_manageremployeeisecount_array_obj != null)
-                        {
+                        if (class_manageremployeeisecount_array_obj != null) {
                             CustomAdapter_manageremployeeisecount adapter = new CustomAdapter_manageremployeeisecount();
                             employeecount_listview.setAdapter(adapter);
 
                             int y = class_manageremployeeisecount_array_obj.length;
 
-                            Log.e("length adapter", ""+y);
+                            Log.e("length adapter", "" + y);
                         } else {
                             Log.d("length adapter", "zero");
                         }
 
                         progressDoalog.dismiss();
 
-                    }else{
-                       progressDoalog.dismiss();
+                    } else {
+                        progressDoalog.dismiss();
                         Toast.makeText(Admin_Total_FarmpondDetails_Activity.this, class_loginresponse.getMessage(), Toast.LENGTH_SHORT).show();
 
                     }
                 } else {
-                      progressDoalog.dismiss();
+                    progressDoalog.dismiss();
 
                     DefaultResponse error = ErrorUtils.parseError(response);
                     // … and use it to show error information
@@ -198,22 +190,19 @@ public class Admin_Total_FarmpondDetails_Activity extends AppCompatActivity
             }
 
             @Override
-            public void onFailure(Call call, Throwable t)
-            {
-                Log.e("TAG", "onFailure: "+t.toString() );
+            public void onFailure(Call call, Throwable t) {
+                Log.e("TAG", "onFailure: " + t.toString());
 
-                Log.e("tag","Error:"+t.getMessage());
+                Log.e("tag", "Error:" + t.getMessage());
                 Toast.makeText(Admin_Total_FarmpondDetails_Activity.this, t.getMessage(), Toast.LENGTH_SHORT).show();
             }
         });
 
 
-
     }
 
 
-    private void AsyncTask_fetch_empwise_count()
-    {
+    private void AsyncTask_fetch_empwise_count() {
 
         final ProgressDialog pdLoading = new ProgressDialog(Admin_Total_FarmpondDetails_Activity.this);
         pdLoading.setMessage("\tLoading...");
@@ -225,38 +214,31 @@ public class Admin_Total_FarmpondDetails_Activity extends AppCompatActivity
         StringRequest stringRequest = new StringRequest(com.android.volley.Request.Method.POST, str_fetchfarmponddetails_url,
                 new com.android.volley.Response.Listener<String>() {
                     @Override
-                    public void onResponse(String response)
-                    {
+                    public void onResponse(String response) {
                         pdLoading.dismiss();
 
-                        Log.e("volley mngempcount resp",response);//volley response: {"statusMessage":"success"}
+                        Log.e("volley mngempcount resp", response);//volley response: {"statusMessage":"success"}
                         parse_emplyoeewise_count(response);
                     }
                 },
                 new com.android.volley.Response.ErrorListener() {
                     @Override
-                    public void onErrorResponse(VolleyError error)
-                    {
+                    public void onErrorResponse(VolleyError error) {
                         pdLoading.dismiss();
-                        Toast.makeText(Admin_Total_FarmpondDetails_Activity.this,"WS:"+error.toString(),Toast.LENGTH_LONG).show();
+                        Toast.makeText(Admin_Total_FarmpondDetails_Activity.this, "WS:" + error.toString(), Toast.LENGTH_LONG).show();
                     }
-                }){
+                }) {
             @Override
-            protected Map<String,String> getParams()
-            {
+            protected Map<String, String> getParams() {
 
 
-                Map<String,String> params = new HashMap<String, String>();
+                Map<String, String> params = new HashMap<String, String>();
 
 
+                try {
+                    params.put("employee_id", "6");//str_employee_id
 
-
-                try{
-                    params.put("employee_id","6");//str_employee_id
-
-                }
-                catch (Exception e)
-                {
+                } catch (Exception e) {
                     Log.e("upload error", e.getMessage());
                     e.printStackTrace();
                 }
@@ -274,12 +256,11 @@ public class Admin_Total_FarmpondDetails_Activity extends AppCompatActivity
                 DefaultRetryPolicy.DEFAULT_BACKOFF_MULT));
 
         RequestQueue requestQueue = Volley.newRequestQueue(this);
-        Log.e("request",stringRequest.toString());
+        Log.e("request", stringRequest.toString());
         requestQueue.add(stringRequest);
     }
 
-    public void parse_emplyoeewise_count(String response)
-    {
+    public void parse_emplyoeewise_count(String response) {
 
         try {
             JSONObject jsonObject = new JSONObject(response);
@@ -288,10 +269,10 @@ public class Admin_Total_FarmpondDetails_Activity extends AppCompatActivity
             if (jsonObject.getString("Status Message").equalsIgnoreCase("Success"))
             //if (2>1)
             {
-               // Toast.makeText(getApplicationContext(),"Successful",Toast.LENGTH_LONG).show();
+                // Toast.makeText(getApplicationContext(),"Successful",Toast.LENGTH_LONG).show();
 
-                str_totalfarmpondcount=jsonObject.getString("farmpond_Total_Count");
-                str_todaysdate=jsonObject.getString("Today_date");
+                str_totalfarmpondcount = jsonObject.getString("farmpond_Total_Count");
+                str_todaysdate = jsonObject.getString("Today_date");
 
 
                 JSONArray response_jsonarray = jsonObject.getJSONArray("Employees_wise_details");
@@ -299,27 +280,25 @@ public class Admin_Total_FarmpondDetails_Activity extends AppCompatActivity
                 Log.e("employeewise", String.valueOf(response_jsonarray.length()));
 
 
-                int int_jsonarraylength=response_jsonarray.length();
+                int int_jsonarraylength = response_jsonarray.length();
 
                 class_manageremployeeisecount_array_obj = new AdminEmpTotalPondCountList[int_jsonarraylength];
 
 
-                for(int i=0;i<int_jsonarraylength;i++)
-                {
-                  //  Class_ManagerEmployeeWiseCount class_manageremployeeisecount__innerobj = new Gson().fromJson(String.valueOf(response_jsonarray.get(i).toString()), Class_ManagerEmployeeWiseCount.class);
-                    AdminEmpTotalPondCountList adminEmpTotalPondCountList=new AdminEmpTotalPondCountList();
-                    class_manageremployeeisecount_array_obj[i]=adminEmpTotalPondCountList;
+                for (int i = 0; i < int_jsonarraylength; i++) {
+                    //  Class_ManagerEmployeeWiseCount class_manageremployeeisecount__innerobj = new Gson().fromJson(String.valueOf(response_jsonarray.get(i).toString()), Class_ManagerEmployeeWiseCount.class);
+                    AdminEmpTotalPondCountList adminEmpTotalPondCountList = new AdminEmpTotalPondCountList();
+                    class_manageremployeeisecount_array_obj[i] = adminEmpTotalPondCountList;
 
                 }
 
-                if (class_manageremployeeisecount_array_obj != null)
-                {
+                if (class_manageremployeeisecount_array_obj != null) {
                     CustomAdapter_manageremployeeisecount adapter = new CustomAdapter_manageremployeeisecount();
                     employeecount_listview.setAdapter(adapter);
 
                     int y = class_manageremployeeisecount_array_obj.length;
 
-                    Log.e("length adapter", ""+y);
+                    Log.e("length adapter", "" + y);
                 } else {
                     Log.d("length adapter", "zero");
                 }
@@ -327,7 +306,7 @@ public class Admin_Total_FarmpondDetails_Activity extends AppCompatActivity
             }
         } catch (JSONException e) {
             e.printStackTrace();
-            Log.e("error ponds",e.toString());
+            Log.e("error ponds", e.toString());
         }
 
     }
@@ -349,8 +328,7 @@ public class Admin_Total_FarmpondDetails_Activity extends AppCompatActivity
         }
 
         @Override
-        public int getCount()
-        {
+        public int getCount() {
 
             String x = Integer.toString(class_manageremployeeisecount_array_obj.length);
             System.out.println("class_farmponddetails_offline_array_obj.length" + x);
@@ -358,8 +336,7 @@ public class Admin_Total_FarmpondDetails_Activity extends AppCompatActivity
         }
 
         @Override
-        public Object getItem(int position)
-        {
+        public Object getItem(int position) {
             String x = Integer.toString(position);
             Log.d("getItem position", "x");
             return class_manageremployeeisecount_array_obj[position];
@@ -375,21 +352,19 @@ public class Admin_Total_FarmpondDetails_Activity extends AppCompatActivity
         }
 
         @Override
-        public View getView(int position, View convertView1, ViewGroup parent)
-        {
+        public View getView(int position, View convertView1, ViewGroup parent) {
 
             final Holder_offline holder;
 
             Log.d("CustomAdapter", "position: " + position);
 
-            if (convertView1 == null)
-            {
+            if (convertView1 == null) {
                 holder = new Holder_offline();
                 convertView1 = LayoutInflater.from(getApplicationContext()).inflate(R.layout.listview_row_item_employeecount, parent, false);
                 total_farmpond_allstate_tv.setText(str_totalfarmpondcount);
                 todaysdate_tv1.setText(str_todayTotalCount);
-                String str_submitted="submitted "+str_todaysdate;
-                Log.e("tag","total count:"+str_totalfarmpondcount+"todaytotalcount:"+str_todaysdate);
+                String str_submitted = "submitted " + str_todaysdate;
+                Log.e("tag", "total count:" + str_totalfarmpondcount + "todaytotalcount:" + str_todaysdate);
                 todaysdate_tv.setText(str_submitted);
                 holder.holder_employeename = (TextView) convertView1.findViewById(R.id.employeename_tv);
                 holder.holder_totalfarmpond_added = (TextView) convertView1.findViewById(R.id.totalpondcount_tv);
@@ -407,23 +382,20 @@ public class Admin_Total_FarmpondDetails_Activity extends AppCompatActivity
 
             class_manageremployeeisecount_obj = (AdminEmpTotalPondCountList) getItem(position);
 
-            int int_total=0;
-            if (class_manageremployeeisecount_obj != null)
-            {
-                if(2>1)
-                {
-                    Log.e("employeename",class_manageremployeeisecount_obj.getEmployeeName().toString());
+            int int_total = 0;
+            if (class_manageremployeeisecount_obj != null) {
+                if (2 > 1) {
+                    Log.e("employeename", class_manageremployeeisecount_obj.getEmployeeName().toString());
                     holder.holder_employeename.setText(class_manageremployeeisecount_obj.getEmployeeName());
                     holder.holder_totalfarmpond_added.setText(class_manageremployeeisecount_obj.getEmployeeCount());
                     holder.holder_todayfarmpond_added.setText(class_manageremployeeisecount_obj.getTodaysCount());
 
-                    int_total= (int_total+Integer.parseInt(class_manageremployeeisecount_obj.getTodaysCount()));
+                    int_total = (int_total + Integer.parseInt(class_manageremployeeisecount_obj.getTodaysCount()));
 
                     Log.e("total", String.valueOf(int_total));
 
                     holder.holder_todaysdate.setText(str_todaysdate);
-                }
-                else{
+                } else {
 
                 }
 
@@ -436,8 +408,6 @@ public class Admin_Total_FarmpondDetails_Activity extends AppCompatActivity
     }//End of CustomAdapter
 
 
-
-
     public void onBackPressed() {
         super.onBackPressed();
         Intent i = new Intent(getApplicationContext(), Activity_HomeScreen.class);
@@ -445,7 +415,6 @@ public class Admin_Total_FarmpondDetails_Activity extends AppCompatActivity
         startActivity(i);
         finish();
     }
-
 
 
     @Override
@@ -458,7 +427,7 @@ public class Admin_Total_FarmpondDetails_Activity extends AppCompatActivity
         if (id == android.R.id.home) {
             //  Toast.makeText(getApplicationContext(),"Back button clicked", Toast.LENGTH_SHORT).show();
             Intent i = new Intent(Admin_Total_FarmpondDetails_Activity.this, Activity_HomeScreen.class);
-           // i.putExtra("value_constant","1");
+            // i.putExtra("value_constant","1");
             i.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK | Intent.FLAG_ACTIVITY_CLEAR_TASK);
             startActivity(i);
             finish();
