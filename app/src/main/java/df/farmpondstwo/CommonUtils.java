@@ -23,8 +23,8 @@ import java.io.OutputStream;
  * Created by Madhu on 26/06/2020.
  */
 public class CommonUtils {
-    private static final float maxHeight = 500.0f;
-    private static final float maxWidth = 500.0f;
+    private static final float maxHeight = 1280.0f;
+    private static final float maxWidth = 1280.0f;
 
     public static int calculateInSampleSize(BitmapFactory.Options options, int reqWidth, int reqHeight) {
         final int height = options.outHeight;
