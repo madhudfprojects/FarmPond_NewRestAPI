@@ -1907,7 +1907,7 @@ public class Activity_ViewFarmers extends AppCompatActivity {
     private void GetDropdownValuesRestData() {
 
         // Call<Location_Data> call = userService1.getLocationData(str_employee_id);
-        Call<Location_Data> call = userService1.getLocationData("101");
+        Call<Location_Data> call = userService1.getLocationData("28");
         final ProgressDialog progressDoalog;
         progressDoalog = new ProgressDialog(Activity_ViewFarmers.this);
         progressDoalog.setMessage("Loading....");
@@ -2039,10 +2039,11 @@ public class Activity_ViewFarmers extends AppCompatActivity {
 
     }
 
-    private void GetFarmer_PondValuesRestData() {
+    private void GetFarmer_PondValuesRestData()
+    {
 
         //  Call<UserData> call = userService1.getUserData(str_employee_id);
-        Call<UserData> call = userService1.getUserData("101");
+        Call<UserData> call = userService1.getUserData("28");
 
         final ProgressDialog progressDoalog;
         progressDoalog = new ProgressDialog(Activity_ViewFarmers.this);
@@ -2054,22 +2055,27 @@ public class Activity_ViewFarmers extends AppCompatActivity {
 
         call.enqueue(new Callback<UserData>() {
             @Override
-            public void onResponse(Call<UserData> call, Response<UserData> response) {
+            public void onResponse(Call<UserData> call, Response<UserData> response)
+            {
                 //   Log.e("Entered resp", response.message());
                 //     Log.e("Entered resp", response.body().getMessage());
                 Log.e("TAG", "response userdata: " + new Gson().toJson(response));
                 Log.e("response body userdata", String.valueOf(response.body()));
-                if (response.isSuccessful()) {
+                if (response.isSuccessful())
+                {
                     UserData class_userData = response.body();
+
                     Log.e("response.body", response.body().getLst().toString());
-                    if (class_userData.getStatus().equals(true)) {
+                    if (class_userData.getStatus().equals(true))
+                    {
                         List<UserDataList> yearlist = response.body().getLst();
                         Log.e("programlist.size()", String.valueOf(yearlist.size()));
 
                         userDataLists = new UserDataList[yearlist.size()];
                         //   Log.e("tag","Pond Id=="+class_userData.getLst().get(0).getPond().get(0).getPondID());
 
-                        for (int i = 0; i < userDataLists.length; i++) {
+                        for (int i = 0; i < userDataLists.length; i++)
+                        {
 
                             String str_farmpondbaseimage_url, str_base64image = null, str_base64image1 = null, str_base64image2 = null, str_base64image3 = null;
 
@@ -2153,15 +2159,18 @@ public class Activity_ViewFarmers extends AppCompatActivity {
                                 }*/
                                 String str_farmerbase64 = null;
                                 class_farmerlistdetails_arrayobj2 = new Farmer[sizeFarmer];
-                                if (str_imageurl == null || str_imageurl.equals("")) {
-                                } else {
+                                if (str_imageurl == null || str_imageurl.equals(""))
+                                {
+                                } else
+                                    {
                                     //  str_imageurl=class_farmerlistdetails_arrayobj2[i].getFarmerPhoto();
 
                                     String str_farmpondimageurl = str_imageurl;
 
                                     InputStream inputstream_obj = null;
                                     try {
-                                        if (android.os.Build.VERSION.SDK_INT > 9) {
+                                        if (android.os.Build.VERSION.SDK_INT > 9)
+                                        {
                                             StrictMode.ThreadPolicy policy = new StrictMode.ThreadPolicy.Builder().permitAll().build();
                                             StrictMode.setThreadPolicy(policy);
                                             inputstream_obj = new URL(str_farmpondimageurl).openStream();
@@ -5490,7 +5499,8 @@ Log.e("tag","pond FIDDB="+str_farmerid);
     }// end Async task
 
 
-    public String urltobase64_farmerimage(String str_imageurl) {
+    public String urltobase64_farmerimage(String str_imageurl)
+    {
 
         String str_farmpondbaseimage_url, str_base64image = null;
         try {
