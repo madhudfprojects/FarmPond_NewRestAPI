@@ -1907,7 +1907,7 @@ public class Activity_ViewFarmers extends AppCompatActivity {
     private void GetDropdownValuesRestData() {
 
         // Call<Location_Data> call = userService1.getLocationData(str_employee_id);
-        Call<Location_Data> call = userService1.getLocationData("101");
+        Call<Location_Data> call = userService1.getLocationData("38");
         final ProgressDialog progressDoalog;
         progressDoalog = new ProgressDialog(Activity_ViewFarmers.this);
         progressDoalog.setMessage("Loading....");
@@ -2042,7 +2042,7 @@ public class Activity_ViewFarmers extends AppCompatActivity {
     private void GetFarmer_PondValuesRestData() {
 
         //  Call<UserData> call = userService1.getUserData(str_employee_id);
-        Call<UserData> call = userService1.getUserData("101");
+        Call<UserData> call = userService1.getUserData("38");
 
         final ProgressDialog progressDoalog;
         progressDoalog = new ProgressDialog(Activity_ViewFarmers.this);
@@ -2233,19 +2233,20 @@ public class Activity_ViewFarmers extends AppCompatActivity {
                                 // PondImage Array Method
                                 int pondImageSize = class_userData.getLst().get(i).getPond().get(j).getPondImage().size();
                                 for (int k = 0; k < pondImageSize; k++) {
-                                    if (k == 0) {
+                                    String pondImageType=class_userData.getLst().get(i).getPond().get(j).getPondImage().get(k).getImageType();
+                                    if(pondImageType.equalsIgnoreCase("1")){
                                         pondImage1 = class_userData.getLst().get(i).getPond().get(j).getPondImage().get(k).getImageLink();
                                         pondImageId1 = class_userData.getLst().get(i).getPond().get(j).getPondImage().get(k).getImageID();
                                         pondImageType1 = class_userData.getLst().get(i).getPond().get(j).getPondImage().get(k).getImageType();
                                     }
-                                    if (k == 1) {
+                                    if(pondImageType.equalsIgnoreCase("2")){
                                         pondImage2 = class_userData.getLst().get(i).getPond().get(j).getPondImage().get(k).getImageLink();
                                         pondImageId2 = class_userData.getLst().get(i).getPond().get(j).getPondImage().get(k).getImageID();
                                         pondImageType2 = class_userData.getLst().get(i).getPond().get(j).getPondImage().get(k).getImageType();
                                         Log.e("tag", "pondImageId2==" + pondImageId2);
                                         Log.e("tag", "pondImage2==" + pondImage2);
                                     }
-                                    if (k == 2) {
+                                    if(pondImageType.equalsIgnoreCase("3")){
                                         pondImage3 = class_userData.getLst().get(i).getPond().get(j).getPondImage().get(k).getImageLink();
                                         pondImageId3 = class_userData.getLst().get(i).getPond().get(j).getPondImage().get(k).getImageID();
                                         pondImageType3 = class_userData.getLst().get(i).getPond().get(j).getPondImage().get(k).getImageType();
