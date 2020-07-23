@@ -5,7 +5,8 @@ import com.google.gson.annotations.SerializedName;
 
 import java.util.List;
 
-public class Location_Data {
+public class ValidateSyncResponse {
+
     @SerializedName("Status")
     @Expose
     private Boolean status;
@@ -14,7 +15,7 @@ public class Location_Data {
     private String message;
     @SerializedName("lst")
     @Expose
-    private List<Location_DataList> lst = null;
+    private List<ValidateSyncResponseList> lst = null;
 
     public Boolean getStatus() {
         return status;
@@ -32,13 +33,11 @@ public class Location_Data {
         this.message = message;
     }
 
-    public List<Location_DataList> getLst() {
+    public List<ValidateSyncResponseList> getLst() {
         return lst;
     }
 
-    public void setLst(List<Location_DataList> lst) {
+    public void setLst(List<ValidateSyncResponseList> lst) {
         this.lst = lst;
     }
-
-
 }

@@ -86,6 +86,9 @@ import java.util.List;
 import java.util.Locale;
 import java.util.Map;
 
+import df.farmpondstwo.Models.AddFarmerRequestTest;
+import df.farmpondstwo.Models.AddFarmerResList;
+import df.farmpondstwo.Models.AddFarmerResponse;
 import df.farmpondstwo.Models.Class_MachineDetails;
 import df.farmpondstwo.Models.Class_farmponddetails;
 import df.farmpondstwo.Models.DefaultResponse;
@@ -99,6 +102,8 @@ import df.farmpondstwo.Models.State;
 import df.farmpondstwo.Models.Taluka;
 import df.farmpondstwo.Models.UserData;
 import df.farmpondstwo.Models.UserDataList;
+import df.farmpondstwo.Models.ValidateSyncRequest;
+import df.farmpondstwo.Models.ValidateSyncResponse;
 import df.farmpondstwo.Models.Village;
 import df.farmpondstwo.Models.Year;
 import df.farmpondstwo.remote.Class_ApiUtils;
@@ -206,6 +211,9 @@ public class Activity_ViewFarmers extends AppCompatActivity {
     SharedPreferences sharedpref_camera_Obj;
     Uri imageUri = null;
     Bitmap scaledBitmap = null;
+    String StateCount="0",DistrictCount="0",TalukaCount="0",PanchayatCount="0",VillageCount="0",YearCount="0",MachineCount="0",MachineCostCount="0",Farmer_Count="0",Pond_Count="0",Sync_ID="";
+    static String Location_Response,UserData_Response;
+
     // HttpHandler sh;
     String str_status_msg;
     String[] StrArray_farmerimage, StrArray_farmerlist_panchayatid, StrArray_farmerlist_villageid, StrArray_farmerlist_talukid,
@@ -255,6 +263,7 @@ public class Activity_ViewFarmers extends AppCompatActivity {
     public static final String Key_sel_taluksp = "sel_taluksp";
     public static final String Key_sel_villagesp = "sel_villagesp";
     public static final String Key_sel_grampanchayatsp = "sel_grampanchayatsp";
+    public static final String Key_syncId = "Sync_ID";
     SharedPreferences sharedpref_spinner_Obj;
 
     byte[] b;
@@ -294,12 +303,17 @@ public class Activity_ViewFarmers extends AppCompatActivity {
 
     String str_return;
     String str_imageurltobase64_farmerimage;
+    private String versioncode;
 
     Class_farmerimageBase64[] class_farmerimageBase64_array;
     Location_DataList[] location_dataLists;
     Location_DataList class_location_dataList = new Location_DataList();
 
     int k;
+    public static final String MyPREFERENCE_SyncId = "MyPref_SyncId" ;
+    public static final String SyncId = "SyncId";
+    SharedPreferences shared_syncId;
+
 
     @SuppressLint("NewApi")
     @Override
@@ -327,6 +341,8 @@ public class Activity_ViewFarmers extends AppCompatActivity {
 
         imageListener = new ImageDisplayListener();
 
+        shared_syncId = getSharedPreferences(MyPREFERENCE_SyncId, MODE_PRIVATE);
+       // shared_syncId = getSharedPreferences(MyPREFERENCE_SyncId, MODE_PRIVATE);
 
         context = getApplicationContext();
         //sh = new HttpHandler();
@@ -425,9 +441,19 @@ public class Activity_ViewFarmers extends AppCompatActivity {
         search_et = (EditText) findViewById(R.id.search_et);
         str_return = "no";
 
+        try {
+            versioncode = String.valueOf(getPackageManager().getPackageInfo(getPackageName(), 0).versionCode);
+        } catch (PackageManager.NameNotFoundException e) {
+            // TODO Auto-generated catch block
+            e.printStackTrace();
+        }
+
         if(isInternetPresent){
+            CountCheckList();
+            UserDataCountCheckList();
             stateListRest_dbCount();
-            ViewFarmerListRest_dbcount();
+           // ViewFarmerListRest_dbcount();
+
         }
         search_et.addTextChangedListener(new TextWatcher() {
 
@@ -789,6 +815,60 @@ public class Activity_ViewFarmers extends AppCompatActivity {
 
 
     //////////////////////////////23May2020/////////////////////////////////
+
+    public void DBCreate_CountDetailsRest_insert_2SQLiteDB(String str_sCount, String str_dCount, String str_tCount, String str_pCount,String str_vCount,String yearCount,String machineCount,String mCostCount,String str_Sync_Id) {
+        SQLiteDatabase db_locationCount = this.openOrCreateDatabase("FarmPond_db", Context.MODE_PRIVATE, null);
+        db_locationCount.execSQL("CREATE TABLE IF NOT EXISTS LocationCountListRest(StateCount VARCHAR,DistrictCount VARCHAR,TalukaCount VARCHAR,PanchayatCount VARCHAR,VillageCount VARCHAR,YearCount VARCHAR,MachineCount VARCHAR,MachineCostCount VARCHAR,Farmer_Count VARCHAR,Pond_Count VARCHAR,Sync_ID VARCHAR);");
+
+            String SQLiteQuery = "INSERT INTO LocationCountListRest (StateCount,DistrictCount,TalukaCount,PanchayatCount,VillageCount,YearCount,MachineCount,MachineCostCount,Sync_ID)" +
+                    " VALUES ('" + str_sCount + "','" + str_dCount +"','"+ str_tCount + "','" + str_pCount +"','"+str_vCount + "','" + yearCount + "','" + machineCount + "','" + mCostCount + "','" + str_Sync_Id +"');";
+            db_locationCount.execSQL(SQLiteQuery);
+
+        Log.e("str_sCount DB", str_sCount);
+        Log.e("str_dCount DB", str_dCount);
+        Log.e("str_tCount DB", str_tCount);
+        Log.e("str_Sync_Id DB", str_Sync_Id);
+        db_locationCount.close();
+    }
+    public void delete_CountDetailsRestTable_B4insertion() {
+
+        SQLiteDatabase db_locationCount = openOrCreateDatabase("FarmPond_db", Context.MODE_PRIVATE, null);
+        db_locationCount.execSQL("CREATE TABLE IF NOT EXISTS LocationCountListRest(StateCount VARCHAR,DistrictCount VARCHAR,TalukaCount VARCHAR,PanchayatCount VARCHAR,VillageCount VARCHAR,YearCount VARCHAR,MachineCount VARCHAR,MachineCostCount VARCHAR,Farmer_Count VARCHAR,Pond_Count VARCHAR,Sync_ID VARCHAR);");
+        Cursor cursor = db_locationCount.rawQuery("SELECT * FROM LocationCountListRest", null);
+        int x = cursor.getCount();
+
+        if (x > 0) {
+            db_locationCount.delete("LocationCountListRest", null, null);
+
+        }
+        db_locationCount.close();
+    }
+    public void DBCreate_UserDataCountListRest_insert_2SQLiteDB(String str_FarmerCount, String str_PondCount) {
+        SQLiteDatabase db_userdataCount = this.openOrCreateDatabase("FarmPond_db", Context.MODE_PRIVATE, null);
+        db_userdataCount.execSQL("CREATE TABLE IF NOT EXISTS UserDataCountListRest(Farmer_Count VARCHAR,Pond_Count VARCHAR);");
+
+        String SQLiteQuery = "INSERT INTO UserDataCountListRest (Farmer_Count,Pond_Count)" +
+                " VALUES ('" + str_FarmerCount + "','" + str_PondCount + "');";
+        db_userdataCount.execSQL(SQLiteQuery);
+
+        Log.e("str_FarmerCount DB", str_FarmerCount);
+        Log.e("str_PondCount DB", str_PondCount);
+
+        db_userdataCount.close();
+    }
+    public void delete_UserDataCountListRestTable_B4insertion() {
+
+        SQLiteDatabase db_userdataCount = openOrCreateDatabase("FarmPond_db", Context.MODE_PRIVATE, null);
+        db_userdataCount.execSQL("CREATE TABLE IF NOT EXISTS UserDataCountListRest(Farmer_Count VARCHAR,Pond_Count VARCHAR);");
+        Cursor cursor = db_userdataCount.rawQuery("SELECT * FROM UserDataCountListRest", null);
+        int x = cursor.getCount();
+
+        if (x > 0) {
+            db_userdataCount.delete("UserDataCountListRest", null, null);
+
+        }
+        db_userdataCount.close();
+    }
 
     public void DBCreate_StatedetailsRest_insert_2SQLiteDB(String str_stateID, String str_statename, String str_yearid, int i) {
         SQLiteDatabase db_statelist = this.openOrCreateDatabase("FarmPond_db", Context.MODE_PRIVATE, null);
@@ -1906,8 +1986,8 @@ public class Activity_ViewFarmers extends AppCompatActivity {
 
     private void GetDropdownValuesRestData() {
 
-        // Call<Location_Data> call = userService1.getLocationData(str_employee_id);
-        Call<Location_Data> call = userService1.getLocationData("101");
+      //   Call<Location_Data> call = userService1.getLocationData(str_employee_id);
+       Call<Location_Data> call = userService1.getLocationData("106");
         final ProgressDialog progressDoalog;
         progressDoalog = new ProgressDialog(Activity_ViewFarmers.this);
         progressDoalog.setMessage("Loading....");
@@ -1935,10 +2015,13 @@ public class Activity_ViewFarmers extends AppCompatActivity {
 
 
                             Log.e("status", String.valueOf(class_locaitonData.getStatus()));
+
                            /* Log.e("msg", class_loginresponse.getMessage());
                             Log.e("list", class_loginresponse.getList().get(i).getId());
                             Log.e("list", class_loginresponse.getList().get(i).getProgramCode());
                             Log.e("size", String.valueOf(class_loginresponse.getList().size()));*/
+                          //  Log.e("tag","yearcount==", class_locaitonData.getLst().get(i).getYear_Count());
+
 
                             class_location_dataList.setState((class_locaitonData.getLst().get(i).getState()));
                             class_location_dataList.setDistrict(class_locaitonData.getLst().get(i).getDistrict());
@@ -1946,6 +2029,29 @@ public class Activity_ViewFarmers extends AppCompatActivity {
                             class_location_dataList.setPanchayat(class_locaitonData.getLst().get(i).getPanchayat());
                             class_location_dataList.setVillage(class_locaitonData.getLst().get(i).getVillage());
                             class_location_dataList.setYear(class_locaitonData.getLst().get(i).getYear());
+
+                            class_location_dataList.setCount(class_locaitonData.getLst().get(i).getCount());
+
+                            int sizeCount = class_locaitonData.getLst().get(i).getCount().size();
+                            for (int j = 0; j < sizeCount; j++) {
+                                Log.e("tag", "PanchayatCount ==" + class_locaitonData.getLst().get(i).getCount().get(j).getPanchayatCount());
+
+                                Log.e("tag", "VillageCount==" + class_locaitonData.getLst().get(i).getCount().get(j).getVillageCount());
+                                String SCount = class_locaitonData.getLst().get(i).getCount().get(j).getStateCount();
+                                String DCount = class_locaitonData.getLst().get(i).getCount().get(j).getDistrictCount();
+                                String TCount = class_locaitonData.getLst().get(i).getCount().get(j).getTalukaCount();
+                                String PCount = class_locaitonData.getLst().get(i).getCount().get(j).getPanchayatCount();
+                                String VCount = class_locaitonData.getLst().get(i).getCount().get(j).getVillageCount();
+                                String YCount = class_locaitonData.getLst().get(i).getCount().get(j).getYearCount();
+                                String MachineCount = class_locaitonData.getLst().get(i).getCount().get(j).getMachineCount();
+                                String MachineCostCount = class_locaitonData.getLst().get(i).getCount().get(j).getMachineCostCount();
+                                String Sync_ID = class_locaitonData.getLst().get(i).getCount().get(j).getSync_ID();
+
+                                DBCreate_CountDetailsRest_insert_2SQLiteDB(SCount,DCount,TCount,PCount,VCount,YCount,MachineCount,MachineCostCount,Sync_ID);
+                               /* String StateName = class_locaitonData.getLst().get(i).getState().get(j).getStateName();
+                                String StateId = class_locaitonData.getLst().get(i).getState().get(j).getStateID();
+                                DBCreate_StatedetailsRest_insert_2SQLiteDB(StateId, StateName, StateId, j);*/
+                            }
 
                             int sizeState = class_locaitonData.getLst().get(i).getState().size();
                             for (int j = 0; j < sizeState; j++) {
@@ -2004,6 +2110,10 @@ public class Activity_ViewFarmers extends AppCompatActivity {
                                     DBCreate_MachineDetailsRest(MachineName, MachineId);
                                 }
                             }
+                            class_location_dataList.setResponse(class_locaitonData.getLst().get(i).getResponse());
+                            Location_Response = class_locaitonData.getLst().get(i).getResponse();
+                            Log.e("tag","Location_Response="+Location_Response);
+
                         }
 
                         uploadfromDB_Yearlist();
@@ -2013,13 +2123,19 @@ public class Activity_ViewFarmers extends AppCompatActivity {
                         uploadfromDB_Villagelist();
                         uploadfromDB_Grampanchayatlist();
                         //  progressDoalog.dismiss();
+                       // AddFarmerDetailsNew();
+
                     } else {
+                        AddFarmerDetailsNew();
+
                         Toast.makeText(Activity_ViewFarmers.this, class_locaitonData.getMessage(), Toast.LENGTH_SHORT).show();
                     }
                     progressDoalog.dismiss();
                 } else {
                     progressDoalog.dismiss();
                     Log.e("Entered resp else", "");
+                    AddFarmerDetailsNew();
+
                     DefaultResponse error = ErrorUtils.parseError(response);
                     // … and use it to show error information
 
@@ -2041,8 +2157,8 @@ public class Activity_ViewFarmers extends AppCompatActivity {
 
     private void GetFarmer_PondValuesRestData() {
 
-        //  Call<UserData> call = userService1.getUserData(str_employee_id);
-        Call<UserData> call = userService1.getUserData("101");
+       //   Call<UserData> call = userService1.getUserData(str_employee_id);
+        Call<UserData> call = userService1.getUserData("106");
 
         final ProgressDialog progressDoalog;
         progressDoalog = new ProgressDialog(Activity_ViewFarmers.this);
@@ -2098,6 +2214,17 @@ public class Activity_ViewFarmers extends AppCompatActivity {
                             int sizePond = 0;
                             if (class_userData.getLst().get(i).getPond() != null) {
                                 sizePond = class_userData.getLst().get(i).getPond().size();
+                            }
+                            int sizeCount = 0;
+                            if (class_userData.getLst().get(i).getUserdatacount() != null) {
+                                sizeCount = class_userData.getLst().get(i).getUserdatacount().size();
+                            }
+
+                            for (int j = 0; j < sizeCount; j++) {
+                                String Farmer_Count = class_userData.getLst().get(i).getUserdatacount().get(j).getFarmer_Count();
+                                String Pond_Count = class_userData.getLst().get(i).getUserdatacount().get(j).getPond_Count();
+
+                                DBCreate_UserDataCountListRest_insert_2SQLiteDB(Farmer_Count,Pond_Count);
                             }
                             for (int j = 0; j < sizeFarmer; j++) {
                                 Log.e("tag", "Farmer name==" + class_userData.getLst().get(i).getFarmer().get(j).getFarmerFirstName());
@@ -2182,7 +2309,7 @@ public class Activity_ViewFarmers extends AppCompatActivity {
                                     str_farmerbase64 = str_base64image;
                                 }
 
-                                Log.e("submitdate", submittedDate);
+//                                Log.e("submitdate", submittedDate);
                                 DBCreate_ViewFarmerlistdetails_insert_2SQLiteDB(yearID, stateID, districtID, talukaID, villageID, panchayatID, farmerID, farmerCode, farmerFirstName, str_imageurl, farmpondcount, str_farmerbase64, farmerMiddleName, farmerLastName, farmerAge, farmerMobile, farmerIncome, farmerFamily, farmerIDType, farmerIDNumber, submittedDate, createdBy, createdDate, createdUser, responseoutput, responseAction);
                             }
 
@@ -2355,6 +2482,9 @@ public class Activity_ViewFarmers extends AppCompatActivity {
 
                                     str_base64image3 = str_base64image;
                                 }
+
+
+
                                 //-----------------------------------Temp commented becouse of no image in url--------
 //-----------------------------url need to change------------------------
 
@@ -2468,19 +2598,28 @@ public class Activity_ViewFarmers extends AppCompatActivity {
                                         Approval_Remarks, Approval_By, str_approveddate, Donor_Name, pondLatitude, pondLongitude,
                                         Pond_Land_Acre, Pond_Land_Gunta, Crop_Before, Crop_After);
                             }
+                            class_userDatalist.setResponse(class_userData.getLst().get(i).getResponse());
+                            UserData_Response=class_userData.getLst().get(i).getResponse();
+                            Log.e("tag","UserData_Response="+UserData_Response);
                         }
 
+                     //   if(Location_Response.equalsIgnoreCase("Success")&&UserData_Response.equalsIgnoreCase("Success")){
+
+                       // }
                         //  uploadfromDB_Farmerlist();
                         progressDoalog.dismiss();
+                        AddFarmerDetailsNew();
 
                     } else {
                         progressDoalog.dismiss();
+                        AddFarmerDetailsNew();
 
                         Toast.makeText(Activity_ViewFarmers.this, class_userData.getMessage(), Toast.LENGTH_SHORT).show();
 
                     }
                 } else {
                     progressDoalog.dismiss();
+                    AddFarmerDetailsNew();
 
                     Log.e("Entered resp else", "");
                     DefaultResponse error = ErrorUtils.parseError(response);
@@ -2503,15 +2642,271 @@ public class Activity_ViewFarmers extends AppCompatActivity {
 //------------------------------------------------------
 /////////////----------------------Auto Sync code for 1st time --------------------------------///////////
 
-    public void stateListRest_dbCount(){
-        SQLiteDatabase db_statelist_delete = openOrCreateDatabase("FarmPond_db", Context.MODE_PRIVATE, null);
-        db_statelist_delete.execSQL("CREATE TABLE IF NOT EXISTS StateListRest(StateID VARCHAR,StateName VARCHAR);");
-        Cursor cursor = db_statelist_delete.rawQuery("SELECT * FROM StateListRest", null);
-        int x = cursor.getCount();
+    private void AddFarmerDetailsNew() {
 
-        if(x==0){
-            GetDropdownValuesRestData();
+        Log.e("tag","Location_Response2="+class_location_dataList.getResponse());
+        Log.e("tag","UserData_Response2="+class_userDatalist.getResponse());
+String locationData = null,userData = null;
+if(class_location_dataList.getResponse()!=null) {
+    if (class_location_dataList.getResponse().equalsIgnoreCase("Success")) {
+        locationData = "Success";
+    }else{
+        locationData = "Error";
+    }
+}
+        if(class_userDatalist.getResponse()!=null) {
+
+            if (class_userDatalist.getResponse().equalsIgnoreCase("Success")) {
+                userData = "Success";
+            }
+            else{
+                userData = "Error";
+            }
         }
+        Log.e("tag","Location_Response3="+locationData);
+        Log.e("tag","UserData_Response3="+userData);
+
+        String Sync_IDNew = shared_syncId.getString(SyncId, "");
+        Log.e("tag","Sync_IDNew="+Sync_IDNew);
+
+        sharedpref_spinner_Obj = getSharedPreferences(sharedpreferenc_selectedspinner, Context.MODE_PRIVATE);
+        String Sync_IDNew1 = sharedpref_spinner_Obj.getString(Key_syncId, "").trim();
+        Log.e("tag","Sync_IDNew1="+Sync_IDNew1);
+
+        ValidateSyncRequest request = new ValidateSyncRequest();
+        request.setSyncID(Sync_IDNew);
+        request.setSyncVersion(versioncode);
+
+        if(locationData==null||locationData.equalsIgnoreCase("Success")){
+            if(userData==null||userData.equalsIgnoreCase("Success")) {
+                request.setSyncStatus("Success");
+            }else{
+                request.setSyncStatus("Error");
+            }
+        }else {
+            request.setSyncStatus("Error");
+        }
+
+
+        Call<ValidateSyncResponse> call = userService1.Post_ValidateSync(request);
+
+        Log.e("TAG", "Post_ValidateSync Request: " + new Gson().toJson(call.request()));
+        Log.e("TAG", "Request Post_ValidateSync: " + request.toString());
+
+        final ProgressDialog progressDoalog;
+        progressDoalog = new ProgressDialog(Activity_ViewFarmers.this);
+        progressDoalog.setMessage("Loading....");
+        progressDoalog.setTitle("Please wait....");
+        progressDoalog.setCancelable(false);
+        progressDoalog.setProgressStyle(ProgressDialog.STYLE_SPINNER);
+        progressDoalog.show();
+
+        call.enqueue(new Callback<ValidateSyncResponse>() {
+            @Override
+            public void onResponse(Call<ValidateSyncResponse> call, Response<ValidateSyncResponse> response) {
+                Log.e("response", response.toString());
+                Log.e("TAG", "ValidateSyncResponse : " + new Gson().toJson(response));
+                Log.e("tag","ValidateSyncResponse body"+ String.valueOf(response.body()));
+                //   DefaultResponse error1 = ErrorUtils.parseError(response);
+                   /* Log.e("response new:",error1.getMsg());
+                    Log.e("response new status:", String.valueOf(error1.getstatus()));*/
+                // Log.e("response",Gson.fromJson(response.toString(),AddFarmer_Activity1.class));
+
+                if (response.isSuccessful()) {
+                      progressDoalog.dismiss();
+                    ValidateSyncResponse class_loginresponse = response.body();
+                    Log.e("tag", "res==" + class_loginresponse.toString());
+                    if (class_loginresponse.getStatus().equals("true")) {
+
+                    } else if (class_loginresponse.getStatus().equals("false")) {
+                             progressDoalog.dismiss();
+                        Toast.makeText(Activity_ViewFarmers.this, class_loginresponse.getMessage(), Toast.LENGTH_SHORT).show();
+
+                    }
+                } else {
+                       progressDoalog.dismiss();
+
+                    DefaultResponse error = ErrorUtils.parseError(response);
+                    // … and use it to show error information
+
+                    // … or just log the issue like we’re doing :)
+                    Log.d("error message", error.getMsg());
+
+                    Toast.makeText(Activity_ViewFarmers.this, error.getMsg(), Toast.LENGTH_SHORT).show();
+
+                }
+            }
+
+            @Override
+            public void onFailure(Call call, Throwable t) {
+                Log.e("TAG", "onFailure: " + t.toString());
+
+                Log.e("tag", "Error:" + t.getMessage());
+                Toast.makeText(Activity_ViewFarmers.this, t.getMessage(), Toast.LENGTH_SHORT).show();
+            }
+        });// end of call
+    }
+
+    public void stateListRest_dbCount(){
+        SQLiteDatabase db_statelist = openOrCreateDatabase("FarmPond_db", Context.MODE_PRIVATE, null);
+        db_statelist.execSQL("CREATE TABLE IF NOT EXISTS StateListRest(StateID VARCHAR,StateName VARCHAR);");
+        Cursor cursor = db_statelist.rawQuery("SELECT * FROM StateListRest", null);
+        int State_x = cursor.getCount();
+        Log.e("cursor State_xcount", Integer.toString(State_x));
+
+        if(State_x==0){
+            GetDropdownValuesRestData();
+            GetFarmer_PondValuesRestData();
+           // AddFarmerDetailsNew();
+        }else{
+            SQLiteDatabase db1 = this.openOrCreateDatabase("FarmPond_db", Context.MODE_PRIVATE, null);
+            db1.execSQL("CREATE TABLE IF NOT EXISTS DistrictListRest(DistrictID VARCHAR,DistrictName VARCHAR,Distr_yearid VARCHAR,Distr_Stateid VARCHAR);");
+            Cursor cursor1 = db1.rawQuery("SELECT DISTINCT * FROM DistrictListRest", null);
+            int District_x = cursor1.getCount();
+            Log.e("cursor Talukcount", Integer.toString(District_x));
+
+            SQLiteDatabase db2 = this.openOrCreateDatabase("FarmPond_db", Context.MODE_PRIVATE, null);
+            db2.execSQL("CREATE TABLE IF NOT EXISTS TalukListRest(TalukID VARCHAR,TalukName VARCHAR,Taluk_districtid VARCHAR);");
+            Cursor cursor2 = db2.rawQuery("SELECT DISTINCT * FROM TalukListRest", null);
+            int Taluk_x = cursor2.getCount();
+            Log.e("cursor Talukcount", Integer.toString(Taluk_x));
+
+            SQLiteDatabase db_village = this.openOrCreateDatabase("FarmPond_db", Context.MODE_PRIVATE, null);
+            db_village.execSQL("CREATE TABLE IF NOT EXISTS VillageListRest(VillageID VARCHAR,Village VARCHAR,TalukID VARCHAR,PanchayatID VARCHAR);");
+            Cursor cursor3 = db_village.rawQuery("SELECT DISTINCT * FROM VillageListRest", null);
+            int village_x = cursor3.getCount();
+            Log.e("cursor village_xcount", Integer.toString(village_x));
+
+            SQLiteDatabase db_grampanchayat = this.openOrCreateDatabase("FarmPond_db", Context.MODE_PRIVATE, null);
+            db_grampanchayat.execSQL("CREATE TABLE IF NOT EXISTS GrampanchayatListRest(GramanchayatID VARCHAR,Gramanchayat VARCHAR,Panchayat_DistID VARCHAR);");
+            Cursor cursor4 = db_grampanchayat.rawQuery("SELECT DISTINCT * FROM GrampanchayatListRest", null);
+            int panchayat_x = cursor4.getCount();
+            Log.d("cursor panchayatcount", Integer.toString(panchayat_x));
+
+            SQLiteDatabase db_year = this.openOrCreateDatabase("FarmPond_db", Context.MODE_PRIVATE, null);
+            db_year.execSQL("CREATE TABLE IF NOT EXISTS YearListRest(YearID VARCHAR,YearName VARCHAR);");
+            Cursor cursor5 = db_year.rawQuery("SELECT DISTINCT * FROM YearListRest", null);
+            int Year_x = cursor5.getCount();
+            Log.d("cursor Yearcount", Integer.toString(Year_x));
+
+            SQLiteDatabase db6 = this.openOrCreateDatabase("FarmPond_db", Context.MODE_PRIVATE, null);
+            db6.execSQL("CREATE TABLE IF NOT EXISTS MachineDetails_fromServerRest(SlNo INTEGER PRIMARY KEY AUTOINCREMENT,MachineNameDB VARCHAR,MachineIDDB VARCHAR);");
+            Cursor cursor6 = db1.rawQuery("SELECT * FROM MachineDetails_fromServerRest", null);
+            int Machine_x = cursor6.getCount();
+            Log.d("cursor Machinecount", Integer.toString(Machine_x));
+
+            SQLiteDatabase db_farmer = this.openOrCreateDatabase("FarmPond_db", Context.MODE_PRIVATE, null);
+
+            db_farmer.execSQL("CREATE TABLE IF NOT EXISTS ViewFarmerListRest(MTempId INTEGER PRIMARY KEY,DispFarmerTable_YearID VARCHAR,DispFarmerTable_StateID VARCHAR," +
+                    "DispFarmerTable_DistrictID VARCHAR,DispFarmerTable_TalukID VARCHAR,DispFarmerTable_VillageID VARCHAR," +
+                    "DispFarmerTable_GrampanchayatID VARCHAR,DispFarmerTable_FarmerID VARCHAR,DispFarmerTable_Farmer_Code VARCHAR," +
+                    "DispFarmerTable_FarmerName VARCHAR,FarmerMName_DB VARCHAR,FarmerLName_DB VARCHAR,Farmerage_DB VARCHAR," +
+                    "Farmercellno_DB VARCHAR,FIncome_DB VARCHAR,Ffamilymember_DB VARCHAR,FIDprooftype_DB VARCHAR,FIDProofNo_DB VARCHAR,UploadedStatusFarmerprofile_DB VARCHAR," +
+                    "FarmerImageB64str_DB VARCHAR,DispFarmerTable_FarmerImage VARCHAR," +
+                    "LocalFarmerImg BLOB,Farmpondcount VARCHAR,Submitted_Date VARCHAR,Created_By VARCHAR,Created_Date VARCHAR,Created_User VARCHAR,Response VARCHAR,Response_Action VARCHAR);");
+
+
+            // Cursor cursor1 = db1.rawQuery("SELECT DISTINCT * FROM ViewFarmerListRest  WHERE DispFarmerTable_YearID='" + str_yearid + "' AND DispFarmerTable_StateID='" + str_stateid + "' AND DispFarmerTable_DistrictID='" + str_distid + "'  AND DispFarmerTable_TalukID='" + str_talukid + "' AND DispFarmerTable_VillageID='" + str_villageid + "' AND DispFarmerTable_GrampanchayatID='" + str_panchayatid + "'", null);
+            Cursor cursor7 = db_farmer.rawQuery("SELECT DISTINCT * FROM ViewFarmerListRest", null);
+
+            int farmer_x = cursor7.getCount();
+            cursor7.close();
+
+            State_x=State_x-1;
+            District_x=District_x-1;
+            Taluk_x=Taluk_x-1;
+            village_x=village_x-1;
+            panchayat_x=panchayat_x-1;
+
+            if(State_x==Integer.valueOf(StateCount)&&District_x==Integer.valueOf(DistrictCount)&&Taluk_x==Integer.valueOf(TalukaCount)&&village_x==Integer.valueOf(VillageCount)&&panchayat_x==Integer.valueOf(PanchayatCount)&&Year_x==Integer.valueOf(YearCount)&&Machine_x==Integer.valueOf(MachineCount)){
+
+            }else{
+                delete_CountDetailsRestTable_B4insertion();
+                deleteStateRestTable_B4insertion();
+                deleteDistrictRestTable_B4insertion();
+                deleteTalukRestTable_B4insertion();
+                deleteGrampanchayatRestTable_B4insertion();
+                deleteVillageRestTable_B4insertion();
+                deleteYearRestTable_B4insertion();
+                deleteMachineRestTable_B4insertion();
+                deleteRemarksTable_B4insertion();
+                DBCreate_RemarksDetails();
+              //  ViewFarmerlistdetailsRestTable_B4insertion();
+
+                GetDropdownValuesRestData();
+
+            }
+            if(farmer_x==Integer.valueOf(Farmer_Count)){
+
+            }else if(farmer_x<Integer.valueOf(Farmer_Count)){
+                deleteViewFarmerlistTable_B4insertion();
+                delete_FarmPondDetails_fromServer_B4insertion();
+                GetFarmer_PondValuesRestData();
+                FarmpondRest_detailsTable_B4insertion();
+            }
+            AddFarmerDetailsNew();
+        }
+    }
+    public void CountCheckList(){
+        SQLiteDatabase db_locationCount = this.openOrCreateDatabase("FarmPond_db", Context.MODE_PRIVATE, null);
+        db_locationCount.execSQL("CREATE TABLE IF NOT EXISTS LocationCountListRest(StateCount VARCHAR,DistrictCount VARCHAR,TalukaCount VARCHAR,PanchayatCount VARCHAR,VillageCount VARCHAR,YearCount VARCHAR,MachineCount VARCHAR,MachineCostCount VARCHAR,Farmer_Count VARCHAR,Pond_Count VARCHAR,Sync_ID VARCHAR);");
+        Cursor cursor1 = db_locationCount.rawQuery("SELECT DISTINCT * FROM LocationCountListRest", null);
+
+        int x = cursor1.getCount();
+        Log.d("cursor countlist", Integer.toString(x));
+
+        int i = 0;
+        if (cursor1.moveToFirst()) {
+
+            do {
+                StateCount=cursor1.getString(cursor1.getColumnIndex("StateCount"));
+                DistrictCount=cursor1.getString(cursor1.getColumnIndex("DistrictCount"));
+                TalukaCount=cursor1.getString(cursor1.getColumnIndex("TalukaCount"));
+                PanchayatCount=cursor1.getString(cursor1.getColumnIndex("PanchayatCount"));
+                VillageCount=cursor1.getString(cursor1.getColumnIndex("VillageCount"));
+                YearCount=cursor1.getString(cursor1.getColumnIndex("YearCount"));
+                MachineCount=cursor1.getString(cursor1.getColumnIndex("MachineCount"));
+                MachineCostCount=cursor1.getString(cursor1.getColumnIndex("MachineCostCount"));
+                Farmer_Count=cursor1.getString(cursor1.getColumnIndex("Farmer_Count"));
+                Pond_Count=cursor1.getString(cursor1.getColumnIndex("Pond_Count"));
+                Sync_ID=cursor1.getString(cursor1.getColumnIndex("Sync_ID"));
+               // arrayObj_Class_DistrictListDetails2[i] = innerObj_Class_AcademicList;
+                i++;
+            } while (cursor1.moveToNext());
+            Log.e("tag","StateCount="+StateCount);
+            Log.e("tag","DistrictCount="+DistrictCount);
+            Log.e("tag","VillageCount="+VillageCount);
+            Log.e("tag","Sync_ID="+Sync_ID);
+            SharedPreferences.Editor editor = shared_syncId.edit();
+            editor.putString(SyncId, Sync_ID);
+            editor.commit();
+            SharedPreferences.Editor myprefs_spinner = sharedpref_spinner_Obj.edit();
+            myprefs_spinner.putString(Key_syncId, Sync_ID);
+            myprefs_spinner.apply();
+        }//if ends
+
+    }
+    public void UserDataCountCheckList(){
+        SQLiteDatabase db_userdataCount = this.openOrCreateDatabase("FarmPond_db", Context.MODE_PRIVATE, null);
+        db_userdataCount.execSQL("CREATE TABLE IF NOT EXISTS UserDataCountListRest(Farmer_Count VARCHAR,Pond_Count VARCHAR);");
+        Cursor cursor1 = db_userdataCount.rawQuery("SELECT DISTINCT * FROM UserDataCountListRest", null);
+
+        int x = cursor1.getCount();
+        Log.d("tag","cursor userdatacountlist"+ Integer.toString(x));
+
+        int i = 0;
+        if (cursor1.moveToFirst()) {
+
+            do {
+                Farmer_Count=cursor1.getString(cursor1.getColumnIndex("Farmer_Count"));
+                Pond_Count=cursor1.getString(cursor1.getColumnIndex("Pond_Count"));
+                i++;
+            } while (cursor1.moveToNext());
+            Log.e("tag","Farmer_Count="+Farmer_Count);
+            Log.e("tag","DiPond_Count="+Pond_Count);
+
+        }//if ends
+
     }
     public void ViewFarmerListRest_dbcount(){
         SQLiteDatabase db1 = this.openOrCreateDatabase("FarmPond_db", Context.MODE_PRIVATE, null);
@@ -2616,6 +3011,7 @@ public class Activity_ViewFarmers extends AppCompatActivity {
                 if (isInternetPresent2) {
 
                     //GetDropdownValues();
+                    delete_CountDetailsRestTable_B4insertion();
                     deleteStateRestTable_B4insertion();
                     deleteDistrictRestTable_B4insertion();
                     deleteTalukRestTable_B4insertion();
@@ -3071,8 +3467,8 @@ public class Activity_ViewFarmers extends AppCompatActivity {
     }*/
     private void NormalLoginNew() {
 
-        // Call call = userService1.getLocationDataNew(str_employee_id);
-        Call call = userService1.getLocationDataNew("101");
+         Call call = userService1.getLocationDataNew(str_employee_id);
+    //   Call call = userService1.getLocationDataNew("106");
 
         call.enqueue(new Callback() {
             @Override
@@ -5095,15 +5491,18 @@ Log.e("tag","pond FIDDB="+str_farmerid);
     public void deleteRemarksTable_B4insertion() {
 
 
-        SQLiteDatabase db1 = this.openOrCreateDatabase("FarmPond_db", Context.MODE_PRIVATE, null);
-        db1.execSQL("CREATE TABLE IF NOT EXISTS RemarksDetails_fromServerRest(SlNo INTEGER PRIMARY KEY AUTOINCREMENT,RemarksIDDB VARCHAR,RemarksNameDB VARCHAR);");
-        Cursor cursor = db1.rawQuery("SELECT * FROM RemarksDetails_fromServerRest", null);
+     //   SQLiteDatabase db1 = this.openOrCreateDatabase("FarmPond_db", Context.MODE_PRIVATE, null);
+      //  db1.execSQL("CREATE TABLE IF NOT EXISTS RemarksDetails_fromServer(SlNo INTEGER PRIMARY KEY AUTOINCREMENT,RemarksIDDB VARCHAR,RemarksNameDB VARCHAR);");
+        SQLiteDatabase db2 = this.openOrCreateDatabase("FarmPond_db", Context.MODE_PRIVATE, null);
+        db2.execSQL("CREATE TABLE IF NOT EXISTS RemarksDetails_fromServer(SlNo INTEGER PRIMARY KEY AUTOINCREMENT,RemarksIDDB VARCHAR,RemarksNameDB VARCHAR);");
+
+        Cursor cursor = db2.rawQuery("SELECT * FROM RemarksDetails_fromServer", null);
         int x = cursor.getCount();
         if (x > 0) {
-            db1.delete("RemarksDetails_fromServerRest", null, null);
+            db2.delete("RemarksDetails_fromServer", null, null);
 
         }
-        db1.close();
+        db2.close();
     }
 
 

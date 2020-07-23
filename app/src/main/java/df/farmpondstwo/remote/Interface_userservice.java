@@ -16,6 +16,8 @@ import df.farmpondstwo.Models.GetAppVersion;
 import df.farmpondstwo.Models.Location_Data;
 import df.farmpondstwo.Models.NormalLogin_Response;
 import df.farmpondstwo.Models.UserData;
+import df.farmpondstwo.Models.ValidateSyncRequest;
+import df.farmpondstwo.Models.ValidateSyncResponse;
 import okhttp3.RequestBody;
 import okhttp3.ResponseBody;
 import retrofit2.Call;
@@ -108,4 +110,8 @@ public interface Interface_userservice {
 
   @GET("Authentication/Get_App_Version")
   Call<GetAppVersion> getAppVersion();
+
+  @Headers({ "Content-Type: application/json;charset=UTF-8"})
+  @POST("Authentication/Post_ValidateSync")
+  Call<ValidateSyncResponse> Post_ValidateSync(@Body ValidateSyncRequest request);
 }

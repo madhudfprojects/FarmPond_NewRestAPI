@@ -6,6 +6,9 @@ import com.google.gson.annotations.SerializedName;
 import java.util.List;
 
 public class Location_DataList {
+    @SerializedName("Count")
+    @Expose
+    private List<Count> count = null;
     @SerializedName("State")
     @Expose
     private List<State> state = null;
@@ -33,6 +36,8 @@ public class Location_DataList {
     @SerializedName("Response")
     @Expose
     private String response;
+
+
 
     public List<State> getState() {
         return state;
@@ -104,6 +109,14 @@ public class Location_DataList {
 
     public void setMachine_Cost(List<Machine_Cost> machine_Cost) {
         this.machine_Cost = machine_Cost;
+    }
+
+    public List<Count> getCount() {
+        return count;
+    }
+
+    public void setCount(List<Count> count) {
+        this.count = count;
     }
 }
 

@@ -1470,7 +1470,6 @@ public class ViewFarmers_Activity extends AppCompatActivity {
 
                             class_userDatalist.setFarmer((class_userData.getLst().get(i).getFarmer()));
                             class_userDatalist.setPond(class_userData.getLst().get(i).getPond());
-
                             int sizeFarmer=class_userData.getLst().get(i).getFarmer().size();
                             for(int j=0;j<sizeFarmer;j++){
                                 Log.e("tag","Farmer name=="+class_userData.getLst().get(i).getFarmer().get(j).getFarmerFirstName());
