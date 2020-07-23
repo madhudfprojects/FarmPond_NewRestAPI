@@ -43,7 +43,7 @@ public class AddFarmerResList {
 
 
 
-    @SerializedName("Farmer_Photo")
+    @SerializedName("Farmer_Photo_Thumb")
     @Expose
     private String farmerPhoto;
     @SerializedName("Farmer_Age")

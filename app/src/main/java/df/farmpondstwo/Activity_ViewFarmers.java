@@ -2039,8 +2039,7 @@ public class Activity_ViewFarmers extends AppCompatActivity {
 
     }
 
-    private void GetFarmer_PondValuesRestData()
-    {
+    private void GetFarmer_PondValuesRestData() {
 
         //  Call<UserData> call = userService1.getUserData(str_employee_id);
         Call<UserData> call = userService1.getUserData("38");
@@ -2055,27 +2054,22 @@ public class Activity_ViewFarmers extends AppCompatActivity {
 
         call.enqueue(new Callback<UserData>() {
             @Override
-            public void onResponse(Call<UserData> call, Response<UserData> response)
-            {
+            public void onResponse(Call<UserData> call, Response<UserData> response) {
                 //   Log.e("Entered resp", response.message());
                 //     Log.e("Entered resp", response.body().getMessage());
                 Log.e("TAG", "response userdata: " + new Gson().toJson(response));
                 Log.e("response body userdata", String.valueOf(response.body()));
-                if (response.isSuccessful())
-                {
+                if (response.isSuccessful()) {
                     UserData class_userData = response.body();
-
                     Log.e("response.body", response.body().getLst().toString());
-                    if (class_userData.getStatus().equals(true))
-                    {
+                    if (class_userData.getStatus().equals(true)) {
                         List<UserDataList> yearlist = response.body().getLst();
                         Log.e("programlist.size()", String.valueOf(yearlist.size()));
 
                         userDataLists = new UserDataList[yearlist.size()];
                         //   Log.e("tag","Pond Id=="+class_userData.getLst().get(0).getPond().get(0).getPondID());
 
-                        for (int i = 0; i < userDataLists.length; i++)
-                        {
+                        for (int i = 0; i < userDataLists.length; i++) {
 
                             String str_farmpondbaseimage_url, str_base64image = null, str_base64image1 = null, str_base64image2 = null, str_base64image3 = null;
 
@@ -2159,18 +2153,15 @@ public class Activity_ViewFarmers extends AppCompatActivity {
                                 }*/
                                 String str_farmerbase64 = null;
                                 class_farmerlistdetails_arrayobj2 = new Farmer[sizeFarmer];
-                                if (str_imageurl == null || str_imageurl.equals(""))
-                                {
-                                } else
-                                    {
+                                if (str_imageurl == null || str_imageurl.equals("")) {
+                                } else {
                                     //  str_imageurl=class_farmerlistdetails_arrayobj2[i].getFarmerPhoto();
 
                                     String str_farmpondimageurl = str_imageurl;
 
                                     InputStream inputstream_obj = null;
                                     try {
-                                        if (android.os.Build.VERSION.SDK_INT > 9)
-                                        {
+                                        if (android.os.Build.VERSION.SDK_INT > 9) {
                                             StrictMode.ThreadPolicy policy = new StrictMode.ThreadPolicy.Builder().permitAll().build();
                                             StrictMode.setThreadPolicy(policy);
                                             inputstream_obj = new URL(str_farmpondimageurl).openStream();
@@ -2242,19 +2233,20 @@ public class Activity_ViewFarmers extends AppCompatActivity {
                                 // PondImage Array Method
                                 int pondImageSize = class_userData.getLst().get(i).getPond().get(j).getPondImage().size();
                                 for (int k = 0; k < pondImageSize; k++) {
-                                    if (k == 0) {
+                                    String pondImageType=class_userData.getLst().get(i).getPond().get(j).getPondImage().get(k).getImageType();
+                                    if(pondImageType.equalsIgnoreCase("1")){
                                         pondImage1 = class_userData.getLst().get(i).getPond().get(j).getPondImage().get(k).getImageLink();
                                         pondImageId1 = class_userData.getLst().get(i).getPond().get(j).getPondImage().get(k).getImageID();
                                         pondImageType1 = class_userData.getLst().get(i).getPond().get(j).getPondImage().get(k).getImageType();
                                     }
-                                    if (k == 1) {
+                                    if(pondImageType.equalsIgnoreCase("2")){
                                         pondImage2 = class_userData.getLst().get(i).getPond().get(j).getPondImage().get(k).getImageLink();
                                         pondImageId2 = class_userData.getLst().get(i).getPond().get(j).getPondImage().get(k).getImageID();
                                         pondImageType2 = class_userData.getLst().get(i).getPond().get(j).getPondImage().get(k).getImageType();
                                         Log.e("tag", "pondImageId2==" + pondImageId2);
                                         Log.e("tag", "pondImage2==" + pondImage2);
                                     }
-                                    if (k == 2) {
+                                    if(pondImageType.equalsIgnoreCase("3")){
                                         pondImage3 = class_userData.getLst().get(i).getPond().get(j).getPondImage().get(k).getImageLink();
                                         pondImageId3 = class_userData.getLst().get(i).getPond().get(j).getPondImage().get(k).getImageID();
                                         pondImageType3 = class_userData.getLst().get(i).getPond().get(j).getPondImage().get(k).getImageType();
@@ -5499,8 +5491,7 @@ Log.e("tag","pond FIDDB="+str_farmerid);
     }// end Async task
 
 
-    public String urltobase64_farmerimage(String str_imageurl)
-    {
+    public String urltobase64_farmerimage(String str_imageurl) {
 
         String str_farmpondbaseimage_url, str_base64image = null;
         try {

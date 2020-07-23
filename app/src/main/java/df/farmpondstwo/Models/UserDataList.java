@@ -6,6 +6,9 @@ import com.google.gson.annotations.SerializedName;
 import java.util.List;
 
 public class UserDataList {
+    @SerializedName("Count")
+    @Expose
+    private List<UserDataCount> userdatacount = null;
     @SerializedName("Farmer")
     @Expose
     private List<Farmer> farmer = null;
@@ -38,5 +41,13 @@ public class UserDataList {
 
     public void setResponse(String response) {
         this.response = response;
+    }
+
+    public List<UserDataCount> getUserdatacount() {
+        return userdatacount;
+    }
+
+    public void setUserdatacount(List<UserDataCount> userdatacount) {
+        this.userdatacount = userdatacount;
     }
 }
