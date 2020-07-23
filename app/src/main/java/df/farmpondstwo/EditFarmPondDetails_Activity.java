@@ -2905,9 +2905,9 @@ public class EditFarmPondDetails_Activity extends AppCompatActivity {
         request.setPond_End(newfarmponddetails_offline_array_objRest[k].getPondEnd());
         request.setPond_Days(newfarmponddetails_offline_array_objRest[k].getPondDays());
         request.setPond_Cost(newfarmponddetails_offline_array_objRest[k].getPondCost());
-        request.setPond_Image_1(newfarmponddetails_offline_array_objRest[k].getPondImage1());
+        /*request.setPond_Image_1(newfarmponddetails_offline_array_objRest[k].getPondImage1());
         request.setPond_Image_2(newfarmponddetails_offline_array_objRest[k].getPondImage2());
-        request.setPond_Image_3(newfarmponddetails_offline_array_objRest[k].getPondImage3());
+        request.setPond_Image_3(newfarmponddetails_offline_array_objRest[k].getPondImage3());*/
         request.setSubmitted_Date(newfarmponddetails_offline_array_objRest[k].getSubmittedDate());
         request.setCreated_By(newfarmponddetails_offline_array_objRest[k].getCreatedBy());
         request.setPond_Temp_ID(newfarmponddetails_offline_array_objRest[k].getPondTempID());

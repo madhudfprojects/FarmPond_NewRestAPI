@@ -978,9 +978,9 @@ public class Activity_MarketingHomeScreen extends AppCompatActivity {
         request.setPond_End(class_farmponddetails_offline_array_objRest[k].getPondEnd());
         request.setPond_Days(class_farmponddetails_offline_array_objRest[k].getPondDays());
         request.setPond_Cost(class_farmponddetails_offline_array_objRest[k].getPondCost());
-        request.setPond_Image_1(class_farmponddetails_offline_array_objRest[k].getPondImage1());
+       /* request.setPond_Image_1(class_farmponddetails_offline_array_objRest[k].getPondImage1());
         request.setPond_Image_2(class_farmponddetails_offline_array_objRest[k].getPondImage2());
-        request.setPond_Image_3(class_farmponddetails_offline_array_objRest[k].getPondImage3());
+        request.setPond_Image_3(class_farmponddetails_offline_array_objRest[k].getPondImage3());*/
         request.setSubmitted_Date(class_farmponddetails_offline_array_objRest[k].getSubmittedDate());
         request.setCreated_By(class_farmponddetails_offline_array_objRest[k].getCreatedBy());
         request.setPond_Temp_ID(class_farmponddetails_offline_array_objRest[k].getPondTempID());
@@ -1462,9 +1462,9 @@ public class Activity_MarketingHomeScreen extends AppCompatActivity {
         request.setPond_End(newfarmponddetails_offline_array_objRest[k].getPondEnd());
         request.setPond_Days(newfarmponddetails_offline_array_objRest[k].getPondDays());
         request.setPond_Cost(newfarmponddetails_offline_array_objRest[k].getPondCost());
-        request.setPond_Image_1(newfarmponddetails_offline_array_objRest[k].getPondImage1());
+        /*request.setPond_Image_1(newfarmponddetails_offline_array_objRest[k].getPondImage1());
         request.setPond_Image_2(newfarmponddetails_offline_array_objRest[k].getPondImage2());
-        request.setPond_Image_3(newfarmponddetails_offline_array_objRest[k].getPondImage3());
+        request.setPond_Image_3(newfarmponddetails_offline_array_objRest[k].getPondImage3());*/
         request.setSubmitted_Date(newfarmponddetails_offline_array_objRest[k].getSubmittedDate());
         request.setCreated_By(newfarmponddetails_offline_array_objRest[k].getCreatedBy());
         request.setPond_Temp_ID(newfarmponddetails_offline_array_objRest[k].getPondTempID());

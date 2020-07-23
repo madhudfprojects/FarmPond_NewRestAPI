@@ -55,7 +55,7 @@ public class Class_addfarmponddetails_ToFromServer1
     @Expose
     private List<Class_addfarmponddetails_ToFromServer2> lst = null;*/
 
-    @SerializedName("lst")
+    @SerializedName("objFarmerPond")
     @Expose
     private Class_addfarmponddetails_ToFromServer2 lst2 = null;
 

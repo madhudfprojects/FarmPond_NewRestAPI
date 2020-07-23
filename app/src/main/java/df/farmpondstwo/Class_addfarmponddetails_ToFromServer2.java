@@ -29,6 +29,11 @@ package df.farmpondstwo;
 import com.google.gson.annotations.Expose;
 import com.google.gson.annotations.SerializedName;
 
+import java.util.ArrayList;
+import java.util.List;
+
+import df.farmpondstwo.Models.PondImage;
+
 public class Class_addfarmponddetails_ToFromServer2
 {
 
@@ -88,7 +93,9 @@ public class Class_addfarmponddetails_ToFromServer2
     @Expose
     private String Pond_Cost;
 
-    @SerializedName("Pond_Image_1")
+
+
+    /*@SerializedName("Pond_Image_1")
     @Expose
     private String Pond_Image_1;
 
@@ -98,7 +105,14 @@ public class Class_addfarmponddetails_ToFromServer2
 
     @SerializedName("Pond_Image_3")
     @Expose
-    private String Pond_Image_3;
+    private String Pond_Image_3;*/
+
+
+    private List<PondImage> PondImage;
+   // private PondImage[] PondImage1;
+
+    //private ArrayList<Class_AddFarmPond> PondImage1;
+
 
     @SerializedName("Submitted_Date")
     @Expose
@@ -227,7 +241,7 @@ public class Class_addfarmponddetails_ToFromServer2
         Pond_Cost = pond_Cost;
     }
 
-    public String getPond_Image_1() {
+   /* public String getPond_Image_1() {
         return Pond_Image_1;
     }
 
@@ -249,7 +263,9 @@ public class Class_addfarmponddetails_ToFromServer2
 
     public void setPond_Image_3(String pond_Image_3) {
         Pond_Image_3 = pond_Image_3;
-    }
+    }*/
+
+
 
     public String getSubmitted_Date() {
         return Submitted_Date;
@@ -293,6 +309,8 @@ public class Class_addfarmponddetails_ToFromServer2
         Pond_Land_Acre = pond_Land_Acre;
     }
 
+
+
     public String getUploadedStatus() {
         return UploadedStatus;
     }
@@ -300,4 +318,31 @@ public class Class_addfarmponddetails_ToFromServer2
     public void setUploadedStatus(String uploadedStatus) {
         UploadedStatus = uploadedStatus;
     }
+
+
+
+    /*public PondImage[] getPondImage1() {
+        return PondImage1;
+    }
+
+    public void setPondImage1(PondImage[] pondImage1) {
+        PondImage1 = pondImage1;
+    }*/
+
+
+     public List<PondImage> getPondImage() {
+        return PondImage;
+    }
+
+    public void setPondImage(List<PondImage> pondImage) {
+        PondImage = pondImage;
+    }
+
+  /*  public ArrayList<Class_AddFarmPond> getPondImage1() {
+        return PondImage1;
+    }
+
+    public void setPondImage1(ArrayList<Class_AddFarmPond> pondImage1) {
+        PondImage1 = pondImage1;
+    }*/
 }

@@ -57,6 +57,7 @@ import java.io.IOException;
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.Calendar;
 import java.util.Date;
 import java.util.HashMap;
@@ -73,6 +74,7 @@ import df.farmpondstwo.Models.Class_MachineDetails;
 import df.farmpondstwo.Models.Class_farmponddetails;
 import df.farmpondstwo.Models.DefaultResponse;
 import df.farmpondstwo.Models.ErrorUtils;
+import df.farmpondstwo.Models.PondImage;
 import df.farmpondstwo.remote.Class_ApiUtils;
 import df.farmpondstwo.remote.Interface_userservice;
 import retrofit2.Call;
@@ -249,6 +251,7 @@ public class AddFarmPondActivity extends AppCompatActivity {
         str_employee_id = sharedpreferencebook_usercredential_Obj.getString(KeyValue_employeeid, "").trim();
 
 
+        str_employee_id="38";
         //   submittedby_tv.setText((SaveSharedPreference.getUsermailID(AddFarmPondDetails_Activity.this)));
         str_submitter_mailid = sharedpreferencebook_usercredential_Obj.getString(KeyValue_employee_mailid, "").trim();
 
@@ -434,11 +437,12 @@ public class AddFarmPondActivity extends AppCompatActivity {
 
         add_ponddetails_submit_bt.setOnClickListener(new View.OnClickListener() {
             @Override
-            public void onClick(View v) {
+            public void onClick(View v)
+            {
 
-                // doLogin();
+                 doLogin();
 
-                if (1 < 2) {
+                if (1 > 2) {
                     if (validation()) {
                         cancel_submit_addnew_ll.setVisibility(View.GONE);
 
@@ -1740,7 +1744,8 @@ public class AddFarmPondActivity extends AppCompatActivity {
     }
 
 
-    public void fetch_DB_farmerprofile_offline_data() {
+    public void fetch_DB_farmerprofile_offline_data()
+    {
         SQLiteDatabase db1 = this.openOrCreateDatabase("FarmPond_db", Context.MODE_PRIVATE, null);
 
         db1.execSQL("CREATE TABLE IF NOT EXISTS FarmPondDetails_fromServerRest(SlNo INTEGER PRIMARY KEY AUTOINCREMENT,FIDDB VARCHAR,TempFIDDB VARCHAR," +
@@ -1988,7 +1993,8 @@ public class AddFarmPondActivity extends AppCompatActivity {
         int i = 0;
 
         newfarmponddetails_offline_array_objRest = new Class_farmponddetails[x];
-        if (x > 0) {
+        if (x > 0)
+        {
             if (cursor1.moveToFirst()) {
 
                 do {
@@ -2032,6 +2038,8 @@ public class AddFarmPondActivity extends AppCompatActivity {
                     }
 
                     innerObj_Class_farmponddetails.setCreatedBy(cursor1.getString(cursor1.getColumnIndex("EmployeeIDDB")));
+
+
 
                     Log.e("employeeid", cursor1.getString(cursor1.getColumnIndex("EmployeeIDDB")));
 
@@ -2086,7 +2094,8 @@ public class AddFarmPondActivity extends AppCompatActivity {
     }
 
 
-    private void Add_New_farmponddetails(int k) {
+    private void Add_New_farmponddetails(int k)
+    {
 
 
         Interface_userservice userService;
@@ -2094,6 +2103,7 @@ public class AddFarmPondActivity extends AppCompatActivity {
 
 
         Class_addfarmponddetails_ToFromServer2 request = new Class_addfarmponddetails_ToFromServer2();
+
         String str_latitude, str_longitude;
 
         if (newfarmponddetails_offline_array_objRest[k].getPondImage3().equals("noimage3") ||
@@ -2123,19 +2133,60 @@ public class AddFarmPondActivity extends AppCompatActivity {
         request.setPond_End(newfarmponddetails_offline_array_objRest[k].getPondEnd());
         request.setPond_Days(newfarmponddetails_offline_array_objRest[k].getPondDays());
         request.setPond_Cost(newfarmponddetails_offline_array_objRest[k].getPondCost());
-        request.setPond_Image_1(newfarmponddetails_offline_array_objRest[k].getPondImage1());
+
+       /* request.setPond_Image_1(newfarmponddetails_offline_array_objRest[k].getPondImage1());
         request.setPond_Image_2(newfarmponddetails_offline_array_objRest[k].getPondImage2());
-        request.setPond_Image_3(newfarmponddetails_offline_array_objRest[k].getPondImage3());
+        request.setPond_Image_3(newfarmponddetails_offline_array_objRest[k].getPondImage3());*/
+
+        ArrayList<Class_AddFarmPond> obj_pondimage=new ArrayList<Class_AddFarmPond>();
+        Class_AddFarmPond s1=new Class_AddFarmPond();
+        Class_AddFarmPond s2=new Class_AddFarmPond();
+        Class_AddFarmPond s3=new Class_AddFarmPond();
+
+        s1.setImage_ID("0");
+        s1.setPond_ID("0");
+        s1.setImage_Data_1("");
+        s1.setImage_Data("iVBORw0KGgoAAAANSUhEUgAAABAAAAAQCAMAAAAoLQ9TAAAAA3NCSVQICAjb4U/gAAAACXBIWXMAAARuAAAEbgHQo7JoAAAAGXRFWHRTb2Z0d2FyZQB3d3cuaW5rc2NhcGUub3Jnm+48GgAAAGxQTFRF////AP//KK6GJK2JJK+JJq2HJa6HJa+JJa6IJa6IJa6IJq6IKK+JKK+KK7CLLrGNM7OPNLOQNbSRObWTPLeVQLiWRLmZRrqaVsCjY8WqacetgNC5htK9j9XCltjGndrJruHTtuTXueXZvufcQhO/KQAAAAp0Uk5TAAEmcH+As7Xm9myQZpsAAAB3SURBVBhXZY9HEgMhEAMFLLPQzjnH/f8ffcCmtkzfNFXSSJIkHy0li14FFzIA5OAkyfVUeicpMCJIPle1XZG9YtXLYQOd7Kfn7wNgSjBbAJPnESApwW7Yw+NMORiwfp2ul2K0Ejq9375J3fgtkH1brK3ejPub/wG/CwjxA06BTgAAAABJRU5ErkJggg==");
+        s1.setImage_Link("");
+        s1.setImage_Type("1");
+        s1.setImage_Status("0");
+
+        obj_pondimage.add(s1);
+
+       /* s2.setImage_ID("0");
+        s2.setPond_ID("0");
+        s1.setImage_Data_1("");
+        s1.setImage_Data();
+        s1.setImage_Link("");
+        s1.setImage_Type("1");
+        s1.setImage_Status("0");
+
+        s1.setImage_ID("0");
+        s1.setPond_ID("0");
+        s1.setImage_Data_1("");
+        s1.setImage_Data();
+        s1.setImage_Link("");
+        s1.setImage_Type("1");
+        s1.setImage_Status("0");*/
+
+
+
+
         request.setSubmitted_Date(newfarmponddetails_offline_array_objRest[k].getSubmittedDate());
         request.setCreated_By(newfarmponddetails_offline_array_objRest[k].getCreatedBy());
         request.setPond_Temp_ID(newfarmponddetails_offline_array_objRest[k].getPondTempID());
         request.setPond_Land_Gunta(newfarmponddetails_offline_array_objRest[k].getPondLandGunta());
         request.setPond_Land_Acre(newfarmponddetails_offline_array_objRest[k].getPondLandAcre());
 
+
+        Log.e("addrequest",request.toString());
+
         retrofit2.Call call = userService.Post_ActionFarmerPondData(request);
 
+        Log.e("addrequest",request.toString());
 
-        call.enqueue(new Callback<Class_addfarmponddetails_ToFromServer1>() {
+        call.enqueue(new Callback<Class_addfarmponddetails_ToFromServer1>()
+        {
             @Override
             public void onResponse(retrofit2.Call<Class_addfarmponddetails_ToFromServer1> call, Response<Class_addfarmponddetails_ToFromServer1> response) {
 
@@ -2204,8 +2255,18 @@ public class AddFarmPondActivity extends AppCompatActivity {
     }
 
 
-    private void doLogin() {
+    private void doLogin()
+    {
 
+        Calendar c = Calendar.getInstance();
+        SimpleDateFormat df_farmcode = new SimpleDateFormat("ddMMyyyy");
+        String str_farmcodeadd = df_farmcode.format(c.getTime());
+        Log.e("date", str_farmcodeadd);
+
+
+        //Log.e("name", String.valueOf(System.currentTimeMillis()));
+        String str_farmpond_id = "tempfarmpond" + String.valueOf(System.currentTimeMillis());
+        String str_farmpond_code = str_farmpond_id + str_farmcodeadd;
 
         Interface_userservice userService;
         userService = Class_ApiUtils.getUserService();
@@ -2213,7 +2274,7 @@ public class AddFarmPondActivity extends AppCompatActivity {
 
         Class_addfarmponddetails_ToFromServer2 request = new Class_addfarmponddetails_ToFromServer2();
         request.setPond_ID("0");// for newfarmpond
-        request.setFarmer_ID("9276");
+        request.setFarmer_ID("5031");
         request.setAcademic_ID("2020");
         request.setMachine_ID("2");
         request.setPond_Latitude("15.5876");
@@ -2225,12 +2286,50 @@ public class AddFarmPondActivity extends AppCompatActivity {
         request.setPond_End("20-05-2020");
         request.setPond_Days("1");
         request.setPond_Cost("2000");
-        request.setPond_Image_1("iVBORw0KGgoAAAANSUhEUgAAABAAAAAQCAMAAAAoLQ9TAAAAA3NCSVQICAjb4U/gAAAACXBIWXMAAARuAAAEbgHQo7JoAAAAGXRFWHRTb2Z0d2FyZQB3d3cuaW5rc2NhcGUub3Jnm+48GgAAAGxQTFRF////AP//KK6GJK2JJK+JJq2HJa6HJa+JJa6IJa6IJa6IJq6IKK+JKK+KK7CLLrGNM7OPNLOQNbSRObWTPLeVQLiWRLmZRrqaVsCjY8WqacetgNC5htK9j9XCltjGndrJruHTtuTXueXZvufcQhO/KQAAAAp0Uk5TAAEmcH+As7Xm9myQZpsAAAB3SURBVBhXZY9HEgMhEAMFLLPQzjnH/f8ffcCmtkzfNFXSSJIkHy0li14FFzIA5OAkyfVUeicpMCJIPle1XZG9YtXLYQOd7Kfn7wNgSjBbAJPnESApwW7Yw+NMORiwfp2ul2K0Ejq9375J3fgtkH1brK3ejPub/wG/CwjxA06BTgAAAABJRU5ErkJggg==");
+
+        /*request.setPond_Image_1("iVBORw0KGgoAAAANSUhEUgAAABAAAAAQCAMAAAAoLQ9TAAAAA3NCSVQICAjb4U/gAAAACXBIWXMAAARuAAAEbgHQo7JoAAAAGXRFWHRTb2Z0d2FyZQB3d3cuaW5rc2NhcGUub3Jnm+48GgAAAGxQTFRF////AP//KK6GJK2JJK+JJq2HJa6HJa+JJa6IJa6IJa6IJq6IKK+JKK+KK7CLLrGNM7OPNLOQNbSRObWTPLeVQLiWRLmZRrqaVsCjY8WqacetgNC5htK9j9XCltjGndrJruHTtuTXueXZvufcQhO/KQAAAAp0Uk5TAAEmcH+As7Xm9myQZpsAAAB3SURBVBhXZY9HEgMhEAMFLLPQzjnH/f8ffcCmtkzfNFXSSJIkHy0li14FFzIA5OAkyfVUeicpMCJIPle1XZG9YtXLYQOd7Kfn7wNgSjBbAJPnESApwW7Yw+NMORiwfp2ul2K0Ejq9375J3fgtkH1brK3ejPub/wG/CwjxA06BTgAAAABJRU5ErkJggg==");
         request.setPond_Image_2("iVBORw0KGgoAAAANSUhEUgAAABAAAAAQCAMAAAAoLQ9TAAAAA3NCSVQICAjb4U/gAAAACXBIWXMAAARuAAAEbgHQo7JoAAAAGXRFWHRTb2Z0d2FyZQB3d3cuaW5rc2NhcGUub3Jnm+48GgAAAGxQTFRF////AP//KK6GJK2JJK+JJq2HJa6HJa+JJa6IJa6IJa6IJq6IKK+JKK+KK7CLLrGNM7OPNLOQNbSRObWTPLeVQLiWRLmZRrqaVsCjY8WqacetgNC5htK9j9XCltjGndrJruHTtuTXueXZvufcQhO/KQAAAAp0Uk5TAAEmcH+As7Xm9myQZpsAAAB3SURBVBhXZY9HEgMhEAMFLLPQzjnH/f8ffcCmtkzfNFXSSJIkHy0li14FFzIA5OAkyfVUeicpMCJIPle1XZG9YtXLYQOd7Kfn7wNgSjBbAJPnESApwW7Yw+NMORiwfp2ul2K0Ejq9375J3fgtkH1brK3ejPub/wG/CwjxA06BTgAAAABJRU5ErkJggg==");
         request.setPond_Image_3("iVBORw0KGgoAAAANSUhEUgAAABAAAAAQCAMAAAAoLQ9TAAAAA3NCSVQICAjb4U/gAAAACXBIWXMAAARuAAAEbgHQo7JoAAAAGXRFWHRTb2Z0d2FyZQB3d3cuaW5rc2NhcGUub3Jnm+48GgAAAGxQTFRF////AP//KK6GJK2JJK+JJq2HJa6HJa+JJa6IJa6IJa6IJq6IKK+JKK+KK7CLLrGNM7OPNLOQNbSRObWTPLeVQLiWRLmZRrqaVsCjY8WqacetgNC5htK9j9XCltjGndrJruHTtuTXueXZvufcQhO/KQAAAAp0Uk5TAAEmcH+As7Xm9myQZpsAAAB3SURBVBhXZY9HEgMhEAMFLLPQzjnH/f8ffcCmtkzfNFXSSJIkHy0li14FFzIA5OAkyfVUeicpMCJIPle1XZG9YtXLYQOd7Kfn7wNgSjBbAJPnESApwW7Yw+NMORiwfp2ul2K0Ejq9375J3fgtkH1brK3ejPub/wG/CwjxA06BTgAAAABJRU5ErkJggg==");
-        request.setSubmitted_Date("20-05-2020");
-        request.setCreated_By("6");
-        request.setPond_Temp_ID("TempFarmpond29052020125670");
+       */
+
+
+
+
+
+        PondImage pondimage_innerobj = new PondImage();
+        PondImage[] pondimage_arrayobj = new PondImage[1];
+        pondimage_innerobj.setImageID("0");
+        pondimage_innerobj.setPondID("0");
+        pondimage_innerobj.setImageData1("");
+        pondimage_innerobj.setImageData("iVBORw0KGgoAAAANSUhEUgAAABAAAAAQCAMAAAAoLQ9TAAAAA3NCSVQICAjb4U/gAAAACXBIWXMAAARuAAAEbgHQo7JoAAAAGXRFWHRTb2Z0d2FyZQB3d3cuaW5rc2NhcGUub3Jnm+48GgAAAGxQTFRF////AP//KK6GJK2JJK+JJq2HJa6HJa+JJa6IJa6IJa6IJq6IKK+JKK+KK7CLLrGNM7OPNLOQNbSRObWTPLeVQLiWRLmZRrqaVsCjY8WqacetgNC5htK9j9XCltjGndrJruHTtuTXueXZvufcQhO/KQAAAAp0Uk5TAAEmcH+As7Xm9myQZpsAAAB3SURBVBhXZY9HEgMhEAMFLLPQzjnH/f8ffcCmtkzfNFXSSJIkHy0li14FFzIA5OAkyfVUeicpMCJIPle1XZG9YtXLYQOd7Kfn7wNgSjBbAJPnESApwW7Yw+NMORiwfp2ul2K0Ejq9375J3fgtkH1brK3ejPub/wG/CwjxA06BTgAAAABJRU5ErkJggg==");
+        pondimage_innerobj.setImageLink("");
+        pondimage_innerobj.setImageType("1");
+        pondimage_innerobj.setImageStatus("0");
+        pondimage_arrayobj[0]=pondimage_innerobj;
+
+       // request.setPondImage1(pondimage_arrayobj);
+
+        List list = Arrays.asList(pondimage_arrayobj);
+        request.setPondImage(list);
+
+       /* ArrayList<Class_AddFarmPond> obj_pondimage=new ArrayList<Class_AddFarmPond>();
+        Class_AddFarmPond s1=new Class_AddFarmPond();
+        Class_AddFarmPond s2=new Class_AddFarmPond();
+        Class_AddFarmPond s3=new Class_AddFarmPond();
+
+        s1.setImage_ID("0");
+        s1.setPond_ID("0");
+        s1.setImage_Data_1("");
+        s1.setImage_Data("iVBORw0KGgoAAAANSUhEUgAAABAAAAAQCAMAAAAoLQ9TAAAAA3NCSVQICAjb4U/gAAAACXBIWXMAAARuAAAEbgHQo7JoAAAAGXRFWHRTb2Z0d2FyZQB3d3cuaW5rc2NhcGUub3Jnm+48GgAAAGxQTFRF////AP//KK6GJK2JJK+JJq2HJa6HJa+JJa6IJa6IJa6IJq6IKK+JKK+KK7CLLrGNM7OPNLOQNbSRObWTPLeVQLiWRLmZRrqaVsCjY8WqacetgNC5htK9j9XCltjGndrJruHTtuTXueXZvufcQhO/KQAAAAp0Uk5TAAEmcH+As7Xm9myQZpsAAAB3SURBVBhXZY9HEgMhEAMFLLPQzjnH/f8ffcCmtkzfNFXSSJIkHy0li14FFzIA5OAkyfVUeicpMCJIPle1XZG9YtXLYQOd7Kfn7wNgSjBbAJPnESApwW7Yw+NMORiwfp2ul2K0Ejq9375J3fgtkH1brK3ejPub/wG/CwjxA06BTgAAAABJRU5ErkJggg==");
+        s1.setImage_Link("");
+        s1.setImage_Type("1");
+        s1.setImage_Status("0");
+
+        obj_pondimage.add(s1);*/
+
+        request.setSubmitted_Date("23-07-2020");
+        request.setCreated_By("38");
+        request.setPond_Temp_ID(str_farmpond_code);
         request.setPond_Land_Gunta("20");
         request.setPond_Land_Acre("20");
 
@@ -2259,6 +2358,8 @@ public class AddFarmPondActivity extends AppCompatActivity {
 
                 Log.e("response", user_object1.getLst2().getPond_Cost());
 
+
+               // Log.e("response", user_object1.getLst2().getPondImage().get(0).getPondID());
 
                 // Log.e("Addpond_count", String.valueOf(user_object1.getClass_addfarmponddetails_toFromServer2_obj().size()));
 
