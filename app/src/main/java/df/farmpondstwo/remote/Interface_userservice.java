@@ -7,6 +7,7 @@ import java.util.Map;
 
 import df.farmpondstwo.Class_addfarmponddetails_ToFromServer1;
 import df.farmpondstwo.Class_addfarmponddetails_ToFromServer2;
+import df.farmpondstwo.Class_devicedetails;
 import df.farmpondstwo.Class_farmponddetails_ToServer;
 import df.farmpondstwo.Models.AddFarmerRequest;
 import df.farmpondstwo.Models.AddFarmerRequestTest;
@@ -55,7 +56,7 @@ public interface Interface_userservice {
 
   @Headers("Content-Type: application/json")
   @GET("Authentication/Get_UserData")
-  Call<UserData> getUserData(@Query("User_ID") String User_ID);
+  Call<UserData> getUserData(@Query("User_ID") String User_ID); 
 
   @Headers("Content-Type: application/json;charset=utf-8")
   @POST("Authentication/Post_ActionFarmerData")
@@ -93,6 +94,11 @@ public interface Interface_userservice {
   @Headers({ "Content-Type: application/json;charset=UTF-8"})
   @POST("Authentication/Post_ActionFarmerPondData")
   Call<Class_addfarmponddetails_ToFromServer1>Post_ActionFarmerPondData(@Body Class_addfarmponddetails_ToFromServer2 request);
+
+
+  @Headers({ "Content-Type: application/json;charset=UTF-8"})
+  @POST("Authentication/Post_ActionDeviceDetails")
+  Call<Class_devicedetails>Post_ActionDeviceDetails(@Body Class_devicedetails request);
 
 
 
