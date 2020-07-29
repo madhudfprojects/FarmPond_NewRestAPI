@@ -211,7 +211,7 @@ public class MainActivity extends AppCompatActivity
 
         params.put("User_Email","eventtest464@gmail.com ");// for dynamic
 
-        retrofit2.Call call = userService1.getValidateLoginPostNew("eventtest464@gmail.com");
+        retrofit2.Call call = userService1.getValidateLoginPostNew("madhushree.kubsad@dfmail.org");
 
         call.enqueue(new Callback()
         {
