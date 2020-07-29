@@ -2462,13 +2462,6 @@ public class AddFarmPondActivity extends AppCompatActivity {
             int tg=newpond_response[0].getLst2().get(0).getPondImage().size();
             Log.e("pondsize",String.valueOf(tg));
 
-           /* if(newpond_response[0].getLst2().get(0).getPondImage().get(1).getImageID().equals(null))
-            {
-                Log.e("null","null");
-            }
-            else{
-                Log.e("Nonull","Nonull");
-            }*/
         }
         catch(Exception e)
         { Log.e("DB",e.toString());  }
@@ -2503,26 +2496,35 @@ public class AddFarmPondActivity extends AppCompatActivity {
 
             int int_pondimagesize=newpond_response[i].getLst2().get(0).getPondImage().size();
 
+            Log.e("newpondTempID", newpond_response[i].getLst2().get(0).getPond_Temp_ID());
+            Log.e("FPondidDB", newpond_response[i].getLst2().get(0).getPond_ID());
+            Log.e("newpondsize", String.valueOf(int_pondimagesize));
+
+
+
             for(int k=0;k<int_pondimagesize;k++)
             {
                 if(k==0)
                 {
                     cv.put("Imageid1DB",newpond_response[i].getLst2().get(0).getPondImage().get(k).getImageID());
-                }
-                if(k==1)
-                {
-                    cv.put("Imageid2DB",newpond_response[i].getLst2().get(0).getPondImage().get(k).getImageID());
-                }
-                if(k==2)
-                {
-                    cv.put("Imageid3DB",newpond_response[i].getLst2().get(0).getPondImage().get(k).getImageID());
-                }
-                if(int_pondimagesize==2)
-                { cv.put("Imageid3DB","0");
-                }
-                else{cv.put("Imageid2DB","0");
+                    Log.e("Imageid1DB", newpond_response[i].getLst2().get(0).getPondImage().get(k).getImageID());
+                    cv.put("Imageid2DB","0");
                     cv.put("Imageid3DB","0");
+                }else{
+                    if(k==1)
+                    {
+                        cv.put("Imageid2DB",newpond_response[i].getLst2().get(0).getPondImage().get(k).getImageID());
+                        Log.e("Imageid2DB", newpond_response[i].getLst2().get(0).getPondImage().get(k).getImageID());
+                        cv.put("Imageid3DB","0");
+                    }else{
+                        if(k==2)
+                        {
+                            cv.put("Imageid3DB",newpond_response[i].getLst2().get(0).getPondImage().get(k).getImageID());
+                            Log.e("Imageid3DB", newpond_response[i].getLst2().get(0).getPondImage().get(k).getImageID());
+                        }
+                    }
                 }
+
             }
 
 
