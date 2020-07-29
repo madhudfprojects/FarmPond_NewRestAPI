@@ -160,29 +160,6 @@ public class Activity_HomeScreen extends AppCompatActivity implements GoogleApiC
         }*/
 
 
-
-
-        Bitmap bitmap = BitmapFactory.decodeResource(getResources(), R.drawable.success);
-        ByteArrayOutputStream stream = new ByteArrayOutputStream();
-        bitmap.compress(Bitmap.CompressFormat.JPEG, 100, stream);
-        byte[] bitMapData = stream.toByteArray();
-
-
-        Log.e("array", String.valueOf(bitMapData));
-
-        int length;
-        length = bitMapData.length;
-        Log.e("arraylength", String.valueOf(length));
-
-        String x="";
-        for(int i=0;i<length;i++)
-        {
-        x= x+String.valueOf(bitMapData[i]);
-        }
-        Log.e("x",x);
-
-
-
         try {
             versioncode = this.getPackageManager().getPackageInfo(this.getPackageName(), 0).versionName;
         } catch (PackageManager.NameNotFoundException e) {
@@ -241,13 +218,16 @@ public class Activity_HomeScreen extends AppCompatActivity implements GoogleApiC
             }
         }
 
+        Add_setGCM1();
+
 
       /*  AsyncCallWS2_Login task = new AsyncCallWS2_Login(Activity_HomeScreen.this);
         task.execute();*/
 
 
-        AsyncCallFCM task = new AsyncCallFCM(Activity_HomeScreen.this);
-        task.execute();
+        /*AsyncCallFCM task = new AsyncCallFCM(Activity_HomeScreen.this);
+        task.execute();*/
+
 
 
        /* LinearLayout homepagelayout_LL = (LinearLayout) findViewById(R.id.homepagelayout_ll);
@@ -519,7 +499,8 @@ public class Activity_HomeScreen extends AppCompatActivity implements GoogleApiC
         }
     }//end of AsynTask
 
-    public void setGCM1() {
+    public void setGCM1()
+    {
 
         tm1 = (TelephonyManager) getBaseContext()
                 .getSystemService(Context.TELEPHONY_SERVICE);
@@ -619,7 +600,7 @@ public class Activity_HomeScreen extends AppCompatActivity implements GoogleApiC
         Log.v("SCREEN_Height", "" + Measuredheight);
 
 
-//        regId = FirebaseInstanceId.getInstance().getToken(); //madhu commented
+//        regId = FirebaseInstanceId.getInstance().getToken();
 
 
 
@@ -686,6 +667,180 @@ public class Activity_HomeScreen extends AppCompatActivity implements GoogleApiC
 
 
 
+
+
+    private void Add_setGCM1()
+    {
+        Interface_userservice userService;
+        userService = Class_ApiUtils.getUserService();
+
+        tm1 = (TelephonyManager) getBaseContext()
+                .getSystemService(Context.TELEPHONY_SERVICE);
+
+        String NetworkType;
+        simOperatorName = tm1.getSimOperatorName();
+        Log.e("Operator", "" + simOperatorName);
+        NetworkType = "GPRS";
+
+
+        int simSpeed = tm1.getNetworkType();
+        if (simSpeed == 1)
+            NetworkType = "Gprs";
+        else if (simSpeed == 4)
+            NetworkType = "Edge";
+        else if (simSpeed == 8)
+            NetworkType = "HSDPA";
+        else if (simSpeed == 13)
+            NetworkType = "LTE";
+        else if (simSpeed == 3)
+            NetworkType = "UMTS";
+        else
+            NetworkType = "Unknown";
+
+        Log.e("SIM_INTERNET_SPEED", "" + NetworkType);
+        if (ActivityCompat.checkSelfPermission(this, android.Manifest.permission.READ_PHONE_STATE) != PackageManager.PERMISSION_GRANTED) {
+            // TODO: Consider calling
+            //    ActivityCompat#requestPermissions
+            // here to request the missing permissions, and then overriding
+            //   public void onRequestPermissionsResult(int requestCode, String[] permissions,
+            //                                          int[] grantResults)
+            // to handle the case where the user grants the permission. See the documentation
+            // for ActivityCompat#requestPermissions for more details.
+            return;
+        }
+        tmDevice = "" + tm1.getDeviceId();
+        Log.e("DeviceIMEI", "" + tmDevice);
+        if (ActivityCompat.checkSelfPermission(this, android.Manifest.permission.READ_SMS) != PackageManager.PERMISSION_GRANTED && ActivityCompat.checkSelfPermission(this, android.Manifest.permission.READ_PHONE_NUMBERS) != PackageManager.PERMISSION_GRANTED && ActivityCompat.checkSelfPermission(this, android.Manifest.permission.READ_PHONE_STATE) != PackageManager.PERMISSION_GRANTED) {
+            // TODO: Consider calling
+            //    ActivityCompat#requestPermissions
+            // here to request the missing permissions, and then overriding
+            //   public void onRequestPermissionsResult(int requestCode, String[] permissions,
+            //                                          int[] grantResults)
+            // to handle the case where the user grants the permission. See the documentation
+            // for ActivityCompat#requestPermissions for more details.
+            return;
+        }
+        mobileNumber = "" + tm1.getLine1Number();
+        Log.e("getLine1Number value", "" + mobileNumber);
+
+        String mobileNumber1 = "" + tm1.getPhoneType();
+        Log.e("getPhoneType value", "" + mobileNumber1);
+        tmSerial = "" + tm1.getSimSerialNumber();
+        //  Log.v("GSM devices Serial Number[simcard] ", "" + tmSerial);
+        androidId = "" + android.provider.Settings.Secure.getString(getContentResolver(),
+                android.provider.Settings.Secure.ANDROID_ID);
+        Log.e("androidId CDMA devices", "" + androidId);
+        UUID deviceUuid = new UUID(androidId.hashCode(),
+                ((long) tmDevice.hashCode() << 32) | tmSerial.hashCode());
+        deviceId = deviceUuid.toString();
+        //  Log.v("deviceIdUUID universally unique identifier", "" + deviceId);
+
+
+        deviceModelName = Build.MODEL;
+        Log.v("Model Name", "" + deviceModelName);
+        deviceUSER = Build.USER;
+        Log.v("Name USER", "" + deviceUSER);
+        devicePRODUCT = Build.PRODUCT;
+        Log.v("PRODUCT", "" + devicePRODUCT);
+        deviceHARDWARE = Build.HARDWARE;
+        Log.v("HARDWARE", "" + deviceHARDWARE);
+        deviceBRAND = Build.BRAND;
+        Log.v("BRAND", "" + deviceBRAND);
+        myVersion = Build.VERSION.RELEASE;
+        Log.v("VERSION.RELEASE", "" + myVersion);
+        sdkVersion = Build.VERSION.SDK_INT;
+        Log.v("VERSION.SDK_INT", "" + sdkVersion);
+        sdkver = Integer.toString(sdkVersion);
+        // Get display details
+
+        Measuredwidth = 0;
+        Measuredheight = 0;
+        Point size = new Point();
+        WindowManager w = getWindowManager();
+
+        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.HONEYCOMB) {
+            //   w.getDefaultDisplay().getSize(size);
+            Measuredwidth = w.getDefaultDisplay().getWidth();//size.x;
+            Measuredheight = w.getDefaultDisplay().getHeight();//size.y;
+        } else {
+            Display d = w.getDefaultDisplay();
+            Measuredwidth = d.getWidth();
+            Measuredheight = d.getHeight();
+        }
+
+        Log.e("SCREEN_Width", "" + Measuredwidth);
+        Log.e("SCREEN_Height", "" + Measuredheight);
+
+
+//        regId = FirebaseInstanceId.getInstance().getToken();
+
+
+
+        Log.e("regId_DeviceID", "" + regId);
+
+        Class_devicedetails request = new Class_devicedetails();
+        request.setUser_ID(str_FCMName);
+        request.setDeviceId(regId);
+        request.setOSVersion(myVersion);
+        request.setManufacturer(deviceBRAND);
+        request.setModelNo(deviceModelName);
+          request.setSDKVersion(sdkver);
+         request.setDeviceSrlNo(tmDevice);
+          request.setServiceProvider(simOperatorName);
+          request.setSIMSrlNo(tmSerial);
+         request.setDeviceWidth(String.valueOf(Measuredwidth));
+         request.setDeviceHeight(String.valueOf(Measuredheight));
+         request.setAppVersion(versioncode);
+
+
+
+        {
+            retrofit2.Call call = userService.Post_ActionDeviceDetails(request);
+
+            call.enqueue(new Callback<Class_devicedetails>()
+            {
+                @Override
+                public void onResponse(retrofit2.Call<Class_devicedetails> call, Response<Class_devicedetails> response) {
+
+
+                    Log.e("response", response.toString());
+                    Log.e("response_body", String.valueOf(response.body()));
+
+                    if (response.isSuccessful())
+                    {
+                        //  progressDoalog.dismiss();
+
+
+                        Class_devicedetails class_addfarmponddetailsresponse = response.body();
+
+                        if (class_addfarmponddetailsresponse.getStatus().equals("true"))
+                        {
+                            Log.e("devicedetails", "devicedetails_Added");
+
+                        } else if (class_addfarmponddetailsresponse.getStatus().equals("false")) {
+                            //     progressDoalog.dismiss();
+                            Toast.makeText(Activity_HomeScreen.this, class_addfarmponddetailsresponse.getMessage(), Toast.LENGTH_SHORT).show();
+
+                        }
+                    } else {
+                        //   progressDoalog.dismiss();
+                        DefaultResponse error = ErrorUtils.parseError(response);
+                        Log.e("devicedetailserror", error.getMsg());
+                        Toast.makeText(Activity_HomeScreen.this, error.getMsg(), Toast.LENGTH_SHORT).show();
+
+                    }
+
+                }
+
+                @Override
+                public void onFailure(Call call, Throwable t) {
+                    Toast.makeText(Activity_HomeScreen.this, "error" + t.getMessage(), Toast.LENGTH_SHORT).show();
+                    Log.e("response_error", t.getMessage().toString());
+                }
+            });
+
+        }
+    }
 
 
     @Override

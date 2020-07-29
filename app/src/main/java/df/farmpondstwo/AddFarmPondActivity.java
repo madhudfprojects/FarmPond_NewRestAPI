@@ -49,6 +49,10 @@ import com.google.android.gms.location.LocationCallback;
 import com.google.android.gms.location.LocationRequest;
 import com.google.gson.Gson;
 
+import org.json.JSONArray;
+import org.json.JSONException;
+import org.json.JSONObject;
+
 import java.io.ByteArrayOutputStream;
 import java.io.File;
 import java.io.FileNotFoundException;
@@ -80,6 +84,7 @@ import df.farmpondstwo.remote.Interface_userservice;
 import retrofit2.Call;
 import retrofit2.Callback;
 import retrofit2.Response;
+
 
 import static android.content.ContentValues.TAG;
 
@@ -213,8 +218,18 @@ public class AddFarmPondActivity extends AppCompatActivity {
     Class_farmponddetails[] class_farmponddetails_offline_array_objRest, newfarmponddetails_offline_array_objRest;
     //To Upload to server
 
+    int int_k;
+    Class_addpondResponse[] class_addpondResponse_obj;
+    JSONObject[] json_obj;
+    JSONArray jsarray_resp;
+
+    int int_j;
+
+    Class_addfarmponddetails_ToFromServer1[] newpond_response;
+
     @Override
-    protected void onCreate(Bundle savedInstanceState) {
+    protected void onCreate(Bundle savedInstanceState)
+    {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_add_farm_pond);
 
@@ -251,7 +266,7 @@ public class AddFarmPondActivity extends AppCompatActivity {
         str_employee_id = sharedpreferencebook_usercredential_Obj.getString(KeyValue_employeeid, "").trim();
 
 
-        str_employee_id="38";
+
         //   submittedby_tv.setText((SaveSharedPreference.getUsermailID(AddFarmPondDetails_Activity.this)));
         str_submitter_mailid = sharedpreferencebook_usercredential_Obj.getString(KeyValue_employee_mailid, "").trim();
 
@@ -259,6 +274,7 @@ public class AddFarmPondActivity extends AppCompatActivity {
 
         Log.e("farmername", str_farmername);
         Log.e("farmerid", str_farmerID);
+        Log.e("str_employee_id", str_employee_id);
 
 
         str_DBerror_check = "no";
@@ -333,6 +349,7 @@ public class AddFarmPondActivity extends AppCompatActivity {
         amountcollected_lesser_LL.setVisibility(View.GONE);
 
 
+        int_k=0;
         // new_farmpond_completed_cb.setChecked(false);
         str_validation_for_completed = "no";
         str_machinecode = "nocode";
@@ -440,9 +457,9 @@ public class AddFarmPondActivity extends AppCompatActivity {
             public void onClick(View v)
             {
 
-                 doLogin();
+                 //doLogin();
 
-                if (1 > 2) {
+                if (1 < 2) {
                     if (validation()) {
                         cancel_submit_addnew_ll.setVisibility(View.GONE);
 
@@ -1235,7 +1252,8 @@ public class AddFarmPondActivity extends AppCompatActivity {
     public void BitMapToString(Bitmap userImage1) {
 
 
-        if (str_image1.equalsIgnoreCase("true")) {
+        if (str_image1.equalsIgnoreCase("true"))
+        {
             str_image1 = "false";
             add_newpond_image1_iv.setImageBitmap(userImage1);
             removeimage1_ib.setVisibility(View.VISIBLE);
@@ -1388,14 +1406,15 @@ public class AddFarmPondActivity extends AppCompatActivity {
         try {
 
             Calendar c = Calendar.getInstance();
-            SimpleDateFormat df_farmcode = new SimpleDateFormat("ddMMyyyy");
-            String str_farmcodeadd = df_farmcode.format(c.getTime());
-            Log.e("date", str_farmcodeadd);
+            SimpleDateFormat dateformat_ddmmyyyy = new SimpleDateFormat("ddMMyyyy");
+            String str_ddmmyyyy = dateformat_ddmmyyyy.format(c.getTime());
+            Log.e("date", str_ddmmyyyy);
+
 
 
             //Log.e("name", String.valueOf(System.currentTimeMillis()));
-            String str_farmpond_id = "tempfarmpond" + String.valueOf(System.currentTimeMillis());
-            String str_farmpond_code = str_farmpond_id + str_farmcodeadd;
+            String str_Tempfarmpond_id = "tempfarmpond" + String.valueOf(System.currentTimeMillis())+str_ddmmyyyy;
+            String str_farmpond_code = str_Tempfarmpond_id;
 
             String str_farmername_db = str_farmername.toString();
             String str_farmerid_db = str_farmerID.toString();
@@ -1446,6 +1465,7 @@ public class AddFarmPondActivity extends AppCompatActivity {
 
                 str_pondcost = add_newpond_total_amount_tv.getText().toString();
                 str_enteredpondcost = add_newpond_amountcollected_et.getText().toString();
+                str_pondcost=str_enteredpondcost;
                 str_mcode = str_machinecode;
                 str_farmpond_remarks = str_remarksid;
                 str_farmpond_amttaken = add_newpond_amountcollected_et.getText().toString();
@@ -1527,7 +1547,7 @@ public class AddFarmPondActivity extends AppCompatActivity {
                     " VALUES ('" + str_farmerid_db + "','" + str_farmerid_db + "','" + str_farmername_db + "','" + str_farmerMName + "','" + str_farmerLName + "','" + str_yearID + "'," +
                     "'" + str_stateID + "','" + str_districtID + "','" + str_talukID + "','" + str_panchayatID + "','" + str_villageID + "','" + str_farmerage + "'," +
                     "'" + str_Fphonenumber + "','" + str_FannualIncome + "','" + str_Ffamilymember + "','" + str_FIDprooftype + "','" + str_FIDproofno + "','" + str_Fphoto + "'," +
-                    "'" + str_farmpond_id + "','" + str_width + "'," +
+                    "'" + str_Tempfarmpond_id + "','" + str_width + "'," +
                     "'" + str_height + "','" + str_depth + "','" + str_latitude + "','" + str_longitude + "','" + str_imageid1 + "','" + arraylist_image1_base64.get(0) + "'," +
                     "'" + str_imageid2 + "','" + arraylist_image2_base64.get(0) + "','" + str_imageid3 + "','" + arraylist_image3_base64.get(0) + "'," +
                     "'" + str_employee_id + "','" + str_submitteddatetime + "','" + str_nodays + "','" + str_startdate + "','" + str_completeddate + "'," +
@@ -1536,6 +1556,7 @@ public class AddFarmPondActivity extends AppCompatActivity {
                     "'" + str_approvalstatus + "','" + str_approvalremarks + "','" + str_approvedby + "','" + str_approveddate + "','" + str_donorname + "'," +
                     "'" + str_latitude + "','" + str_longitude + "','" + str_acres + "','" + str_gunta + "','" + str_crop_beforepond + "','" + str_crop_afterpond + "'," +
                     "'" + 0 + "','" + 2 + "');";
+
 
 
             db1.execSQL(SQLiteQuery);
@@ -1814,7 +1835,7 @@ public class AddFarmPondActivity extends AppCompatActivity {
 
         db1.close();
 
-        Log.e("length", String.valueOf(class_farmerprofileoffline_array_obj.length));
+        Log.e("profilelength", String.valueOf(class_farmerprofileoffline_array_obj.length));
 
 
         for (int j = 0; j < class_farmerprofileoffline_array_obj.length; j++)
@@ -2001,13 +2022,18 @@ public class AddFarmPondActivity extends AppCompatActivity {
                     Class_farmponddetails innerObj_Class_farmponddetails = new Class_farmponddetails();
                     innerObj_Class_farmponddetails.setFarmerID(cursor1.getString(cursor1.getColumnIndex("FIDDB")));
                     innerObj_Class_farmponddetails.setFarmerFirstName(cursor1.getString(cursor1.getColumnIndex("FNameDB")));
+
                     innerObj_Class_farmponddetails.setPondID(cursor1.getString(cursor1.getColumnIndex("FPondidDB")));
                     innerObj_Class_farmponddetails.setPondWidth(cursor1.getString(cursor1.getColumnIndex("WidthDB")));
-                    //   innerObj_Class_farmponddetails.setPondDepth(cursor1.getString(cursor1.getColumnIndex("HeightDB")));
+                    innerObj_Class_farmponddetails.setPondLength(cursor1.getString(cursor1.getColumnIndex("HeightDB")));
                     innerObj_Class_farmponddetails.setPondDepth(cursor1.getString(cursor1.getColumnIndex("DepthDB")));
-                    innerObj_Class_farmponddetails.setAcademicID(cursor1.getString(cursor1.getColumnIndex("FYearIDDB")));
+
+                  //  innerObj_Class_farmponddetails.setAcademicID(cursor1.getString(cursor1.getColumnIndex("FYearIDDB")));
+                    innerObj_Class_farmponddetails.setAcademicID("2020");
+
                     innerObj_Class_farmponddetails.setPondLandAcre(cursor1.getString(cursor1.getColumnIndex("FPondAcresDB")));
                     innerObj_Class_farmponddetails.setPondLandGunta(cursor1.getString(cursor1.getColumnIndex("FPondGuntaDB")));
+
                     innerObj_Class_farmponddetails.setPondLatitude(cursor1.getString(cursor1.getColumnIndex("LatitudeDB")));
                     innerObj_Class_farmponddetails.setPondLongitude(cursor1.getString(cursor1.getColumnIndex("LongitudeDB")));
                     // innerObj_Class_farmponddetails.setImage1_ID(cursor1.getString(cursor1.getColumnIndex("Imageid1DB")));
@@ -2066,8 +2092,8 @@ public class AddFarmPondActivity extends AppCompatActivity {
 
                     innerObj_Class_farmponddetails.setPondCode(cursor1.getString(cursor1.getColumnIndex("FPondCodeDB")));
 
-                    Log.e("class_farmpondcode", cursor1.getString(cursor1.getColumnIndex("FPondCodeDB")));
-                    Log.e("class_farmpondID", cursor1.getString(cursor1.getColumnIndex("FPondidDB")));
+
+                  //  Log.e("YearID", cursor1.getString(cursor1.getColumnIndex("FYearIDDB")));
 
                     newfarmponddetails_offline_array_objRest[i] = innerObj_Class_farmponddetails;
                     i++;
@@ -2081,11 +2107,20 @@ public class AddFarmPondActivity extends AppCompatActivity {
 
         Log.e("newlength", String.valueOf(newfarmponddetails_offline_array_objRest.length));
 
+ class_addpondResponse_obj =new Class_addpondResponse[newfarmponddetails_offline_array_objRest.length];
 
-        for (int k = 0; k < newfarmponddetails_offline_array_objRest.length; k++) {
+    json_obj= new JSONObject[newfarmponddetails_offline_array_objRest.length];
+
+         jsarray_resp = new JSONArray();
 
 
-            if (x > 0) {
+        newpond_response= new Class_addfarmponddetails_ToFromServer1[newfarmponddetails_offline_array_objRest.length];
+        int_j=0;
+
+        for (int k = 0; k < newfarmponddetails_offline_array_objRest.length; k++)
+        {
+            if (x > 0)
+            {
                 //  AsyncTask_submit_New_farmponddetails(k);
                 Add_New_farmponddetails(k);
             }
@@ -2120,138 +2155,182 @@ public class AddFarmPondActivity extends AppCompatActivity {
         Log.e("latitude", str_latitude);
         Log.e("Longitude", str_longitude);
 
-        request.setPond_ID(newfarmponddetails_offline_array_objRest[k].getPondID());
+
+        request.setPond_ID("0");// for new pond "0" need to be sent
         request.setFarmer_ID(newfarmponddetails_offline_array_objRest[k].getFarmerID());
-        request.setAcademic_ID(newfarmponddetails_offline_array_objRest[k].getAcademicID());
+        //request.setAcademic_ID(newfarmponddetails_offline_array_objRest[k].getAcademicID());
+        request.setAcademic_ID("2020");
         request.setMachine_ID(newfarmponddetails_offline_array_objRest[k].getMachineID());
         request.setPond_Latitude(str_latitude);
         request.setPond_Longitude(str_longitude);
+
         request.setPond_Length(newfarmponddetails_offline_array_objRest[k].getPondLength());
         request.setPond_Width(newfarmponddetails_offline_array_objRest[k].getPondWidth());
         request.setPond_Depth(newfarmponddetails_offline_array_objRest[k].getPondDepth());
+
         request.setPond_Start(newfarmponddetails_offline_array_objRest[k].getPondStart());
         request.setPond_End(newfarmponddetails_offline_array_objRest[k].getPondEnd());
         request.setPond_Days(newfarmponddetails_offline_array_objRest[k].getPondDays());
-        request.setPond_Cost(newfarmponddetails_offline_array_objRest[k].getPondCost());
+        request.setPond_Cost(newfarmponddetails_offline_array_objRest[k].getPondCollectedAmount());
 
        /* request.setPond_Image_1(newfarmponddetails_offline_array_objRest[k].getPondImage1());
         request.setPond_Image_2(newfarmponddetails_offline_array_objRest[k].getPondImage2());
         request.setPond_Image_3(newfarmponddetails_offline_array_objRest[k].getPondImage3());*/
 
-        ArrayList<Class_AddFarmPond> obj_pondimage=new ArrayList<Class_AddFarmPond>();
-        Class_AddFarmPond s1=new Class_AddFarmPond();
-        Class_AddFarmPond s2=new Class_AddFarmPond();
-        Class_AddFarmPond s3=new Class_AddFarmPond();
 
-        s1.setImage_ID("0");
-        s1.setPond_ID("0");
-        s1.setImage_Data_1("");
-        s1.setImage_Data("iVBORw0KGgoAAAANSUhEUgAAABAAAAAQCAMAAAAoLQ9TAAAAA3NCSVQICAjb4U/gAAAACXBIWXMAAARuAAAEbgHQo7JoAAAAGXRFWHRTb2Z0d2FyZQB3d3cuaW5rc2NhcGUub3Jnm+48GgAAAGxQTFRF////AP//KK6GJK2JJK+JJq2HJa6HJa+JJa6IJa6IJa6IJq6IKK+JKK+KK7CLLrGNM7OPNLOQNbSRObWTPLeVQLiWRLmZRrqaVsCjY8WqacetgNC5htK9j9XCltjGndrJruHTtuTXueXZvufcQhO/KQAAAAp0Uk5TAAEmcH+As7Xm9myQZpsAAAB3SURBVBhXZY9HEgMhEAMFLLPQzjnH/f8ffcCmtkzfNFXSSJIkHy0li14FFzIA5OAkyfVUeicpMCJIPle1XZG9YtXLYQOd7Kfn7wNgSjBbAJPnESApwW7Yw+NMORiwfp2ul2K0Ejq9375J3fgtkH1brK3ejPub/wG/CwjxA06BTgAAAABJRU5ErkJggg==");
-        s1.setImage_Link("");
-        s1.setImage_Type("1");
-        s1.setImage_Status("0");
 
-        obj_pondimage.add(s1);
+        int x=0;
+       if(str_image1present.equalsIgnoreCase("yes"))
+       { x++;
+               if(str_image2present.equalsIgnoreCase("yes"))
+               {  x++; if(str_image3present.equalsIgnoreCase("yes"))
+               {x++;}
+               }
+       }
 
-       /* s2.setImage_ID("0");
-        s2.setPond_ID("0");
-        s1.setImage_Data_1("");
-        s1.setImage_Data();
-        s1.setImage_Link("");
-        s1.setImage_Type("1");
-        s1.setImage_Status("0");
+       Log.e("pondlength", String.valueOf(x));
 
-        s1.setImage_ID("0");
-        s1.setPond_ID("0");
-        s1.setImage_Data_1("");
-        s1.setImage_Data();
-        s1.setImage_Link("");
-        s1.setImage_Type("1");
-        s1.setImage_Status("0");*/
+        PondImage[] pondimage_arrayobj = new PondImage[x];
 
+       for(int j=0;j<x;j++)
+       {
+           PondImage pondimage_innerobj = new PondImage();
+           pondimage_innerobj.setImageID("0");
+           pondimage_innerobj.setPondID("0");
+           pondimage_innerobj.setImageData1("");
+           if(j==0)
+           {pondimage_innerobj.setImageData(newfarmponddetails_offline_array_objRest[k].getPondImage1());
+               pondimage_innerobj.setImageType("1");
+           }
+           if(j==1)
+           {pondimage_innerobj.setImageData(newfarmponddetails_offline_array_objRest[k].getPondImage2());
+               pondimage_innerobj.setImageType("2");}
+           if(j==2)
+           {pondimage_innerobj.setImageData(newfarmponddetails_offline_array_objRest[k].getPondImage3());
+               pondimage_innerobj.setImageType("3");}
+           pondimage_innerobj.setImageLink("");
+
+           pondimage_innerobj.setImageStatus("0");
+           pondimage_arrayobj[j]=pondimage_innerobj;
+       }
+
+        List list = Arrays.asList(pondimage_arrayobj);
+        request.setPondImage(list);
+
+
+
+       /* PondImage pondimage_innerobj = new PondImage();
+
+        PondImage[] pondimage_arrayobj = new PondImage[1];
+
+        pondimage_innerobj.setImageID("0");
+        pondimage_innerobj.setPondID("0");
+        pondimage_innerobj.setImageData1("");
+        pondimage_innerobj.setImageData("iVBORw0KGgoAAAANSUhEUgAAABAAAAAQCAMAAAAoLQ9TAAAAA3NCSVQICAjb4U/gAAAACXBIWXMAAARuAAAEbgHQo7JoAAAAGXRFWHRTb2Z0d2FyZQB3d3cuaW5rc2NhcGUub3Jnm+48GgAAAGxQTFRF////AP//KK6GJK2JJK+JJq2HJa6HJa+JJa6IJa6IJa6IJq6IKK+JKK+KK7CLLrGNM7OPNLOQNbSRObWTPLeVQLiWRLmZRrqaVsCjY8WqacetgNC5htK9j9XCltjGndrJruHTtuTXueXZvufcQhO/KQAAAAp0Uk5TAAEmcH+As7Xm9myQZpsAAAB3SURBVBhXZY9HEgMhEAMFLLPQzjnH/f8ffcCmtkzfNFXSSJIkHy0li14FFzIA5OAkyfVUeicpMCJIPle1XZG9YtXLYQOd7Kfn7wNgSjBbAJPnESApwW7Yw+NMORiwfp2ul2K0Ejq9375J3fgtkH1brK3ejPub/wG/CwjxA06BTgAAAABJRU5ErkJggg==");
+        pondimage_innerobj.setImageLink("");
+        pondimage_innerobj.setImageType("1");
+        pondimage_innerobj.setImageStatus("0");
+        pondimage_arrayobj[0]=pondimage_innerobj;
+
+
+        // request.setPondImage1(pondimage_arrayobj);//commented
+
+        List list = Arrays.asList(pondimage_arrayobj);
+        request.setPondImage(list);*/
 
 
 
         request.setSubmitted_Date(newfarmponddetails_offline_array_objRest[k].getSubmittedDate());
         request.setCreated_By(newfarmponddetails_offline_array_objRest[k].getCreatedBy());
-        request.setPond_Temp_ID(newfarmponddetails_offline_array_objRest[k].getPondTempID());
+        request.setPond_Temp_ID(newfarmponddetails_offline_array_objRest[k].getPondCode());
         request.setPond_Land_Gunta(newfarmponddetails_offline_array_objRest[k].getPondLandGunta());
         request.setPond_Land_Acre(newfarmponddetails_offline_array_objRest[k].getPondLandAcre());
 
-
+        int_k=k;
+        Log.e("kvalue", String.valueOf(k));
         Log.e("addrequest",request.toString());
 
-        retrofit2.Call call = userService.Post_ActionFarmerPondData(request);
-
-        Log.e("addrequest",request.toString());
-
-        call.enqueue(new Callback<Class_addfarmponddetails_ToFromServer1>()
         {
-            @Override
-            public void onResponse(retrofit2.Call<Class_addfarmponddetails_ToFromServer1> call, Response<Class_addfarmponddetails_ToFromServer1> response) {
+            retrofit2.Call call = userService.Post_ActionFarmerPondData(request);
 
-               /* Class_farmponddetails_Response user_object= new Class_farmponddetails_Response();
-                user_object = (Class_farmponddetails_Response) response.body();*/
+            Log.e("addrequest", request.toString());
 
-                /*Class_farmponddetails_ToServer  user_object1= new Class_farmponddetails_ToServer();
-                user_object1 = (Class_farmponddetails_ToServer) response.body();
-*/
-
-              /*  Class_addfarmponddetails_ToFromServer1  user_object1= new Class_addfarmponddetails_ToFromServer1();
-                user_object1 = (Class_addfarmponddetails_ToFromServer1) response.body();*/
-
-                Class_addfarmponddetails_ToFromServer1 user_object1 = response.body();
+            call.enqueue(new Callback<Class_addfarmponddetails_ToFromServer1>()
+            {
+                @Override
+                public void onResponse(retrofit2.Call<Class_addfarmponddetails_ToFromServer1> call, Response<Class_addfarmponddetails_ToFromServer1> response) {
 
 
-                //  Log.e("response",user_object1.getStatus().toString());
-                //Log.e("Addpondresponse",response.body().toString());
+                    Log.e("response", response.toString());
+                    //  Log.e("TAG", "response 33: " + new Gson().toJson(response));
+                    Log.e("response_body", String.valueOf(response.body()));
 
-                //Log.e("response",user_object1.getLst2().getPond_Cost());
+                    if (response.isSuccessful())
+                    {
+                        //  progressDoalog.dismiss();
 
-                Log.e("response", response.toString());
-                Log.e("TAG", "response 33: " + new Gson().toJson(response));
-                Log.e("response body", String.valueOf(response.body()));
-                //   DefaultResponse error1 = ErrorUtils.parseError(response);
-                   /* Log.e("response new:",error1.getMsg());
-                    Log.e("response new status:", String.valueOf(error1.getstatus()));*/
-                // Log.e("response",Gson.fromJson(response.toString(),AddFarmer_Activity1.class));
 
-                if (response.isSuccessful()) {
-                    //  progressDoalog.dismiss();
-                    Class_addfarmponddetails_ToFromServer1 class_loginresponse = response.body();
-                    Log.e("tag", "res==" + class_loginresponse.toString());
-                    if (class_loginresponse.getStatus().equals("true")) {
+                        Class_addfarmponddetails_ToFromServer1 class_addfarmponddetailsresponse = response.body();
 
-                        Class_addfarmponddetails_ToFromServer2 class_addfarmponddetails_toFromServer2 = response.body().getLst2();
-                        Log.e("tag", "class_addfarmponddetails_toFromServer2 farmerID=" + class_addfarmponddetails_toFromServer2.getFarmer_ID());
-                        Log.e("tag", "class_addfarmponddetails_toFromServer2 PondID=" + class_addfarmponddetails_toFromServer2.getPond_ID());
+                        if (class_addfarmponddetailsresponse.getStatus().equals("true"))
+                        {
 
-                    } else if (class_loginresponse.getStatus().equals("false")) {
-                        //     progressDoalog.dismiss();
-                        Toast.makeText(AddFarmPondActivity.this, class_loginresponse.getMessage(), Toast.LENGTH_SHORT).show();
+                            if(int_j>0){}
+                            else{ int_j=0; }
+                            try {
+                                newpond_response[int_j] = class_addfarmponddetailsresponse;
+                                int_j++;
+                            }
+                            catch(Exception e)
+                            {
+                                Log.e("excep",e.toString());
+                            }
+
+                            Log.e("addpondresponse", class_addfarmponddetailsresponse.getStatus().toString());
+                            Log.e("responsecost", class_addfarmponddetailsresponse.getLst2().get(0).getPond_Cost());
+                            Log.e("responsepondID", class_addfarmponddetailsresponse.getLst2().get(0).getPondImage().get(0).getImageID());
+                            Log.e("respTemppondID", class_addfarmponddetailsresponse.getLst2().get(0).getPond_Temp_ID());
+
+                            //DB_update_newpond_response();
+
+
+                            /*Gson gson = new Gson();
+                            String jsonStr = gson.toJson(class_addfarmponddetailsresponse);
+                            Log.e("Jsonstr",jsonStr.toString());*/
+
+                               if(int_j==newfarmponddetails_offline_array_objRest.length)
+                               {
+                                   DB_update_newpond_response(int_j);
+                               }
+
+
+
+
+                        } else if (class_addfarmponddetailsresponse.getStatus().equals("false")) {
+                            //     progressDoalog.dismiss();
+                            Toast.makeText(AddFarmPondActivity.this, class_addfarmponddetailsresponse.getMessage(), Toast.LENGTH_SHORT).show();
+
+                        }
+                    } else {
+                        //   progressDoalog.dismiss();
+                        DefaultResponse error = ErrorUtils.parseError(response);
+                        Log.e("addponderror", error.getMsg());
+
+                        Toast.makeText(AddFarmPondActivity.this, error.getMsg(), Toast.LENGTH_SHORT).show();
 
                     }
-                } else {
-                    //   progressDoalog.dismiss();
-
-                    DefaultResponse error = ErrorUtils.parseError(response);
-                    // … and use it to show error information
-
-                    // … or just log the issue like we’re doing :)
-                    Log.d("error message", error.getMsg());
-
-                    Toast.makeText(AddFarmPondActivity.this, error.getMsg(), Toast.LENGTH_SHORT).show();
 
                 }
 
-            }
+                @Override
+                public void onFailure(Call call, Throwable t) {
+                    Toast.makeText(AddFarmPondActivity.this, "error" + t.getMessage(), Toast.LENGTH_SHORT).show();
+                    Log.e("response_error", t.getMessage().toString());
+                }
+            });
 
-            @Override
-            public void onFailure(Call call, Throwable t) {
-                Toast.makeText(AddFarmPondActivity.this, "error" + t.getMessage(), Toast.LENGTH_SHORT).show();
-                Log.e("response_error", t.getMessage().toString());
-            }
-        });
+        }
+
     }
 
 
@@ -2259,14 +2338,17 @@ public class AddFarmPondActivity extends AppCompatActivity {
     {
 
         Calendar c = Calendar.getInstance();
-        SimpleDateFormat df_farmcode = new SimpleDateFormat("ddMMyyyy");
-        String str_farmcodeadd = df_farmcode.format(c.getTime());
-        Log.e("date", str_farmcodeadd);
+        SimpleDateFormat dateformat_ddmmyyyy = new SimpleDateFormat("ddMMyyyy");
+        String str_ddmmyyyy = dateformat_ddmmyyyy.format(c.getTime());
+        Log.e("date", str_ddmmyyyy);
+
 
 
         //Log.e("name", String.valueOf(System.currentTimeMillis()));
-        String str_farmpond_id = "tempfarmpond" + String.valueOf(System.currentTimeMillis());
-        String str_farmpond_code = str_farmpond_id + str_farmcodeadd;
+        String str_farmpond_id = "tempfarmpond" + String.valueOf(System.currentTimeMillis())+str_ddmmyyyy;
+        String str_farmpond_code = str_farmpond_id;
+
+
 
         Interface_userservice userService;
         userService = Class_ApiUtils.getUserService();
@@ -2298,6 +2380,7 @@ public class AddFarmPondActivity extends AppCompatActivity {
 
         PondImage pondimage_innerobj = new PondImage();
         PondImage[] pondimage_arrayobj = new PondImage[1];
+
         pondimage_innerobj.setImageID("0");
         pondimage_innerobj.setPondID("0");
         pondimage_innerobj.setImageData1("");
@@ -2340,55 +2423,19 @@ public class AddFarmPondActivity extends AppCompatActivity {
             @Override
             public void onResponse(retrofit2.Call<Class_addfarmponddetails_ToFromServer1> call, Response<Class_addfarmponddetails_ToFromServer1> response) {
 
-               /* Class_farmponddetails_Response user_object= new Class_farmponddetails_Response();
-                user_object = (Class_farmponddetails_Response) response.body();*/
-
-                /*Class_farmponddetails_ToServer  user_object1= new Class_farmponddetails_ToServer();
-                user_object1 = (Class_farmponddetails_ToServer) response.body();
-*/
-
-              /*  Class_addfarmponddetails_ToFromServer1  user_object1= new Class_addfarmponddetails_ToFromServer1();
-                user_object1 = (Class_addfarmponddetails_ToFromServer1) response.body();*/
-
                 Class_addfarmponddetails_ToFromServer1 user_object1 = response.body();
 
 
                 Log.e("response", user_object1.getStatus().toString());
                 Log.e("Addpondresponse", response.body().toString());
 
-                Log.e("response", user_object1.getLst2().getPond_Cost());
+              //  Log.e("response", user_object1.getLst2().getPond_Cost());
+
+                Log.e("response", user_object1.getLst2().get(0).getPond_Cost());
+
+                Log.e("response", user_object1.getLst2().get(0).getPondImage().get(0).getPondID()  );
 
 
-               // Log.e("response", user_object1.getLst2().getPondImage().get(0).getPondID());
-
-                // Log.e("Addpond_count", String.valueOf(user_object1.getClass_addfarmponddetails_toFromServer2_obj().size()));
-
-                //Toast.makeText(AddFarmPondActivity.this, ""+user_object.getStatus().toString(), Toast.LENGTH_SHORT).show();
-                //Toast.makeText(AddFarmPondActivity.this, ""+user_object1.getClass_addfarmponddetails_toFromServer2_obj().get(0).getMachine_ID().toString(), Toast.LENGTH_SHORT).show();
-
-
-                //user_object1.getClass_addfarmponddetails_toFromServer2_obj().size();
-
-                //            Class_LoginResponse user_object= new Class_LoginResponse();
-                //              user_object = (Class_LoginResponse) response.body();
-
-                // Log.e("response",user_object.getStatus().toString());
-
-                //  Toast.makeText(AddFarmPondActivity.this, ""+user_object.getStatus().toString(), Toast.LENGTH_LONG).show();
-
-//                Toast.makeText(AddFarmPondActivity.this, ""+user_object.getMessage().toString(), Toast.LENGTH_LONG).show();
-
-              /*  if(response.isSuccessful())
-                {
-                    user_object = (User) response.body();
-
-                    Toast.makeText(MainActivity.this, ""+user_object.getEmail().toString(), Toast.LENGTH_SHORT).show();
-*/
-                //  Toast.makeText(MainActivity.this, "CAMU Token:"+user_object.getPass().toString(), Toast.LENGTH_SHORT).show();
-
-                // ResObj resObj = response.body();
-
-                // }
             }
 
             @Override
@@ -2398,6 +2445,119 @@ public class AddFarmPondActivity extends AppCompatActivity {
             }
         });
     }
+
+
+
+
+
+    public void DB_update_newpond_response(int numberofresponse)
+    {
+        try {
+            Log.e("lengthofobject", String.valueOf(numberofresponse));
+            // Log.e("length", String.valueOf(newpond_response.length));
+            Log.e("newpondcost", newpond_response[0].getLst2().get(0).getPond_Cost());
+            Log.e("newpondImageID", newpond_response[0].getLst2().get(0).getPondImage().get(0).getImageID());
+            Log.e("newpondTempID", newpond_response[0].getLst2().get(0).getPond_Temp_ID());
+
+            int tg=newpond_response[0].getLst2().get(0).getPondImage().size();
+            Log.e("pondsize",String.valueOf(tg));
+
+        }
+        catch(Exception e)
+        { Log.e("DB",e.toString());  }
+
+        SQLiteDatabase db1 = this.openOrCreateDatabase("FarmPond_db", Context.MODE_PRIVATE, null);
+
+        db1.execSQL("CREATE TABLE IF NOT EXISTS FarmPondDetails_fromServerRest(SlNo INTEGER PRIMARY KEY AUTOINCREMENT,FIDDB VARCHAR,TempFIDDB VARCHAR," +
+                "FNameDB VARCHAR,FMNameDB VARCHAR,FLNameDB VARCHAR,FYearIDDB VARCHAR,FStateIDDB VARCHAR,FDistrictIDDB VARCHAR," +
+                "FTalukIDDB VARCHAR,FPanchayatIDDB VARCHAR,FVillageIDDB VARCHAR,FageDB VARCHAR,FphonenumberDB VARCHAR," +
+                "FAnnualIncomeDB VARCHAR,FfamilymemberDB VARCHAR,FidprooftypeDB VARCHAR,FidproofnoDB VARCHAR,FphotoDB VARCHAR,FPondidDB VARCHAR,WidthDB VARCHAR," +
+                "HeightDB VARCHAR,DepthDB VARCHAR,LatitudeDB VARCHAR,LongitudeDB VARCHAR,Imageid1DB VARCHAR,Image1Base64DB VARCHAR," +
+                "Imageid2DB VARCHAR,Image2Base64DB VARCHAR,Imageid3DB VARCHAR,Image3Base64DB VARCHAR,EmployeeIDDB VARCHAR,SubmittedDateDB VARCHAR," +
+                "TotalDaysDB VARCHAR,StartDateDB VARCHAR,ConstructedDateDB VARCHAR,PondCostDB VARCHAR,McodeDB VARCHAR,FPondCodeDB VARCHAR," +
+                "FPondRemarksDB VARCHAR,FPondAmtTakenDB VARCHAR,FPondStatusDB VARCHAR," +
+                "FPondApprovalStatusDB VARCHAR,FPondApprovalRemarksDB VARCHAR,FPondApprovedbyDB VARCHAR,FPondApprovedDateDB VARCHAR,FPondDonorDB VARCHAR," +
+                "FPondLatitudeDB VARCHAR,FPondLongitudeDB VARCHAR," +
+                "FPondAcresDB VARCHAR,FPondGuntaDB VARCHAR,FPondCropBeforeDB VARCHAR,FPondCropAfterDB VARCHAR," +
+                "UploadedStatusFarmerprofile VARCHAR,UploadedStatus VARCHAR," +
+                "newpondImageId1 VARCHAR,pondImageType1 VARCHAR,newpondImageId2 VARCHAR,pondImageType2 VARCHAR,newpondImageId3 VARCHAR,pondImageType3 VARCHAR);");
+
+
+        for(int i=0;i<numberofresponse;i++)
+        {
+
+           /* Log.e("newpondcost", newpond_response[0].getLst2().get(0).getPond_Cost());
+            Log.e("newpondImageID", newpond_response[0].getLst2().get(0).getPondImage().get(0).getImageID());
+            Log.e("newpondTempID", newpond_response[0].getLst2().get(0).getPond_Temp_ID());
+*/
+            String TemppondID_response=newpond_response[i].getLst2().get(0).getPond_Temp_ID();
+            ContentValues cv = new ContentValues();
+            cv.put("FPondidDB",newpond_response[i].getLst2().get(0).getPond_ID());
+
+            int int_pondimagesize=newpond_response[i].getLst2().get(0).getPondImage().size();
+
+            Log.e("newpondTempID", newpond_response[i].getLst2().get(0).getPond_Temp_ID());
+            Log.e("FPondidDB", newpond_response[i].getLst2().get(0).getPond_ID());
+            Log.e("newpondsize", String.valueOf(int_pondimagesize));
+
+
+
+            for(int k=0;k<int_pondimagesize;k++)
+            {
+                if(k==0)
+                {
+                    cv.put("Imageid1DB",newpond_response[i].getLst2().get(0).getPondImage().get(k).getImageID());
+                    Log.e("Imageid1DB", newpond_response[i].getLst2().get(0).getPondImage().get(k).getImageID());
+                    cv.put("Imageid2DB","0");
+                    cv.put("Imageid3DB","0");
+                }else{
+                    if(k==1)
+                    {
+                        cv.put("Imageid2DB",newpond_response[i].getLst2().get(0).getPondImage().get(k).getImageID());
+                        Log.e("Imageid2DB", newpond_response[i].getLst2().get(0).getPondImage().get(k).getImageID());
+                        cv.put("Imageid3DB","0");
+                    }else{
+                        if(k==2)
+                        {
+                            cv.put("Imageid3DB",newpond_response[i].getLst2().get(0).getPondImage().get(k).getImageID());
+                            Log.e("Imageid3DB", newpond_response[i].getLst2().get(0).getPondImage().get(k).getImageID());
+                        }
+                    }
+                }
+
+            }
+
+
+            cv.put("FPondCodeDB",newpond_response[i].getLst2().get(0).getPond_ID());
+            cv.put("FPondStatusDB","3");
+
+            cv.put("UploadedStatus",3);
+
+           db1.update("FarmPondDetails_fromServerRest", cv, "FPondidDB = ?", new String[]{TemppondID_response});
+
+
+        }
+
+        db1.close();
+
+
+         Toast.makeText(getApplicationContext(), "New FarmPond has been added", Toast.LENGTH_SHORT).show();
+            Intent intent = new Intent(AddFarmPondActivity.this, EachFarmPondDetails_Activity.class);
+            startActivity(intent);
+            finish();
+
+
+    }
+
+
+
+
+
+
+
+
+
+
 
 
     //location

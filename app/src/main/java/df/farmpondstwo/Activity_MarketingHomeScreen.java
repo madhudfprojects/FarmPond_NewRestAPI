@@ -1008,7 +1008,7 @@ Log.e("tag","str_employee_id="+str_employee_id);
                 Log.e("response",user_object1.getStatus().toString());
                 Log.e("Addpondresponse",response.body().toString());
 
-                Log.e("response",user_object1.getLst2().getPond_Cost());
+               // Log.e("response",user_object1.getLst2().getPond_Cost());
 
                 Log.e("response",response.toString());
                 Log.e("TAG", "response 33: "+new Gson().toJson(response) );
@@ -1025,10 +1025,10 @@ Log.e("tag","str_employee_id="+str_employee_id);
                     Log.e("tag","res=="+class_loginresponse.toString());
                     if(class_loginresponse.getStatus().equals("true")) {
 
-                        Class_addfarmponddetails_ToFromServer2 class_addfarmponddetails_toFromServer2 = response.body().getLst2();
+                      /*  Class_addfarmponddetails_ToFromServer2 class_addfarmponddetails_toFromServer2 = response.body().getLst2();
                         Log.e("tag","class_editfarmponddetails_toFromServer2 farmerID="+class_addfarmponddetails_toFromServer2.getFarmer_ID());
                         Log.e("tag","class_edit farmponddetails_toFromServer2 PondID="+class_addfarmponddetails_toFromServer2.getPond_ID());
-
+*/
                     }else if(class_loginresponse.getStatus().equals("false")){
                         //     progressDoalog.dismiss();
                         Toast.makeText(Activity_MarketingHomeScreen.this, class_loginresponse.getMessage(), Toast.LENGTH_SHORT).show();
@@ -1520,10 +1520,10 @@ Log.e("tag","str_employee_id="+str_employee_id);
                     Log.e("tag","res=="+class_loginresponse.toString());
                     if(class_loginresponse.getStatus().equals("true")) {
 
-                        Class_addfarmponddetails_ToFromServer2 class_addfarmponddetails_toFromServer2 = response.body().getLst2();
+                      /*  Class_addfarmponddetails_ToFromServer2 class_addfarmponddetails_toFromServer2 = response.body().getLst2();
                         Log.e("tag","class_addfarmponddetails_toFromServer2 farmerID="+class_addfarmponddetails_toFromServer2.getFarmer_ID());
                         Log.e("tag","class_addfarmponddetails_toFromServer2 PondID="+class_addfarmponddetails_toFromServer2.getPond_ID());
-
+*/
                     }else if(class_loginresponse.getStatus().equals("false")){
                         //     progressDoalog.dismiss();
                         Toast.makeText(Activity_MarketingHomeScreen.this, class_loginresponse.getMessage(), Toast.LENGTH_SHORT).show();

@@ -86,8 +86,6 @@ import java.util.List;
 import java.util.Locale;
 import java.util.Map;
 
-import df.farmpondstwo.Models.AdminEmpTotalPondCountList;
-import df.farmpondstwo.Models.AdminEmpoyeeTotalPondCount;
 import df.farmpondstwo.Models.Class_MachineDetails;
 import df.farmpondstwo.Models.Class_farmponddetails;
 import df.farmpondstwo.Models.DefaultResponse;
@@ -101,8 +99,6 @@ import df.farmpondstwo.Models.State;
 import df.farmpondstwo.Models.Taluka;
 import df.farmpondstwo.Models.UserData;
 import df.farmpondstwo.Models.UserDataList;
-import df.farmpondstwo.Models.ValidateSyncRequest;
-import df.farmpondstwo.Models.ValidateSyncResponse;
 import df.farmpondstwo.Models.Village;
 import df.farmpondstwo.Models.Year;
 import df.farmpondstwo.remote.Class_ApiUtils;
@@ -270,7 +266,7 @@ public class Activity_ViewFarmers extends AppCompatActivity {
 
     Class_MachineDetails[] class_machinedetails_array_obj;
     Class_RemarksDetails[] class_remarksdetails_array_obj;
-    String StateCount="0",DistrictCount="0",TalukaCount="0",PanchayatCount="0",VillageCount="0",YearCount="0",MachineCount="0",MachineCostCount="0",Farmer_Count="0",Pond_Count="0",Sync_ID="";
+
 
     public static final String sharedpreferencebook_usercredential = "sharedpreferencebook_usercredential";
     public static final String KeyValue_employeeid = "KeyValue_employeeid";
@@ -278,7 +274,7 @@ public class Activity_ViewFarmers extends AppCompatActivity {
     public static final String KeyValue_employee_mailid = "KeyValue_employee_mailid";
     public static final String KeyValue_employeecategory = "KeyValue_employeecategory";
     public static final String KeyValue_employeesandbox = "KeyValue_employeesandbox";
-    public static final String Key_syncId = "Sync_ID";
+
     SharedPreferences sharedpreferencebook_usercredential_Obj;
 
     String str_farmerID, str_employee_id;
@@ -303,13 +299,7 @@ public class Activity_ViewFarmers extends AppCompatActivity {
     Location_DataList[] location_dataLists;
     Location_DataList class_location_dataList = new Location_DataList();
 
-
-    public static final String MyPREFERENCE_SyncId = "MyPref_SyncId" ;
-    public static final String SyncId = "SyncId";
-    SharedPreferences shared_syncId;
     int k;
-    private String versioncode;
-    String VersionStatus="false";
 
     @SuppressLint("NewApi")
     @Override
@@ -361,8 +351,6 @@ public class Activity_ViewFarmers extends AppCompatActivity {
 //        sharedpref_loginuserid_Obj = getSharedPreferences(sharedpreferenc_loginuserid, Context.MODE_PRIVATE);
 //        str_loginuserID = sharedpref_loginuserid_Obj.getString(key_loginuserid, "").trim();
 
-        shared_syncId = getSharedPreferences(MyPREFERENCE_SyncId, Context.MODE_PRIVATE);
-
         sharedpref_farmerid_Obj = getSharedPreferences(sharedpreferenc_farmerid, Context.MODE_PRIVATE);
         str_selected_farmerID = sharedpref_farmerid_Obj.getString(Key_FarmerID, "").trim();
 
@@ -402,7 +390,6 @@ public class Activity_ViewFarmers extends AppCompatActivity {
         str_imageurltobase64_farmerimage = "empty";
 
 
-
        /* Intent intent = getIntent();
         String str_value_constant=intent.getStringExtra("value_constant");
         if(str_value_constant.equalsIgnoreCase("1")){
@@ -438,21 +425,10 @@ public class Activity_ViewFarmers extends AppCompatActivity {
         search_et = (EditText) findViewById(R.id.search_et);
         str_return = "no";
 
-        try {
-            versioncode = String.valueOf(getPackageManager().getPackageInfo(getPackageName(), 0).versionCode);
-        } catch (PackageManager.NameNotFoundException e) {
-            // TODO Auto-generated catch block
-            e.printStackTrace();
+        if(isInternetPresent){
+            stateListRest_dbCount();
+            ViewFarmerListRest_dbcount();
         }
-
-        Bundle extras = getIntent().getExtras();
-        if (extras != null) {
-            VersionStatus = extras.getString("VersionStatus");
-            Log.e("tag","VersionStatus="+VersionStatus);
-
-        }
-
-
         search_et.addTextChangedListener(new TextWatcher() {
 
             @Override
@@ -767,46 +743,6 @@ public class Activity_ViewFarmers extends AppCompatActivity {
             }
         });
 
-        if(VersionStatus.equalsIgnoreCase("true")){
-            internetDectector2 = new Class_InternetDectector(getApplicationContext());
-            isInternetPresent2 = internetDectector2.isConnectingToInternet();
-            if (isInternetPresent2) {
-
-                //GetDropdownValues();
-                deleteStateRestTable_B4insertion();
-                deleteDistrictRestTable_B4insertion();
-                deleteTalukRestTable_B4insertion();
-                deleteGrampanchayatRestTable_B4insertion();
-                deleteVillageRestTable_B4insertion();
-                deleteYearRestTable_B4insertion();
-                deleteMachineRestTable_B4insertion();
-                deleteViewFarmerlistTable_B4insertion();
-                delete_FarmPondDetails_fromServer_B4insertion();
-
-                DBCreate_RemarksDetails();
-                ViewFarmerlistdetailsRestTable_B4insertion();
-                FarmpondRest_detailsTable_B4insertion();
-
-                GetDropdownValuesRestData();
-                GetFarmer_PondValuesRestData();
-
-                String Sync_IDNew = shared_syncId.getString(SyncId, "");
-                Log.e("tag","Sync_IDNew="+Sync_IDNew);
-            } else {
-                Toast.makeText(getApplicationContext(), "No Internet Connection", Toast.LENGTH_SHORT).show();
-            }
-        }else{
-            internetDectector2 = new Class_InternetDectector(getApplicationContext());
-            isInternetPresent2 = internetDectector2.isConnectingToInternet();
-            if (isInternetPresent2) {
-                CountCheckList();
-                UserDataCountCheckList();
-                stateListRest_dbCount();
-
-            }
-        }
-
-
         uploadfromDB_Yearlist();
         uploadfromDB_Statelist();
         uploadfromDB_Districtlist();
@@ -854,64 +790,9 @@ public class Activity_ViewFarmers extends AppCompatActivity {
 
     //////////////////////////////23May2020/////////////////////////////////
 
-    public void DBCreate_CountDetailsRest_insert_2SQLiteDB(String str_sCount, String str_dCount, String str_tCount, String str_pCount,String str_vCount,String yearCount,String machineCount,String mCostCount,String str_Sync_Id) {
-        SQLiteDatabase db_locationCount = this.openOrCreateDatabase("FarmPond_db", Context.MODE_PRIVATE, null);
-        db_locationCount.execSQL("CREATE TABLE IF NOT EXISTS LocationCountListRest(StateCount VARCHAR,DistrictCount VARCHAR,TalukaCount VARCHAR,PanchayatCount VARCHAR,VillageCount VARCHAR,YearCount VARCHAR,MachineCount VARCHAR,MachineCostCount VARCHAR,Farmer_Count VARCHAR,Pond_Count VARCHAR,Sync_ID VARCHAR);");
-
-        String SQLiteQuery = "INSERT INTO LocationCountListRest (StateCount,DistrictCount,TalukaCount,PanchayatCount,VillageCount,YearCount,MachineCount,MachineCostCount,Sync_ID)" +
-                " VALUES ('" + str_sCount + "','" + str_dCount +"','"+ str_tCount + "','" + str_pCount +"','"+str_vCount + "','" + yearCount + "','" + machineCount + "','" + mCostCount + "','" + str_Sync_Id +"');";
-        db_locationCount.execSQL(SQLiteQuery);
-
-        Log.e("str_sCount DB", str_sCount);
-        Log.e("str_dCount DB", str_dCount);
-        Log.e("str_tCount DB", str_tCount);
-        Log.e("str_Sync_Id DB", str_Sync_Id);
-        db_locationCount.close();
-    }
-    public void delete_CountDetailsRestTable_B4insertion() {
-
-        SQLiteDatabase db_locationCount = openOrCreateDatabase("FarmPond_db", Context.MODE_PRIVATE, null);
-        db_locationCount.execSQL("CREATE TABLE IF NOT EXISTS LocationCountListRest(StateCount VARCHAR,DistrictCount VARCHAR,TalukaCount VARCHAR,PanchayatCount VARCHAR,VillageCount VARCHAR,YearCount VARCHAR,MachineCount VARCHAR,MachineCostCount VARCHAR,Farmer_Count VARCHAR,Pond_Count VARCHAR,Sync_ID VARCHAR);");
-        Cursor cursor = db_locationCount.rawQuery("SELECT * FROM LocationCountListRest", null);
-        int x = cursor.getCount();
-
-        if (x > 0) {
-            db_locationCount.delete("LocationCountListRest", null, null);
-
-        }
-        db_locationCount.close();
-    }
-    public void DBCreate_UserDataCountListRest_insert_2SQLiteDB(String str_FarmerCount, String str_PondCount) {
-        SQLiteDatabase db_userdataCount = this.openOrCreateDatabase("FarmPond_db", Context.MODE_PRIVATE, null);
-        db_userdataCount.execSQL("CREATE TABLE IF NOT EXISTS UserDataCountListRest(Farmer_Count VARCHAR,Pond_Count VARCHAR);");
-
-        String SQLiteQuery = "INSERT INTO UserDataCountListRest (Farmer_Count,Pond_Count)" +
-                " VALUES ('" + str_FarmerCount + "','" + str_PondCount + "');";
-        db_userdataCount.execSQL(SQLiteQuery);
-
-        Log.e("str_FarmerCount DB", str_FarmerCount);
-        Log.e("str_PondCount DB", str_PondCount);
-
-        db_userdataCount.close();
-    }
-    public void delete_UserDataCountListRestTable_B4insertion() {
-
-        SQLiteDatabase db_userdataCount = openOrCreateDatabase("FarmPond_db", Context.MODE_PRIVATE, null);
-        db_userdataCount.execSQL("CREATE TABLE IF NOT EXISTS UserDataCountListRest(Farmer_Count VARCHAR,Pond_Count VARCHAR);");
-        Cursor cursor = db_userdataCount.rawQuery("SELECT * FROM UserDataCountListRest", null);
-        int x = cursor.getCount();
-
-        if (x > 0) {
-            db_userdataCount.delete("UserDataCountListRest", null, null);
-
-        }
-        db_userdataCount.close();
-    }
-
     public void DBCreate_StatedetailsRest_insert_2SQLiteDB(String str_stateID, String str_statename, String str_yearid, int i) {
         SQLiteDatabase db_statelist = this.openOrCreateDatabase("FarmPond_db", Context.MODE_PRIVATE, null);
-      //  db_statelist.execSQL("CREATE TABLE IF NOT EXISTS StateListRest(StateID VARCHAR,StateName VARCHAR);");
-        db_statelist.execSQL("CREATE TABLE IF NOT EXISTS StateListRest(StateID VARCHAR,StateName VARCHAR,state_yearid VARCHAR);");
+        db_statelist.execSQL("CREATE TABLE IF NOT EXISTS StateListRest(StateID VARCHAR,StateName VARCHAR);");
 
 
         if (i == 0) {
@@ -933,7 +814,7 @@ public class Activity_ViewFarmers extends AppCompatActivity {
     public void deleteStateRestTable_B4insertion() {
 
         SQLiteDatabase db_statelist_delete = openOrCreateDatabase("FarmPond_db", Context.MODE_PRIVATE, null);
-        db_statelist_delete.execSQL("CREATE TABLE IF NOT EXISTS StateListRest(StateID VARCHAR,StateName VARCHAR,state_yearid VARCHAR);");
+        db_statelist_delete.execSQL("CREATE TABLE IF NOT EXISTS StateListRest(StateID VARCHAR,StateName VARCHAR);");
         Cursor cursor = db_statelist_delete.rawQuery("SELECT * FROM StateListRest", null);
         int x = cursor.getCount();
 
@@ -1475,7 +1356,7 @@ public class Activity_ViewFarmers extends AppCompatActivity {
         db1.execSQL("CREATE TABLE IF NOT EXISTS StateListRest(StateID VARCHAR,StateName VARCHAR,state_yearid VARCHAR);");
         Cursor cursor1 = db1.rawQuery("SELECT DISTINCT * FROM StateListRest", null);
         int x = cursor1.getCount();
-        Log.d("cursor Statecount", Integer.toString(x));
+        Log.d("cursor count", Integer.toString(x));
 
         int i = 0;
         arrayObj_Class_stateDetails2 = new State[x];
@@ -1515,7 +1396,7 @@ public class Activity_ViewFarmers extends AppCompatActivity {
         db1.execSQL("CREATE TABLE IF NOT EXISTS DistrictListRest(DistrictID VARCHAR,DistrictName VARCHAR,Distr_yearid VARCHAR,Distr_Stateid VARCHAR);");
         Cursor cursor1 = db1.rawQuery("SELECT DISTINCT * FROM DistrictListRest", null);
         int x = cursor1.getCount();
-        Log.d("cursor Districtcount", Integer.toString(x));
+        Log.d("cursor count", Integer.toString(x));
 
         int i = 0;
         arrayObj_Class_DistrictListDetails2 = new District[x];
@@ -1600,7 +1481,7 @@ public class Activity_ViewFarmers extends AppCompatActivity {
         //  Cursor cursor1 = db1.rawQuery("select T.TalukID,T.TalukName,T.Taluk_districtid from DistrictList D, TalukList T where D.DistrictID=T.Taluk_districtid",null);
 
         int x = cursor1.getCount();
-        Log.d("cursor Talukcount", Integer.toString(x));
+        Log.d("cursor count", Integer.toString(x));
 
         int i = 0;
         arrayObj_Class_TalukListDetails2 = new Taluka[x];
@@ -1706,7 +1587,7 @@ public class Activity_ViewFarmers extends AppCompatActivity {
         db_village.execSQL("CREATE TABLE IF NOT EXISTS VillageListRest(VillageID VARCHAR,Village VARCHAR,TalukID VARCHAR,PanchayatID VARCHAR);");
         Cursor cursor1 = db_village.rawQuery("SELECT DISTINCT * FROM VillageListRest", null);
         int x = cursor1.getCount();
-        Log.d("cursor Villagecount", Integer.toString(x));
+        Log.d("cursor count", Integer.toString(x));
 
         int i = 0;
         arrayObj_Class_VillageListDetails2 = new Village[x];
@@ -1806,7 +1687,7 @@ public class Activity_ViewFarmers extends AppCompatActivity {
         db_grampanchayat.execSQL("CREATE TABLE IF NOT EXISTS GrampanchayatListRest(GramanchayatID VARCHAR,Gramanchayat VARCHAR,Panchayat_DistID VARCHAR);");
         Cursor cursor1 = db_grampanchayat.rawQuery("SELECT DISTINCT * FROM GrampanchayatListRest", null);
         int x = cursor1.getCount();
-        Log.d("cursor Panchayathcount", Integer.toString(x));
+        Log.d("cursor count", Integer.toString(x));
 
         int i = 0;
         arrayObj_Class_GrampanchayatListDetails2 = new Panchayat[x];
@@ -2025,8 +1906,8 @@ public class Activity_ViewFarmers extends AppCompatActivity {
 
     private void GetDropdownValuesRestData() {
 
-         Call<Location_Data> call = userService1.getLocationData(str_employee_id);
-       // Call<Location_Data> call = userService1.getLocationData("38");
+        // Call<Location_Data> call = userService1.getLocationData(str_employee_id);
+        Call<Location_Data> call = userService1.getLocationData("38");
         final ProgressDialog progressDoalog;
         progressDoalog = new ProgressDialog(Activity_ViewFarmers.this);
         progressDoalog.setMessage("Loading....");
@@ -2065,34 +1946,6 @@ public class Activity_ViewFarmers extends AppCompatActivity {
                             class_location_dataList.setPanchayat(class_locaitonData.getLst().get(i).getPanchayat());
                             class_location_dataList.setVillage(class_locaitonData.getLst().get(i).getVillage());
                             class_location_dataList.setYear(class_locaitonData.getLst().get(i).getYear());
-
-                            class_location_dataList.setCount(class_locaitonData.getLst().get(i).getCount());
-
-                            int sizeCount = class_locaitonData.getLst().get(i).getCount().size();
-                            for (int j = 0; j < sizeCount; j++) {
-                                Log.e("tag", "PanchayatCount ==" + class_locaitonData.getLst().get(i).getCount().get(j).getPanchayatCount());
-
-                                Log.e("tag", "VillageCount==" + class_locaitonData.getLst().get(i).getCount().get(j).getVillageCount());
-                                String SCount = class_locaitonData.getLst().get(i).getCount().get(j).getStateCount();
-                                String DCount = class_locaitonData.getLst().get(i).getCount().get(j).getDistrictCount();
-                                String TCount = class_locaitonData.getLst().get(i).getCount().get(j).getTalukaCount();
-                                String PCount = class_locaitonData.getLst().get(i).getCount().get(j).getPanchayatCount();
-                                String VCount = class_locaitonData.getLst().get(i).getCount().get(j).getVillageCount();
-                                String YCount = class_locaitonData.getLst().get(i).getCount().get(j).getYearCount();
-                                String MachineCount = class_locaitonData.getLst().get(i).getCount().get(j).getMachineCount();
-                                String MachineCostCount = class_locaitonData.getLst().get(i).getCount().get(j).getMachineCostCount();
-                                String Sync_ID = class_locaitonData.getLst().get(i).getCount().get(j).getSync_ID();
-                                SharedPreferences.Editor editor = shared_syncId.edit();
-                                editor.putString(SyncId, Sync_ID);
-                                editor.commit();
-                                SharedPreferences.Editor myprefs_spinner = sharedpref_spinner_Obj.edit();
-                                myprefs_spinner.putString(Key_syncId, Sync_ID);
-                                myprefs_spinner.apply();
-                                DBCreate_CountDetailsRest_insert_2SQLiteDB(SCount,DCount,TCount,PCount,VCount,YCount,MachineCount,MachineCostCount,Sync_ID);
-                               /* String StateName = class_locaitonData.getLst().get(i).getState().get(j).getStateName();
-                                String StateId = class_locaitonData.getLst().get(i).getState().get(j).getStateID();
-                                DBCreate_StatedetailsRest_insert_2SQLiteDB(StateId, StateName, StateId, j);*/
-                            }
 
                             int sizeState = class_locaitonData.getLst().get(i).getState().size();
                             for (int j = 0; j < sizeState; j++) {
@@ -2159,12 +2012,11 @@ public class Activity_ViewFarmers extends AppCompatActivity {
                         uploadfromDB_Taluklist();
                         uploadfromDB_Villagelist();
                         uploadfromDB_Grampanchayatlist();
-                       // progressDoalog.dismiss();
+                        //  progressDoalog.dismiss();
                     } else {
                         Toast.makeText(Activity_ViewFarmers.this, class_locaitonData.getMessage(), Toast.LENGTH_SHORT).show();
                     }
                     progressDoalog.dismiss();
-                    Log.e("tag","working");
                 } else {
                     progressDoalog.dismiss();
                     Log.e("Entered resp else", "");
@@ -2189,8 +2041,8 @@ public class Activity_ViewFarmers extends AppCompatActivity {
 
     private void GetFarmer_PondValuesRestData() {
 
-          Call<UserData> call = userService1.getUserData(str_employee_id);
-      //  Call<UserData> call = userService1.getUserData("38");
+        //  Call<UserData> call = userService1.getUserData(str_employee_id);
+        Call<UserData> call = userService1.getUserData("38");
 
         final ProgressDialog progressDoalog;
         progressDoalog = new ProgressDialog(Activity_ViewFarmers.this);
@@ -2207,93 +2059,78 @@ public class Activity_ViewFarmers extends AppCompatActivity {
                 //     Log.e("Entered resp", response.body().getMessage());
                 Log.e("TAG", "response userdata: " + new Gson().toJson(response));
                 Log.e("response body userdata", String.valueOf(response.body()));
-                AddFarmerDetailsNew();
                 if (response.isSuccessful()) {
                     UserData class_userData = response.body();
-                 //   Log.e("response.body", response.body().getLst().toString());
+                    Log.e("response.body", response.body().getLst().toString());
                     if (class_userData.getStatus().equals(true)) {
-                        if(class_userData.getMessage().equalsIgnoreCase("Success")) {
-                            List<UserDataList> yearlist = response.body().getLst();
-                            Log.e("programlist.size()", String.valueOf(yearlist.size()));
+                        List<UserDataList> yearlist = response.body().getLst();
+                        Log.e("programlist.size()", String.valueOf(yearlist.size()));
 
-                            userDataLists = new UserDataList[yearlist.size()];
-                            //   Log.e("tag","Pond Id=="+class_userData.getLst().get(0).getPond().get(0).getPondID());
+                        userDataLists = new UserDataList[yearlist.size()];
+                        //   Log.e("tag","Pond Id=="+class_userData.getLst().get(0).getPond().get(0).getPondID());
 
-                            for (int i = 0; i < userDataLists.length; i++) {
+                        for (int i = 0; i < userDataLists.length; i++) {
 
-                                String str_farmpondbaseimage_url, str_base64image = null, str_base64image1 = null, str_base64image2 = null, str_base64image3 = null;
+                            String str_farmpondbaseimage_url, str_base64image = null, str_base64image1 = null, str_base64image2 = null, str_base64image3 = null;
 
-                                String str_imageid1, str_imageid2, str_imageid3;
-                                str_base64image1 = "noimage1";
-                                str_base64image2 = "noimage2";
-                                str_base64image3 = "noimage3";
-                                str_imageid1 = "0";
-                                str_imageid2 = "0";
-                                str_imageid3 = "0";
-                                str_farmpond_remarks = "NoRemarks";
+                            String str_imageid1, str_imageid2, str_imageid3;
+                            str_base64image1 = "noimage1";
+                            str_base64image2 = "noimage2";
+                            str_base64image3 = "noimage3";
+                            str_imageid1 = "0";
+                            str_imageid2 = "0";
+                            str_imageid3 = "0";
+                            str_farmpond_remarks = "NoRemarks";
 
 
-                                str_farmpondbaseimage_url = Class_URL.URL_farmpondbaselink.toString().trim();
+                            str_farmpondbaseimage_url = Class_URL.URL_farmpondbaselink.toString().trim();
 
-                                Log.e("status", String.valueOf(class_userData.getStatus()));
-                                // Log.e("tag","farmer name=="+class_userData.getLst().get(0).getFarmer().get(0).getFarmerFirstName());
+                            Log.e("status", String.valueOf(class_userData.getStatus()));
+                            // Log.e("tag","farmer name=="+class_userData.getLst().get(0).getFarmer().get(0).getFarmerFirstName());
 
-                                class_userDatalist.setFarmer((class_userData.getLst().get(i).getFarmer()));
-                                class_userDatalist.setPond(class_userData.getLst().get(i).getPond());
+                            class_userDatalist.setFarmer((class_userData.getLst().get(i).getFarmer()));
+                            class_userDatalist.setPond(class_userData.getLst().get(i).getPond());
 
-                                int sizeFarmer = 0;
-                                if (class_userData.getLst().get(i).getFarmer() != null) {
-                                    sizeFarmer = class_userData.getLst().get(i).getFarmer().size();
-                                }
-                                int sizePond = 0;
-                                if (class_userData.getLst().get(i).getPond() != null) {
-                                    sizePond = class_userData.getLst().get(i).getPond().size();
-                                }
+                            int sizeFarmer = 0;
+                            if (class_userData.getLst().get(i).getFarmer() != null) {
+                                sizeFarmer = class_userData.getLst().get(i).getFarmer().size();
+                            }
+                            int sizePond = 0;
+                            if (class_userData.getLst().get(i).getPond() != null) {
+                                sizePond = class_userData.getLst().get(i).getPond().size();
+                            }
+                            for (int j = 0; j < sizeFarmer; j++) {
+                                Log.e("tag", "Farmer name==" + class_userData.getLst().get(i).getFarmer().get(j).getFarmerFirstName());
+                                //String FarmerFirstName = class_userData.getLst().get(i).getFarmer().get(j).getFarmerFirstName();
+                                // String FarmerID = class_userData.getLst().get(i).getFarmer().get(j).getFarmerID();
+                                String farmerID = class_userData.getLst().get(i).getFarmer().get(j).getFarmerID();
+                                String stateID = class_userData.getLst().get(i).getFarmer().get(j).getStateID();
+                                String districtID = class_userData.getLst().get(i).getFarmer().get(j).getDistrictID();
+                                String talukaID = class_userData.getLst().get(i).getFarmer().get(j).getTalukaID();
+                                String panchayatID = class_userData.getLst().get(i).getFarmer().get(j).getPanchayatID();
+                                String villageID = class_userData.getLst().get(i).getFarmer().get(j).getVillageID();
+                                String farmerFirstName = class_userData.getLst().get(i).getFarmer().get(j).getFarmerFirstName();
+                                String farmerMiddleName = class_userData.getLst().get(i).getFarmer().get(j).getFarmerMiddleName();
+                                String farmerLastName = class_userData.getLst().get(i).getFarmer().get(j).getFarmerLastName();
+                                String farmerMobile = class_userData.getLst().get(i).getFarmer().get(j).getFarmerMobile();
+                                String farmerIDType = class_userData.getLst().get(i).getFarmer().get(j).getFarmerIDType();
+                                String farmerIDNumber = class_userData.getLst().get(i).getFarmer().get(j).getFarmerIDNumber();
+                                String str_imageurl = class_userData.getLst().get(i).getFarmer().get(j).getFarmerPhoto();
+                                String farmerAge = class_userData.getLst().get(i).getFarmer().get(j).getFarmerAge();
+                                String farmerIncome = class_userData.getLst().get(i).getFarmer().get(j).getFarmerIncome();
+                                String farmerFamily = class_userData.getLst().get(i).getFarmer().get(j).getFarmerFamily();
+                                String submittedDate = class_userData.getLst().get(i).getFarmer().get(j).getSubmittedDate();
+                                String createdBy = class_userData.getLst().get(i).getFarmer().get(j).getCreatedBy();
+                                String createdDate = class_userData.getLst().get(i).getFarmer().get(j).getCreatedDate();
+                                String mobileTempID = class_userData.getLst().get(i).getFarmer().get(j).getMobileTempID();
+                                String createdUser = class_userData.getLst().get(i).getFarmer().get(j).getCreatedUser();
+                                String responseoutput = class_userData.getLst().get(i).getFarmer().get(j).getResponse();
+                                String responseAction = class_userData.getLst().get(i).getFarmer().get(j).getResponseAction();
+                                String farmerCode = class_userData.getLst().get(i).getFarmer().get(j).getFarmer_Code();
+                                String farmpondcount = class_userData.getLst().get(i).getFarmer().get(j).getFarmPond_Count();
+                                String yearID = class_userData.getLst().get(i).getFarmer().get(j).getAcademic_ID();
 
-                                int sizeCount = 0;
-                                if (class_userData.getLst().get(i).getUserdatacount() != null) {
-                                    sizeCount = class_userData.getLst().get(i).getUserdatacount().size();
-                                }
-
-                                for (int j = 0; j < sizeCount; j++) {
-                                    String Farmer_Count = class_userData.getLst().get(i).getUserdatacount().get(j).getFarmer_Count();
-                                    String Pond_Count = class_userData.getLst().get(i).getUserdatacount().get(j).getPond_Count();
-
-                                    DBCreate_UserDataCountListRest_insert_2SQLiteDB(Farmer_Count, Pond_Count);
-                                }
-
-                                for (int j = 0; j < sizeFarmer; j++) {
-                                    Log.e("tag", "Farmer name==" + class_userData.getLst().get(i).getFarmer().get(j).getFarmerFirstName());
-                                    //String FarmerFirstName = class_userData.getLst().get(i).getFarmer().get(j).getFarmerFirstName();
-                                    // String FarmerID = class_userData.getLst().get(i).getFarmer().get(j).getFarmerID();
-                                    String farmerID = class_userData.getLst().get(i).getFarmer().get(j).getFarmerID();
-                                    String stateID = class_userData.getLst().get(i).getFarmer().get(j).getStateID();
-                                    String districtID = class_userData.getLst().get(i).getFarmer().get(j).getDistrictID();
-                                    String talukaID = class_userData.getLst().get(i).getFarmer().get(j).getTalukaID();
-                                    String panchayatID = class_userData.getLst().get(i).getFarmer().get(j).getPanchayatID();
-                                    String villageID = class_userData.getLst().get(i).getFarmer().get(j).getVillageID();
-                                    String farmerFirstName = class_userData.getLst().get(i).getFarmer().get(j).getFarmerFirstName();
-                                    String farmerMiddleName = class_userData.getLst().get(i).getFarmer().get(j).getFarmerMiddleName();
-                                    String farmerLastName = class_userData.getLst().get(i).getFarmer().get(j).getFarmerLastName();
-                                    String farmerMobile = class_userData.getLst().get(i).getFarmer().get(j).getFarmerMobile();
-                                    String farmerIDType = class_userData.getLst().get(i).getFarmer().get(j).getFarmerIDType();
-                                    String farmerIDNumber = class_userData.getLst().get(i).getFarmer().get(j).getFarmerIDNumber();
-                                    String str_imageurl = class_userData.getLst().get(i).getFarmer().get(j).getFarmerPhoto();
-                                    String farmerAge = class_userData.getLst().get(i).getFarmer().get(j).getFarmerAge();
-                                    String farmerIncome = class_userData.getLst().get(i).getFarmer().get(j).getFarmerIncome();
-                                    String farmerFamily = class_userData.getLst().get(i).getFarmer().get(j).getFarmerFamily();
-                                    String submittedDate = class_userData.getLst().get(i).getFarmer().get(j).getSubmittedDate();
-                                    String createdBy = class_userData.getLst().get(i).getFarmer().get(j).getCreatedBy();
-                                    String createdDate = class_userData.getLst().get(i).getFarmer().get(j).getCreatedDate();
-                                    String mobileTempID = class_userData.getLst().get(i).getFarmer().get(j).getMobileTempID();
-                                    String createdUser = class_userData.getLst().get(i).getFarmer().get(j).getCreatedUser();
-                                    String responseoutput = class_userData.getLst().get(i).getFarmer().get(j).getResponse();
-                                    String responseAction = class_userData.getLst().get(i).getFarmer().get(j).getResponseAction();
-                                    String farmerCode = class_userData.getLst().get(i).getFarmer().get(j).getFarmer_Code();
-                                    String farmpondcount = class_userData.getLst().get(i).getFarmer().get(j).getFarmPond_Count();
-                                    String yearID = class_userData.getLst().get(i).getFarmer().get(j).getAcademic_ID();
-
-                                    Log.e("tag", "str_imageurl=" + str_imageurl);
+                                Log.e("tag", "str_imageurl=" + str_imageurl);
 
 
                             /*    InputStream inputstream_obj = null;
@@ -2314,218 +2151,215 @@ public class Activity_ViewFarmers extends AppCompatActivity {
                                 }else{
                                     str_farmerbase64=null;
                                 }*/
-                                    String str_farmerbase64 = null;
-                                    class_farmerlistdetails_arrayobj2 = new Farmer[sizeFarmer];
-                                    if (str_imageurl == null || str_imageurl.equals("")) {
-                                    } else {
-                                        //  str_imageurl=class_farmerlistdetails_arrayobj2[i].getFarmerPhoto();
+                                String str_farmerbase64 = null;
+                                class_farmerlistdetails_arrayobj2 = new Farmer[sizeFarmer];
+                                if (str_imageurl == null || str_imageurl.equals("")) {
+                                } else {
+                                    //  str_imageurl=class_farmerlistdetails_arrayobj2[i].getFarmerPhoto();
 
-                                        String str_farmpondimageurl = str_imageurl;
+                                    String str_farmpondimageurl = str_imageurl;
 
-                                        InputStream inputstream_obj = null;
-                                        try {
-                                            if (android.os.Build.VERSION.SDK_INT > 9) {
-                                                StrictMode.ThreadPolicy policy = new StrictMode.ThreadPolicy.Builder().permitAll().build();
-                                                StrictMode.setThreadPolicy(policy);
-                                                inputstream_obj = new URL(str_farmpondimageurl).openStream();
+                                    InputStream inputstream_obj = null;
+                                    try {
+                                        if (android.os.Build.VERSION.SDK_INT > 9) {
+                                            StrictMode.ThreadPolicy policy = new StrictMode.ThreadPolicy.Builder().permitAll().build();
+                                            StrictMode.setThreadPolicy(policy);
+                                            inputstream_obj = new URL(str_farmpondimageurl).openStream();
 
-                                            }
-                                        } catch (IOException e) {
-                                            e.printStackTrace();
                                         }
-                                        Bitmap mIcon12 = BitmapFactory.decodeStream(inputstream_obj);
-                                        ByteArrayOutputStream baos = new ByteArrayOutputStream();
-                                        mIcon12.compress(Bitmap.CompressFormat.PNG, 60, baos);
-                                        byte[] b = baos.toByteArray();
-                                        str_base64image = Base64.encodeToString(b, Base64.DEFAULT);
-
-                                        Log.e("tag", "byteArray img=" + b);
-                                        str_imageurltobase64_farmerimage = str_base64image;
-
-                                        str_farmerbase64 = str_base64image;
+                                    } catch (IOException e) {
+                                        e.printStackTrace();
                                     }
+                                    Bitmap mIcon12 = BitmapFactory.decodeStream(inputstream_obj);
+                                    ByteArrayOutputStream baos = new ByteArrayOutputStream();
+                                    mIcon12.compress(Bitmap.CompressFormat.PNG, 60, baos);
+                                    byte[] b = baos.toByteArray();
+                                    str_base64image = Base64.encodeToString(b, Base64.DEFAULT);
 
-                                 //   Log.e("submitdate", submittedDate);
-                                    DBCreate_ViewFarmerlistdetails_insert_2SQLiteDB(yearID, stateID, districtID, talukaID, villageID, panchayatID, farmerID, farmerCode, farmerFirstName, str_imageurl, farmpondcount, str_farmerbase64, farmerMiddleName, farmerLastName, farmerAge, farmerMobile, farmerIncome, farmerFamily, farmerIDType, farmerIDNumber, submittedDate, createdBy, createdDate, createdUser, responseoutput, responseAction);
+                                    Log.e("tag", "byteArray img=" + b);
+                                    str_imageurltobase64_farmerimage = str_base64image;
+
+                                    str_farmerbase64 = str_base64image;
                                 }
 
-                                Log.e("tag", "sizePond=" + sizePond);
-                                for (int j = 0; j < sizePond; j++) {
-                                    String pondID = class_userData.getLst().get(i).getPond().get(j).getPondID();
-                                    String farmerID = class_userData.getLst().get(i).getPond().get(j).getFarmerID();
-                                    String academicID = class_userData.getLst().get(i).getPond().get(j).getAcademicID();
-                                    String machineID = class_userData.getLst().get(i).getPond().get(j).getMachineID();
-                                    String pondCode = class_userData.getLst().get(i).getPond().get(j).getPondCode();
-                                    String pondLatitude = class_userData.getLst().get(i).getPond().get(j).getPondLatitude();
-                                    String pondLongitude = class_userData.getLst().get(i).getPond().get(j).getPondLongitude();
-                                    String pondLength = class_userData.getLst().get(i).getPond().get(j).getPondLength();
-                                    String pondWidth = class_userData.getLst().get(i).getPond().get(j).getPondWidth();
-                                    String pondDepth = class_userData.getLst().get(i).getPond().get(j).getPondDepth();
-                                    String pondStart = class_userData.getLst().get(i).getPond().get(j).getPondStart();
-                                    String pondEnd = class_userData.getLst().get(i).getPond().get(j).getPondEnd();
-                                    String pondDays = class_userData.getLst().get(i).getPond().get(j).getPondDays();
-                                    String pondCost = class_userData.getLst().get(i).getPond().get(j).getPondCost();
+                                Log.e("submitdate", submittedDate);
+                                DBCreate_ViewFarmerlistdetails_insert_2SQLiteDB(yearID, stateID, districtID, talukaID, villageID, panchayatID, farmerID, farmerCode, farmerFirstName, str_imageurl, farmpondcount, str_farmerbase64, farmerMiddleName, farmerLastName, farmerAge, farmerMobile, farmerIncome, farmerFamily, farmerIDType, farmerIDNumber, submittedDate, createdBy, createdDate, createdUser, responseoutput, responseAction);
+                            }
 
-                                    String pondStatus = class_userData.getLst().get(i).getPond().get(j).getPondStatus();
-                                    String submittedDate = class_userData.getLst().get(i).getPond().get(j).getSubmittedDate();
-                                    String submittedBy = class_userData.getLst().get(i).getPond().get(j).getSubmittedBy();
-                                    String createdDate = class_userData.getLst().get(i).getPond().get(j).getCreatedDate();
-                                    String createdBy = class_userData.getLst().get(i).getPond().get(j).getCreatedBy();
-                                    String pondTempID = class_userData.getLst().get(i).getPond().get(j).getPondTempID();
-                                    String responseOutput = class_userData.getLst().get(i).getPond().get(j).getResponse();
-                                    String createdUser = class_userData.getLst().get(i).getPond().get(j).getCreatedUser();
-                                    String submittedUser = class_userData.getLst().get(i).getPond().get(j).getSubmittedUser();
-                                    String farmer_First_Name = class_userData.getLst().get(i).getPond().get(j).getFarmerFirstName();
-                                    String farmer_Middle_Name = class_userData.getLst().get(i).getPond().get(j).getFarmerMiddleName();
-                                    String farmer_Last_Name = class_userData.getLst().get(i).getPond().get(j).getSubmittedUser();
+                            Log.e("tag", "sizePond=" + sizePond);
+                            for (int j = 0; j < sizePond; j++) {
+                                String pondID = class_userData.getLst().get(i).getPond().get(j).getPondID();
+                                String farmerID = class_userData.getLst().get(i).getPond().get(j).getFarmerID();
+                                String academicID = class_userData.getLst().get(i).getPond().get(j).getAcademicID();
+                                String machineID = class_userData.getLst().get(i).getPond().get(j).getMachineID();
+                                String pondCode = class_userData.getLst().get(i).getPond().get(j).getPondCode();
+                                String pondLatitude = class_userData.getLst().get(i).getPond().get(j).getPondLatitude();
+                                String pondLongitude = class_userData.getLst().get(i).getPond().get(j).getPondLongitude();
+                                String pondLength = class_userData.getLst().get(i).getPond().get(j).getPondLength();
+                                String pondWidth = class_userData.getLst().get(i).getPond().get(j).getPondWidth();
+                                String pondDepth = class_userData.getLst().get(i).getPond().get(j).getPondDepth();
+                                String pondStart = class_userData.getLst().get(i).getPond().get(j).getPondStart();
+                                String pondEnd = class_userData.getLst().get(i).getPond().get(j).getPondEnd();
+                                String pondDays = class_userData.getLst().get(i).getPond().get(j).getPondDays();
+                                String pondCost = class_userData.getLst().get(i).getPond().get(j).getPondCost();
 
-                                    String Pond_Land_Acre = class_userData.getLst().get(i).getPond().get(j).getPondLandAcre();
-                                    String Pond_Land_Gunta = class_userData.getLst().get(i).getPond().get(j).getPondLandGunta();
-                                    String Approval_Status = class_userData.getLst().get(i).getPond().get(j).getApprovalStatus();
-                                    String Response_Action = class_userData.getLst().get(i).getPond().get(j).getResponseAction();
-                                    String Approval_Remarks = class_userData.getLst().get(i).getPond().get(j).getApprovalRemarks();
-                                    String Approval_By = class_userData.getLst().get(i).getPond().get(j).getApprovalBy();
-                                    String Approval_User = class_userData.getLst().get(i).getPond().get(j).getApprovalUser();
-                                    String Farmer_ID_Type = class_userData.getLst().get(i).getPond().get(j).getFarmerIDType();
-                                    String Farmer_ID_Number = class_userData.getLst().get(i).getPond().get(j).getFarmerIDNumber();
-                                    String Donor_Name = class_userData.getLst().get(i).getPond().get(j).getDonorName();
-                                    String Crop_Before = class_userData.getLst().get(i).getPond().get(j).getCropBefore();
-                                    String Crop_After = class_userData.getLst().get(i).getPond().get(j).getCropAfter();
-                                    String CollectedAmount = class_userData.getLst().get(i).getPond().get(j).getPondCollectedAmount();
+                                String pondStatus = class_userData.getLst().get(i).getPond().get(j).getPondStatus();
+                                String submittedDate = class_userData.getLst().get(i).getPond().get(j).getSubmittedDate();
+                                String submittedBy = class_userData.getLst().get(i).getPond().get(j).getSubmittedBy();
+                                String createdDate = class_userData.getLst().get(i).getPond().get(j).getCreatedDate();
+                                String createdBy = class_userData.getLst().get(i).getPond().get(j).getCreatedBy();
+                                String pondTempID = class_userData.getLst().get(i).getPond().get(j).getPondTempID();
+                                String responseOutput = class_userData.getLst().get(i).getPond().get(j).getResponse();
+                                String createdUser = class_userData.getLst().get(i).getPond().get(j).getCreatedUser();
+                                String submittedUser = class_userData.getLst().get(i).getPond().get(j).getSubmittedUser();
+                                String farmer_First_Name = class_userData.getLst().get(i).getPond().get(j).getFarmerFirstName();
+                                String farmer_Middle_Name = class_userData.getLst().get(i).getPond().get(j).getFarmerMiddleName();
+                                String farmer_Last_Name = class_userData.getLst().get(i).getPond().get(j).getSubmittedUser();
 
-                                    // PondImage Array Method
-                                    int pondImageSize = class_userData.getLst().get(i).getPond().get(j).getPondImage().size();
-                                    for (int k = 0; k < pondImageSize; k++) {
-                                        String pondImageType = class_userData.getLst().get(i).getPond().get(j).getPondImage().get(k).getImageType();
-                                        if(pondImageType!=null) {
-                                            if (pondImageType.equalsIgnoreCase("1")) {
-                                                pondImage1 = class_userData.getLst().get(i).getPond().get(j).getPondImage().get(k).getImageLink();
-                                                pondImageId1 = class_userData.getLst().get(i).getPond().get(j).getPondImage().get(k).getImageID();
-                                                pondImageType1 = class_userData.getLst().get(i).getPond().get(j).getPondImage().get(k).getImageType();
-                                            }
-                                            if (pondImageType.equalsIgnoreCase("2")) {
-                                                pondImage2 = class_userData.getLst().get(i).getPond().get(j).getPondImage().get(k).getImageLink();
-                                                pondImageId2 = class_userData.getLst().get(i).getPond().get(j).getPondImage().get(k).getImageID();
-                                                pondImageType2 = class_userData.getLst().get(i).getPond().get(j).getPondImage().get(k).getImageType();
-                                                Log.e("tag", "pondImageId2==" + pondImageId2);
-                                                Log.e("tag", "pondImage2==" + pondImage2);
-                                            }
-                                            if (pondImageType.equalsIgnoreCase("3")) {
-                                                pondImage3 = class_userData.getLst().get(i).getPond().get(j).getPondImage().get(k).getImageLink();
-                                                pondImageId3 = class_userData.getLst().get(i).getPond().get(j).getPondImage().get(k).getImageID();
-                                                pondImageType3 = class_userData.getLst().get(i).getPond().get(j).getPondImage().get(k).getImageType();
-                                            }
+                                String Pond_Land_Acre = class_userData.getLst().get(i).getPond().get(j).getPondLandAcre();
+                                String Pond_Land_Gunta = class_userData.getLst().get(i).getPond().get(j).getPondLandGunta();
+                                String Approval_Status = class_userData.getLst().get(i).getPond().get(j).getApprovalStatus();
+                                String Response_Action = class_userData.getLst().get(i).getPond().get(j).getResponseAction();
+                                String Approval_Remarks = class_userData.getLst().get(i).getPond().get(j).getApprovalRemarks();
+                                String Approval_By = class_userData.getLst().get(i).getPond().get(j).getApprovalBy();
+                                String Approval_User = class_userData.getLst().get(i).getPond().get(j).getApprovalUser();
+                                String Farmer_ID_Type = class_userData.getLst().get(i).getPond().get(j).getFarmerIDType();
+                                String Farmer_ID_Number = class_userData.getLst().get(i).getPond().get(j).getFarmerIDNumber();
+                                String Donor_Name = class_userData.getLst().get(i).getPond().get(j).getDonorName();
+                                String Crop_Before = class_userData.getLst().get(i).getPond().get(j).getCropBefore();
+                                String Crop_After = class_userData.getLst().get(i).getPond().get(j).getCropAfter();
+                                String CollectedAmount = class_userData.getLst().get(i).getPond().get(j).getPondCollectedAmount();
 
-                                            Log.e("tag", "pondImageId==" + pondImageId1);
-                                            Log.e("tag", "pondImage1==" + pondImage1);
-                                        }
-
+                                // PondImage Array Method
+                                int pondImageSize = class_userData.getLst().get(i).getPond().get(j).getPondImage().size();
+                                for (int k = 0; k < pondImageSize; k++) {
+                                    String pondImageType=class_userData.getLst().get(i).getPond().get(j).getPondImage().get(k).getImageType();
+                                    if(pondImageType.equalsIgnoreCase("1")){
+                                        pondImage1 = class_userData.getLst().get(i).getPond().get(j).getPondImage().get(k).getImageLink();
+                                        pondImageId1 = class_userData.getLst().get(i).getPond().get(j).getPondImage().get(k).getImageID();
+                                        pondImageType1 = class_userData.getLst().get(i).getPond().get(j).getPondImage().get(k).getImageType();
                                     }
-
-                                    //   String pondImage1,pondImage2,pondImage3;
-                                    //  String str_imageurl = class_userData.getLst().get(i).getPond().get(j).getPondImage1();
-
-                                    // String str_farmpondimageurl = str_imageurl;
-                                    // String str_imageid1 = class_farmerandpond_details_array_obj[i].getClass_farmponddetails_obj().get(j).
-                                    // getClass_farmpondimages_obj().get(k).getImage_ID();
-
-                                    //---------------------------------------------------------------------
-                                    String str_imageurl = pondImage1;
-                                    Log.e("tag", "str_imageurl==" + str_imageurl);
-
-                                    if (str_imageurl == null || str_imageurl.equals("")) {
-                                    } else {
-                                        //  str_imageurl=class_farmerlistdetails_arrayobj2[i].getFarmerPhoto();
-
-                                        String str_farmpondimageurl = str_imageurl;
-
-                                        InputStream inputstream_obj = null;
-                                        try {
-                                            if (android.os.Build.VERSION.SDK_INT > 9) {
-                                                StrictMode.ThreadPolicy policy = new StrictMode.ThreadPolicy.Builder().permitAll().build();
-                                                StrictMode.setThreadPolicy(policy);
-                                                inputstream_obj = new URL(str_farmpondimageurl).openStream();
-
-                                            }
-                                        } catch (IOException e) {
-                                            e.printStackTrace();
-                                        }
-                                        Bitmap mIcon12 = BitmapFactory.decodeStream(inputstream_obj);
-                                        ByteArrayOutputStream baos = new ByteArrayOutputStream();
-                                        mIcon12.compress(Bitmap.CompressFormat.PNG, 60, baos);
-                                        byte[] b = baos.toByteArray();
-                                        str_base64image = Base64.encodeToString(b, Base64.DEFAULT);
-
-                                        Log.e("tag", "byteArray img=" + b);
-                                        str_imageurltobase64_farmerimage = str_base64image;
-
-                                        str_base64image1 = str_base64image;
+                                    if(pondImageType.equalsIgnoreCase("2")){
+                                        pondImage2 = class_userData.getLst().get(i).getPond().get(j).getPondImage().get(k).getImageLink();
+                                        pondImageId2 = class_userData.getLst().get(i).getPond().get(j).getPondImage().get(k).getImageID();
+                                        pondImageType2 = class_userData.getLst().get(i).getPond().get(j).getPondImage().get(k).getImageType();
+                                        Log.e("tag", "pondImageId2==" + pondImageId2);
+                                        Log.e("tag", "pondImage2==" + pondImage2);
                                     }
-
-                                    String str_imageurl2 = pondImage2;
-                                    Log.e("tag", "str_imageurl2==" + str_imageurl2);
-                                    if (str_imageurl2 == null || str_imageurl2.equals("")) {
-                                    } else {
-                                        //  str_imageurl=class_farmerlistdetails_arrayobj2[i].getFarmerPhoto();
-
-                                        String str_farmpondimageurl = str_imageurl2;
-
-                                        InputStream inputstream_obj = null;
-                                        try {
-                                            if (android.os.Build.VERSION.SDK_INT > 9) {
-                                                StrictMode.ThreadPolicy policy = new StrictMode.ThreadPolicy.Builder().permitAll().build();
-                                                StrictMode.setThreadPolicy(policy);
-                                                inputstream_obj = new URL(str_farmpondimageurl).openStream();
-
-                                            }
-                                        } catch (IOException e) {
-                                            e.printStackTrace();
-                                        }
-                                        Bitmap mIcon12 = BitmapFactory.decodeStream(inputstream_obj);
-                                        ByteArrayOutputStream baos = new ByteArrayOutputStream();
-                                        mIcon12.compress(Bitmap.CompressFormat.PNG, 60, baos);
-                                        byte[] b = baos.toByteArray();
-                                        str_base64image = Base64.encodeToString(b, Base64.DEFAULT);
-
-                                        Log.e("tag", "byteArray img=" + b);
-                                        str_imageurltobase64_farmerimage = str_base64image;
-
-                                        str_base64image2 = str_base64image;
+                                    if(pondImageType.equalsIgnoreCase("3")){
+                                        pondImage3 = class_userData.getLst().get(i).getPond().get(j).getPondImage().get(k).getImageLink();
+                                        pondImageId3 = class_userData.getLst().get(i).getPond().get(j).getPondImage().get(k).getImageID();
+                                        pondImageType3 = class_userData.getLst().get(i).getPond().get(j).getPondImage().get(k).getImageType();
                                     }
-                                    String str_imageurl3 = pondImage3;
-                                    Log.e("tag", "str_imageurl3==" + str_imageurl3);
-                                    if (str_imageurl3 == null || str_imageurl3.equals("")) {
-                                    } else {
-                                        //  str_imageurl=class_farmerlistdetails_arrayobj2[i].getFarmerPhoto();
+                                    Log.e("tag", "pondImageId==" + pondImageId1);
+                                    Log.e("tag", "pondImage1==" + pondImage1);
 
-                                        String str_farmpondimageurl = str_imageurl3;
+                                }
 
-                                        InputStream inputstream_obj = null;
-                                        try {
-                                            if (android.os.Build.VERSION.SDK_INT > 9) {
-                                                StrictMode.ThreadPolicy policy = new StrictMode.ThreadPolicy.Builder().permitAll().build();
-                                                StrictMode.setThreadPolicy(policy);
-                                                inputstream_obj = new URL(str_farmpondimageurl).openStream();
+                                //   String pondImage1,pondImage2,pondImage3;
+                                //  String str_imageurl = class_userData.getLst().get(i).getPond().get(j).getPondImage1();
 
-                                            }
-                                        } catch (IOException e) {
-                                            e.printStackTrace();
+                                // String str_farmpondimageurl = str_imageurl;
+                                // String str_imageid1 = class_farmerandpond_details_array_obj[i].getClass_farmponddetails_obj().get(j).
+                                // getClass_farmpondimages_obj().get(k).getImage_ID();
+
+                                //---------------------------------------------------------------------
+                                String str_imageurl = pondImage1;
+                                Log.e("tag", "str_imageurl==" + str_imageurl);
+
+                                if (str_imageurl == null || str_imageurl.equals("")) {
+                                } else {
+                                    //  str_imageurl=class_farmerlistdetails_arrayobj2[i].getFarmerPhoto();
+
+                                    String str_farmpondimageurl = str_imageurl;
+
+                                    InputStream inputstream_obj = null;
+                                    try {
+                                        if (android.os.Build.VERSION.SDK_INT > 9) {
+                                            StrictMode.ThreadPolicy policy = new StrictMode.ThreadPolicy.Builder().permitAll().build();
+                                            StrictMode.setThreadPolicy(policy);
+                                            inputstream_obj = new URL(str_farmpondimageurl).openStream();
+
                                         }
-                                        Bitmap mIcon12 = BitmapFactory.decodeStream(inputstream_obj);
-                                        ByteArrayOutputStream baos = new ByteArrayOutputStream();
-                                        mIcon12.compress(Bitmap.CompressFormat.PNG, 60, baos);
-                                        byte[] b = baos.toByteArray();
-                                        str_base64image = Base64.encodeToString(b, Base64.DEFAULT);
-
-                                        Log.e("tag", "byteArray img=" + b);
-                                        str_imageurltobase64_farmerimage = str_base64image;
-
-                                        str_base64image3 = str_base64image;
+                                    } catch (IOException e) {
+                                        e.printStackTrace();
                                     }
-                                    //-----------------------------------Temp commented becouse of no image in url--------
+                                    Bitmap mIcon12 = BitmapFactory.decodeStream(inputstream_obj);
+                                    ByteArrayOutputStream baos = new ByteArrayOutputStream();
+                                    mIcon12.compress(Bitmap.CompressFormat.PNG, 60, baos);
+                                    byte[] b = baos.toByteArray();
+                                    str_base64image = Base64.encodeToString(b, Base64.DEFAULT);
+
+                                    Log.e("tag", "byteArray img=" + b);
+                                    str_imageurltobase64_farmerimage = str_base64image;
+
+                                    str_base64image1 = str_base64image;
+                                }
+
+                                String str_imageurl2 = pondImage2;
+                                Log.e("tag", "str_imageurl2==" + str_imageurl2);
+                                if (str_imageurl2 == null || str_imageurl2.equals("")) {
+                                } else {
+                                    //  str_imageurl=class_farmerlistdetails_arrayobj2[i].getFarmerPhoto();
+
+                                    String str_farmpondimageurl = str_imageurl2;
+
+                                    InputStream inputstream_obj = null;
+                                    try {
+                                        if (android.os.Build.VERSION.SDK_INT > 9) {
+                                            StrictMode.ThreadPolicy policy = new StrictMode.ThreadPolicy.Builder().permitAll().build();
+                                            StrictMode.setThreadPolicy(policy);
+                                            inputstream_obj = new URL(str_farmpondimageurl).openStream();
+
+                                        }
+                                    } catch (IOException e) {
+                                        e.printStackTrace();
+                                    }
+                                    Bitmap mIcon12 = BitmapFactory.decodeStream(inputstream_obj);
+                                    ByteArrayOutputStream baos = new ByteArrayOutputStream();
+                                    mIcon12.compress(Bitmap.CompressFormat.PNG, 60, baos);
+                                    byte[] b = baos.toByteArray();
+                                    str_base64image = Base64.encodeToString(b, Base64.DEFAULT);
+
+                                    Log.e("tag", "byteArray img=" + b);
+                                    str_imageurltobase64_farmerimage = str_base64image;
+
+                                    str_base64image2 = str_base64image;
+                                }
+                                String str_imageurl3 = pondImage3;
+                                Log.e("tag", "str_imageurl3==" + str_imageurl3);
+                                if (str_imageurl3 == null || str_imageurl3.equals("")) {
+                                } else {
+                                    //  str_imageurl=class_farmerlistdetails_arrayobj2[i].getFarmerPhoto();
+
+                                    String str_farmpondimageurl = str_imageurl3;
+
+                                    InputStream inputstream_obj = null;
+                                    try {
+                                        if (android.os.Build.VERSION.SDK_INT > 9) {
+                                            StrictMode.ThreadPolicy policy = new StrictMode.ThreadPolicy.Builder().permitAll().build();
+                                            StrictMode.setThreadPolicy(policy);
+                                            inputstream_obj = new URL(str_farmpondimageurl).openStream();
+
+                                        }
+                                    } catch (IOException e) {
+                                        e.printStackTrace();
+                                    }
+                                    Bitmap mIcon12 = BitmapFactory.decodeStream(inputstream_obj);
+                                    ByteArrayOutputStream baos = new ByteArrayOutputStream();
+                                    mIcon12.compress(Bitmap.CompressFormat.PNG, 60, baos);
+                                    byte[] b = baos.toByteArray();
+                                    str_base64image = Base64.encodeToString(b, Base64.DEFAULT);
+
+                                    Log.e("tag", "byteArray img=" + b);
+                                    str_imageurltobase64_farmerimage = str_base64image;
+
+                                    str_base64image3 = str_base64image;
+                                }
+                                //-----------------------------------Temp commented becouse of no image in url--------
 //-----------------------------url need to change------------------------
 
-                                    //   String str_imageurl = class_userData.getLst().get(i).getPond().get(j).getPondImage1();
+                                //   String str_imageurl = class_userData.getLst().get(i).getPond().get(j).getPondImage1();
 /*
                                 String str_imageurl=pondImage1;
                                 String str_farmpondimageurl =  str_imageurl;
@@ -2618,31 +2452,28 @@ public class Activity_ViewFarmers extends AppCompatActivity {
                                 }
 
    */
-                                    //------------------------------------------------------------------------------------------------------------------
+                                //------------------------------------------------------------------------------------------------------------------
 
                               /*  str_base64image1="iVBORw0KGgoAAAANSUhEUgAAABAAAAAQCAMAAAAoLQ9TAAAAA3NCSVQICAjb4U/gAAAACXBIWXMAAARuAAAEbgHQo7JoAAAAGXRFWHRTb2Z0d2FyZQB3d3cuaW5rc2NhcGUub3Jnm+48GgAAAGxQTFRF////AP//KK6GJK2JJK+JJq2HJa6HJa+JJa6IJa6IJa6IJq6IKK+JKK+KK7CLLrGNM7OPNLOQNbSRObWTPLeVQLiWRLmZRrqaVsCjY8WqacetgNC5htK9j9XCltjGndrJruHTtuTXueXZvufcQhO/KQAAAAp0Uk5TAAEmcH+As7Xm9myQZpsAAAB3SURBVBhXZY9HEgMhEAMFLLPQzjnH/f8ffcCmtkzfNFXSSJIkHy0li14FFzIA5OAkyfVUeicpMCJIPle1XZG9YtXLYQOd7Kfn7wNgSjBbAJPnESApwW7Yw+NMORiwfp2ul2K0Ejq9375J3fgtkH1brK3ejPub/wG/CwjxA06BTgAAAABJRU5ErkJggg==";
                                 str_base64image2="iVBORw0KGgoAAAANSUhEUgAAABAAAAAQCAMAAAAoLQ9TAAAAA3NCSVQICAjb4U/gAAAACXBIWXMAAARuAAAEbgHQo7JoAAAAGXRFWHRTb2Z0d2FyZQB3d3cuaW5rc2NhcGUub3Jnm+48GgAAAGxQTFRF////AP//KK6GJK2JJK+JJq2HJa6HJa+JJa6IJa6IJa6IJq6IKK+JKK+KK7CLLrGNM7OPNLOQNbSRObWTPLeVQLiWRLmZRrqaVsCjY8WqacetgNC5htK9j9XCltjGndrJruHTtuTXueXZvufcQhO/KQAAAAp0Uk5TAAEmcH+As7Xm9myQZpsAAAB3SURBVBhXZY9HEgMhEAMFLLPQzjnH/f8ffcCmtkzfNFXSSJIkHy0li14FFzIA5OAkyfVUeicpMCJIPle1XZG9YtXLYQOd7Kfn7wNgSjBbAJPnESApwW7Yw+NMORiwfp2ul2K0Ejq9375J3fgtkH1brK3ejPub/wG/CwjxA06BTgAAAABJRU5ErkJggg==";
                                 str_base64image3="iVBORw0KGgoAAAANSUhEUgAAABAAAAAQCAMAAAAoLQ9TAAAAA3NCSVQICAjb4U/gAAAACXBIWXMAAARuAAAEbgHQo7JoAAAAGXRFWHRTb2Z0d2FyZQB3d3cuaW5rc2NhcGUub3Jnm+48GgAAAGxQTFRF////AP//KK6GJK2JJK+JJq2HJa6HJa+JJa6IJa6IJa6IJq6IKK+JKK+KK7CLLrGNM7OPNLOQNbSRObWTPLeVQLiWRLmZRrqaVsCjY8WqacetgNC5htK9j9XCltjGndrJruHTtuTXueXZvufcQhO/KQAAAAp0Uk5TAAEmcH+As7Xm9myQZpsAAAB3SURBVBhXZY9HEgMhEAMFLLPQzjnH/f8ffcCmtkzfNFXSSJIkHy0li14FFzIA5OAkyfVUeicpMCJIPle1XZG9YtXLYQOd7Kfn7wNgSjBbAJPnESApwW7Yw+NMORiwfp2ul2K0Ejq9375J3fgtkH1brK3ejPub/wG/CwjxA06BTgAAAABJRU5ErkJggg==";
 */
 
-                                    //pondImage1="0"; pondImage2="0"; pondImage3="0";
-                                    str_approveddate = "0";
-                                    DBCreate_FarmpondsRest_details_2SQLiteDB(farmerID, farmer_First_Name, pondID, pondWidth, pondLength,
-                                            pondDepth, pondImage1, str_base64image1, pondImageId1, pondImageType1, pondImage2, str_base64image2, pondImageId2, pondImageType2, pondImage3, str_base64image3, pondImageId3, pondImageType3,
-                                            pondDays, createdDate, pondEnd, pondCost, machineID,
-                                            pondCode, pondStart, str_farmpond_remarks, CollectedAmount, pondStatus,
-                                            farmer_Middle_Name, farmer_Last_Name, "", Farmer_ID_Type, Farmer_ID_Number, Approval_Status,
-                                            Approval_Remarks, Approval_By, str_approveddate, Donor_Name, pondLatitude, pondLongitude,
-                                            Pond_Land_Acre, Pond_Land_Gunta, Crop_Before, Crop_After);
-                                }
+                                //pondImage1="0"; pondImage2="0"; pondImage3="0";
+                                str_approveddate = "0";
+                                DBCreate_FarmpondsRest_details_2SQLiteDB(farmerID, farmer_First_Name, pondID, pondWidth, pondLength,
+                                        pondDepth, pondImage1, str_base64image1, pondImageId1, pondImageType1, pondImage2, str_base64image2, pondImageId2, pondImageType2, pondImage3, str_base64image3, pondImageId3, pondImageType3,
+                                        pondDays, createdDate, pondEnd, pondCost, machineID,
+                                        pondCode, pondStart, str_farmpond_remarks, CollectedAmount, pondStatus,
+                                        farmer_Middle_Name, farmer_Last_Name, "", Farmer_ID_Type, Farmer_ID_Number, Approval_Status,
+                                        Approval_Remarks, Approval_By, str_approveddate, Donor_Name, pondLatitude, pondLongitude,
+                                        Pond_Land_Acre, Pond_Land_Gunta, Crop_Before, Crop_After);
                             }
+                        }
 
-                            //  uploadfromDB_Farmerlist();
-                        }
-                        else{
-                            Toast.makeText(Activity_ViewFarmers.this, class_userData.getMessage(), Toast.LENGTH_SHORT).show();
-                        }
+                        //  uploadfromDB_Farmerlist();
                         progressDoalog.dismiss();
+
                     } else {
                         progressDoalog.dismiss();
 
@@ -2659,7 +2490,7 @@ public class Activity_ViewFarmers extends AppCompatActivity {
                     // … or just log the issue like we’re doing :)
                     Log.e("error message", error.getMsg());
 
-                   // Toast.makeText(Activity_ViewFarmers.this, error.getMsg(), Toast.LENGTH_SHORT).show();
+                    Toast.makeText(Activity_ViewFarmers.this, error.getMsg(), Toast.LENGTH_SHORT).show();
                 }
             }
 
@@ -2670,298 +2501,19 @@ public class Activity_ViewFarmers extends AppCompatActivity {
         });// end of call
 
     }
-
-    private void AddFarmerDetailsNew() {
-
-        Log.e("tag","Location_Response2="+class_location_dataList.getResponse());
-        Log.e("tag","UserData_Response2="+class_userDatalist.getResponse());
-        String locationData = null,userData = null;
-        if(class_location_dataList.getResponse()!=null) {
-            if (class_location_dataList.getResponse().equalsIgnoreCase("Success")) {
-                locationData = "Success";
-            }else{
-                locationData = "Error";
-            }
-        }
-        if(class_userDatalist.getResponse()!=null) {
-
-            if (class_userDatalist.getResponse().equalsIgnoreCase("Success")) {
-                userData = "Success";
-            }
-            else{
-                userData = "Error";
-            }
-        }
-        Log.e("tag","Location_Response3="+locationData);
-        Log.e("tag","UserData_Response3="+userData);
-
-        String Sync_IDNew = shared_syncId.getString(SyncId, "");
-        Log.e("tag","Sync_IDNew="+Sync_IDNew);
-
-        sharedpref_spinner_Obj = getSharedPreferences(sharedpreferenc_selectedspinner, Context.MODE_PRIVATE);
-        String Sync_IDNew1 = sharedpref_spinner_Obj.getString(Key_syncId, "").trim();
-        Log.e("tag","Sync_IDNew1="+Sync_IDNew1);
-
-        ValidateSyncRequest request = new ValidateSyncRequest();
-        request.setSyncID(Sync_IDNew);
-        request.setSyncVersion(versioncode);
-        request.setSyncStatus("Success");
-        /*if(locationData==null||locationData.equalsIgnoreCase("Success")){
-            if(userData==null||userData.equalsIgnoreCase("Success")) {
-                request.setSyncStatus("Success");
-            }else{
-                request.setSyncStatus("Error");
-            }
-        }else {
-            request.setSyncStatus("Error");
-        }*/
-
-
-        Call<ValidateSyncResponse> call = userService1.Post_ValidateSync(request);
-
-        Log.e("TAG", "Post_ValidateSync Request: " + new Gson().toJson(call.request()));
-        Log.e("TAG", "Request Post_ValidateSync: " + request.toString());
-
-        final ProgressDialog progressDoalog;
-        progressDoalog = new ProgressDialog(Activity_ViewFarmers.this);
-        progressDoalog.setMessage("Loading....");
-        progressDoalog.setTitle("Please wait....");
-        progressDoalog.setCancelable(false);
-        progressDoalog.setProgressStyle(ProgressDialog.STYLE_SPINNER);
-        progressDoalog.show();
-
-        call.enqueue(new Callback<ValidateSyncResponse>() {
-            @Override
-            public void onResponse(Call<ValidateSyncResponse> call, Response<ValidateSyncResponse> response) {
-                Log.e("response", response.toString());
-                Log.e("TAG", "ValidateSyncResponse : " + new Gson().toJson(response));
-                Log.e("tag","ValidateSyncResponse body"+ String.valueOf(response.body()));
-                //   DefaultResponse error1 = ErrorUtils.parseError(response);
-                   /* Log.e("response new:",error1.getMsg());
-                    Log.e("response new status:", String.valueOf(error1.getstatus()));*/
-                // Log.e("response",Gson.fromJson(response.toString(),AddFarmer_Activity1.class));
-
-                if (response.isSuccessful()) {
-                    progressDoalog.dismiss();
-                    ValidateSyncResponse class_loginresponse = response.body();
-                    Log.e("tag", "res==" + class_loginresponse.toString());
-                    if (class_loginresponse.getStatus().equals("true")) {
-
-                    } else if (class_loginresponse.getStatus().equals("false")) {
-                      //  progressDoalog.dismiss();
-                        Toast.makeText(Activity_ViewFarmers.this, class_loginresponse.getMessage(), Toast.LENGTH_SHORT).show();
-
-                    }
-                } else {
-                    progressDoalog.dismiss();
-
-                    DefaultResponse error = ErrorUtils.parseError(response);
-                    // … and use it to show error information
-
-                    // … or just log the issue like we’re doing :)
-                    Log.d("error message", error.getMsg());
-
-                   // Toast.makeText(Activity_ViewFarmers.this, error.getMsg(), Toast.LENGTH_SHORT).show();
-
-                }
-            }
-
-            @Override
-            public void onFailure(Call call, Throwable t) {
-                Log.e("TAG", "onFailure: " + t.toString());
-
-                Log.e("tag", "Error:" + t.getMessage());
-                Toast.makeText(Activity_ViewFarmers.this, t.getMessage(), Toast.LENGTH_SHORT).show();
-            }
-        });// end of call
-    }
-
-
-
 //------------------------------------------------------
 /////////////----------------------Auto Sync code for 1st time --------------------------------///////////
 
-   /* public void stateListRest_dbCount(){
+    public void stateListRest_dbCount(){
         SQLiteDatabase db_statelist_delete = openOrCreateDatabase("FarmPond_db", Context.MODE_PRIVATE, null);
-        db_statelist_delete.execSQL("CREATE TABLE IF NOT EXISTS StateListRest(StateID VARCHAR,StateName VARCHAR,state_yearid VARCHAR);");
+        db_statelist_delete.execSQL("CREATE TABLE IF NOT EXISTS StateListRest(StateID VARCHAR,StateName VARCHAR);");
         Cursor cursor = db_statelist_delete.rawQuery("SELECT * FROM StateListRest", null);
         int x = cursor.getCount();
 
         if(x==0){
             GetDropdownValuesRestData();
         }
-    }*/
-
-    public void stateListRest_dbCount(){
-        SQLiteDatabase db_statelist = openOrCreateDatabase("FarmPond_db", Context.MODE_PRIVATE, null);
-        db_statelist.execSQL("CREATE TABLE IF NOT EXISTS StateListRest(StateID VARCHAR,StateName VARCHAR);");
-        Cursor cursor = db_statelist.rawQuery("SELECT * FROM StateListRest", null);
-        int State_x = cursor.getCount();
-        Log.e("cursor State_xcount", Integer.toString(State_x));
-
-        if(State_x==0){
-            GetDropdownValuesRestData();
-            GetFarmer_PondValuesRestData();
-            DBCreate_RemarksDetails();
-            // AddFarmerDetailsNew();
-        }else{
-            SQLiteDatabase db1 = this.openOrCreateDatabase("FarmPond_db", Context.MODE_PRIVATE, null);
-            db1.execSQL("CREATE TABLE IF NOT EXISTS DistrictListRest(DistrictID VARCHAR,DistrictName VARCHAR,Distr_yearid VARCHAR,Distr_Stateid VARCHAR);");
-            Cursor cursor1 = db1.rawQuery("SELECT DISTINCT * FROM DistrictListRest", null);
-            int District_x = cursor1.getCount();
-            Log.e("cursor Talukcount", Integer.toString(District_x));
-
-            SQLiteDatabase db2 = this.openOrCreateDatabase("FarmPond_db", Context.MODE_PRIVATE, null);
-            db2.execSQL("CREATE TABLE IF NOT EXISTS TalukListRest(TalukID VARCHAR,TalukName VARCHAR,Taluk_districtid VARCHAR);");
-            Cursor cursor2 = db2.rawQuery("SELECT DISTINCT * FROM TalukListRest", null);
-            int Taluk_x = cursor2.getCount();
-            Log.e("cursor Talukcount", Integer.toString(Taluk_x));
-
-            SQLiteDatabase db_village = this.openOrCreateDatabase("FarmPond_db", Context.MODE_PRIVATE, null);
-            db_village.execSQL("CREATE TABLE IF NOT EXISTS VillageListRest(VillageID VARCHAR,Village VARCHAR,TalukID VARCHAR,PanchayatID VARCHAR);");
-            Cursor cursor3 = db_village.rawQuery("SELECT DISTINCT * FROM VillageListRest", null);
-            int village_x = cursor3.getCount();
-            Log.e("cursor village_xcount", Integer.toString(village_x));
-
-            SQLiteDatabase db_grampanchayat = this.openOrCreateDatabase("FarmPond_db", Context.MODE_PRIVATE, null);
-            db_grampanchayat.execSQL("CREATE TABLE IF NOT EXISTS GrampanchayatListRest(GramanchayatID VARCHAR,Gramanchayat VARCHAR,Panchayat_DistID VARCHAR);");
-            Cursor cursor4 = db_grampanchayat.rawQuery("SELECT DISTINCT * FROM GrampanchayatListRest", null);
-            int panchayat_x = cursor4.getCount();
-            Log.d("cursor panchayatcount", Integer.toString(panchayat_x));
-
-            SQLiteDatabase db_year = this.openOrCreateDatabase("FarmPond_db", Context.MODE_PRIVATE, null);
-            db_year.execSQL("CREATE TABLE IF NOT EXISTS YearListRest(YearID VARCHAR,YearName VARCHAR);");
-            Cursor cursor5 = db_year.rawQuery("SELECT DISTINCT * FROM YearListRest", null);
-            int Year_x = cursor5.getCount();
-            Log.d("cursor Yearcount", Integer.toString(Year_x));
-
-            SQLiteDatabase db6 = this.openOrCreateDatabase("FarmPond_db", Context.MODE_PRIVATE, null);
-            db6.execSQL("CREATE TABLE IF NOT EXISTS MachineDetails_fromServerRest(SlNo INTEGER PRIMARY KEY AUTOINCREMENT,MachineNameDB VARCHAR,MachineIDDB VARCHAR);");
-            Cursor cursor6 = db1.rawQuery("SELECT * FROM MachineDetails_fromServerRest", null);
-            int Machine_x = cursor6.getCount();
-            Log.d("cursor Machinecount", Integer.toString(Machine_x));
-
-            SQLiteDatabase db_farmer = this.openOrCreateDatabase("FarmPond_db", Context.MODE_PRIVATE, null);
-
-            db_farmer.execSQL("CREATE TABLE IF NOT EXISTS ViewFarmerListRest(MTempId INTEGER PRIMARY KEY,DispFarmerTable_YearID VARCHAR,DispFarmerTable_StateID VARCHAR," +
-                    "DispFarmerTable_DistrictID VARCHAR,DispFarmerTable_TalukID VARCHAR,DispFarmerTable_VillageID VARCHAR," +
-                    "DispFarmerTable_GrampanchayatID VARCHAR,DispFarmerTable_FarmerID VARCHAR,DispFarmerTable_Farmer_Code VARCHAR," +
-                    "DispFarmerTable_FarmerName VARCHAR,FarmerMName_DB VARCHAR,FarmerLName_DB VARCHAR,Farmerage_DB VARCHAR," +
-                    "Farmercellno_DB VARCHAR,FIncome_DB VARCHAR,Ffamilymember_DB VARCHAR,FIDprooftype_DB VARCHAR,FIDProofNo_DB VARCHAR,UploadedStatusFarmerprofile_DB VARCHAR," +
-                    "FarmerImageB64str_DB VARCHAR,DispFarmerTable_FarmerImage VARCHAR," +
-                    "LocalFarmerImg BLOB,Farmpondcount VARCHAR,Submitted_Date VARCHAR,Created_By VARCHAR,Created_Date VARCHAR,Created_User VARCHAR,Response VARCHAR,Response_Action VARCHAR);");
-
-
-            // Cursor cursor1 = db1.rawQuery("SELECT DISTINCT * FROM ViewFarmerListRest  WHERE DispFarmerTable_YearID='" + str_yearid + "' AND DispFarmerTable_StateID='" + str_stateid + "' AND DispFarmerTable_DistrictID='" + str_distid + "'  AND DispFarmerTable_TalukID='" + str_talukid + "' AND DispFarmerTable_VillageID='" + str_villageid + "' AND DispFarmerTable_GrampanchayatID='" + str_panchayatid + "'", null);
-            Cursor cursor7 = db_farmer.rawQuery("SELECT DISTINCT * FROM ViewFarmerListRest", null);
-
-            int farmer_x = cursor7.getCount();
-            Log.e("tag","farmer_x="+farmer_x);
-            cursor7.close();
-
-            State_x=State_x-1;
-            District_x=District_x-1;
-            Taluk_x=Taluk_x-1;
-            village_x=village_x-1;
-            panchayat_x=panchayat_x-1;
-
-            if(State_x==Integer.valueOf(StateCount)&&District_x==Integer.valueOf(DistrictCount)&&Taluk_x==Integer.valueOf(TalukaCount)&&village_x==Integer.valueOf(VillageCount)&&panchayat_x==Integer.valueOf(PanchayatCount)&&Year_x==Integer.valueOf(YearCount)&&Machine_x==Integer.valueOf(MachineCount)){
-
-            }else{
-                delete_CountDetailsRestTable_B4insertion();
-                deleteStateRestTable_B4insertion();
-                deleteDistrictRestTable_B4insertion();
-                deleteTalukRestTable_B4insertion();
-                deleteGrampanchayatRestTable_B4insertion();
-                deleteVillageRestTable_B4insertion();
-                deleteYearRestTable_B4insertion();
-                deleteMachineRestTable_B4insertion();
-                deleteRemarksTable_B4insertion();
-                DBCreate_RemarksDetails();
-                //  ViewFarmerlistdetailsRestTable_B4insertion();
-
-                GetDropdownValuesRestData();
-
-            }
-            if(farmer_x==Integer.valueOf(Farmer_Count)){
-
-            }else if(farmer_x<Integer.valueOf(Farmer_Count)){
-                deleteViewFarmerlistTable_B4insertion();
-                delete_FarmPondDetails_fromServer_B4insertion();
-                GetFarmer_PondValuesRestData();
-                FarmpondRest_detailsTable_B4insertion();
-            }
-            //AddFarmerDetailsNew();
-        }
     }
-    public void CountCheckList(){
-        SQLiteDatabase db_locationCount = this.openOrCreateDatabase("FarmPond_db", Context.MODE_PRIVATE, null);
-        db_locationCount.execSQL("CREATE TABLE IF NOT EXISTS LocationCountListRest(StateCount VARCHAR,DistrictCount VARCHAR,TalukaCount VARCHAR,PanchayatCount VARCHAR,VillageCount VARCHAR,YearCount VARCHAR,MachineCount VARCHAR,MachineCostCount VARCHAR,Farmer_Count VARCHAR,Pond_Count VARCHAR,Sync_ID VARCHAR);");
-        Cursor cursor1 = db_locationCount.rawQuery("SELECT DISTINCT * FROM LocationCountListRest", null);
-
-        int x = cursor1.getCount();
-        Log.d("cursor countlist", Integer.toString(x));
-
-        int i = 0;
-        if (cursor1.moveToFirst()) {
-
-            do {
-                StateCount=cursor1.getString(cursor1.getColumnIndex("StateCount"));
-                DistrictCount=cursor1.getString(cursor1.getColumnIndex("DistrictCount"));
-                TalukaCount=cursor1.getString(cursor1.getColumnIndex("TalukaCount"));
-                PanchayatCount=cursor1.getString(cursor1.getColumnIndex("PanchayatCount"));
-                VillageCount=cursor1.getString(cursor1.getColumnIndex("VillageCount"));
-                YearCount=cursor1.getString(cursor1.getColumnIndex("YearCount"));
-                MachineCount=cursor1.getString(cursor1.getColumnIndex("MachineCount"));
-                MachineCostCount=cursor1.getString(cursor1.getColumnIndex("MachineCostCount"));
-              //  Farmer_Count=cursor1.getString(cursor1.getColumnIndex("Farmer_Count"));
-                //Pond_Count=cursor1.getString(cursor1.getColumnIndex("Pond_Count"));
-                Sync_ID=cursor1.getString(cursor1.getColumnIndex("Sync_ID"));
-                // arrayObj_Class_DistrictListDetails2[i] = innerObj_Class_AcademicList;
-                i++;
-            } while (cursor1.moveToNext());
-            Log.e("tag","StateCount="+StateCount);
-            Log.e("tag","DistrictCount="+DistrictCount);
-            Log.e("tag","VillageCount="+VillageCount);
-            Log.e("tag","Sync_ID="+Sync_ID);
-            SharedPreferences.Editor editor = shared_syncId.edit();
-            editor.putString(SyncId, Sync_ID);
-            editor.commit();
-            SharedPreferences.Editor myprefs_spinner = sharedpref_spinner_Obj.edit();
-            myprefs_spinner.putString(Key_syncId, Sync_ID);
-            myprefs_spinner.apply();
-        }//if ends
-
-    }
-    public void UserDataCountCheckList(){
-        SQLiteDatabase db_userdataCount = this.openOrCreateDatabase("FarmPond_db", Context.MODE_PRIVATE, null);
-        db_userdataCount.execSQL("CREATE TABLE IF NOT EXISTS UserDataCountListRest(Farmer_Count VARCHAR,Pond_Count VARCHAR);");
-        Cursor cursor1 = db_userdataCount.rawQuery("SELECT DISTINCT * FROM UserDataCountListRest", null);
-
-        int x = cursor1.getCount();
-        Log.d("tag","cursor userdatacountlist"+ Integer.toString(x));
-
-        int i = 0;
-        if (cursor1.moveToFirst()) {
-
-            do {
-                Farmer_Count=cursor1.getString(cursor1.getColumnIndex("Farmer_Count"));
-                Pond_Count=cursor1.getString(cursor1.getColumnIndex("Pond_Count"));
-                i++;
-            } while (cursor1.moveToNext());
-            Log.e("tag","Farmer_Count="+Farmer_Count);
-            Log.e("tag","DiPond_Count="+Pond_Count);
-
-            if(Farmer_Count==null||Farmer_Count.equalsIgnoreCase("")){
-                Farmer_Count="0";
-            }
-            if(Pond_Count==null||Pond_Count.equalsIgnoreCase("")){
-                Pond_Count="0";
-            }
-        }//if ends
-
-    }
-
     public void ViewFarmerListRest_dbcount(){
         SQLiteDatabase db1 = this.openOrCreateDatabase("FarmPond_db", Context.MODE_PRIVATE, null);
 
@@ -2979,7 +2531,7 @@ public class Activity_ViewFarmers extends AppCompatActivity {
 
         int x = cursor1.getCount();
         cursor1.close();
-        //   SQLiteDatabase db = openOrCreateDatabase("FarmPond_db", Context.MODE_PRIVATE, null);
+     //   SQLiteDatabase db = openOrCreateDatabase("FarmPond_db", Context.MODE_PRIVATE, null);
 
        /* db1.execSQL("CREATE TABLE IF NOT EXISTS FarmPondDetails_fromServerRest(SlNo INTEGER PRIMARY KEY AUTOINCREMENT,FIDDB VARCHAR,TempFIDDB VARCHAR," +
                 "FNameDB VARCHAR,FMNameDB VARCHAR,FLNameDB VARCHAR,FYearIDDB VARCHAR,FStateIDDB VARCHAR,FDistrictIDDB VARCHAR," +
