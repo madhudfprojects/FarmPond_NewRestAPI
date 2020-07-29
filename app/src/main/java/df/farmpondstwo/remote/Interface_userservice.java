@@ -13,6 +13,7 @@ import df.farmpondstwo.Models.AddFarmerRequest;
 import df.farmpondstwo.Models.AddFarmerRequestTest;
 import df.farmpondstwo.Models.AddFarmerResponse;
 import df.farmpondstwo.Models.AdminEmpoyeeTotalPondCount;
+import df.farmpondstwo.Models.AutoSyncVersion;
 import df.farmpondstwo.Models.GetAppVersion;
 import df.farmpondstwo.Models.Location_Data;
 import df.farmpondstwo.Models.NormalLogin_Response;
@@ -120,4 +121,7 @@ public interface Interface_userservice {
   @Headers({ "Content-Type: application/json;charset=UTF-8"})
   @POST("Authentication/Post_ValidateSync")
   Call<ValidateSyncResponse> Post_ValidateSync(@Body ValidateSyncRequest request);
+
+  @GET("Authentication/Get_Sync_Version")
+  Call<AutoSyncVersion> getAutoSyncVersion(@Query("User_ID") String User_ID);
 }

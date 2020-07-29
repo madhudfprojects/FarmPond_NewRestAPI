@@ -41,6 +41,10 @@ import java.util.Map;
 import df.farmpondstwo.Models.AddFarmerRequest;
 import df.farmpondstwo.Models.AddFarmerResList;
 import df.farmpondstwo.Models.AddFarmerResponse;
+import df.farmpondstwo.Models.AdminEmpTotalPondCountList;
+import df.farmpondstwo.Models.AdminEmpoyeeTotalPondCount;
+import df.farmpondstwo.Models.AutoSyncVersion;
+import df.farmpondstwo.Models.AutoSyncVersionList;
 import df.farmpondstwo.Models.Class_FarmerProfileOffline;
 import df.farmpondstwo.Models.Class_farmponddetails;
 import df.farmpondstwo.Models.DefaultResponse;
@@ -104,6 +108,7 @@ public class Activity_MarketingHomeScreen extends AppCompatActivity {
    // Class_Offline_Newfarmponddetails[] offline_newfarmponddetails_arrayObj;
     //int int_offlinecount;
 
+    String str_VersionStatus;
 
     Class_farmponddetails[] class_farmerandpond_details_array_obj;
 
@@ -154,7 +159,7 @@ public class Activity_MarketingHomeScreen extends AppCompatActivity {
         sharedpreferencebook_usercredential_Obj=getSharedPreferences(sharedpreferencebook_usercredential, Context.MODE_PRIVATE);
         str_employee_id=sharedpreferencebook_usercredential_Obj.getString(KeyValue_employeeid, "").trim();
 
-
+Log.e("tag","str_employee_id="+str_employee_id);
 
 
         viewfarmer_ib = (ImageView) findViewById(R.id.viewFarmer_IB);
@@ -2010,7 +2015,76 @@ public class Activity_MarketingHomeScreen extends AppCompatActivity {
 
     }
 
+    private void GetAutoSyncVersion() {
+//        Map<String,String> params = new HashMap<String, String>();
+//
+//        params.put("User_ID","90");// for dynamic
 
+        retrofit2.Call call = userService1.getAutoSyncVersion(str_employee_id);
+        final ProgressDialog progressDoalog;
+        progressDoalog = new ProgressDialog(Activity_MarketingHomeScreen.this);
+        progressDoalog.setMessage("Loading....");
+        progressDoalog.setTitle("Please wait....");
+        progressDoalog.setCancelable(false);
+        progressDoalog.setProgressStyle(ProgressDialog.STYLE_SPINNER);
+        // show it
+        progressDoalog.show();
+        call.enqueue(new Callback<AutoSyncVersion>() {
+            @Override
+            public void onResponse(Call<AutoSyncVersion> call, Response<AutoSyncVersion> response) {
+                Log.e("tag","response AutoSyncVersion="+response.toString());
+                Log.e("TAG", "response AutoSyncVersion: " + new Gson().toJson(response));
+                Log.e("response body", String.valueOf(response.body()));
+
+                if (response.isSuccessful()) {
+                    //  progressDoalog.dismiss();
+                    AutoSyncVersion class_loginresponse = response.body();
+                    Log.e("tag", "res==" + class_loginresponse.toString());
+                    str_VersionStatus = String.valueOf(class_loginresponse.getStatus());
+
+                    if (class_loginresponse.getStatus()) {
+
+                        List<AutoSyncVersionList> addFarmerResList = response.body().getListVersion();
+                        Log.e("tag", "getUserSync =" + addFarmerResList.get(0).getUserSync());
+                        Log.e("tag", "getUserID =" + addFarmerResList.get(0).getUserID());
+
+                      //  str_VersionStatus = String.valueOf(class_loginresponse.getStatus());
+                        alerts_dialog_AutoSyncVersion();
+                        progressDoalog.dismiss();
+
+                    } else {
+                        progressDoalog.dismiss();
+
+                        Log.e("tag", "class_loginresponse.getMessage() =" + class_loginresponse.getMessage());
+
+                        //  Toast.makeText(Activity_MarketingHomeScreen.this, class_loginresponse.getMessage(), Toast.LENGTH_SHORT).show();
+
+                    }
+                } else {
+                    progressDoalog.dismiss();
+
+                    DefaultResponse error = ErrorUtils.parseError(response);
+                    // … and use it to show error information
+
+                    // … or just log the issue like we’re doing :)
+                    Log.d("error message", error.getMsg());
+
+                   // Toast.makeText(Activity_MarketingHomeScreen.this, error.getMsg(), Toast.LENGTH_SHORT).show();
+
+                }
+            }
+
+            @Override
+            public void onFailure(Call call, Throwable t) {
+                Log.e("TAG", "onFailure: " + t.toString());
+
+                Log.e("tag", "Error:" + t.getMessage());
+                Toast.makeText(Activity_MarketingHomeScreen.this, t.getMessage(), Toast.LENGTH_SHORT).show();
+            }
+        });
+
+
+    }
     private void AsyncTask_fetch_appversioncheck()
     {
 
@@ -2151,6 +2225,54 @@ public class Activity_MarketingHomeScreen extends AppCompatActivity {
 
     }
 
+    public  void alerts_dialog_AutoSyncVersion()
+    {
+
+        AlertDialog.Builder dialog = new AlertDialog.Builder(Activity_MarketingHomeScreen.this);
+        dialog.setCancelable(false);
+        dialog.setTitle("DF Agri");
+        dialog.setMessage("Kindly Re-Sync your data");
+
+        dialog.setPositiveButton("Update", new DialogInterface.OnClickListener() {
+            @Override
+            public void onClick(DialogInterface dialog, int id)
+            {
+                if (isInternetPresent)
+                {
+
+                    //working
+                    fetch_DB_farmerprofile_offline_data();
+
+                    /* fetch_DB_edited_offline_data();*/
+                    fetch_DB_Edited_farmerprofile_offline_data();
+                }
+
+                Intent i = new Intent(Activity_MarketingHomeScreen.this, Activity_ViewFarmers.class);
+                i.putExtra("VersionStatus", String.valueOf(str_VersionStatus));
+                SharedPreferences.Editor myprefs_spinner = sharedpref_spinner_Obj.edit();
+                myprefs_spinner.putString(Key_sel_yearsp, "0");
+                myprefs_spinner.putString(Key_sel_statesp, "0");
+                myprefs_spinner.putString(Key_sel_districtsp, "0");
+                myprefs_spinner.putString(Key_sel_taluksp, "0");
+                myprefs_spinner.putString(Key_sel_villagesp, "0");
+                myprefs_spinner.putString(Key_sel_grampanchayatsp, "0");
+
+                myprefs_spinner.apply();
+                startActivity(i);
+            }
+        });
+
+
+        final AlertDialog alert = dialog.create();
+        alert.setOnShowListener( new DialogInterface.OnShowListener() {
+            @Override
+            public void onShow(DialogInterface arg0) {
+                alert.getButton(AlertDialog.BUTTON_POSITIVE).setTextColor(Color.parseColor("#004D40"));
+            }
+        });
+        alert.show();
+
+    }
     public void fetch_DB_Edited_farmerprofile_offline_data()
     {
 
@@ -2251,6 +2373,7 @@ public class Activity_MarketingHomeScreen extends AppCompatActivity {
 
         if(x==0)
         {
+            GetAutoSyncVersion();
             GetAppVersionCheck();
           //  AsyncTask_fetch_appversioncheck();
         }
