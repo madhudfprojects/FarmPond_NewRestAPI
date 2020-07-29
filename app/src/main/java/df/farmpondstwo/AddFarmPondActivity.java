@@ -2423,16 +2423,6 @@ public class AddFarmPondActivity extends AppCompatActivity {
             @Override
             public void onResponse(retrofit2.Call<Class_addfarmponddetails_ToFromServer1> call, Response<Class_addfarmponddetails_ToFromServer1> response) {
 
-               /* Class_farmponddetails_Response user_object= new Class_farmponddetails_Response();
-                user_object = (Class_farmponddetails_Response) response.body();*/
-
-                /*Class_farmponddetails_ToServer  user_object1= new Class_farmponddetails_ToServer();
-                user_object1 = (Class_farmponddetails_ToServer) response.body();
-*/
-
-              /*  Class_addfarmponddetails_ToFromServer1  user_object1= new Class_addfarmponddetails_ToFromServer1();
-                user_object1 = (Class_addfarmponddetails_ToFromServer1) response.body();*/
-
                 Class_addfarmponddetails_ToFromServer1 user_object1 = response.body();
 
 
@@ -2445,38 +2435,7 @@ public class AddFarmPondActivity extends AppCompatActivity {
 
                 Log.e("response", user_object1.getLst2().get(0).getPondImage().get(0).getPondID()  );
 
-         ///response_error: java.lang.IllegalStateException: Expected BEGIN_OBJECT but was BEGIN_ARRAY at line 1 column 53 path $.objFarmerPond
 
-               // Log.e("response", user_object1.getLst2().getPondImage().get(0).getPondID());
-
-                // Log.e("Addpond_count", String.valueOf(user_object1.getClass_addfarmponddetails_toFromServer2_obj().size()));
-
-                //Toast.makeText(AddFarmPondActivity.this, ""+user_object.getStatus().toString(), Toast.LENGTH_SHORT).show();
-                //Toast.makeText(AddFarmPondActivity.this, ""+user_object1.getClass_addfarmponddetails_toFromServer2_obj().get(0).getMachine_ID().toString(), Toast.LENGTH_SHORT).show();
-
-
-                //user_object1.getClass_addfarmponddetails_toFromServer2_obj().size();
-
-                //            Class_LoginResponse user_object= new Class_LoginResponse();
-                //              user_object = (Class_LoginResponse) response.body();
-
-                // Log.e("response",user_object.getStatus().toString());
-
-                //  Toast.makeText(AddFarmPondActivity.this, ""+user_object.getStatus().toString(), Toast.LENGTH_LONG).show();
-
-//                Toast.makeText(AddFarmPondActivity.this, ""+user_object.getMessage().toString(), Toast.LENGTH_LONG).show();
-
-              /*  if(response.isSuccessful())
-                {
-                    user_object = (User) response.body();
-
-                    Toast.makeText(MainActivity.this, ""+user_object.getEmail().toString(), Toast.LENGTH_SHORT).show();
-*/
-                //  Toast.makeText(MainActivity.this, "CAMU Token:"+user_object.getPass().toString(), Toast.LENGTH_SHORT).show();
-
-                // ResObj resObj = response.body();
-
-                // }
             }
 
             @Override
@@ -2580,6 +2539,10 @@ public class AddFarmPondActivity extends AppCompatActivity {
         db1.close();
 
 
+         Toast.makeText(getApplicationContext(), "New FarmPond has been added", Toast.LENGTH_SHORT).show();
+            Intent intent = new Intent(AddFarmPondActivity.this, EachFarmPondDetails_Activity.class);
+            startActivity(intent);
+            finish();
 
 
     }
