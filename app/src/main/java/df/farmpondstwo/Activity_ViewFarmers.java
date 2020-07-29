@@ -2355,7 +2355,10 @@ public class Activity_ViewFarmers extends AppCompatActivity {
                                     String farmerID = class_userData.getLst().get(i).getPond().get(j).getFarmerID();
                                     String academicID = class_userData.getLst().get(i).getPond().get(j).getAcademicID();
                                     String machineID = class_userData.getLst().get(i).getPond().get(j).getMachineID();
-                                    String pondCode = class_userData.getLst().get(i).getPond().get(j).getPondCode();
+                                   // String pondCode = class_userData.getLst().get(i).getPond().get(j).getPondCode();
+
+                                    String pondCode = class_userData.getLst().get(i).getPond().get(j).getPondID();
+                                    
                                     String pondLatitude = class_userData.getLst().get(i).getPond().get(j).getPondLatitude();
                                     String pondLongitude = class_userData.getLst().get(i).getPond().get(j).getPondLongitude();
                                     String pondLength = class_userData.getLst().get(i).getPond().get(j).getPondLength();
