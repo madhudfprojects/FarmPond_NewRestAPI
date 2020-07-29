@@ -2958,10 +2958,10 @@ public class EditFarmPondDetails_Activity extends AppCompatActivity {
                     Log.e("tag","res=="+class_loginresponse.toString());
                     if(class_loginresponse.getStatus().equals("true")) {
 
-                        Class_addfarmponddetails_ToFromServer2 class_addfarmponddetails_toFromServer2 = response.body().getLst2();
+                      /*  Class_addfarmponddetails_ToFromServer2 class_addfarmponddetails_toFromServer2 = response.body().getLst2();
                         Log.e("tag","class_addfarmponddetails_toFromServer2 farmerID="+class_addfarmponddetails_toFromServer2.getFarmer_ID());
                         Log.e("tag","class_addfarmponddetails_toFromServer2 PondID="+class_addfarmponddetails_toFromServer2.getPond_ID());
-
+*/
                     }else if(class_loginresponse.getStatus().equals("false")){
                         //     progressDoalog.dismiss();
                         Toast.makeText(EditFarmPondDetails_Activity.this, class_loginresponse.getMessage(), Toast.LENGTH_SHORT).show();

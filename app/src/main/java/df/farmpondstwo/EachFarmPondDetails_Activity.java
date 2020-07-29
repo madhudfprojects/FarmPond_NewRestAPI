@@ -1205,5 +1205,32 @@ public class EachFarmPondDetails_Activity extends AppCompatActivity {
 
 
 
+    @Override
+    public void onBackPressed()
+    {
+        super.onBackPressed();
+        Intent i=new Intent(EachFarmPondDetails_Activity.this,Activity_ViewFarmers.class);
+     /*   i.putExtra("value_constant","1");
+        i.putExtra("sel_yearsp",sel_yearsp);
+        i.putExtra("sel_statesp",sel_statesp);
+        i.putExtra("sel_districtsp",sel_districtsp);
+        i.putExtra("sel_taluksp",sel_taluksp);
+        i.putExtra("sel_villagesp",sel_villagesp);
+        i.putExtra("sel_grampanchayatsp",sel_grampanchayatsp);*/
+       /* SharedPreferences.Editor myprefs_spinner = sharedpref_spinner_Obj.edit();
+        myprefs_spinner.putString(Key_sel_yearsp, sel_yearsp);
+        myprefs_spinner.putString(Key_sel_statesp, sel_statesp);
+        myprefs_spinner.putString(Key_sel_districtsp, sel_districtsp);
+        myprefs_spinner.putString(Key_sel_taluksp, sel_taluksp);
+        myprefs_spinner.putString(Key_sel_villagesp, sel_villagesp);
+        myprefs_spinner.putString(Key_sel_grampanchayatsp, sel_grampanchayatsp);
+
+        myprefs_spinner.apply();*/
+        startActivity(i);
+        finish();
+    }
+
+
+
 
 }

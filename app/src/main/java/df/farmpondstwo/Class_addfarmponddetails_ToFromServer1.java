@@ -29,6 +29,10 @@ package df.farmpondstwo;
 import com.google.gson.annotations.Expose;
 import com.google.gson.annotations.SerializedName;
 
+import java.util.List;
+
+import df.farmpondstwo.Models.PondImage;
+
 public class Class_addfarmponddetails_ToFromServer1
 {
 
@@ -57,7 +61,10 @@ public class Class_addfarmponddetails_ToFromServer1
 
     @SerializedName("objFarmerPond")
     @Expose
-    private Class_addfarmponddetails_ToFromServer2 lst2 = null;
+    //private Class_addfarmponddetails_ToFromServer2 lst2 = null;
+
+
+    private List<Class_addfarmponddetails_ToFromServer2> lst2;
 
 
     public String getMessage() {
@@ -77,7 +84,15 @@ public class Class_addfarmponddetails_ToFromServer1
         return lst;
     }*/
 
-    public Class_addfarmponddetails_ToFromServer2 getLst2() {
+   /* public Class_addfarmponddetails_ToFromServer2 getLst2() {
         return lst2;
+    }*/
+
+    public List<Class_addfarmponddetails_ToFromServer2> getLst2() {
+        return lst2;
+    }
+
+    public void setLst2(List<Class_addfarmponddetails_ToFromServer2> lst2) {
+        this.lst2 = lst2;
     }
 }

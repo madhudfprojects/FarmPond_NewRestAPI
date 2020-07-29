@@ -1147,7 +1147,7 @@ public class Activity_ViewFarmers extends AppCompatActivity {
                                                          String str_FIDproofno, String str_approvalstatus, String str_approvalremarks,
                                                          String str_approvedby, String str_approveddate, String str_donorname,
                                                          String str_latitude, String str_longitude,
-                                                         String str_acres, String str_gunta, String str_crop_beforepond, String str_crop_afterpond) {
+                                                         String str_acres, String str_gunta, String str_crop_beforepond, String str_crop_afterpond,String str_yearID) {
         if (str_farmpond_remarks == null) {
             str_farmpond_remarks = "100";
         } else {
@@ -1189,13 +1189,16 @@ public class Activity_ViewFarmers extends AppCompatActivity {
         Log.e("DB_imageid3",str_imageid3);*/
 
 
-        String str_yearID, str_stateID, str_districtID, str_talukID, str_panchayatID, str_villageID,
+        String str_stateID, str_districtID, str_talukID, str_panchayatID, str_villageID,
                 str_farmerage, str_FannualIncome, str_Ffamilymember, str_Fphoto, str_empID, str_tempfid;
 
-        str_yearID = str_stateID = str_districtID = str_talukID = str_panchayatID = str_villageID =
+         str_stateID = str_districtID = str_talukID = str_panchayatID = str_villageID =
                 str_farmerage = str_FannualIncome = str_Ffamilymember = str_Fphoto = str_empID = str_tempfid = "empty";
 
         Log.e("tag", "str_farmerid" + str_farmerid);
+
+        Log.e("tag", "str_yearID:" + str_yearID);
+
         // String str_tempfarmpond_id="temppondidX";
 
         SQLiteDatabase db1 = this.openOrCreateDatabase("FarmPond_db", Context.MODE_PRIVATE, null);
@@ -1907,7 +1910,7 @@ public class Activity_ViewFarmers extends AppCompatActivity {
     private void GetDropdownValuesRestData() {
 
         // Call<Location_Data> call = userService1.getLocationData(str_employee_id);
-        Call<Location_Data> call = userService1.getLocationData("38");
+        Call<Location_Data> call = userService1.getLocationData("106");
         final ProgressDialog progressDoalog;
         progressDoalog = new ProgressDialog(Activity_ViewFarmers.this);
         progressDoalog.setMessage("Loading....");
@@ -2042,7 +2045,7 @@ public class Activity_ViewFarmers extends AppCompatActivity {
     private void GetFarmer_PondValuesRestData() {
 
         //  Call<UserData> call = userService1.getUserData(str_employee_id);
-        Call<UserData> call = userService1.getUserData("38");
+        Call<UserData> call = userService1.getUserData("106");
 
         final ProgressDialog progressDoalog;
         progressDoalog = new ProgressDialog(Activity_ViewFarmers.this);
@@ -2192,7 +2195,9 @@ public class Activity_ViewFarmers extends AppCompatActivity {
                                 String farmerID = class_userData.getLst().get(i).getPond().get(j).getFarmerID();
                                 String academicID = class_userData.getLst().get(i).getPond().get(j).getAcademicID();
                                 String machineID = class_userData.getLst().get(i).getPond().get(j).getMachineID();
-                                String pondCode = class_userData.getLst().get(i).getPond().get(j).getPondCode();
+                                //String pondCode = class_userData.getLst().get(i).getPond().get(j).getPondCode();
+                                String pondCode = class_userData.getLst().get(i).getPond().get(j).getPondID();
+
                                 String pondLatitude = class_userData.getLst().get(i).getPond().get(j).getPondLatitude();
                                 String pondLongitude = class_userData.getLst().get(i).getPond().get(j).getPondLongitude();
                                 String pondLength = class_userData.getLst().get(i).getPond().get(j).getPondLength();
@@ -2232,14 +2237,17 @@ public class Activity_ViewFarmers extends AppCompatActivity {
 
                                 // PondImage Array Method
                                 int pondImageSize = class_userData.getLst().get(i).getPond().get(j).getPondImage().size();
-                                for (int k = 0; k < pondImageSize; k++) {
+                                for (int k = 0; k < pondImageSize; k++)
+                                {
                                     String pondImageType=class_userData.getLst().get(i).getPond().get(j).getPondImage().get(k).getImageType();
-                                    if(pondImageType.equalsIgnoreCase("1")){
+                                    if(pondImageType.equalsIgnoreCase("1"))
+                                    {
                                         pondImage1 = class_userData.getLst().get(i).getPond().get(j).getPondImage().get(k).getImageLink();
                                         pondImageId1 = class_userData.getLst().get(i).getPond().get(j).getPondImage().get(k).getImageID();
                                         pondImageType1 = class_userData.getLst().get(i).getPond().get(j).getPondImage().get(k).getImageType();
                                     }
-                                    if(pondImageType.equalsIgnoreCase("2")){
+                                    if(pondImageType.equalsIgnoreCase("2"))
+                                    {
                                         pondImage2 = class_userData.getLst().get(i).getPond().get(j).getPondImage().get(k).getImageLink();
                                         pondImageId2 = class_userData.getLst().get(i).getPond().get(j).getPondImage().get(k).getImageID();
                                         pondImageType2 = class_userData.getLst().get(i).getPond().get(j).getPondImage().get(k).getImageType();
@@ -2467,7 +2475,7 @@ public class Activity_ViewFarmers extends AppCompatActivity {
                                         pondCode, pondStart, str_farmpond_remarks, CollectedAmount, pondStatus,
                                         farmer_Middle_Name, farmer_Last_Name, "", Farmer_ID_Type, Farmer_ID_Number, Approval_Status,
                                         Approval_Remarks, Approval_By, str_approveddate, Donor_Name, pondLatitude, pondLongitude,
-                                        Pond_Land_Acre, Pond_Land_Gunta, Crop_Before, Crop_After);
+                                        Pond_Land_Acre, Pond_Land_Gunta, Crop_Before, Crop_After,academicID);
                             }
                         }
 
@@ -3073,7 +3081,7 @@ public class Activity_ViewFarmers extends AppCompatActivity {
     private void NormalLoginNew() {
 
         // Call call = userService1.getLocationDataNew(str_employee_id);
-        Call call = userService1.getLocationDataNew("101");
+        Call call = userService1.getLocationDataNew("106");
 
         call.enqueue(new Callback() {
             @Override
@@ -5741,6 +5749,8 @@ Log.e("tag","pond FIDDB="+str_farmerid);
                     "    }\n" +
                     "]";
             JSONArray jsonArray = new JSONArray(response);
+
+
 
             Log.e("remarks_length", String.valueOf(jsonArray.length()));
 

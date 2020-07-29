@@ -194,7 +194,14 @@ public class MainActivity extends AppCompatActivity
                 finish();*/
                 //AsyncTask_NormalLogin();
                 // NormalLogin();
-                NormalLoginNew();
+
+
+                if (checkPermissions())
+                {
+                    //  permissions  granted.
+                    NormalLoginNew();
+                }
+
 
 
             }
@@ -211,7 +218,12 @@ public class MainActivity extends AppCompatActivity
 
         params.put("User_Email","eventtest464@gmail.com ");// for dynamic
 
-        retrofit2.Call call = userService1.getValidateLoginPostNew("eventtest464@gmail.com");
+       // retrofit2.Call call = userService1.getValidateLoginPostNew("eventtest464@gmail.com");
+
+        //retrofit2.Call call = userService1.getValidateLoginPostNew("sandeep.hagalure@dfmail.org");
+        retrofit2.Call call = userService1.getValidateLoginPostNew("mis@dfmail.org");
+
+
 
         call.enqueue(new Callback()
         {
@@ -287,9 +299,25 @@ try{
 
 
     }
-    
 
 
+
+
+    private  boolean checkPermissions() {
+        int result;
+        List<String> listPermissionsNeeded = new ArrayList<>();
+        for (String p:permissions) {
+            result = ContextCompat.checkSelfPermission(this,p);
+            if (result != PackageManager.PERMISSION_GRANTED) {
+                listPermissionsNeeded.add(p);
+            }
+        }
+        if (!listPermissionsNeeded.isEmpty()) {
+            ActivityCompat.requestPermissions(this, listPermissionsNeeded.toArray(new String[listPermissionsNeeded.size()]),MULTIPLE_PERMISSIONS );
+            return false;
+        }
+        return true;
+    }
 
 
 
