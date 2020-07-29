@@ -57,7 +57,7 @@ public interface Interface_userservice {
 
   @Headers("Content-Type: application/json")
   @GET("Authentication/Get_UserData")
-  Call<UserData> getUserData(@Query("User_ID") String User_ID); 
+  Call<UserData> getUserData(@Query("User_ID") String User_ID);
 
   @Headers("Content-Type: application/json;charset=utf-8")
   @POST("Authentication/Post_ActionFarmerData")
