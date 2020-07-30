@@ -192,6 +192,11 @@ public class Activity_HomeScreen extends AppCompatActivity implements GoogleApiC
                 startActivity(i);
                 finish();
 
+
+
+
+
+
             }
         });
 
