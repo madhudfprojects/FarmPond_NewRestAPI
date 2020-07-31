@@ -2109,10 +2109,10 @@ public class AddFarmPondActivity extends AppCompatActivity {
 
  class_addpondResponse_obj =new Class_addpondResponse[newfarmponddetails_offline_array_objRest.length];
 
-    json_obj= new JSONObject[newfarmponddetails_offline_array_objRest.length];
+    /*json_obj= new JSONObject[newfarmponddetails_offline_array_objRest.length];
 
          jsarray_resp = new JSONArray();
-
+*/
 
         newpond_response= new Class_addfarmponddetails_ToFromServer1[newfarmponddetails_offline_array_objRest.length];
         int_j=0;
@@ -2272,11 +2272,11 @@ public class AddFarmPondActivity extends AppCompatActivity {
 
                         Class_addfarmponddetails_ToFromServer1 class_addfarmponddetailsresponse = response.body();
 
-                        if (class_addfarmponddetailsresponse.getStatus().equals("true"))
-                        {
+                        if (class_addfarmponddetailsresponse.getStatus().equalsIgnoreCase("true"))
+                            {
 
-                            if(int_j>0){}
-                            else{ int_j=0; }
+                                if(int_j>0){}
+                                else{ int_j=0; }
                             try {
                                 newpond_response[int_j] = class_addfarmponddetailsresponse;
                                 int_j++;

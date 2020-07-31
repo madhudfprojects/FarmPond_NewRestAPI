@@ -93,6 +93,10 @@ public class Class_addfarmponddetails_ToFromServer2
     @Expose
     private String Pond_Cost;
 
+    @SerializedName("Pond_Collected_Amount")
+    @Expose
+    private String Pond_Collected_Amount;
+
 
 
     /*@SerializedName("Pond_Image_1")
@@ -243,6 +247,14 @@ public class Class_addfarmponddetails_ToFromServer2
         Pond_Cost = pond_Cost;
     }
 
+    public String getPond_Collected_Amount() {
+        return Pond_Collected_Amount;
+    }
+
+    public void setPond_Collected_Amount(String pond_Collected_Amount) {
+        Pond_Collected_Amount = pond_Collected_Amount;
+    }
+
    /* public String getPond_Image_1() {
         return Pond_Image_1;
     }
@@ -347,4 +359,7 @@ public class Class_addfarmponddetails_ToFromServer2
     public void setPondImage1(ArrayList<Class_AddFarmPond> pondImage1) {
         PondImage1 = pondImage1;
     }*/
+
+
+
 }

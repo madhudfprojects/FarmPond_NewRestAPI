@@ -2207,7 +2207,9 @@ public class Activity_ViewFarmers extends AppCompatActivity {
                 //     Log.e("Entered resp", response.body().getMessage());
                 Log.e("TAG", "response userdata: " + new Gson().toJson(response));
                 Log.e("response body userdata", String.valueOf(response.body()));
+
                 AddFarmerDetailsNew();
+
                 if (response.isSuccessful()) {
                     UserData class_userData = response.body();
                     //   Log.e("response.body", response.body().getLst().toString());
@@ -2358,7 +2360,7 @@ public class Activity_ViewFarmers extends AppCompatActivity {
                                    // String pondCode = class_userData.getLst().get(i).getPond().get(j).getPondCode();
 
                                     String pondCode = class_userData.getLst().get(i).getPond().get(j).getPondID();
-                                    
+
                                     String pondLatitude = class_userData.getLst().get(i).getPond().get(j).getPondLatitude();
                                     String pondLongitude = class_userData.getLst().get(i).getPond().get(j).getPondLongitude();
                                     String pondLength = class_userData.getLst().get(i).getPond().get(j).getPondLength();
@@ -2395,6 +2397,10 @@ public class Activity_ViewFarmers extends AppCompatActivity {
                                     String Crop_Before = class_userData.getLst().get(i).getPond().get(j).getCropBefore();
                                     String Crop_After = class_userData.getLst().get(i).getPond().get(j).getCropAfter();
                                     String CollectedAmount = class_userData.getLst().get(i).getPond().get(j).getPondCollectedAmount();
+                                   // String CollectedAmount="0";
+                                   /* if(class_userData.getLst().get(i).getPond().get(j).getPondCollectedAmount().equalsIgnoreCase("null"))
+                                    {  CollectedAmount ="0"; }
+                                    else{ CollectedAmount=class_userData.getLst().get(i).getPond().get(j).getPondCollectedAmount();}*/
 
                                     // PondImage Array Method
                                     int pondImageSize = class_userData.getLst().get(i).getPond().get(j).getPondImage().size();
@@ -2674,7 +2680,8 @@ public class Activity_ViewFarmers extends AppCompatActivity {
 
     }
 
-    private void AddFarmerDetailsNew() {
+    private void AddFarmerDetailsNew()
+    {
 
         Log.e("tag","Location_Response2="+class_location_dataList.getResponse());
         Log.e("tag","UserData_Response2="+class_userDatalist.getResponse());

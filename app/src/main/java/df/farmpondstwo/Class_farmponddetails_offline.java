@@ -63,6 +63,7 @@ public class Class_farmponddetails_offline
     private String Total_no_days;
     private String ConstructedDate;
     private String PondCost;
+
     private String MachineCode;
 
 
@@ -93,13 +94,13 @@ public class Class_farmponddetails_offline
     private String Farmpond_yearid;
 
 
-    public String getFarmer_Id() {
+   /* public String getFarmer_Id() {
         return Farmer_Id;
     }
 
     public void setFarmer_Id(String farmer_Id) {
         Farmer_Id = farmer_Id;
-    }
+    }*/
 
     public String getFarmpond_yearid() {
         return Farmpond_yearid;
@@ -124,6 +125,7 @@ public class Class_farmponddetails_offline
     public void setfarmer_id(String farmer_id) {
         Farmer_Id = farmer_id;
     }
+
 
     public String getFarmpond_Id() {
         return Farmpond_Id;
@@ -308,6 +310,8 @@ public class Class_farmponddetails_offline
     public void setPondCost(String pondCost) {
         PondCost = pondCost;
     }
+
+
 
     public String getMachineCode() {
         return MachineCode;

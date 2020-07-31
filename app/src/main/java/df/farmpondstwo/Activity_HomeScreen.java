@@ -7,6 +7,7 @@ import android.content.Context;
 import android.content.Intent;
 import android.content.SharedPreferences;
 import android.content.pm.PackageManager;
+import android.database.Cursor;
 import android.database.sqlite.SQLiteDatabase;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
@@ -193,7 +194,12 @@ public class Activity_HomeScreen extends AppCompatActivity implements GoogleApiC
                 finish();
 
 
+               /* Class_farmponddetails_offline[] obj1;
+                Class_DBHandler db = new Class_DBHandler(getApplicationContext());
+                obj1=db.get_DB_edited_offline_data();
 
+
+               Log.e("Height",obj1[0].getFarmpond_Height());*/
 
 
 

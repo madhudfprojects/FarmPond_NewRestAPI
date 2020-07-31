@@ -126,6 +126,7 @@ public class EachFarmPondDetails_Activity extends AppCompatActivity {
         title.setText("FarmPond Details");
         getSupportActionBar().setTitle("");
 
+
         str_gps_yes = "no";
         farmpondlist_listview = (ListView) findViewById(R.id.farmpondlist_listview);
 

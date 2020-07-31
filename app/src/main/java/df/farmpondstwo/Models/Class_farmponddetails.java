@@ -49,9 +49,12 @@ public class Class_farmponddetails
     @SerializedName("Pond_Cost")
     @Expose
     private String pondCost;
-    @SerializedName("Pond_CollectedAmount")
+
+    @SerializedName("Pond_Collected_Amount")
     @Expose
     private String pondCollectedAmount;
+
+
     @SerializedName("Pond_Status")
     @Expose
     private String pondStatus;
