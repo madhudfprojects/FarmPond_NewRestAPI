@@ -270,7 +270,7 @@ public class AddFarmer_Activity1 extends AppCompatActivity {
 
 
         uploadfromDB_Yearlist();
-        uploadfromDB_Statelist();
+       uploadfromDB_Statelist();
         uploadfromDB_Districtlist();
         uploadfromDB_Taluklist();
         uploadfromDB_Villagelist();

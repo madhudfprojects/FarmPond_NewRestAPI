@@ -914,14 +914,15 @@ public class Activity_ViewFarmers extends AppCompatActivity {
         db_statelist.execSQL("CREATE TABLE IF NOT EXISTS StateListRest(StateID VARCHAR,StateName VARCHAR,state_yearid VARCHAR);");
 
 
+
         if (i == 0) {
-            String SQLiteQuery = "INSERT INTO StateListRest (StateID,StateName)" +
-                    " VALUES ('" + "0" + "','" + "Select" + "');";
+            String SQLiteQuery = "INSERT INTO StateListRest (StateID,StateName,state_yearid)" +
+                    " VALUES ('" + "0" + "','" + "Select" +"','" + "0" + "');";
             db_statelist.execSQL(SQLiteQuery);
         }
 
-        String SQLiteQuery = "INSERT INTO StateListRest (StateID,StateName)" +
-                " VALUES ('" + str_stateID + "','" + str_statename + "');";
+        String SQLiteQuery = "INSERT INTO StateListRest (StateID,StateName,state_yearid)" +
+                " VALUES ('" + str_stateID + "','" + str_statename + "','" + str_yearid + "');";
         db_statelist.execSQL(SQLiteQuery);
 
         Log.e("str_stateID DB", str_stateID);
@@ -2804,7 +2805,9 @@ public class Activity_ViewFarmers extends AppCompatActivity {
 
     public void stateListRest_dbCount(){
         SQLiteDatabase db_statelist = openOrCreateDatabase("FarmPond_db", Context.MODE_PRIVATE, null);
-        db_statelist.execSQL("CREATE TABLE IF NOT EXISTS StateListRest(StateID VARCHAR,StateName VARCHAR);");
+
+        db_statelist.execSQL("CREATE TABLE IF NOT EXISTS StateListRest(StateID VARCHAR,StateName VARCHAR,state_yearid VARCHAR);");
+       // db_statelist.execSQL("CREATE TABLE IF NOT EXISTS StateListRest(StateID VARCHAR,StateName VARCHAR);");
         Cursor cursor = db_statelist.rawQuery("SELECT * FROM StateListRest", null);
         int State_x = cursor.getCount();
         Log.e("cursor State_xcount", Integer.toString(State_x));
