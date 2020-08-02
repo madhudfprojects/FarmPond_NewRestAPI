@@ -4,6 +4,6 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    tools:context="df.farmpondstwo.Home_Activity">
+    tools:context="df.farmponds.Home_Activity">
 
 </android.support.constraint.ConstraintLayout>

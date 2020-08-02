@@ -4,4 +4,6 @@
     <string name="txtFileDocumentUploadImg">FarmerIMG_</string>
     <string name="txtFileExtension">.png</string>
 
+    <string name="server_client_ID_type3">1002987641578-aq12s8k5pb7lqvq9617k1c9ub60fppcu.apps.googleusercontent.com</string>
+
 </resources>
