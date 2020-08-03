@@ -1,0 +1,48 @@
+{
+  "project_info": {
+    "project_number": "1002987641578",
+    "firebase_url": "https://farmpond15sept2019.firebaseio.com",
+    "project_id": "farmpond15sept2019",
+    "storage_bucket": "farmpond15sept2019.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:1002987641578:android:30bf2635fde3ca52891593",
+        "android_client_info": {
+          "package_name": "df.farmponds"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "1002987641578-dkfctttqk0i6thoevsp8bh7tq8gm7ape.apps.googleusercontent.com",
+          "client_type": 1,
+          "android_info": {
+            "package_name": "df.farmponds",
+            "certificate_hash": "15d8972c8323ec0a910d8194f1f42e15b4e1a65b"
+          }
+        },
+        {
+          "client_id": "1002987641578-aq12s8k5pb7lqvq9617k1c9ub60fppcu.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyD0xSgJbI18fBtpjPmu8VYFPrUBuk4TtG0"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": [
+            {
+              "client_id": "1002987641578-aq12s8k5pb7lqvq9617k1c9ub60fppcu.apps.googleusercontent.com",
+              "client_type": 3
+            }
+          ]
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}

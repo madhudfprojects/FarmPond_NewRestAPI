@@ -35,6 +35,7 @@ import com.google.android.gms.auth.api.signin.GoogleSignInOptions;
 import com.google.android.gms.auth.api.signin.GoogleSignInResult;
 import com.google.android.gms.common.ConnectionResult;
 import com.google.android.gms.common.api.GoogleApiClient;
+import com.google.firebase.iid.FirebaseInstanceId;
 
 import org.ksoap2.SoapEnvelope;
 import org.ksoap2.serialization.SoapObject;
@@ -772,7 +773,7 @@ public class Activity_HomeScreen extends AppCompatActivity implements GoogleApiC
         Log.e("SCREEN_Height", "" + Measuredheight);
 
 
-//        regId = FirebaseInstanceId.getInstance().getToken();
+       // regId = FirebaseInstanceId.getInstance().getToken();
 
 
 
