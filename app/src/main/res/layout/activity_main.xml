@@ -12,7 +12,7 @@
 
 
     <com.google.android.gms.common.SignInButton
-        android:visibility="gone"
+        android:visibility="visible"
         android:layout_marginTop="390dp"
         android:id="@+id/google_signin_bt"
         android:layout_width="wrap_content"
@@ -59,11 +59,12 @@
     <Button
         android:id="@+id/normallogin_bt"
         android:layout_width="wrap_content"
+
         android:layout_height="35dp"
         android:layout_centerHorizontal="true"
         android:layout_centerVertical="true"
         android:layout_gravity="center"
-        android:layout_marginTop="300dp"
+        android:layout_marginTop="100dp"
         android:gravity="center"
         android:text="Login"
         android:visibility="visible" />
