@@ -1,4 +1,4 @@
-package df.farmpondstwo;
+package df.farmponds;
 
 import org.junit.Test;
 
