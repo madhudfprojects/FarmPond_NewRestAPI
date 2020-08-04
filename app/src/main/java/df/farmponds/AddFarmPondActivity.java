@@ -280,9 +280,9 @@ public class AddFarmPondActivity extends AppCompatActivity {
         sharedpref_spinner_Obj = getSharedPreferences(sharedpreferenc_selectedspinner, Context.MODE_PRIVATE);
         str_year=sharedpref_spinner_Obj.getString(Key_sel_yearsp,"").trim();
 
-        Log.e("farmername", str_farmername);
-        Log.e("farmerid", str_farmerID);
-        Log.e("str_employee_id", str_employee_id);
+        Log.e("Add_farmername", str_farmername);
+        Log.e("Add_farmerid", str_farmerID);
+        Log.e("Add_str_employee_id", str_employee_id);
 
 
         str_DBerror_check = "no";
