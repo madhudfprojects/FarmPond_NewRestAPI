@@ -675,7 +675,8 @@ Log.e("tag","str_employee_id="+str_employee_id);
 
     private void AddFarmerDetails(final int j){
         AddFarmerRequest request = new AddFarmerRequest();
-        request.setFarmerID(class_farmerprofileoffline_array_obj[j].getStr_farmerID());
+       // request.setFarmerID(class_farmerprofileoffline_array_obj[j].getStr_farmerID());
+        request.setFarmerID("0");
         request.setStateID(class_farmerprofileoffline_array_obj[j].getStr_stateid());
         request.setDistrictID(class_farmerprofileoffline_array_obj[j].getStr_districtid());
         request.setTalukaID(class_farmerprofileoffline_array_obj[j].getStr_talukid());
@@ -2240,7 +2241,7 @@ Log.e("tag","str_employee_id="+str_employee_id);
             String familymembers=class_farmerlistdetails_arrayObj[j].getFarmerFamily();
             String submittedDateTime=class_farmerlistdetails_arrayObj[j].getSubmittedDate();
             String tempfarmerid=class_farmerlistdetails_arrayObj[j].getMobileTempID();
-            String empId="40";
+            String empId=class_farmerlistdetails_arrayObj[j].getCreatedBy();
 
               EditFarmerDetails(FarmerID,stateid,districtid,talukid,panchayatid,villageid,fname,mname,lname,phonenumber,idprooftyp,idproofno,farmerimage,age,annualincome,familymembers,submittedDateTime,tempfarmerid,empId);
 
@@ -2284,6 +2285,10 @@ Log.e("tag","str_employee_id="+str_employee_id);
     private void EditFarmerDetails(String FarmerID,String stateid,String districtid,String talukid,String panchayatid,String villageid,
                                   String fname,String mname,String lname,String phonenumber,String idprooftyp,String idproofno,String farmerimage,String age,String annualincome,String familymembers,String submittedDateTime,String tempfarmerid,String empId)
     {
+        if(FarmerID.startsWith("temp")){
+            Log.e("tag","FarmerID temp=="+FarmerID);
+            FarmerID="0";
+        }
 
         AddFarmerRequest request = new AddFarmerRequest();
         request.setFarmerID(FarmerID);
@@ -2341,11 +2346,17 @@ Log.e("tag","str_employee_id="+str_employee_id);
                     AddFarmerResList addFarmerResList = response.body().getLst();
                     Log.e("tag","editFarmerResList NAme="+addFarmerResList.getFarmerFirstName());
 
-                    String str_response_farmer_id=addFarmerResList.getFarmerID();
+                   /* String str_response_farmer_id=addFarmerResList.getFarmerID();
                     String str_response_farmercode=addFarmerResList.getFarmerCode();
                     String str_response_tempId=addFarmerResList.getMobileTempID();
                     Log.e("tag","getMobileTempID="+addFarmerResList.getMobileTempID());
-                    Log.e("tag","getFarmerCode="+addFarmerResList.getFarmerCode());
+                    Log.e("tag","getFarmerCode="+addFarmerResList.getFarmerCode());*/
+                    String str_response_farmer_id = addFarmerResList.getFarmerID();
+                    String str_response_farmercode = addFarmerResList.getFarmerCode();
+                    String str_response_tempId = addFarmerResList.getMobileTempID();
+                    Log.e("tag", "getMobileTempID=" + addFarmerResList.getMobileTempID());
+                    Log.e("tag", "getFarmerCode=" + addFarmerResList.getFarmerCode());
+                    Log.e("tag", "getFarmerID=" + addFarmerResList.getFarmerID());
 
                     SQLiteDatabase db_viewfarmerlist = getApplication().openOrCreateDatabase("FarmPond_db", Context.MODE_PRIVATE, null);
 

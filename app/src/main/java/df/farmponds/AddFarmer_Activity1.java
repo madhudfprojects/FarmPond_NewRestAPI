@@ -1247,7 +1247,7 @@ public class AddFarmer_Activity1 extends AppCompatActivity {
         //str_tempfid=str_farmerid;
         str_tempfid = "tempfarmerID" + String.valueOf(System.currentTimeMillis() + "_" + str_employee_id);
 
-        str_farmerid = "0";
+        str_farmerid = str_tempfid; //"0";
         String str_farmerFname = farmerfirstname_et.getText().toString();
         String str_farmerimage = "empty";
         String str_farmpondcount = "0";
@@ -1331,8 +1331,8 @@ public class AddFarmer_Activity1 extends AppCompatActivity {
                 "FPondLatitudeDB VARCHAR,FPondLongitudeDB VARCHAR," +
                 "FPondAcresDB VARCHAR,FPondGuntaDB VARCHAR,FPondCropBeforeDB VARCHAR,FPondCropAfterDB VARCHAR," +
                 "UploadedStatusFarmerprofile VARCHAR,UploadedStatus VARCHAR," +
-                "newpondImageId1 VARCHAR,pondImageType1 VARCHAR,newpondImageId2 VARCHAR," +
-                "pondImageType2 VARCHAR,newpondImageId3 VARCHAR,pondImageType3 VARCHAR);");
+                "newpondImageId1 VARCHAR,pondImageType1 VARCHAR,newpondImageId2 VARCHAR,pondImageType2 VARCHAR,newpondImageId3 VARCHAR,pondImageType3 VARCHAR);");
+
 
 
         String str_yearID, str_stateID, str_districtID, str_talukID, str_panchayatID, str_villageID, str_farmerFname, str_farmerMName,
@@ -1419,7 +1419,7 @@ public class AddFarmer_Activity1 extends AppCompatActivity {
                 "newpondImageId1,pondImageType1,newpondImageId2,pondImageType2,newpondImageId3,pondImageType3)" +
                 " VALUES ('" + str_farmerid + "','" + str_tempfid + "','" + str_farmerFname + "','" + str_farmerMName + "','" + str_farmerLName + "','" + str_yearID + "'," +
                 "'" + str_stateID + "','" + str_districtID + "','" + str_talukID + "','" + str_panchayatID + "','" + str_villageID + "','" + str_farmerage + "'," +
-                "'" + str_Fphonenumber + "','" + str_FannualIncome + "','" + str_Ffamilymember + "','" + str_FIDprooftype + "','" + str_FIDproofno + "','" + str_Fphoto + "'," +
+                "'" + str_Fphonenumber + "','" + str_Ffamilymember + "','" + str_FannualIncome + "','" + str_FIDprooftype + "','" + str_FIDproofno + "','" + str_Fphoto + "'," +
                 "'" + str_farmpond_id + "','" + str_width + "'," +
                 "'" + str_height + "','" + str_depth + "','" + 0 + "','" + 0 + "','" + str_imageid1 + "','" + str_base64image1 + "'," +
                 "'" + str_imageid2 + "','" + str_base64image2 + "','" + str_imageid3 + "','" + str_base64image3 + "','" + str_employee_id + "','" + str_submitteddatetime + "'," +
@@ -2318,6 +2318,18 @@ public class AddFarmer_Activity1 extends AppCompatActivity {
     public void Update_farmerdetails_into_FarmPondDetails_fromServer_table() {
         SQLiteDatabase db2 = this.openOrCreateDatabase("FarmPond_db", Context.MODE_PRIVATE, null);
 
+       /* db2.execSQL("CREATE TABLE IF NOT EXISTS FarmPondDetails_fromServerRest(SlNo INTEGER PRIMARY KEY AUTOINCREMENT,FIDDB VARCHAR,TempFIDDB VARCHAR," +
+                "FNameDB VARCHAR,FMNameDB VARCHAR,FLNameDB VARCHAR,FYearIDDB VARCHAR,FStateIDDB VARCHAR,FDistrictIDDB VARCHAR," +
+                "FTalukIDDB VARCHAR,FPanchayatIDDB VARCHAR,FVillageIDDB VARCHAR,FageDB VARCHAR,FphonenumberDB VARCHAR," +
+                "FAnnualIncomeDB VARCHAR,FfamilymemberDB VARCHAR,FidprooftypeDB VARCHAR,FidproofnoDB VARCHAR,FphotoDB VARCHAR,FPondidDB VARCHAR,WidthDB VARCHAR," +
+                "HeightDB VARCHAR,DepthDB VARCHAR,LatitudeDB VARCHAR,LongitudeDB VARCHAR,Imageid1DB VARCHAR,Image1Base64DB VARCHAR," +
+                "Imageid2DB VARCHAR,Image2Base64DB VARCHAR,Imageid3DB VARCHAR,Image3Base64DB VARCHAR,EmployeeIDDB VARCHAR,SubmittedDateDB VARCHAR," +
+                "TotalDaysDB VARCHAR,StartDateDB VARCHAR,ConstructedDateDB VARCHAR,PondCostDB VARCHAR,McodeDB VARCHAR,FPondCodeDB VARCHAR," +
+                "FPondRemarksDB VARCHAR,FPondAmtTakenDB VARCHAR,FPondStatusDB VARCHAR," +
+                "FPondApprovalStatusDB VARCHAR,FPondApprovalRemarksDB VARCHAR,FPondApprovedbyDB VARCHAR,FPondApprovedDateDB VARCHAR,FPondDonorDB VARCHAR," +
+                "FPondLatitudeDB VARCHAR,FPondLongitudeDB VARCHAR," +
+                "FPondAcresDB VARCHAR,FPondGuntaDB VARCHAR,FPondCropBeforeDB VARCHAR,FPondCropAfterDB VARCHAR," +
+                "UploadedStatusFarmerprofile VARCHAR,UploadedStatus VARCHAR);");*/
         db2.execSQL("CREATE TABLE IF NOT EXISTS FarmPondDetails_fromServerRest(SlNo INTEGER PRIMARY KEY AUTOINCREMENT,FIDDB VARCHAR,TempFIDDB VARCHAR," +
                 "FNameDB VARCHAR,FMNameDB VARCHAR,FLNameDB VARCHAR,FYearIDDB VARCHAR,FStateIDDB VARCHAR,FDistrictIDDB VARCHAR," +
                 "FTalukIDDB VARCHAR,FPanchayatIDDB VARCHAR,FVillageIDDB VARCHAR,FageDB VARCHAR,FphonenumberDB VARCHAR," +
@@ -2329,7 +2341,9 @@ public class AddFarmer_Activity1 extends AppCompatActivity {
                 "FPondApprovalStatusDB VARCHAR,FPondApprovalRemarksDB VARCHAR,FPondApprovedbyDB VARCHAR,FPondApprovedDateDB VARCHAR,FPondDonorDB VARCHAR," +
                 "FPondLatitudeDB VARCHAR,FPondLongitudeDB VARCHAR," +
                 "FPondAcresDB VARCHAR,FPondGuntaDB VARCHAR,FPondCropBeforeDB VARCHAR,FPondCropAfterDB VARCHAR," +
-                "UploadedStatusFarmerprofile VARCHAR,UploadedStatus VARCHAR);");
+                "UploadedStatusFarmerprofile VARCHAR,UploadedStatus VARCHAR," +
+                "newpondImageId1 VARCHAR,pondImageType1 VARCHAR,newpondImageId2 VARCHAR,pondImageType2 VARCHAR,newpondImageId3 VARCHAR,pondImageType3 VARCHAR);");
+
 
 
         try {
@@ -2566,7 +2580,8 @@ public class AddFarmer_Activity1 extends AppCompatActivity {
 
     private void AddFarmerDetails(final int j) {
         AddFarmerRequest request = new AddFarmerRequest();
-        request.setFarmerID(class_farmerprofileoffline_array_obj[j].getStr_farmerID());
+      //  request.setFarmerID(class_farmerprofileoffline_array_obj[j].getStr_farmerID());
+        request.setFarmerID("0");
         request.setStateID(class_farmerprofileoffline_array_obj[j].getStr_stateid());
         request.setDistrictID(class_farmerprofileoffline_array_obj[j].getStr_districtid());
         request.setTalukaID(class_farmerprofileoffline_array_obj[j].getStr_talukid());
@@ -2578,15 +2593,17 @@ public class AddFarmer_Activity1 extends AppCompatActivity {
         request.setFarmerMobile(class_farmerprofileoffline_array_obj[j].getStr_phonenumber());
         request.setFarmerIDType(class_farmerprofileoffline_array_obj[j].getStr_idprooftype());
         request.setFarmerIDNumber(class_farmerprofileoffline_array_obj[j].getStr_idproofno());
-        request.setFarmerPhoto(class_farmerprofileoffline_array_obj[j].getStr_farmerimage());
         request.setFarmerAge(class_farmerprofileoffline_array_obj[j].getStr_age());
         request.setFarmerIncome(class_farmerprofileoffline_array_obj[j].getStr_annualincome());
         request.setFarmerFamily(class_farmerprofileoffline_array_obj[j].getStr_familymembers());
         request.setSubmittedDate(class_farmerprofileoffline_array_obj[j].getStr_submittedDateTime());
         request.setMobileTempID(class_farmerprofileoffline_array_obj[j].getStr_tempfarmerid());
         request.setCreatedBy(str_employee_id);
+        request.setFarmerPhoto(class_farmerprofileoffline_array_obj[j].getStr_farmerimage());
         Log.e("tag", "FarmerFirstName==" + class_farmerprofileoffline_array_obj[j].getStr_fname());
         Log.e("tag", "FarmerID==" + class_farmerprofileoffline_array_obj[j].getStr_farmerID());
+        Log.e("tag", "getStr_familymembers==" + class_farmerprofileoffline_array_obj[j].getStr_familymembers());
+        Log.e("tag", "getStr_annualincome==" + class_farmerprofileoffline_array_obj[j].getStr_annualincome());
 
         Call<AddFarmerResponse> call = userService1.AddFarmer(request);
         Log.e("TAG", "Request 33: " + new Gson().toJson(request));
