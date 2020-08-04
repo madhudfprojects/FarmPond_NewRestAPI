@@ -2495,6 +2495,14 @@ public class AddFarmPondActivity extends AppCompatActivity {
     {
 
 
+        final ProgressDialog newpondadded_progressDoalog;
+        newpondadded_progressDoalog = new ProgressDialog(AddFarmPondActivity.this);
+        newpondadded_progressDoalog.setMessage("Uploading Farmponds....");
+        newpondadded_progressDoalog.setTitle("Please wait....");
+        newpondadded_progressDoalog.setProgressStyle(ProgressDialog.STYLE_SPINNER);
+        newpondadded_progressDoalog.show();
+
+
         Interface_userservice userService;
         userService = Class_ApiUtils.getUserService();
 
@@ -2660,6 +2668,8 @@ public class AddFarmPondActivity extends AppCompatActivity {
                             String jsonStr = gson.toJson(class_addfarmponddetailsresponse);
                             Log.e("Jsonstr",jsonStr.toString());*/
 
+                                newpondadded_progressDoalog.dismiss();
+
                                if(int_j==newfarmponddetails_offline_array_objRest.length)
                                {
                                    DB_update_newpond_response(int_j);
@@ -2668,13 +2678,14 @@ public class AddFarmPondActivity extends AppCompatActivity {
 
 
 
+
                         } else if (class_addfarmponddetailsresponse.getStatus().equals("false")) {
-                            //     progressDoalog.dismiss();
+                            newpondadded_progressDoalog.dismiss();
                             Toast.makeText(AddFarmPondActivity.this, class_addfarmponddetailsresponse.getMessage(), Toast.LENGTH_SHORT).show();
 
                         }
                     } else {
-                        //   progressDoalog.dismiss();
+                        newpondadded_progressDoalog.dismiss();
                         DefaultResponse error = ErrorUtils.parseError(response);
                         Log.e("addponderror", error.getMsg());
 
