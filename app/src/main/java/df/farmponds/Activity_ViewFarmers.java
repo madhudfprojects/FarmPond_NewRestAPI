@@ -2802,7 +2802,7 @@ public class Activity_ViewFarmers extends AppCompatActivity {
 
     public void stateListRest_dbCount(){
         SQLiteDatabase db_statelist = openOrCreateDatabase("FarmPond_db", Context.MODE_PRIVATE, null);
-        db_statelist.execSQL("CREATE TABLE IF NOT EXISTS StateListRest(StateID VARCHAR,StateName VARCHAR);");
+        db_statelist.execSQL("CREATE TABLE IF NOT EXISTS StateListRest(StateID VARCHAR,StateName VARCHAR,state_yearid VARCHAR);");
         Cursor cursor = db_statelist.rawQuery("SELECT * FROM StateListRest", null);
         int State_x = cursor.getCount();
         Log.e("cursor State_xcount", Integer.toString(State_x));
