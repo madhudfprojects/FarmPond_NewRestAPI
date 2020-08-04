@@ -277,7 +277,7 @@ public class EditFarmPondDetails_Activity extends AppCompatActivity {
         str_employee_mailid = sharedpreferencebook_usercredential_Obj.getString(KeyValue_employee_mailid, "").trim();
 
         str_perdayamount = sharedpreferencebook_usercredential_Obj.getString(KeyValue_perdayamount, "").trim();
-
+        str_perdayamount="2000";
 
 
        sharedpref_spinner_Obj = getSharedPreferences(sharedpreferenc_selectedspinner, Context.MODE_PRIVATE);
