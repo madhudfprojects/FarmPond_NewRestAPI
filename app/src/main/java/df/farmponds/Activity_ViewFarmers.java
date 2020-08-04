@@ -1,4 +1,4 @@
-package df.farmpondstwo;
+package df.farmponds;
 
 import android.annotation.SuppressLint;
 import android.app.Activity;
@@ -86,27 +86,28 @@ import java.util.List;
 import java.util.Locale;
 import java.util.Map;
 
-import df.farmpondstwo.Models.AdminEmpTotalPondCountList;
-import df.farmpondstwo.Models.AdminEmpoyeeTotalPondCount;
-import df.farmpondstwo.Models.Class_MachineDetails;
-import df.farmpondstwo.Models.Class_farmponddetails;
-import df.farmpondstwo.Models.DefaultResponse;
-import df.farmpondstwo.Models.District;
-import df.farmpondstwo.Models.ErrorUtils;
-import df.farmpondstwo.Models.Farmer;
-import df.farmpondstwo.Models.Location_Data;
-import df.farmpondstwo.Models.Location_DataList;
-import df.farmpondstwo.Models.Panchayat;
-import df.farmpondstwo.Models.State;
-import df.farmpondstwo.Models.Taluka;
-import df.farmpondstwo.Models.UserData;
-import df.farmpondstwo.Models.UserDataList;
-import df.farmpondstwo.Models.ValidateSyncRequest;
-import df.farmpondstwo.Models.ValidateSyncResponse;
-import df.farmpondstwo.Models.Village;
-import df.farmpondstwo.Models.Year;
-import df.farmpondstwo.remote.Class_ApiUtils;
-import df.farmpondstwo.remote.Interface_userservice;
+import df.farmponds.Class_InternetDectector;
+import df.farmponds.Models.AdminEmpTotalPondCountList;
+import df.farmponds.Models.AdminEmpoyeeTotalPondCount;
+import df.farmponds.Models.Class_MachineDetails;
+import df.farmponds.Models.Class_farmponddetails;
+import df.farmponds.Models.DefaultResponse;
+import df.farmponds.Models.District;
+import df.farmponds.Models.ErrorUtils;
+import df.farmponds.Models.Farmer;
+import df.farmponds.Models.Location_Data;
+import df.farmponds.Models.Location_DataList;
+import df.farmponds.Models.Panchayat;
+import df.farmponds.Models.State;
+import df.farmponds.Models.Taluka;
+import df.farmponds.Models.UserData;
+import df.farmponds.Models.UserDataList;
+import df.farmponds.Models.ValidateSyncRequest;
+import df.farmponds.Models.ValidateSyncResponse;
+import df.farmponds.Models.Village;
+import df.farmponds.Models.Year;
+import df.farmponds.remote.Class_ApiUtils;
+import df.farmponds.remote.Interface_userservice;
 
 import retrofit2.Call;
 import retrofit2.Callback;
@@ -796,6 +797,7 @@ public class Activity_ViewFarmers extends AppCompatActivity {
                 Toast.makeText(getApplicationContext(), "No Internet Connection", Toast.LENGTH_SHORT).show();
             }
         }else{
+
             internetDectector2 = new Class_InternetDectector(getApplicationContext());
             isInternetPresent2 = internetDectector2.isConnectingToInternet();
             if (isInternetPresent2) {
@@ -2026,7 +2028,7 @@ public class Activity_ViewFarmers extends AppCompatActivity {
     private void GetDropdownValuesRestData() {
 
         Call<Location_Data> call = userService1.getLocationData(str_employee_id);
-        // Call<Location_Data> call = userService1.getLocationData("38");
+       //  Call<Location_Data> call = userService1.getLocationData("90");
         final ProgressDialog progressDoalog;
         progressDoalog = new ProgressDialog(Activity_ViewFarmers.this);
         progressDoalog.setMessage("Loading....");
@@ -2037,7 +2039,7 @@ public class Activity_ViewFarmers extends AppCompatActivity {
         call.enqueue(new Callback<Location_Data>() {
             @Override
             public void onResponse(Call<Location_Data> call, Response<Location_Data> response) {
-                //   Log.e("Entered resp", response.message());
+                   Log.e("Entered resp", response.message());
                 //     Log.e("Entered resp", response.body().getMessage());
 
                 if (response.isSuccessful()) {
@@ -2181,6 +2183,7 @@ public class Activity_ViewFarmers extends AppCompatActivity {
             @Override
             public void onFailure(Call call, Throwable t) {
 
+                Log.e("tag",t.getMessage());
                 Toast.makeText(Activity_ViewFarmers.this, t.getMessage(), Toast.LENGTH_SHORT).show();
             }
         });// end of call
@@ -2189,8 +2192,8 @@ public class Activity_ViewFarmers extends AppCompatActivity {
 
     private void GetFarmer_PondValuesRestData() {
 
-        Call<UserData> call = userService1.getUserData(str_employee_id);
-        //  Call<UserData> call = userService1.getUserData("38");
+       Call<UserData> call = userService1.getUserData(str_employee_id);
+       //   Call<UserData> call = userService1.getUserData("90");
 
         final ProgressDialog progressDoalog;
         progressDoalog = new ProgressDialog(Activity_ViewFarmers.this);
@@ -2748,6 +2751,8 @@ public class Activity_ViewFarmers extends AppCompatActivity {
                     progressDoalog.dismiss();
                     ValidateSyncResponse class_loginresponse = response.body();
                     Log.e("tag", "res==" + class_loginresponse.toString());
+                    Toast.makeText(Activity_ViewFarmers.this, "Sync completed successfully", Toast.LENGTH_SHORT).show();
+
                     if (class_loginresponse.getStatus().equals("true")) {
 
                     } else if (class_loginresponse.getStatus().equals("false")) {
