@@ -773,7 +773,7 @@ public class Activity_HomeScreen extends AppCompatActivity implements GoogleApiC
         Log.e("SCREEN_Height", "" + Measuredheight);
 
 
-       // regId = FirebaseInstanceId.getInstance().getToken();
+        regId = FirebaseInstanceId.getInstance().getToken();
 
 
 

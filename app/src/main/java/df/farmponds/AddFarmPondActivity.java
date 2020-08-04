@@ -1,8 +1,12 @@
 package df.farmponds;
 
 import android.annotation.SuppressLint;
+import android.app.ActionBar;
 import android.app.Activity;
 import android.app.AlertDialog;
+import android.app.DatePickerDialog;
+import android.app.Dialog;
+import android.app.DialogFragment;
 import android.app.ProgressDialog;
 import android.app.Service;
 import android.content.ContentValues;
@@ -27,18 +31,24 @@ import android.provider.MediaStore;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.support.v7.widget.Toolbar;
+import android.text.Editable;
+import android.text.TextWatcher;
 import android.util.Base64;
 import android.util.Log;
+import android.util.TypedValue;
+import android.view.Gravity;
 import android.view.MenuItem;
 import android.view.View;
 import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
 import android.widget.Button;
 import android.widget.CheckBox;
+import android.widget.DatePicker;
 import android.widget.EditText;
 import android.widget.ImageButton;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
+import android.widget.RelativeLayout;
 import android.widget.Spinner;
 import android.widget.TextView;
 import android.widget.Toast;
@@ -62,6 +72,8 @@ import java.util.Date;
 import java.util.List;
 import java.util.Locale;
 import java.util.concurrent.TimeUnit;
+import java.util.regex.Matcher;
+import java.util.regex.Pattern;
 
 import df.farmponds.Models.AddFarmerRequest;
 import df.farmponds.Models.AddFarmerResList;
@@ -276,6 +288,7 @@ public class AddFarmPondActivity extends AppCompatActivity {
         str_submitter_mailid = sharedpreferencebook_usercredential_Obj.getString(KeyValue_employee_mailid, "").trim();
 
         str_perday_amount = sharedpreferencebook_usercredential_Obj.getString(KeyValue_perdayamount, "").trim();
+        str_perday_amount="2000";
 
         sharedpref_spinner_Obj = getSharedPreferences(sharedpreferenc_selectedspinner, Context.MODE_PRIVATE);
         str_year=sharedpref_spinner_Obj.getString(Key_sel_yearsp,"").trim();
@@ -664,6 +677,231 @@ public class AddFarmPondActivity extends AppCompatActivity {
         });
 
 
+
+
+
+        add_newpond_startdate_tv.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v)
+            {
+                DialogFragment dFragment_startdate = new DatePickerFragment_startdate();
+
+                // Show the date picker dialog fragment
+                dFragment_startdate.show(getFragmentManager(), "Date Picker");
+
+                //
+            }
+        });
+
+
+        add_newpond_completeddate_tv.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v)
+            {
+               /* DialogFragment fromdateFragment = new DatePickerFragmentFromDate();
+                fromdateFragment.show(getFragmentManager(), "Date Picker");
+*/
+                DialogFragment dFragment = new DatePickerFragment_todate();
+
+                // Show the date picker dialog fragment
+                dFragment.show(getFragmentManager(), "Date Picker");
+            }
+        });
+
+
+
+
+        add_newpond_no_of_days_et.addTextChangedListener(new TextWatcher() {
+            @Override
+            public void beforeTextChanged(CharSequence s, int start, int count, int after)
+            {
+
+                //
+
+            }
+
+            @Override
+            public void onTextChanged(CharSequence s, int start, int before, int count)
+            {
+
+
+                /*Toast.makeText(getApplicationContext(),""+s,Toast.LENGTH_SHORT).show();
+                add_newpond_total_amount_tv.setText(s.toString());*/
+                if(s.toString().isEmpty())
+                {
+                    add_newpond_total_amount_tv.setText("");
+                    // add_newpond_no_of_days_et.setText("");
+                }
+                else{
+
+                    if(s.toString().equalsIgnoreCase("."))
+                    {
+
+                    }
+                    else {
+
+                       /* int int_amount = Integer.parseInt(s.toString());
+                        int int_per_day_amount = Integer.parseInt(str_perday_amount);
+                        int_amount = int_amount * int_per_day_amount;
+
+                        String str_totalamount = String.valueOf(int_amount);
+                        add_newpond_total_amount_tv.setText(str_totalamount);
+                    */
+
+                        Log.e("watcher",s.toString());
+
+                        Pattern p = Pattern.compile("[.!?]");
+                        Matcher matcher = p.matcher(s.toString());
+                        int count1 = 0;
+                        while(matcher.find()) {
+                            count1++;
+                        }
+
+                        if(count1>1) {
+                            add_newpond_total_amount_tv.setText("0");
+                        }
+                        else {
+
+                            double deci_amount = Double.parseDouble((s.toString()));
+                            long long_per_day_amount = Long.parseLong(str_perday_amount);
+                            deci_amount = deci_amount * long_per_day_amount;
+                            int int_amount = (int) Math.round(deci_amount);
+                            // String str_totalamount = String.valueOf(deci_amount);
+                            String str_totalamount = String.valueOf(int_amount);
+                            add_newpond_total_amount_tv.setText(str_totalamount);
+                            Log.e("xamount",str_totalamount);
+
+                        }
+
+                    }
+
+                }
+            }
+
+            @Override
+            public void afterTextChanged(Editable s)
+            {
+
+                if(s.toString().isEmpty())
+                {
+
+                }
+            }
+        });
+
+
+
+
+
+
+        add_newpond_amountcollected_et.addTextChangedListener(new TextWatcher()
+        {
+            @Override
+            public void beforeTextChanged(CharSequence s, int start, int count, int after)
+            {
+
+            }
+
+            @Override
+            public void onTextChanged(CharSequence s, int start, int before, int count)
+            {
+
+                if(s.toString().trim().isEmpty())
+                {
+                    //add_newpond_total_amount_tv.setText("");
+                    // add_newpond_no_of_days_et.setText("");
+
+                    //add_newpond_total_amount_tv
+                    Log.e("errorif","errorif");
+                    amountcollected_lesser_LL.setVisibility(View.GONE);
+                }
+                else {
+
+                    if (s.toString().equalsIgnoreCase("."))
+                    {
+                        Log.e("error .","error .");
+                    }
+                    else
+                    {
+                        if(add_newpond_total_amount_tv.getText().toString().trim().length()==0)
+                        {
+
+                        }
+                        else
+                        {
+                            if(add_newpond_total_amount_tv.getText().toString().trim().length()>0)
+                            {
+                                if(add_newpond_amountcollected_et.getText().toString().trim().length()==0)
+                                {
+
+                                }else
+                                {
+
+                                    String str_amt = add_newpond_amountcollected_et.getText().toString().trim();
+                                    //int int_amtcollected = Integer.parseInt(str_amt);
+
+                                    Pattern p = Pattern.compile("[.!?]");
+                                    Matcher matcher = p.matcher(str_amt.toString());
+                                    int count1 = 0;
+                                    while(matcher.find()) {
+                                        count1++;
+                                    }
+
+                                    if(count1>1) {
+
+                                    }
+                                    else {
+
+
+                                        char first_char = add_newpond_amountcollected_et.getText().toString().trim().charAt(0);
+                                        String str_first_char= String.valueOf(first_char);
+
+                                        if(str_first_char.equalsIgnoreCase("."))
+                                        { amountcollected_lesser_LL.setVisibility(View.VISIBLE);}
+                                        else {
+
+                                            double deci_amount = Double.parseDouble(add_newpond_amountcollected_et.getText().toString().trim());
+
+                                            int int_amtcollected = (int) Math.round(deci_amount);
+                                            Log.e("amt", String.valueOf(int_amtcollected));
+
+                                            int int_totalamt = Integer.parseInt(add_newpond_total_amount_tv.getText().toString());
+
+
+                                            if (int_amtcollected < int_totalamt) {
+                                                amountcollected_lesser_LL.setVisibility(View.VISIBLE);
+                                                // Log.e("adderror", "error");
+                                            } else {
+                                                amountcollected_lesser_LL.setVisibility(View.GONE);
+                                            }
+
+                                        }
+
+                                    }
+
+                                }
+                            }
+
+                        }//maimelse
+
+
+                    }
+
+                }
+            }
+
+            @Override
+            public void afterTextChanged(Editable s)
+            {
+
+
+            }
+        });
+
+
+
+
+
     }//end of oncreate()
 
 
@@ -936,6 +1174,177 @@ public class AddFarmPondActivity extends AppCompatActivity {
         return (b_pond_width1 && b_pond_width2 && b_pond_height1 && b_pond_height2 && b_pond_depth1 && b_pond_depth2 && b_pondimages
                 && b_add_completed_date && b_no_days && b_datevalidation && b_enteramount && b_reason);
     }
+
+
+
+
+    @SuppressLint("ValidFragment")
+    public static class DatePickerFragment_todate extends DialogFragment
+            implements DatePickerDialog.OnDateSetListener
+
+    {
+
+        @Override
+        public Dialog onCreateDialog(Bundle savedInstanceState){
+            final Calendar calendar = Calendar.getInstance();
+            int year = calendar.get(Calendar.YEAR);
+            int month = calendar.get(Calendar.MONTH);
+            int day = calendar.get(Calendar.DAY_OF_MONTH);
+
+            DatePickerDialog dpd = new DatePickerDialog(getActivity(),
+                    AlertDialog.THEME_HOLO_LIGHT,this,year,month,day);
+
+            // Create a TextView programmatically.
+            TextView tv = new TextView(getActivity());
+
+            // Create a TextView programmatically
+            android.widget.RelativeLayout.LayoutParams lp = new RelativeLayout.LayoutParams(
+                    ActionBar.LayoutParams.WRAP_CONTENT, // Width of TextView
+                    ActionBar.LayoutParams.WRAP_CONTENT); // Height of TextView
+            tv.setLayoutParams(lp);
+            tv.setPadding(10, 10, 10, 10);
+            tv.setGravity(Gravity.CENTER);
+            tv.setTextSize(TypedValue.COMPLEX_UNIT_DIP,20);
+            tv.setText("This is a custom title.");
+            tv.setTextColor(Color.parseColor("#ff0000"));
+            tv.setBackgroundColor(Color.parseColor("#FFD2DAA7"));
+
+            // Set the newly created TextView as a custom tile of DatePickerDialog
+            //dpd.setCustomTitle(tv);
+
+            // Or you can simply set a tile for DatePickerDialog
+    /*
+        setTitle(CharSequence title)
+            Set the title text for this dialog's window.
+    */
+            // dpd.setTitle("Choose the Date"); // Uncomment this line to activate it
+
+            // Return the DatePickerDialog
+            return  dpd;
+        }
+
+        public void onDateSet(DatePicker view, int year, int month, int day){
+            // Do something with the chosen date
+            populateSetDate(year, month+1, day);
+        }
+        public  void populateSetDate(int year, int month, int day) {
+            //mEdit = (EditText)findViewById(R.id.editText1);
+            //mEdit.setText(month+"/"+day+"/"+year);
+
+            //dateMDY_string=month+"/"+day+"/"+year;
+            // String Dates = year + "-" +(month<10?("0"+month):(month)) + "-" + (day<10?("0"+day):(day));
+
+            String Dates = (day<10?("0"+day):(day)) + "-" +(month<10?("0"+month):(month)) + "-" + year;
+
+            String dateMDY_string=Dates;
+            add_newpond_completeddate_tv.setText(Dates);
+
+            //dateMDY_string=year+"-"+month+"-"+day;
+
+            //Toast.makeText(getApplicationContext(), x, 1000).show();
+// tv_fromdate.setText(month+"/"+day+"/"+year);
+
+            //btn.setText(year+"-"+month+"-"+day);
+
+
+
+
+
+        }
+
+
+
+
+    }// end of datepickerclass
+
+
+
+    @SuppressLint("ValidFragment")
+    public static class DatePickerFragment_startdate extends DialogFragment
+            implements DatePickerDialog.OnDateSetListener
+
+    {
+
+        @Override
+        public Dialog onCreateDialog(Bundle savedInstanceState){
+            final Calendar calendar = Calendar.getInstance();
+            int year = calendar.get(Calendar.YEAR);
+            int month = calendar.get(Calendar.MONTH);
+            int day = calendar.get(Calendar.DAY_OF_MONTH);
+
+            DatePickerDialog dpd = new DatePickerDialog(getActivity(),
+                    AlertDialog.THEME_HOLO_LIGHT,this,year,month,day);
+
+            // Create a TextView programmatically.
+            TextView tv = new TextView(getActivity());
+
+            // Create a TextView programmatically
+            android.widget.RelativeLayout.LayoutParams lp = new RelativeLayout.LayoutParams(
+                    ActionBar.LayoutParams.WRAP_CONTENT, // Width of TextView
+                    ActionBar.LayoutParams.WRAP_CONTENT); // Height of TextView
+            tv.setLayoutParams(lp);
+            tv.setPadding(10, 10, 10, 10);
+            tv.setGravity(Gravity.CENTER);
+            tv.setTextSize(TypedValue.COMPLEX_UNIT_DIP,20);
+            tv.setText("This is a custom title.");
+            tv.setTextColor(Color.parseColor("#ff0000"));
+            tv.setBackgroundColor(Color.parseColor("#FFD2DAA7"));
+
+            // Set the newly created TextView as a custom tile of DatePickerDialog
+            //dpd.setCustomTitle(tv);
+
+            // Or you can simply set a tile for DatePickerDialog
+
+        /*setTitle(CharSequence title)
+            Set the title text for this dialog's window.*/
+
+            // dpd.setTitle("Choose the Date"); // Uncomment this line to activate it
+
+            // Return the DatePickerDialog
+            return  dpd;
+        }
+
+        public void onDateSet(DatePicker view, int year, int month, int day){
+            // Do something with the chosen date
+            populateSetDate(year, month+1, day);
+        }
+        public  void populateSetDate(int year, int month, int day)
+        {
+            //mEdit = (EditText)findViewById(R.id.editText1);
+            //mEdit.setText(month+"/"+day+"/"+year);
+            //dateMDY_string=month+"/"+day+"/"+year;
+            // String Dates = year + "-" +(month<10?("0"+month):(month)) + "-" + (day<10?("0"+day):(day));
+            String Dates = (day<10?("0"+day):(day)) + "-" +(month<10?("0"+month):(month)) + "-" + year;
+
+            String dateMDY_string=Dates;
+            add_newpond_startdate_tv.setText(Dates);
+
+            //dateMDY_string=year+"-"+month+"-"+day;
+            //Toast.makeText(getApplicationContext(), x, 1000).show();
+// tv_fromdate.setText(month+"/"+day+"/"+year);
+            //btn.setText(year+"-"+month+"-"+day);
+        }
+    }// end of datepickerclass
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 
 
     public void alertdialog_refresh_latandlong() {
@@ -1430,11 +1839,11 @@ public class AddFarmPondActivity extends AppCompatActivity {
 
                 str_pondcost = add_newpond_total_amount_tv.getText().toString();
                 str_enteredpondcost = add_newpond_amountcollected_et.getText().toString();
-                str_pondcost=str_enteredpondcost;
+               // str_pondcost=str_enteredpondcost;
                 str_mcode = str_machinecode;
                 str_farmpond_remarks = str_remarksid;
                 str_farmpond_amttaken = add_newpond_amountcollected_et.getText().toString();
-                str_farmpondstatus = "3";
+                str_farmpondstatus = "6"; //If image1,2,3 and start date & end date added parameter "Pond_Status": "6", is sent to API
 
             } else {
                 str_startdate = "0";
@@ -1445,7 +1854,10 @@ public class AddFarmPondActivity extends AppCompatActivity {
                 str_mcode = "0";
                 str_farmpond_remarks = "0";
                 str_farmpond_amttaken = "0";
-                str_farmpondstatus = "3";
+                str_farmpondstatus = "3"; // If image1 or both image 1 and image2 are submitted then
+                //Parameter 3 is added to  parameter "Pond_Status": "3",
+                        //And sent to API (it will be updated as 3 (incomplete))
+
             }
 
 
@@ -2030,7 +2442,7 @@ public class AddFarmPondActivity extends AppCompatActivity {
                     innerObj_Class_farmponddetails.setPondCost(cursor1.getString(cursor1.getColumnIndex("PondCostDB")));
                     innerObj_Class_farmponddetails.setMachineID(cursor1.getString(cursor1.getColumnIndex("McodeDB")));
 
-                    innerObj_Class_farmponddetails.setPondStatus(cursor1.getString(cursor1.getColumnIndex("UploadedStatus")));
+                    innerObj_Class_farmponddetails.setPondStatus(cursor1.getString(cursor1.getColumnIndex("FPondStatusDB")));
 
                     innerObj_Class_farmponddetails.setPondStart(cursor1.getString(cursor1.getColumnIndex("StartDateDB")));
 
@@ -2370,7 +2782,7 @@ public class AddFarmPondActivity extends AppCompatActivity {
            // Log.e("farmpondcode",newpond_response[i].getLst2().get(0).getPondCode());
 
             cv.put("FPondCodeDB",newpond_response[i].getLst2().get(0).getPond_ID());
-            cv.put("FPondStatusDB","3");
+          //  cv.put("FPondStatusDB","3");
 
             cv.put("UploadedStatus",3);
 

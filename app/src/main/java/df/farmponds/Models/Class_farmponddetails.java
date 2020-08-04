@@ -58,6 +58,7 @@ public class Class_farmponddetails
     @SerializedName("Pond_Status")
     @Expose
     private String pondStatus;
+
     @SerializedName("Submitted_Date")
     @Expose
     private String submittedDate;
