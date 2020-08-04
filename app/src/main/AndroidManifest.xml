@@ -29,48 +29,47 @@
         android:roundIcon="@drawable/laucher_icon_farmpond"
         android:supportsRtl="true"
         android:theme="@style/AppTheme">
-
-        <activity android:name="df.farmponds.MainActivity">
+        <activity android:name=".Summary_Count"></activity>
+        <activity android:name=".MainActivity">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
 
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
         </activity>
-
-        <activity android:name="df.farmponds.ContactUs_Activity"
-            android:screenOrientation="portrait"
-            android:theme="@style/AppThemeNoActionBar"/>
-
         <activity
-            android:name="df.farmponds.EditFarmPondDetails_Activity"
+            android:name=".ContactUs_Activity"
             android:screenOrientation="portrait"
             android:theme="@style/AppThemeNoActionBar" />
         <activity
-            android:name="df.farmponds.AddFarmPondActivity"
+            android:name=".EditFarmPondDetails_Activity"
             android:screenOrientation="portrait"
             android:theme="@style/AppThemeNoActionBar" />
         <activity
-            android:name="df.farmponds.EachFarmPondDetails_Activity"
+            android:name=".AddFarmPondActivity"
             android:screenOrientation="portrait"
             android:theme="@style/AppThemeNoActionBar" />
-        <activity android:name="df.farmponds.ViewFarmers_Activity" />
-        <activity android:name="df.farmponds.CameraPhotoCapture" />
-        <activity android:name="df.farmponds.Activity_FarmerHomeScreen" />
-        <activity android:name="df.farmponds.Activity_HomeScreen" />
         <activity
-            android:name="df.farmponds.Activity_MarketingHomeScreen"
+            android:name=".EachFarmPondDetails_Activity"
+            android:screenOrientation="portrait"
+            android:theme="@style/AppThemeNoActionBar" />
+        <activity android:name=".ViewFarmers_Activity" />
+        <activity android:name=".CameraPhotoCapture" />
+        <activity android:name=".Activity_FarmerHomeScreen" />
+        <activity android:name=".Activity_HomeScreen" />
+        <activity
+            android:name=".Activity_MarketingHomeScreen"
             android:theme="@style/AppThemeNoActionBar" />
         <activity
-            android:name="df.farmponds.AddFarmer_Activity1"
+            android:name=".AddFarmer_Activity1"
             android:theme="@style/AppThemeNoActionBar" />
         <activity
-            android:name="df.farmponds.Activity_ViewFarmers"
+            android:name=".Activity_ViewFarmers"
             android:theme="@style/AppThemeNoActionBar" />
         <activity
-            android:name="df.farmponds.Admin_Total_FarmpondDetails_Activity"
+            android:name=".Admin_Total_FarmpondDetails_Activity"
             android:theme="@style/AppThemeNoActionBar" />
-        <activity android:name="df.farmponds.Home_Activity" />
+        <activity android:name=".Home_Activity" />
     </application>
 
 </manifest>

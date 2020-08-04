@@ -86,6 +86,9 @@ import java.util.List;
 import java.util.Locale;
 import java.util.Map;
 
+import df.farmponds.Class_InternetDectector;
+import df.farmponds.Models.AdminEmpTotalPondCountList;
+import df.farmponds.Models.AdminEmpoyeeTotalPondCount;
 import df.farmponds.Models.Class_MachineDetails;
 import df.farmponds.Models.Class_farmponddetails;
 import df.farmponds.Models.DefaultResponse;
@@ -794,6 +797,7 @@ public class Activity_ViewFarmers extends AppCompatActivity {
                 Toast.makeText(getApplicationContext(), "No Internet Connection", Toast.LENGTH_SHORT).show();
             }
         }else{
+
             internetDectector2 = new Class_InternetDectector(getApplicationContext());
             isInternetPresent2 = internetDectector2.isConnectingToInternet();
             if (isInternetPresent2) {
@@ -912,15 +916,14 @@ public class Activity_ViewFarmers extends AppCompatActivity {
         db_statelist.execSQL("CREATE TABLE IF NOT EXISTS StateListRest(StateID VARCHAR,StateName VARCHAR,state_yearid VARCHAR);");
 
 
-
         if (i == 0) {
-            String SQLiteQuery = "INSERT INTO StateListRest (StateID,StateName,state_yearid)" +
-                    " VALUES ('" + "0" + "','" + "Select" +"','" + "0" + "');";
+            String SQLiteQuery = "INSERT INTO StateListRest (StateID,StateName)" +
+                    " VALUES ('" + "0" + "','" + "Select" + "');";
             db_statelist.execSQL(SQLiteQuery);
         }
 
-        String SQLiteQuery = "INSERT INTO StateListRest (StateID,StateName,state_yearid)" +
-                " VALUES ('" + str_stateID + "','" + str_statename + "','" + str_yearid + "');";
+        String SQLiteQuery = "INSERT INTO StateListRest (StateID,StateName)" +
+                " VALUES ('" + str_stateID + "','" + str_statename + "');";
         db_statelist.execSQL(SQLiteQuery);
 
         Log.e("str_stateID DB", str_stateID);
@@ -2025,7 +2028,7 @@ public class Activity_ViewFarmers extends AppCompatActivity {
     private void GetDropdownValuesRestData() {
 
         Call<Location_Data> call = userService1.getLocationData(str_employee_id);
-        // Call<Location_Data> call = userService1.getLocationData("38");
+       //  Call<Location_Data> call = userService1.getLocationData("90");
         final ProgressDialog progressDoalog;
         progressDoalog = new ProgressDialog(Activity_ViewFarmers.this);
         progressDoalog.setMessage("Loading....");
@@ -2036,7 +2039,7 @@ public class Activity_ViewFarmers extends AppCompatActivity {
         call.enqueue(new Callback<Location_Data>() {
             @Override
             public void onResponse(Call<Location_Data> call, Response<Location_Data> response) {
-                //   Log.e("Entered resp", response.message());
+                   Log.e("Entered resp", response.message());
                 //     Log.e("Entered resp", response.body().getMessage());
 
                 if (response.isSuccessful()) {
@@ -2180,6 +2183,7 @@ public class Activity_ViewFarmers extends AppCompatActivity {
             @Override
             public void onFailure(Call call, Throwable t) {
 
+                Log.e("tag",t.getMessage());
                 Toast.makeText(Activity_ViewFarmers.this, t.getMessage(), Toast.LENGTH_SHORT).show();
             }
         });// end of call
@@ -2188,8 +2192,8 @@ public class Activity_ViewFarmers extends AppCompatActivity {
 
     private void GetFarmer_PondValuesRestData() {
 
-        Call<UserData> call = userService1.getUserData(str_employee_id);
-        //  Call<UserData> call = userService1.getUserData("38");
+       Call<UserData> call = userService1.getUserData(str_employee_id);
+       //   Call<UserData> call = userService1.getUserData("90");
 
         final ProgressDialog progressDoalog;
         progressDoalog = new ProgressDialog(Activity_ViewFarmers.this);
@@ -2206,9 +2210,7 @@ public class Activity_ViewFarmers extends AppCompatActivity {
                 //     Log.e("Entered resp", response.body().getMessage());
                 Log.e("TAG", "response userdata: " + new Gson().toJson(response));
                 Log.e("response body userdata", String.valueOf(response.body()));
-
                 AddFarmerDetailsNew();
-
                 if (response.isSuccessful()) {
                     UserData class_userData = response.body();
                     //   Log.e("response.body", response.body().getLst().toString());
@@ -2359,7 +2361,7 @@ public class Activity_ViewFarmers extends AppCompatActivity {
                                    // String pondCode = class_userData.getLst().get(i).getPond().get(j).getPondCode();
 
                                     String pondCode = class_userData.getLst().get(i).getPond().get(j).getPondID();
-
+                                    
                                     String pondLatitude = class_userData.getLst().get(i).getPond().get(j).getPondLatitude();
                                     String pondLongitude = class_userData.getLst().get(i).getPond().get(j).getPondLongitude();
                                     String pondLength = class_userData.getLst().get(i).getPond().get(j).getPondLength();
@@ -2396,10 +2398,6 @@ public class Activity_ViewFarmers extends AppCompatActivity {
                                     String Crop_Before = class_userData.getLst().get(i).getPond().get(j).getCropBefore();
                                     String Crop_After = class_userData.getLst().get(i).getPond().get(j).getCropAfter();
                                     String CollectedAmount = class_userData.getLst().get(i).getPond().get(j).getPondCollectedAmount();
-                                   // String CollectedAmount="0";
-                                   /* if(class_userData.getLst().get(i).getPond().get(j).getPondCollectedAmount().equalsIgnoreCase("null"))
-                                    {  CollectedAmount ="0"; }
-                                    else{ CollectedAmount=class_userData.getLst().get(i).getPond().get(j).getPondCollectedAmount();}*/
 
                                     // PondImage Array Method
                                     int pondImageSize = class_userData.getLst().get(i).getPond().get(j).getPondImage().size();
@@ -2679,8 +2677,7 @@ public class Activity_ViewFarmers extends AppCompatActivity {
 
     }
 
-    private void AddFarmerDetailsNew()
-    {
+    private void AddFarmerDetailsNew() {
 
         Log.e("tag","Location_Response2="+class_location_dataList.getResponse());
         Log.e("tag","UserData_Response2="+class_userDatalist.getResponse());
@@ -2754,6 +2751,8 @@ public class Activity_ViewFarmers extends AppCompatActivity {
                     progressDoalog.dismiss();
                     ValidateSyncResponse class_loginresponse = response.body();
                     Log.e("tag", "res==" + class_loginresponse.toString());
+                    Toast.makeText(Activity_ViewFarmers.this, "Sync completed successfully", Toast.LENGTH_SHORT).show();
+
                     if (class_loginresponse.getStatus().equals("true")) {
 
                     } else if (class_loginresponse.getStatus().equals("false")) {
@@ -2803,9 +2802,7 @@ public class Activity_ViewFarmers extends AppCompatActivity {
 
     public void stateListRest_dbCount(){
         SQLiteDatabase db_statelist = openOrCreateDatabase("FarmPond_db", Context.MODE_PRIVATE, null);
-
         db_statelist.execSQL("CREATE TABLE IF NOT EXISTS StateListRest(StateID VARCHAR,StateName VARCHAR,state_yearid VARCHAR);");
-       // db_statelist.execSQL("CREATE TABLE IF NOT EXISTS StateListRest(StateID VARCHAR,StateName VARCHAR);");
         Cursor cursor = db_statelist.rawQuery("SELECT * FROM StateListRest", null);
         int State_x = cursor.getCount();
         Log.e("cursor State_xcount", Integer.toString(State_x));
