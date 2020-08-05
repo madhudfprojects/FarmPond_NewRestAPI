@@ -141,6 +141,20 @@ public class Class_addfarmponddetails_ToFromServer2
     private String Pond_Land_Acre;
 
 
+    @SerializedName("Pond_Status")
+    @Expose
+    private String Pond_Status;
+
+
+
+    @SerializedName("pond_remarks")
+    @Expose
+    private String pond_remarks;
+
+
+
+
+
 
 
     public String getPond_ID() {
@@ -367,5 +381,23 @@ public class Class_addfarmponddetails_ToFromServer2
 
     public void setPondCode(String pondCode) {
         PondCode = pondCode;
+    }
+
+
+    public String getPond_Status() {
+        return Pond_Status;
+    }
+
+    public void setPond_Status(String pond_Status) {
+        Pond_Status = pond_Status;
+    }
+
+
+    public String getPond_remarks() {
+        return pond_remarks;
+    }
+
+    public void setPond_remarks(String pond_remarks) {
+        this.pond_remarks = pond_remarks;
     }
 }

@@ -2194,7 +2194,7 @@ public class EditFarmPondDetails_Activity extends AppCompatActivity {
             //str_farmpond_amttaken=add_newpond_amountcollected_et.getText().toString();
 
             str_farmpond_amttaken = edit_amountcollected_et.getText().toString();
-            str_farmpondstatus = "3";
+            str_farmpondstatus = "6";
 
         } else {
             str_startdate = "0";

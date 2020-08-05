@@ -2446,7 +2446,7 @@ public class AddFarmPondActivity extends AppCompatActivity {
 
                     innerObj_Class_farmponddetails.setPondStart(cursor1.getString(cursor1.getColumnIndex("StartDateDB")));
 
-                    innerObj_Class_farmponddetails.setApprovalRemarks(cursor1.getString(cursor1.getColumnIndex("FPondRemarksDB")));
+                    innerObj_Class_farmponddetails.setPond_remarks(cursor1.getString(cursor1.getColumnIndex("FPondRemarksDB")));
                     innerObj_Class_farmponddetails.setPondCollectedAmount(cursor1.getString(cursor1.getColumnIndex("FPondAmtTakenDB")));
                     //"FPondRemarksDB VARCHAR,FPondAmtTakenDB VARCHAR,FPondStatusDB VARCHAR," +
 
@@ -2541,7 +2541,10 @@ public class AddFarmPondActivity extends AppCompatActivity {
         request.setPond_Start(newfarmponddetails_offline_array_objRest[k].getPondStart());
         request.setPond_End(newfarmponddetails_offline_array_objRest[k].getPondEnd());
         request.setPond_Days(newfarmponddetails_offline_array_objRest[k].getPondDays());
-        request.setPond_Cost(newfarmponddetails_offline_array_objRest[k].getPondCollectedAmount());
+        request.setPond_Cost(newfarmponddetails_offline_array_objRest[k].getPondCost());
+        request.setPond_Collected_Amount(newfarmponddetails_offline_array_objRest[k].getPondCollectedAmount());
+        request.setPond_Status(newfarmponddetails_offline_array_objRest[k].getPondStatus());
+        request.setPond_remarks(newfarmponddetails_offline_array_objRest[k].getPond_remarks());
 
        /* request.setPond_Image_1(newfarmponddetails_offline_array_objRest[k].getPondImage1());
         request.setPond_Image_2(newfarmponddetails_offline_array_objRest[k].getPondImage2());
