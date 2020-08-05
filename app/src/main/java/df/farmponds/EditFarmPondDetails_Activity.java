@@ -2194,7 +2194,7 @@ public class EditFarmPondDetails_Activity extends AppCompatActivity {
             //str_farmpond_amttaken=add_newpond_amountcollected_et.getText().toString();
 
             str_farmpond_amttaken = edit_amountcollected_et.getText().toString();
-            str_farmpondstatus = "3";
+            str_farmpondstatus = "6";
 
         } else {
             str_startdate = "0";
@@ -2961,6 +2961,7 @@ public class EditFarmPondDetails_Activity extends AppCompatActivity {
             request.setPond_Temp_ID(class_farmponddetails_offline_array_obj[k].getFarmpond_Id());
             request.setPond_Land_Gunta(class_farmponddetails_offline_array_obj[k].getFarmpond_gunta());
             request.setPond_Land_Acre(class_farmponddetails_offline_array_obj[k].getFarmpond_acres());
+            request.setPond_remarks(class_farmponddetails_offline_array_obj[k].getFarmpond_remarks());
 
             int_k = k;
             Log.e("kvalue", String.valueOf(k));

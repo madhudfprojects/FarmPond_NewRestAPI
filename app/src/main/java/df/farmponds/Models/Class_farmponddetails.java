@@ -125,9 +125,16 @@ public class Class_farmponddetails
     @SerializedName("Crop_Before")
     @Expose
     private String cropBefore;
+
     @SerializedName("Crop_After")
     @Expose
     private String cropAfter;
+
+    @SerializedName("pond_remarks")
+    @Expose
+    private String pond_remarks;
+
+
     @SerializedName("PondImage")
     @Expose
     private List<PondImage> pondImage = null;
@@ -485,6 +492,15 @@ public class Class_farmponddetails
 
     public String getCropAfter() {
         return cropAfter;
+    }
+
+
+    public String getPond_remarks() {
+        return pond_remarks;
+    }
+
+    public void setPond_remarks(String pond_remarks) {
+        this.pond_remarks = pond_remarks;
     }
 }
 
