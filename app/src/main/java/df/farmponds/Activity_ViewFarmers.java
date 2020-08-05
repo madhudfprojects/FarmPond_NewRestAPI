@@ -4486,7 +4486,10 @@ public class Activity_ViewFarmers extends AppCompatActivity {
                         !(Obj_Class_farmerlistdetails.getFarmercode().equalsIgnoreCase("farmer_code"))))*/
                 {
 
-                    holder.FarmerName_tv.setText(Obj_Class_farmerlistdetails.getFarmerFirstName());
+                    Log.e("tag","Name="+Obj_Class_farmerlistdetails.getFarmerFirstName()+" "+Obj_Class_farmerlistdetails.getFarmerMiddleName()+" "+Obj_Class_farmerlistdetails.getFarmerLastName());
+                    String FullName=Obj_Class_farmerlistdetails.getFarmerFirstName()+" "+Obj_Class_farmerlistdetails.getFarmerMiddleName()+" "+Obj_Class_farmerlistdetails.getFarmerLastName();
+
+                    holder.FarmerName_tv.setText(FullName);
                     holder.farmercode_tv.setText(Obj_Class_farmerlistdetails.getFarmerID());
 
                     holder.farmerimage_iv.setTag(position);
