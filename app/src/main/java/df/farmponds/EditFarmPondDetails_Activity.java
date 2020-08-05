@@ -1170,6 +1170,7 @@ public class EditFarmPondDetails_Activity extends AppCompatActivity {
 
                     innerObj_Class_farmponddetails_offline.setStartDate(cursor1.getString(cursor1.getColumnIndex("StartDateDB")));
 
+                    Log.e("EndDateDB", cursor1.getString(cursor1.getColumnIndex("ConstructedDateDB")));
                     Log.e("StartDateDB", cursor1.getString(cursor1.getColumnIndex("StartDateDB")));
 
 
@@ -1259,7 +1260,7 @@ public class EditFarmPondDetails_Activity extends AppCompatActivity {
         String str_base64images2 = class_farmponddetails_offline_obj.getImage2_Base64();
         String str_base64images3 = class_farmponddetails_offline_obj.getImage3_Base64();
 
-        Log.e("str_base64images3", class_farmponddetails_offline_obj.getImage3_Base64());
+      //  Log.e("str_base64images3", class_farmponddetails_offline_obj.getImage3_Base64());
 
 
         arraylist_image1_base64.clear();
@@ -1371,6 +1372,7 @@ public class EditFarmPondDetails_Activity extends AppCompatActivity {
                 edit_pond_startddate_tv.setText(class_farmponddetails_offline_obj.getStartDate().toString());
             }
             //s.substring(0, s.length() - 2)
+
             if (class_farmponddetails_offline_obj.getConstructedDate().toString().trim().length() > 12) {
                 String s = class_farmponddetails_offline_obj.getConstructedDate();
                 s = s.substring(0, s.length() - 8);

@@ -2204,7 +2204,8 @@ public class AddFarmPondActivity extends AppCompatActivity {
         {
             AddFarmerDetails(j);
         }
-        if (x == 0) {
+        if (x == 0)
+        {
             fetch_DB_newfarmpond_offline_data();
         }
 
@@ -2264,7 +2265,8 @@ public class AddFarmPondActivity extends AppCompatActivity {
                     Log.e("response new status:", String.valueOf(error1.getstatus()));*/
                 // Log.e("response",Gson.fromJson(response.toString(),AddFarmer_Activity1.class));
 
-                if (response.isSuccessful()) {
+                if (response.isSuccessful())
+                {
                     AddFarmerResList addFarmerResList = response.body().getLst();
                     Log.e("tag", "addFarmerResList NAme=" + addFarmerResList.getFarmerFirstName());
 

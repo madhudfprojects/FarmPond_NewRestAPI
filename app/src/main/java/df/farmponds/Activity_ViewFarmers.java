@@ -734,6 +734,13 @@ public class Activity_ViewFarmers extends AppCompatActivity {
                 str_selected_farmerID = ViewFarmerList_arraylist.get(position).getFarmerID();
                 str_selected_farmerName = ViewFarmerList_arraylist.get(position).getFarmerFirstName();
 
+                str_selected_farmerName=ViewFarmerList_arraylist.get(position).getFarmerFirstName()
+                        +" "+ViewFarmerList_arraylist.get(position).getFarmerMiddleName()
+                        +" "+ViewFarmerList_arraylist.get(position).getFarmerLastName();
+
+
+
+                Log.e("str_selected_farmername", str_selected_farmerName);
                 Log.e("str_selected_farmerID", str_selected_farmerID);
                 Intent i = new Intent(Activity_ViewFarmers.this, EachFarmPondDetails_Activity.class);
                 i.putExtra("sel_yearsp", String.valueOf(sel_yearsp));
@@ -1268,7 +1275,15 @@ public class Activity_ViewFarmers extends AppCompatActivity {
                                                          String str_FIDproofno, String str_approvalstatus, String str_approvalremarks,
                                                          String str_approvedby, String str_approveddate, String str_donorname,
                                                          String str_latitude, String str_longitude,
-                                                         String str_acres, String str_gunta, String str_crop_beforepond, String str_crop_afterpond) {
+                                                         String str_acres, String str_gunta, String str_crop_beforepond, String str_crop_afterpond)
+    {
+        Log.e("submitDate",str_submited_date); //09-08-2020
+        Log.e("str_startdate",str_startdate); //str_constr_date 08-08-2020
+        Log.e("str_constr_date",str_constr_date);//05-08-2020 10:32:20
+
+
+
+
         if (str_farmpond_remarks == null) {
             str_farmpond_remarks = "100";
         } else {
@@ -1362,6 +1377,10 @@ public class Activity_ViewFarmers extends AppCompatActivity {
                 "'" + str_farmpond_remarks + "','" + str_farmpond_amtcollected + "','" + str_farmpond_status + "'," +
                 "'" + str_approvalstatus + "','" + str_approvalremarks + "','" + str_approvedby + "','" + str_approveddate + "','" + str_donorname + "'," +
                 "'" + str_latitude + "','" + str_longitude + "','" + str_acres + "','" + str_gunta + "','" + str_crop_beforepond + "','" + str_crop_afterpond + "','" + 0 + "','" + 0 + "','" + str_pondImageId1 + "','" + pondImageType1 + "','" + str_pondImageId2 + "','" + pondImageType2 + "','" + str_pondImageId3 + "','" + pondImageType3 + "');";
+
+
+
+
 
         db1.execSQL(SQLiteQuery);
         db1.close();

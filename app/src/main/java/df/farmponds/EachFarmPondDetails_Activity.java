@@ -335,6 +335,11 @@ public class EachFarmPondDetails_Activity extends AppCompatActivity {
                     Class_farmponddetails_offline innerObj_class_farmpondetails = new Class_farmponddetails_offline();
 
                     innerObj_class_farmpondetails.setfarmer_id(cursor1.getString(cursor1.getColumnIndex("FIDDB")));
+
+                    //"FNameDB VARCHAR,FMNameDB VARCHAR,FLNameDB VARCHAR,
+                    innerObj_class_farmpondetails.setFarmer_Name(cursor1.getString(cursor1.getColumnIndex("FNameDB")));
+                    innerObj_class_farmpondetails.setFarmer_Name(cursor1.getString(cursor1.getColumnIndex("FMNameDB")));
+                    innerObj_class_farmpondetails.setFarmer_Name(cursor1.getString(cursor1.getColumnIndex("FLNameDB")));
                    // innerObj_class_farmpondetails.setFarmer_First_Name(cursor1.getString(cursor1.getColumnIndex("FNameDB")));
                     innerObj_class_farmpondetails.setFarmpond_Id(cursor1.getString(cursor1.getColumnIndex("FPondidDB")));
                     innerObj_class_farmpondetails.setFarmpond_Width(cursor1.getString(cursor1.getColumnIndex("WidthDB")));
@@ -529,8 +534,13 @@ public class EachFarmPondDetails_Activity extends AppCompatActivity {
 
             if (farmponddetails_obj != null)
             {
-                if (!(farmponddetails_obj.getFarmpond_Width().equalsIgnoreCase("empty"))) {
-                    holder.holder_farmername.setText(farmponddetails_obj.getFarmer_Name());
+                if (!(farmponddetails_obj.getFarmpond_Width().equalsIgnoreCase("empty")))
+                {
+
+
+                    /*holder.holder_farmername.setText(farmponddetails_obj.getFarmer_Name()+" "+
+                            farmponddetails_obj.getFarmer_MName()+" "+farmponddetails_obj.getFarmer_LName());*/
+                    holder.holder_farmername.setText(str_farmername);
                     holder.holder_pondwidth.setText(farmponddetails_obj.getFarmpond_Width());
                     holder.holder_pondheight.setText(farmponddetails_obj.getFarmpond_Height());
                     holder.holder_ponddepth.setText(farmponddetails_obj.getFarmpond_Depth());
