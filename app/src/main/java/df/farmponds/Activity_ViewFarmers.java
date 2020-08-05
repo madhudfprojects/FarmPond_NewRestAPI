@@ -2635,7 +2635,7 @@ public class Activity_ViewFarmers extends AppCompatActivity {
                                     str_approveddate = "0";
                                     DBCreate_FarmpondsRest_details_2SQLiteDB(farmerID, farmer_First_Name, pondID, pondWidth, pondLength,
                                             pondDepth, pondImageId1, str_base64image1, pondImage1, pondImageType1, pondImageId2, str_base64image2, pondImage2, pondImageType2, pondImageId3, str_base64image3, pondImage3, pondImageType3,
-                                            pondDays, createdDate, pondEnd, pondCost, machineID,
+                                            pondDays, pondEnd, submittedDate, pondCost, machineID,
                                             pondCode, pondStart, str_farmpond_remarks, CollectedAmount, pondStatus,
                                             farmer_Middle_Name, farmer_Last_Name, "", Farmer_ID_Type, Farmer_ID_Number, Approval_Status,
                                             Approval_Remarks, Approval_By, str_approveddate, Donor_Name, pondLatitude, pondLongitude,
