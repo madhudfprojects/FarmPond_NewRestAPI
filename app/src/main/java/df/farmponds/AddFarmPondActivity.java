@@ -812,7 +812,7 @@ public class AddFarmPondActivity extends AppCompatActivity {
                     // add_newpond_no_of_days_et.setText("");
 
                     //add_newpond_total_amount_tv
-                    Log.e("errorif","errorif");
+                    //Log.e("errorif","errorif");
                     amountcollected_lesser_LL.setVisibility(View.GONE);
                 }
                 else {
@@ -2254,8 +2254,9 @@ public class AddFarmPondActivity extends AppCompatActivity {
 
         call.enqueue(new Callback<AddFarmerResponse>() {
             @Override
-            public void onResponse(Call<AddFarmerResponse> call, Response<AddFarmerResponse> response) {
-                System.out.println("response" + response.body().toString());
+            public void onResponse(Call<AddFarmerResponse> call, Response<AddFarmerResponse> response)
+            {
+                //System.out.println("response" + response.body().toString());
 
                   /*  Log.e("response",response.toString());
                     Log.e("TAG", "response 33: "+new Gson().toJson(response) );
