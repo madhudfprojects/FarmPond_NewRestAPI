@@ -2214,9 +2214,13 @@ public class AddFarmPondActivity extends AppCompatActivity {
 
     private void AddFarmerDetails(final int j) {
 
-
+        String FarmerID=class_farmerprofileoffline_array_obj[j].getStr_farmerID();
+        if(FarmerID.startsWith("temp")){
+            Log.e("tag","FarmerID temp=="+FarmerID);
+            FarmerID="0";
+        }
         AddFarmerRequest request = new AddFarmerRequest();
-        request.setFarmerID(class_farmerprofileoffline_array_obj[j].getStr_farmerID());
+        request.setFarmerID(FarmerID);
         request.setStateID(class_farmerprofileoffline_array_obj[j].getStr_stateid());
         request.setDistrictID(class_farmerprofileoffline_array_obj[j].getStr_districtid());
         request.setTalukaID(class_farmerprofileoffline_array_obj[j].getStr_talukid());
