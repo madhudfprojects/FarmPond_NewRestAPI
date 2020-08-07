@@ -17,6 +17,7 @@ import df.farmponds.Models.GetAppVersion;
 import df.farmponds.Models.Location_Data;
 import df.farmponds.Models.NormalLogin_Response;
 import df.farmponds.Models.UserData;
+import df.farmponds.Models.UserDataSummary;
 import df.farmponds.Models.ValidateSyncRequest;
 import df.farmponds.Models.ValidateSyncResponse;
 import okhttp3.RequestBody;
@@ -122,4 +123,7 @@ public interface Interface_userservice {
 
   @GET("Authentication/Get_Sync_Version")
   Call<AutoSyncVersion> getAutoSyncVersion(@Query("User_ID") String User_ID);
+
+  @GET("Authentication/Get_UserDataSummary")
+  Call<UserDataSummary> getUserDataSummary(@Query("User_ID") String User_ID,@Query("Academic_ID") String Academic_ID);
 }
