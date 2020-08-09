@@ -318,6 +318,8 @@ public class EachFarmPondDetails_Activity extends AppCompatActivity {
         if (x == 0) {
             cursor1 = db1.rawQuery("SELECT DISTINCT * FROM FarmPondDetails_fromServerRest WHERE FIDDB='" + str_farmerID + "'", null);
             x = cursor1.getCount();
+            Log.e("inside","inside");
+
         }
 
 

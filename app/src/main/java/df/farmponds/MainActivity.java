@@ -379,7 +379,8 @@ public class MainActivity extends AppCompatActivity
        // retrofit2.Call call = userService1.getValidateLoginPostNew(str_gmailid);
        // str_gmailid="anandkanade.tech@dfmail.org";
        // str_gmailid="eventtest464@gmail.com";
-        str_gmailid="kanadeanand@gmail.com";
+       // str_gmailid="kanadeanand@gmail.com";
+      //  str_gmailid="testdev326@gmail.com";
 
         retrofit2.Call call = userService1.getValidateLoginPostNew(str_gmailid);
 
