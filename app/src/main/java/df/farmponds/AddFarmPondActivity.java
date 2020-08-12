@@ -568,7 +568,7 @@ public class AddFarmPondActivity extends AppCompatActivity {
                 } else {
                     if(lat_str==null||log_str==null||lat_str.equals("0.0")||log_str.equals("0.0"))
                     {
-                        alertdialog_refresh_latandlong();
+                        //alertdialog_refresh_latandlong();
                     }
                     Toast.makeText(AddFarmPondActivity.this, " after camera latitude=" + lat_str + " longitude=" + log_str, Toast.LENGTH_LONG).show();
                 }

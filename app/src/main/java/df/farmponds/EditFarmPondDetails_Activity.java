@@ -473,7 +473,7 @@ public class EditFarmPondDetails_Activity extends AppCompatActivity {
                 }*/
             } else {
                 if (lat_str == null || log_str == null || lat_str.equals("0.0") || log_str.equals("0.0")) {
-                    alertdialog_refresh_latandlong();
+                   // alertdialog_refresh_latandlong();
                 }
                 Toast.makeText(EditFarmPondDetails_Activity.this, " after camera latitude=" + lat_str + " longitude=" + log_str, Toast.LENGTH_LONG).show();
             }
@@ -496,7 +496,7 @@ public class EditFarmPondDetails_Activity extends AppCompatActivity {
 
 
             if (str_lattest.equals("0.0") || str_longtest.equals("0.0")) {
-                alertdialog_refresh_latandlong();
+               // alertdialog_refresh_latandlong();
             }
 
 
@@ -2696,7 +2696,8 @@ public class EditFarmPondDetails_Activity extends AppCompatActivity {
 
         newpond_response= new Class_addfarmponddetails_ToFromServer1[newfarmponddetails_offline_array_objRest.length];
         int_j=0;
-        for (int k = 0; k < newfarmponddetails_offline_array_objRest.length; k++) {
+        for (int k = 0; k < newfarmponddetails_offline_array_objRest.length; k++)
+        {
 
 
             if (x > 0)
@@ -2704,11 +2705,10 @@ public class EditFarmPondDetails_Activity extends AppCompatActivity {
                 //  AsyncTask_submit_New_farmponddetails(k);
                 Add_New_farmponddetails(k);
             }
-
-            if(x==0)
-            {
-                fetch_DB_edited_offline_data();
-            }
+        }
+        if(x==0)
+        {
+            fetch_DB_edited_offline_data();
         }
 
     }
@@ -3204,8 +3204,6 @@ public class EditFarmPondDetails_Activity extends AppCompatActivity {
             Log.e("editexception",e.toString());
 
     }
-
-
 
         {
             retrofit2.Call call = userService.Post_ActionFarmerPondData(request);

@@ -2606,7 +2606,7 @@ public class AddFarmer_Activity1 extends AppCompatActivity {
         Log.e("tag", "getStr_annualincome==" + class_farmerprofileoffline_array_obj[j].getStr_annualincome());
 
         Call<AddFarmerResponse> call = userService1.AddFarmer(request);
-        Log.e("TAG", "Request 33: " + new Gson().toJson(request));
+        //Log.e("TAG", "Request 33: " + new Gson().toJson(request));
         Log.e("TAG", "Request: " + request.toString());
 
         final ProgressDialog progressDoalog;
