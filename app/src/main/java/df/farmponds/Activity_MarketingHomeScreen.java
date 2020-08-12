@@ -245,11 +245,7 @@ Log.e("tag","str_employee_id="+str_employee_id);
 
                 if (isInternetPresent1)
                 {
-
-
-                   /* fetch_DB_farmerprofile_offline_data();
-                    fetch_DB_edited_offline_data();*/
-
+                    fetch_DB_farmerprofile_offline_data();
                 }
                 else{
                     Toast.makeText(getApplicationContext(), "Connect to Internet", Toast.LENGTH_LONG).show();
@@ -1094,6 +1090,7 @@ Log.e("tag","str_employee_id="+str_employee_id);
         }
         db1.close();
 
+
         fetch_DB_edited_offline_data();
     }
 
@@ -1101,8 +1098,8 @@ Log.e("tag","str_employee_id="+str_employee_id);
     public void fetch_DB_edited_offline_data()
     {
 
+        fetch_DB_New_pond_count();
         Class_DBHandler dbhandler_obj=new Class_DBHandler(getApplicationContext());
-
         if(dbhandler_obj.get_DB_edited_offline_data_count()>0)
         {
             int x=dbhandler_obj.get_DB_edited_offline_data_count();
@@ -1424,6 +1421,9 @@ Log.e("tag","str_employee_id="+str_employee_id);
         db1.close();
 
 
+        fetch_DB_farmerprofile_offline_data_count();
+        fetch_DB_New_pond_count();
+        fetch_DB_edited_offline_data_count();
     }
 
 

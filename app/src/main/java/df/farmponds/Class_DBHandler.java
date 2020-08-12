@@ -195,40 +195,21 @@ public class Class_DBHandler extends SQLiteOpenHelper
 
                     class_farmponddetails_offline_array_obj[i] = innerObj_Class_farmponddetails_offline;
                     i++;
-
-
                     Log.e("editdays", cursor1.getString(cursor1.getColumnIndex("TotalDaysDB")));
                     Log.e("editconstructed", cursor1.getString(cursor1.getColumnIndex("ConstructedDateDB")));
                     Log.e("editpondcost", cursor1.getString(cursor1.getColumnIndex("PondCostDB")));
                     Log.e("editMcode", cursor1.getString(cursor1.getColumnIndex("McodeDB")));
-
-
-
                     Log.e("Farmerid", cursor1.getString(cursor1.getColumnIndex("FIDDB")));
                     Log.e("FarmerName", cursor1.getString(cursor1.getColumnIndex("FNameDB")));
                     Log.e("Imageid1DB", cursor1.getString(cursor1.getColumnIndex("Imageid1DB")));
                     Log.e("Imageid2DB", cursor1.getString(cursor1.getColumnIndex("Imageid2DB")));
                     Log.e("Imageid3DB", cursor1.getString(cursor1.getColumnIndex("Imageid3DB")));
-
-
                 } while (cursor1.moveToNext());
             }//if ends
-
         }
-
-
         db.close();
-
         Log.e("length", String.valueOf(class_farmponddetails_offline_array_obj.length));
-
-
-
-
 return class_farmponddetails_offline_array_obj;
-
-
-
-
     }
 
 }//end of class
