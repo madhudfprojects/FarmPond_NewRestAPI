@@ -243,6 +243,9 @@ public class EditFarmPondDetails_Activity extends AppCompatActivity {
     Class_addfarmponddetails_ToFromServer1[] editedpond_response;
     int int_er;
 
+    int int_j,int_newfarmercount;
+    Class_addfarmponddetails_ToFromServer1[] newpond_response;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -396,7 +399,7 @@ public class EditFarmPondDetails_Activity extends AppCompatActivity {
 
         //edit_pondamount_tv.setText("X "+str_perdayamount+" =");
 
-
+        int_newfarmercount=0;
         str_image1 = str_image2 = str_image3 = "false";
         str_Is_image1 = str_Is_image2 = str_Is_image3 = "false";//for conversion to byte64 string
         str_cancelclicked = "false";
@@ -470,7 +473,10 @@ public class EditFarmPondDetails_Activity extends AppCompatActivity {
                 }*/
             } else {
                 if (lat_str == null || log_str == null || lat_str.equals("0.0") || log_str.equals("0.0")) {
-                    alertdialog_refresh_latandlong();
+                   // alertdialog_refresh_latandlong();
+                    latitude_tv.setText("0.0");
+                    longitude_tv.setText("0.0");
+
                 }
                 Toast.makeText(EditFarmPondDetails_Activity.this, " after camera latitude=" + lat_str + " longitude=" + log_str, Toast.LENGTH_LONG).show();
             }
@@ -493,7 +499,7 @@ public class EditFarmPondDetails_Activity extends AppCompatActivity {
 
 
             if (str_lattest.equals("0.0") || str_longtest.equals("0.0")) {
-                alertdialog_refresh_latandlong();
+               // alertdialog_refresh_latandlong();
             }
 
 
@@ -2319,9 +2325,9 @@ public class EditFarmPondDetails_Activity extends AppCompatActivity {
 
             if (isInternetPresent)
             {
-                //  fetch_DB_farmerprofile_offline_data();
+                 fetch_DB_farmerprofile_offline_data();
 
-               fetch_DB_edited_offline_data();
+               //fetch_DB_edited_offline_data();
 
 
             } else {
@@ -2415,7 +2421,7 @@ public class EditFarmPondDetails_Activity extends AppCompatActivity {
 
         Log.e("length", String.valueOf(class_farmerprofileoffline_array_obj.length));
 
-
+        int_newfarmercount=0;
         for (int j = 0; j < class_farmerprofileoffline_array_obj.length; j++) {
             AddFarmerDetails(j);
         }
@@ -2542,6 +2548,16 @@ public class EditFarmPondDetails_Activity extends AppCompatActivity {
                     db_viewfarmerlist.update("ViewFarmerListRest", cv_farmelistupdate, "DispFarmerTable_Farmer_Code = ?", new String[]{str_response_tempId});
                     db_viewfarmerlist.close();
                     progressDoalog.dismiss();
+
+                    if(int_newfarmercount>0){int_newfarmercount++;}
+                    else{ int_newfarmercount++; }
+
+                    if(int_newfarmercount==class_farmerprofileoffline_array_obj.length)
+                    {
+                        fetch_DB_newfarmpond_offline_data();
+                    }
+
+
                 } else {
                     progressDoalog.dismiss();
 
@@ -2681,20 +2697,38 @@ public class EditFarmPondDetails_Activity extends AppCompatActivity {
 
         Log.e("newlength", String.valueOf(newfarmponddetails_offline_array_objRest.length));
 
+        newpond_response= new Class_addfarmponddetails_ToFromServer1[newfarmponddetails_offline_array_objRest.length];
+        int_j=0;
+        for (int k = 0; k < newfarmponddetails_offline_array_objRest.length; k++)
+        {
 
-        for (int k = 0; k < newfarmponddetails_offline_array_objRest.length; k++) {
 
-
-            if (x > 0) {
+            if (x > 0)
+            {
                 //  AsyncTask_submit_New_farmponddetails(k);
                 Add_New_farmponddetails(k);
             }
+        }
+        if(x==0)
+        {
+            fetch_DB_edited_offline_data();
         }
 
     }
 
 
-    private void Add_New_farmponddetails(int k) {
+
+
+    private void Add_New_farmponddetails(int k)
+    {
+
+
+        final ProgressDialog newpondadded_progressDoalog;
+        newpondadded_progressDoalog = new ProgressDialog(EditFarmPondDetails_Activity.this);
+        newpondadded_progressDoalog.setMessage("Uploading Farmponds....");
+        newpondadded_progressDoalog.setTitle("Please wait....");
+        newpondadded_progressDoalog.setProgressStyle(ProgressDialog.STYLE_SPINNER);
+        newpondadded_progressDoalog.show();
 
 
         Interface_userservice userService;
@@ -2702,6 +2736,7 @@ public class EditFarmPondDetails_Activity extends AppCompatActivity {
 
 
         Class_addfarmponddetails_ToFromServer2 request = new Class_addfarmponddetails_ToFromServer2();
+
         String str_latitude, str_longitude;
 
         if (newfarmponddetails_offline_array_objRest[k].getPondImage3().equals("noimage3") ||
@@ -2718,98 +2753,291 @@ public class EditFarmPondDetails_Activity extends AppCompatActivity {
         Log.e("latitude", str_latitude);
         Log.e("Longitude", str_longitude);
 
-        request.setPond_ID(newfarmponddetails_offline_array_objRest[k].getPondID());
+
+        request.setPond_ID("0");// for new pond "0" need to be sent
         request.setFarmer_ID(newfarmponddetails_offline_array_objRest[k].getFarmerID());
-        request.setAcademic_ID(newfarmponddetails_offline_array_objRest[k].getAcademicID());
+        //request.setAcademic_ID(newfarmponddetails_offline_array_objRest[k].getAcademicID());
+        request.setAcademic_ID(str_year);
         request.setMachine_ID(newfarmponddetails_offline_array_objRest[k].getMachineID());
         request.setPond_Latitude(str_latitude);
         request.setPond_Longitude(str_longitude);
+
         request.setPond_Length(newfarmponddetails_offline_array_objRest[k].getPondLength());
         request.setPond_Width(newfarmponddetails_offline_array_objRest[k].getPondWidth());
         request.setPond_Depth(newfarmponddetails_offline_array_objRest[k].getPondDepth());
+
         request.setPond_Start(newfarmponddetails_offline_array_objRest[k].getPondStart());
         request.setPond_End(newfarmponddetails_offline_array_objRest[k].getPondEnd());
         request.setPond_Days(newfarmponddetails_offline_array_objRest[k].getPondDays());
         request.setPond_Cost(newfarmponddetails_offline_array_objRest[k].getPondCost());
-        /*request.setPond_Image_1(newfarmponddetails_offline_array_objRest[k].getPondImage1());
+        request.setPond_Collected_Amount(newfarmponddetails_offline_array_objRest[k].getPondCollectedAmount());
+        request.setPond_Status(newfarmponddetails_offline_array_objRest[k].getPondStatus());
+        request.setPond_remarks(newfarmponddetails_offline_array_objRest[k].getPond_remarks());
+
+       /* request.setPond_Image_1(newfarmponddetails_offline_array_objRest[k].getPondImage1());
         request.setPond_Image_2(newfarmponddetails_offline_array_objRest[k].getPondImage2());
         request.setPond_Image_3(newfarmponddetails_offline_array_objRest[k].getPondImage3());*/
+
+
+
+        int x=0;
+       /* if(str_image1present.equalsIgnoreCase("yes"))
+        { x++;
+            if(str_image2present.equalsIgnoreCase("yes"))
+            {  x++; if(str_image3present.equalsIgnoreCase("yes"))
+            {x++;}
+            }
+        }*/
+
+
+
+        if(newfarmponddetails_offline_array_objRest[k].getPondImage1().equalsIgnoreCase("noimage1")
+        ||newfarmponddetails_offline_array_objRest[k].getPondImage1().equalsIgnoreCase("0"))
+        {}
+        else{
+            x++;
+            if(newfarmponddetails_offline_array_objRest[k].getPondImage2().equalsIgnoreCase("noimage2")
+                    ||newfarmponddetails_offline_array_objRest[k].getPondImage2().equalsIgnoreCase("0"))
+            { }
+            else{
+                x++;
+                if(newfarmponddetails_offline_array_objRest[k].getPondImage3().equalsIgnoreCase("noimage3")
+                        ||newfarmponddetails_offline_array_objRest[k].getPondImage3().equalsIgnoreCase("0"))
+                { }
+                else{
+                    x++;}
+                 }
+        }
+
+        Log.e("pondlength", String.valueOf(x));
+
+        PondImage[] pondimage_arrayobj = new PondImage[x];
+
+        for(int j=0;j<x;j++)
+        {
+            PondImage pondimage_innerobj = new PondImage();
+            pondimage_innerobj.setImageID("0");
+            pondimage_innerobj.setPondID("0");
+            pondimage_innerobj.setImageData1("");
+            if(j==0)
+            {pondimage_innerobj.setImageData(newfarmponddetails_offline_array_objRest[k].getPondImage1());
+                pondimage_innerobj.setImageType("1");
+            }
+            if(j==1)
+            {pondimage_innerobj.setImageData(newfarmponddetails_offline_array_objRest[k].getPondImage2());
+                pondimage_innerobj.setImageType("2");}
+            if(j==2)
+            {pondimage_innerobj.setImageData(newfarmponddetails_offline_array_objRest[k].getPondImage3());
+                pondimage_innerobj.setImageType("3");}
+            pondimage_innerobj.setImageLink("");
+
+            pondimage_innerobj.setImageStatus("0");
+            pondimage_arrayobj[j]=pondimage_innerobj;
+        }
+
+        List list = Arrays.asList(pondimage_arrayobj);
+        request.setPondImage(list);
+
+
         request.setSubmitted_Date(newfarmponddetails_offline_array_objRest[k].getSubmittedDate());
         request.setCreated_By(newfarmponddetails_offline_array_objRest[k].getCreatedBy());
-        request.setPond_Temp_ID(newfarmponddetails_offline_array_objRest[k].getPondTempID());
+        request.setPond_Temp_ID(newfarmponddetails_offline_array_objRest[k].getPondCode());
         request.setPond_Land_Gunta(newfarmponddetails_offline_array_objRest[k].getPondLandGunta());
         request.setPond_Land_Acre(newfarmponddetails_offline_array_objRest[k].getPondLandAcre());
 
-        retrofit2.Call call = userService.Post_ActionFarmerPondData(request);
+        int_k=k;
+        Log.e("kvalue", String.valueOf(k));
+        Log.e("addrequest",request.toString());
+
+        {
+            retrofit2.Call call = userService.Post_ActionFarmerPondData(request);
 
 
-        call.enqueue(new Callback<Class_addfarmponddetails_ToFromServer1>() {
-            @Override
-            public void onResponse(retrofit2.Call<Class_addfarmponddetails_ToFromServer1> call, Response<Class_addfarmponddetails_ToFromServer1> response) {
+           // Log.e("addrequest", new Gson().toJson(request));
 
-               /* Class_farmponddetails_Response user_object= new Class_farmponddetails_Response();
-                user_object = (Class_farmponddetails_Response) response.body();*/
-
-                /*Class_farmponddetails_ToServer  user_object1= new Class_farmponddetails_ToServer();
-                user_object1 = (Class_farmponddetails_ToServer) response.body();
-*/
-
-              /*  Class_addfarmponddetails_ToFromServer1  user_object1= new Class_addfarmponddetails_ToFromServer1();
-                user_object1 = (Class_addfarmponddetails_ToFromServer1) response.body();*/
-
-                Class_addfarmponddetails_ToFromServer1 user_object1 = response.body();
+            call.enqueue(new Callback<Class_addfarmponddetails_ToFromServer1>()
+            {
+                @Override
+                public void onResponse(retrofit2.Call<Class_addfarmponddetails_ToFromServer1> call, Response<Class_addfarmponddetails_ToFromServer1> response) {
 
 
-                //  Log.e("response",user_object1.getStatus().toString());
-                //Log.e("Addpondresponse",response.body().toString());
+                    Log.e("response", response.toString());
+                    //  Log.e("TAG", "response 33: " + new Gson().toJson(response));
+                    Log.e("response_body", String.valueOf(response.body()));
 
-                //Log.e("response",user_object1.getLst2().getPond_Cost());
+                    if (response.isSuccessful())
+                    {
+                        //  progressDoalog.dismiss();
 
-                Log.e("response", response.toString());
-                Log.e("TAG", "response 33: " + new Gson().toJson(response));
-                Log.e("response body", String.valueOf(response.body()));
-                //   DefaultResponse error1 = ErrorUtils.parseError(response);
-                   /* Log.e("response new:",error1.getMsg());
-                    Log.e("response new status:", String.valueOf(error1.getstatus()));*/
-                // Log.e("response",Gson.fromJson(response.toString(),AddFarmer_Activity1.class));
 
-                if (response.isSuccessful()) {
-                    //  progressDoalog.dismiss();
-                    Class_addfarmponddetails_ToFromServer1 class_loginresponse = response.body();
-                    Log.e("tag", "res==" + class_loginresponse.toString());
-                    if (class_loginresponse.getStatus().equals("true")) {
+                        Class_addfarmponddetails_ToFromServer1 class_addfarmponddetailsresponse = response.body();
 
-                      /*  Class_addfarmponddetails_ToFromServer2 class_addfarmponddetails_toFromServer2 = response.body().getLst2();
-                        Log.e("tag","class_addfarmponddetails_toFromServer2 farmerID="+class_addfarmponddetails_toFromServer2.getFarmer_ID());
-                        Log.e("tag","class_addfarmponddetails_toFromServer2 PondID="+class_addfarmponddetails_toFromServer2.getPond_ID());
-*/
-                    } else if (class_loginresponse.getStatus().equals("false")) {
-                        //     progressDoalog.dismiss();
-                        Toast.makeText(EditFarmPondDetails_Activity.this, class_loginresponse.getMessage(), Toast.LENGTH_SHORT).show();
+                        if (class_addfarmponddetailsresponse.getStatus().equalsIgnoreCase("true"))
+                        {
+
+                            if(int_j>0){}
+                            else{ int_j=0; }
+                            try {
+                                newpond_response[int_j] = class_addfarmponddetailsresponse;
+                                int_j++;
+                            }
+                            catch(Exception e)
+                            {
+                                Log.e("excep",e.toString());
+                            }
+
+                            Log.e("addpondresponse", class_addfarmponddetailsresponse.getStatus().toString());
+                            Log.e("responsecost", class_addfarmponddetailsresponse.getLst2().get(0).getPond_Cost());
+                            Log.e("responsepondID", class_addfarmponddetailsresponse.getLst2().get(0).getPondImage().get(0).getImageID());
+                            Log.e("respTemppondID", class_addfarmponddetailsresponse.getLst2().get(0).getPond_Temp_ID());
+
+                            //DB_update_newpond_response();
+
+
+                            /*Gson gson = new Gson();
+                            String jsonStr = gson.toJson(class_addfarmponddetailsresponse);
+                            Log.e("Jsonstr",jsonStr.toString());*/
+
+                            newpondadded_progressDoalog.dismiss();
+
+                            if(int_j==newfarmponddetails_offline_array_objRest.length)
+                            {
+                                DB_update_newpond_response(int_j);
+                            }
+
+
+
+
+
+                        } else if (class_addfarmponddetailsresponse.getStatus().equals("false")) {
+                            newpondadded_progressDoalog.dismiss();
+                            Toast.makeText(EditFarmPondDetails_Activity.this, class_addfarmponddetailsresponse.getMessage(), Toast.LENGTH_SHORT).show();
+
+                        }
+                    } else {
+                        newpondadded_progressDoalog.dismiss();
+                        DefaultResponse error = ErrorUtils.parseError(response);
+                        Log.e("addponderror", error.getMsg());
+
+                        Toast.makeText(EditFarmPondDetails_Activity.this, error.getMsg(), Toast.LENGTH_SHORT).show();
 
                     }
-                } else {
-                    //   progressDoalog.dismiss();
+                }
 
-                    DefaultResponse error = ErrorUtils.parseError(response);
-                    // … and use it to show error information
+                @Override
+                public void onFailure(Call call, Throwable t) {
+                    Toast.makeText(EditFarmPondDetails_Activity.this, "error" + t.getMessage(), Toast.LENGTH_SHORT).show();
+                    Log.e("response_error", t.getMessage().toString());
+                }
+            });
 
-                    // … or just log the issue like we’re doing :)
-                    Log.d("error message", error.getMsg());
+        }
 
-                    Toast.makeText(EditFarmPondDetails_Activity.this, error.getMsg(), Toast.LENGTH_SHORT).show();
+    }
 
+
+
+
+    public void DB_update_newpond_response(int numberofresponse)
+    {
+        try {
+            Log.e("lengthofobject", String.valueOf(numberofresponse));
+            // Log.e("length", String.valueOf(newpond_response.length));
+            Log.e("newpondcost", newpond_response[0].getLst2().get(0).getPond_Cost());
+            Log.e("newpondImageID", newpond_response[0].getLst2().get(0).getPondImage().get(0).getImageID());
+            Log.e("newpondTempID", newpond_response[0].getLst2().get(0).getPond_Temp_ID());
+
+            int tg=newpond_response[0].getLst2().get(0).getPondImage().size();
+            Log.e("pondsize",String.valueOf(tg));
+
+        }
+        catch(Exception e)
+        { Log.e("DB",e.toString());  }
+
+        SQLiteDatabase db1 = this.openOrCreateDatabase("FarmPond_db", Context.MODE_PRIVATE, null);
+
+        db1.execSQL("CREATE TABLE IF NOT EXISTS FarmPondDetails_fromServerRest(SlNo INTEGER PRIMARY KEY AUTOINCREMENT,FIDDB VARCHAR,TempFIDDB VARCHAR," +
+                "FNameDB VARCHAR,FMNameDB VARCHAR,FLNameDB VARCHAR,FYearIDDB VARCHAR,FStateIDDB VARCHAR,FDistrictIDDB VARCHAR," +
+                "FTalukIDDB VARCHAR,FPanchayatIDDB VARCHAR,FVillageIDDB VARCHAR,FageDB VARCHAR,FphonenumberDB VARCHAR," +
+                "FAnnualIncomeDB VARCHAR,FfamilymemberDB VARCHAR,FidprooftypeDB VARCHAR,FidproofnoDB VARCHAR,FphotoDB VARCHAR,FPondidDB VARCHAR,WidthDB VARCHAR," +
+                "HeightDB VARCHAR,DepthDB VARCHAR,LatitudeDB VARCHAR,LongitudeDB VARCHAR,Imageid1DB VARCHAR,Image1Base64DB VARCHAR," +
+                "Imageid2DB VARCHAR,Image2Base64DB VARCHAR,Imageid3DB VARCHAR,Image3Base64DB VARCHAR,EmployeeIDDB VARCHAR,SubmittedDateDB VARCHAR," +
+                "TotalDaysDB VARCHAR,StartDateDB VARCHAR,ConstructedDateDB VARCHAR,PondCostDB VARCHAR,McodeDB VARCHAR,FPondCodeDB VARCHAR," +
+                "FPondRemarksDB VARCHAR,FPondAmtTakenDB VARCHAR,FPondStatusDB VARCHAR," +
+                "FPondApprovalStatusDB VARCHAR,FPondApprovalRemarksDB VARCHAR,FPondApprovedbyDB VARCHAR,FPondApprovedDateDB VARCHAR,FPondDonorDB VARCHAR," +
+                "FPondLatitudeDB VARCHAR,FPondLongitudeDB VARCHAR," +
+                "FPondAcresDB VARCHAR,FPondGuntaDB VARCHAR,FPondCropBeforeDB VARCHAR,FPondCropAfterDB VARCHAR," +
+                "UploadedStatusFarmerprofile VARCHAR,UploadedStatus VARCHAR," +
+                "newpondImageId1 VARCHAR,pondImageType1 VARCHAR,newpondImageId2 VARCHAR,pondImageType2 VARCHAR,newpondImageId3 VARCHAR,pondImageType3 VARCHAR);");
+
+
+        for(int i=0;i<numberofresponse;i++)
+        {
+
+           /* Log.e("newpondcost", newpond_response[0].getLst2().get(0).getPond_Cost());
+            Log.e("newpondImageID", newpond_response[0].getLst2().get(0).getPondImage().get(0).getImageID());
+            Log.e("newpondTempID", newpond_response[0].getLst2().get(0).getPond_Temp_ID());
+*/
+            String TemppondID_response=newpond_response[i].getLst2().get(0).getPond_Temp_ID();
+
+            ContentValues cv = new ContentValues();
+            cv.put("FPondidDB",newpond_response[i].getLst2().get(0).getPond_ID());
+
+            int int_pondimagesize=newpond_response[i].getLst2().get(0).getPondImage().size();
+
+            Log.e("newpondTempID", newpond_response[i].getLst2().get(0).getPond_Temp_ID());
+            Log.e("FPondidDB", newpond_response[i].getLst2().get(0).getPond_ID());
+            Log.e("newpondsize", String.valueOf(int_pondimagesize));
+
+
+
+            for(int k=0;k<int_pondimagesize;k++)
+            {
+                if(k==0)
+                {
+                    cv.put("Imageid1DB",newpond_response[i].getLst2().get(0).getPondImage().get(k).getImageID());
+                    Log.e("Imageid1DB", newpond_response[i].getLst2().get(0).getPondImage().get(k).getImageID());
+                    cv.put("Imageid2DB","0");
+                    cv.put("Imageid3DB","0");
+                }else{
+                    if(k==1)
+                    {
+                        cv.put("Imageid2DB",newpond_response[i].getLst2().get(0).getPondImage().get(k).getImageID());
+                        Log.e("Imageid2DB", newpond_response[i].getLst2().get(0).getPondImage().get(k).getImageID());
+                        cv.put("Imageid3DB","0");
+                    }else{
+                        if(k==2)
+                        {
+                            cv.put("Imageid3DB",newpond_response[i].getLst2().get(0).getPondImage().get(k).getImageID());
+                            Log.e("Imageid3DB", newpond_response[i].getLst2().get(0).getPondImage().get(k).getImageID());
+                        }
+                    }
                 }
 
             }
 
-            @Override
-            public void onFailure(Call call, Throwable t) {
-                Toast.makeText(EditFarmPondDetails_Activity.this, "error" + t.getMessage(), Toast.LENGTH_SHORT).show();
-                Log.e("response_error", t.getMessage().toString());
-            }
-        });
+            // Log.e("farmpondcode",newpond_response[i].getLst2().get(0).getPondCode());
+
+            cv.put("FPondCodeDB",newpond_response[i].getLst2().get(0).getPond_ID());
+            //  cv.put("FPondStatusDB","3");
+
+            cv.put("UploadedStatus",3);
+
+            db1.update("FarmPondDetails_fromServerRest", cv, "FPondidDB = ?", new String[]{TemppondID_response});
+        }
+        db1.close();
+
+        fetch_DB_edited_offline_data();
     }
+
+
+
+
+
+
+
+
+
 
 
     public void fetch_DB_edited_offline_data()
@@ -2979,8 +3207,6 @@ public class EditFarmPondDetails_Activity extends AppCompatActivity {
             Log.e("editexception",e.toString());
 
     }
-
-
 
         {
             retrofit2.Call call = userService.Post_ActionFarmerPondData(request);
@@ -3154,7 +3380,7 @@ public class EditFarmPondDetails_Activity extends AppCompatActivity {
         db1.close();
 
 
-        Toast.makeText(getApplicationContext(), "New FarmPond has been added", Toast.LENGTH_SHORT).show();
+        Toast.makeText(getApplicationContext(), "Updated FarmPond changes", Toast.LENGTH_SHORT).show();
         Intent intent = new Intent(EditFarmPondDetails_Activity.this, EachFarmPondDetails_Activity.class);
         startActivity(intent);
         finish();

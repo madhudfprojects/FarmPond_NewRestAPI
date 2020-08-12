@@ -56,6 +56,18 @@ public class Class_DBHandler extends SQLiteOpenHelper
     }
 
 
+    public int get_DB_newfarmpond_offline_data_count()
+    {
+        SQLiteDatabase db = this.getReadableDatabase();
+        Cursor cursor1 = db.rawQuery("SELECT * FROM FarmPondDetails_fromServerRest WHERE UploadedStatus='" + 2 + "'", null);
+        int x = cursor1.getCount();
+        Log.e("edited_count", String.valueOf(x));
+        db.close();
+
+        return x;
+    }
+
+
     public int get_DB_edited_offline_data_count()
     {
         SQLiteDatabase db = this.getReadableDatabase();

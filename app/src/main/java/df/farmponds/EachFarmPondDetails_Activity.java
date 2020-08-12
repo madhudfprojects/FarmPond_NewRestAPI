@@ -318,6 +318,8 @@ public class EachFarmPondDetails_Activity extends AppCompatActivity {
         if (x == 0) {
             cursor1 = db1.rawQuery("SELECT DISTINCT * FROM FarmPondDetails_fromServerRest WHERE FIDDB='" + str_farmerID + "'", null);
             x = cursor1.getCount();
+            Log.e("inside","inside");
+
         }
 
 
@@ -1057,13 +1059,16 @@ public class EachFarmPondDetails_Activity extends AppCompatActivity {
                         str_latitude =Double.toString(latitude);
                         str_longitude =Double.toString(longitude);
 
-                    }/*else {
+                    }else {
                         if(str_latitude==null||str_longitude==null||str_latitude.equals("0.0")||str_longitude.equals("0.0"))
                         {
-                            alertdialog_refresh_latandlong();
+                           // alertdialog_refresh_latandlong();
+                            str_latitude="0.0";str_longitude="0.0";
+
+
                         }
-                        Toast.makeText(EachFarmPondDetails_Activity.this, " after camera latitude=" + str_latitude + " longitude=" + str_longitude, Toast.LENGTH_LONG).show();
-                    }*/
+                        Toast.makeText(EachFarmPondDetails_Activity.this, " latitude=" + str_latitude + " longitude=" + str_longitude, Toast.LENGTH_LONG).show();
+                    }
                     try {
                         Thread.sleep(1 * 100);
 

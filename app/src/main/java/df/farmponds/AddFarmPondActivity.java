@@ -242,7 +242,7 @@ public class AddFarmPondActivity extends AppCompatActivity {
     JSONObject[] json_obj;
     JSONArray jsarray_resp;
 
-    int int_j;
+    int int_j,int_newfarmercount;
 
     Class_addfarmponddetails_ToFromServer1[] newpond_response;
 
@@ -275,6 +275,8 @@ public class AddFarmPondActivity extends AppCompatActivity {
 
         sharedpref_farmerid_Obj = getSharedPreferences(sharedpreferenc_farmerid, Context.MODE_PRIVATE);
         str_farmerID = sharedpref_farmerid_Obj.getString(Key_FarmerID, "").trim();
+
+
 
 
         sharedpref_farmerid_Obj = getSharedPreferences(sharedpreferenc_farmerid, Context.MODE_PRIVATE);
@@ -370,7 +372,7 @@ public class AddFarmPondActivity extends AppCompatActivity {
         amountcollected_lesser_LL.setVisibility(View.GONE);
 
 
-        int_k=0;
+        int_k=0;int_newfarmercount=0;
         // new_farmpond_completed_cb.setChecked(false);
         str_validation_for_completed = "no";
         str_machinecode = "nocode";
@@ -566,7 +568,9 @@ public class AddFarmPondActivity extends AppCompatActivity {
                 } else {
                     if(lat_str==null||log_str==null||lat_str.equals("0.0")||log_str.equals("0.0"))
                     {
-                        alertdialog_refresh_latandlong();
+                        //alertdialog_refresh_latandlong();
+                        latitude_tv.setText("0.0");
+                        longitude_tv.setText("0.0");
                     }
                     Toast.makeText(AddFarmPondActivity.this, " after camera latitude=" + lat_str + " longitude=" + log_str, Toast.LENGTH_LONG).show();
                 }
@@ -1761,8 +1765,6 @@ public class AddFarmPondActivity extends AppCompatActivity {
 
                 DB_ViewFarmerlist_updatepondcount(str_farmerID);
 
-
-
             } else {
 
                 Toast.makeText(getApplicationContext(), "Contact Technology Team: " + str_DBerror, Toast.LENGTH_LONG).show();
@@ -2199,6 +2201,7 @@ public class AddFarmPondActivity extends AppCompatActivity {
 
         Log.e("profilelength", String.valueOf(class_farmerprofileoffline_array_obj.length));
 
+        int_newfarmercount=0;
 
         for (int j = 0; j < class_farmerprofileoffline_array_obj.length; j++)
         {
@@ -2273,7 +2276,7 @@ public class AddFarmPondActivity extends AppCompatActivity {
                 if (response.isSuccessful())
                 {
                     AddFarmerResList addFarmerResList = response.body().getLst();
-                    Log.e("tag", "addFarmerResList NAme=" + addFarmerResList.getFarmerFirstName());
+                   // Log.e("tag", "addFarmerResList NAme=" + addFarmerResList.getFarmerFirstName());
 
                     String str_response_farmer_id = addFarmerResList.getFarmerID();
                     String str_response_farmercode = addFarmerResList.getFarmerCode();
@@ -2309,6 +2312,12 @@ public class AddFarmPondActivity extends AppCompatActivity {
                     db1.update("FarmPondDetails_fromServerRest", cv, "TempFIDDB = ?", new String[]{str_response_tempId});
                     db1.close();
 
+                    if(str_response_tempId.equalsIgnoreCase(str_farmerID))
+                    {  SharedPreferences.Editor editor_obj;
+                        editor_obj=sharedpref_farmerid_Obj.edit();
+                        editor_obj.putString(Key_FarmerID, str_response_farmer_id);
+                    editor_obj.commit();}
+
                     SQLiteDatabase db_viewfarmerlist = getApplication().openOrCreateDatabase("FarmPond_db", Context.MODE_PRIVATE, null);
 
 
@@ -2329,6 +2338,18 @@ public class AddFarmPondActivity extends AppCompatActivity {
                     db_viewfarmerlist.update("ViewFarmerListRest", cv_farmelistupdate, "DispFarmerTable_Farmer_Code = ?", new String[]{str_response_tempId});
                     db_viewfarmerlist.close();
                     progressDoalog.dismiss();
+
+                    if(int_newfarmercount>0){int_newfarmercount++;}
+                    else{ int_newfarmercount++; }
+
+
+                    if(int_newfarmercount==class_farmerprofileoffline_array_obj.length)
+                    {
+                        fetch_DB_newfarmpond_offline_data();
+                    }
+
+
+
                 } else {
                     progressDoalog.dismiss();
 
