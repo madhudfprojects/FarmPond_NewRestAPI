@@ -328,11 +328,7 @@ public class MainActivity extends AppCompatActivity
 
                             Toast.makeText(MainActivity.this, "User Signed In:"+str_gmailid, Toast.LENGTH_SHORT).show();
 
-
-
-
                             AsyncTask_loginverify();
-
 
 
                             /*try {

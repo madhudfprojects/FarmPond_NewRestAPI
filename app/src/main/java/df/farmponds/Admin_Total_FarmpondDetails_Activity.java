@@ -53,7 +53,8 @@ import retrofit2.Call;
 import retrofit2.Callback;
 import retrofit2.Response;
 
-public class Admin_Total_FarmpondDetails_Activity extends AppCompatActivity {
+public class Admin_Total_FarmpondDetails_Activity extends AppCompatActivity
+{
 
     Toolbar toolbar;
     Class_InternetDectector internetDectector;

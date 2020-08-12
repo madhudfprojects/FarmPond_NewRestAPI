@@ -206,7 +206,6 @@ public class EachFarmPondDetails_Activity extends AppCompatActivity {
             {
 
 
-
                 if (gps_enable())
                 {
                     locationManager = (LocationManager) getSystemService(Service.LOCATION_SERVICE);
