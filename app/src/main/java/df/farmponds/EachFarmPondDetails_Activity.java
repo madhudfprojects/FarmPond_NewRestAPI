@@ -279,7 +279,8 @@ public class EachFarmPondDetails_Activity extends AppCompatActivity {
                     return;
                 }
 
-                for (Location location : locationResult.getLocations()) {
+                for (Location location : locationResult.getLocations())
+                {
                     if (location != null)
                     {
                         Log.e("inside location", "inside location");
@@ -292,7 +293,8 @@ public class EachFarmPondDetails_Activity extends AppCompatActivity {
                         } else {
 
                         }
-                        if (!isContinue && mFusedLocationClient != null) {
+                        if (!isContinue && mFusedLocationClient != null)
+                        {
                             // if (isContinue && mFusedLocationClient != null)
                             //{
                             try {
