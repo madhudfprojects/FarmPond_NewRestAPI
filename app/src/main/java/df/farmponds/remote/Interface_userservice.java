@@ -126,4 +126,8 @@ public interface Interface_userservice {
 
   @GET("Authentication/Get_UserDataSummary")
   Call<UserDataSummary> getUserDataSummary(@Query("User_ID") String User_ID,@Query("Academic_ID") String Academic_ID);
+
+  @Headers("Content-Type: application/json")
+  @GET("Authentication/Get_UserDataReSync")
+  Call<UserData> getUserDataReSync(@Query("User_ID") String User_ID);
 }
