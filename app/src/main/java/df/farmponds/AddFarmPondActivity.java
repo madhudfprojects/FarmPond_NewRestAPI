@@ -1,5 +1,6 @@
 package df.farmponds;
 
+import android.Manifest;
 import android.annotation.SuppressLint;
 import android.app.ActionBar;
 import android.app.Activity;
@@ -28,6 +29,8 @@ import android.net.Uri;
 import android.os.AsyncTask;
 import android.os.Environment;
 import android.provider.MediaStore;
+import android.support.annotation.NonNull;
+import android.support.v4.app.ActivityCompat;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.support.v7.widget.Toolbar;
@@ -53,6 +56,12 @@ import android.widget.Spinner;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import com.google.android.gms.location.FusedLocationProviderClient;
+import com.google.android.gms.location.LocationCallback;
+import com.google.android.gms.location.LocationRequest;
+import com.google.android.gms.location.LocationResult;
+import com.google.android.gms.location.LocationServices;
+import com.google.android.gms.tasks.OnSuccessListener;
 import com.google.gson.Gson;
 
 import org.json.JSONArray;
@@ -248,6 +257,17 @@ public class AddFarmPondActivity extends AppCompatActivity {
 
     Class_GPSTracker gpstracker_obj1,gpstracker_obj2;
 
+
+
+    /*private boolean isGPS = false;
+    ProgressDialog dialog_location;*/
+    private FusedLocationProviderClient mFusedLocationClient;
+    private LocationRequest locationRequest;
+    private LocationCallback locationCallback;
+    private boolean isContinue = false;
+
+    int i;
+
     @Override
     protected void onCreate(Bundle savedInstanceState)
     {
@@ -416,7 +436,7 @@ public class AddFarmPondActivity extends AppCompatActivity {
         // System.out.println("Days: " + int_days);
 
 
-        appLocationService = new AppLocationService(
+        /*appLocationService = new AppLocationService(
                 AddFarmPondActivity.this);
         android.location.Location nwLocation = appLocationService.getLocation(LocationManager.GPS_PROVIDER);
 
@@ -431,33 +451,33 @@ public class AddFarmPondActivity extends AppCompatActivity {
             str_latitude = Double.toString(latitude);
             str_longitude = Double.toString(longitude);
 
-        }
+        }*/
 
 
 
-      /*  gpstracker_obj2 = new Class_GPSTracker(AddFarmPondActivity.this);
+        gpstracker_obj2 = new Class_GPSTracker(AddFarmPondActivity.this);
         if(gpstracker_obj2.canGetLocation())
         {
-            double_currentlatitude = gpstracker_obj2.getLatitude();
-            double_currentlongitude = gpstracker_obj2.getLongitude();
-            str_latitude =Double.toString(double_currentlatitude);
-            str_longitude =Double.toString(double_currentlongitude);
+           Double double_currentlatitude_inner = gpstracker_obj2.getLatitude();
+            Double double_currentlongitude_inner = gpstracker_obj2.getLongitude();
+            String str_latitude_inner =Double.toString(double_currentlatitude_inner);
+            String str_longitude_inner =Double.toString(double_currentlongitude_inner);
 
-            latitude_tv.setText(str_latitude);
-            longitude_tv.setText(str_longitude);
+            latitude_tv.setText(str_latitude_inner);
+            longitude_tv.setText(str_longitude_inner);
 
-            Log.e("lat",str_latitude);
-            Log.e("long",str_longitude);
+            Log.e("lat",str_latitude_inner);
+            Log.e("long",str_longitude_inner);
 
-            if(str_latitude.equals("0.0")||str_longitude.equals("0.0"))
+            if(str_latitude_inner.equals("0.0")||str_longitude_inner.equals("0.0"))
             {
-                // alertdialog_refresh_latandlong();
+                 alertdialog_refresh_latandlong();
             }
 
         }else
         {
-            //gpstracker_obj2.showSettingsAlert();
-        }*/
+            gpstracker_obj2.showSettingsAlert();
+        }
 
 
 
@@ -472,6 +492,99 @@ public class AddFarmPondActivity extends AppCompatActivity {
         uploadfromDB_Remarkslist();
 
         DB_ViewFarmerlist_pondcount(str_farmerID);
+
+
+        mFusedLocationClient = LocationServices.getFusedLocationProviderClient(this);
+
+        locationRequest = LocationRequest.create();
+        locationRequest.setPriority(LocationRequest.PRIORITY_HIGH_ACCURACY);
+        locationRequest.setInterval(10 * 1000); // 10 seconds
+        locationRequest.setFastestInterval(5 * 1000); // 5 seconds
+        dialog_location = new ProgressDialog(AddFarmPondActivity.this);
+
+        locationCallback = new LocationCallback()
+        {
+            @Override
+            public void onLocationResult(LocationResult locationResult) {
+                if (locationResult == null) {
+                    return;
+                }
+
+                for(int i=0;i<=50;i++) {
+                    for (Location location : locationResult.getLocations()) {
+
+                        Log.e("Flat",String.valueOf(location.getLatitude()));
+                        Log.e("Flong",String.valueOf(location.getLongitude()));
+                    }
+                }
+
+                for (Location location : locationResult.getLocations())
+                {
+                    if (location != null)
+                    {
+                        Log.e("inside location", "inside location");
+                        //if (!isContinue)
+                        if (!isContinue)
+                        {
+                            Log.e("int i", String.valueOf(i));
+                            // txtLocation.setText(String.format(Locale.US, "%s -:- %s", wayLatitude, wayLongitude));
+                            Log.e("Filat",String.valueOf(location.getLatitude()));
+                            Log.e("Filong",String.valueOf(location.getLongitude()));
+
+                        } else {
+                           /* stringBuilder.append(wayLatitude);
+                            stringBuilder.append("-");
+                            stringBuilder.append(wayLongitude);
+                            stringBuilder.append("\n\n");
+                            txtContinueLocation.setText(stringBuilder.toString());*/
+
+
+                        }
+                        if (!isContinue && mFusedLocationClient != null)
+                        {
+                            // if (isContinue && mFusedLocationClient != null)
+                            //{
+                            try {
+                                Thread.sleep(1 * 500);
+                            } catch (InterruptedException e) {
+                                e.printStackTrace();
+                            }
+
+                            Log.e("int i", String.valueOf(i));
+                            if(i==50) {
+                                mFusedLocationClient.removeLocationUpdates(locationCallback);
+                                dialog_location.dismiss();
+
+                                str_latitude = String.valueOf(location.getLatitude());
+                                str_longitude = String.valueOf(location.getLongitude());
+                                latitude_tv.setText(str_latitude);
+                                longitude_tv.setText(str_longitude);
+
+                                selectImage();
+                            }
+                        }
+                    } else {
+                        Log.e("location", "null");
+                        dialog_location.dismiss();
+                    }
+                }
+            }
+        };
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 
 
         add_ponddetails_submit_bt.setOnClickListener(new View.OnClickListener() {
@@ -526,24 +639,22 @@ public class AddFarmPondActivity extends AppCompatActivity {
             }
         });
 
-        add_newpond_image3_iv.setOnClickListener(new View.OnClickListener() {
+        add_newpond_image3_iv.setOnClickListener(new View.OnClickListener()
+        {
             @Override
-            public void onClick(View v) {
+            public void onClick(View v)
+            {
                 str_image1 = "false";
                 str_image2 = "false";
 
                 str_image3 = "true";
 
-                //   if (gps_enable())
-                // {
-                locationManager = (LocationManager) getSystemService(Service.LOCATION_SERVICE);
+
+             /*   locationManager = (LocationManager) getSystemService(Service.LOCATION_SERVICE);
                 isGPSON = locationManager.isProviderEnabled(LocationManager.GPS_PROVIDER);
-
-
-                //getLocation();
                 appLocationService = new AppLocationService(AddFarmPondActivity.this);
-                android.location.Location nwLocation = appLocationService.getLocation(LocationManager.GPS_PROVIDER);
 
+                android.location.Location nwLocation = appLocationService.getLocation(LocationManager.GPS_PROVIDER);
                 if (nwLocation != null) {
                     latitude = nwLocation.getLatitude();
                     longitude = nwLocation.getLongitude();
@@ -554,16 +665,6 @@ public class AddFarmPondActivity extends AppCompatActivity {
                     Toast.makeText(AddFarmPondActivity.this, " after camera latitude=" + lat_str + " longitude=" + log_str, Toast.LENGTH_LONG).show();
                     latitude_tv.setText(lat_str);
                     longitude_tv.setText(log_str);
-
-
-                   /* if(lat_str==null||log_str==null||lat_str.equals("0.0")||log_str.equals("0.0"))
-                    {
-                         alertdialog_refresh_latandlong();
-                    }
-                    else{
-                        latitude_tv.setText(lat_str);
-                        longitude_tv.setText(log_str);
-                    }*/
                 } else {
                     if(lat_str==null||log_str==null||lat_str.equals("0.0")||log_str.equals("0.0"))
                     {
@@ -573,10 +674,24 @@ public class AddFarmPondActivity extends AppCompatActivity {
                     }
                     Toast.makeText(AddFarmPondActivity.this, " after camera latitude=" + lat_str + " longitude=" + log_str, Toast.LENGTH_LONG).show();
                 }
-                // }
+                selectImage();*/
+
+                if (gps_enable())
+                {
+
+                    isContinue = false;
+
+                    dialog_location.setMessage("Please wait location fetching...");
+                    dialog_location.setCanceledOnTouchOutside(false);
+                    dialog_location.show();
+
+                    i=0;
+                    for(i=0;i<50;i++)
+                    {
+                        getLocation(); }
+                }
 
 
-                selectImage();
             }
         });
 
@@ -2874,7 +2989,141 @@ public class AddFarmPondActivity extends AppCompatActivity {
     }
 
 
-    private void getLocation() {
+
+    private void getLocation()
+    {
+        if (ActivityCompat.checkSelfPermission(AddFarmPondActivity.this, android.Manifest.permission.ACCESS_FINE_LOCATION) != PackageManager.PERMISSION_GRANTED
+                && ActivityCompat.checkSelfPermission(AddFarmPondActivity.this, android.Manifest.permission.ACCESS_COARSE_LOCATION) != PackageManager.PERMISSION_GRANTED) {
+            ActivityCompat.requestPermissions(AddFarmPondActivity.this, new String[]{android.Manifest.permission.ACCESS_FINE_LOCATION, android.Manifest.permission.ACCESS_COARSE_LOCATION},
+                    AppConstants.LOCATION_REQUEST);
+
+        } else {
+            if (isContinue) {
+                mFusedLocationClient.requestLocationUpdates(locationRequest, locationCallback, null);
+            } else {
+                mFusedLocationClient.getLastLocation().addOnSuccessListener(AddFarmPondActivity.this, new OnSuccessListener<Location>() {
+                    @Override
+                    public void onSuccess(Location location) {
+                        location = null;
+                        if (location != null) {
+                            /*wayLatitude = location.getLatitude();
+                            wayLongitude = location.getLongitude();*/
+
+                        } else {
+
+                           /* dialog_location.setMessage("Please wait location fetching...");
+                            dialog_location.setCanceledOnTouchOutside(false);
+                            dialog_location.show();*/
+
+
+                            Log.e("else part", "else part");
+                            if (ActivityCompat.checkSelfPermission(AddFarmPondActivity.this, android.Manifest.permission.ACCESS_FINE_LOCATION)
+                                    != PackageManager.PERMISSION_GRANTED && ActivityCompat.checkSelfPermission(AddFarmPondActivity.this,
+                                    android.Manifest.permission.ACCESS_COARSE_LOCATION) != PackageManager.PERMISSION_GRANTED) {
+                                // TODO: Consider calling
+                                //    ActivityCompat#requestPermissions
+                                // here to request the missing permissions, and then overriding
+                                //   public void onRequestPermissionsResult(int requestCode, String[] permissions,
+                                //                                          int[] grantResults)
+                                // to handle the case where the user grants the permission. See the documentation
+                                // for ActivityCompat#requestPermissions for more details.
+                                return;
+                            }
+                            mFusedLocationClient.requestLocationUpdates(locationRequest, locationCallback, null);
+                            Log.e("else end", "else end");
+                        }
+                    }
+                });
+            }
+        }
+    }
+
+
+    public void onRequestPermissionsResult1(int requestCode, @NonNull String[] permissions, @NonNull int[] grantResults) {
+        super.onRequestPermissionsResult(requestCode, permissions, grantResults);
+        switch (requestCode) {
+            case 1000: {
+                // If request is cancelled, the result arrays are empty.
+                if (grantResults.length > 0
+                        && grantResults[0] == PackageManager.PERMISSION_GRANTED) {
+
+                    if (isContinue) {
+                        if (ActivityCompat.checkSelfPermission(AddFarmPondActivity.this, android.Manifest.permission.ACCESS_FINE_LOCATION)
+                                != PackageManager.PERMISSION_GRANTED && ActivityCompat.checkSelfPermission
+                                (AddFarmPondActivity.this, android.Manifest.permission.ACCESS_COARSE_LOCATION) != PackageManager.PERMISSION_GRANTED) {
+                            return;
+                        }
+                        mFusedLocationClient.requestLocationUpdates(locationRequest, locationCallback, null);
+                    } else {
+
+                        if (ActivityCompat.checkSelfPermission(this, android.Manifest.permission.ACCESS_FINE_LOCATION)
+                                != PackageManager.PERMISSION_GRANTED && ActivityCompat.checkSelfPermission(AddFarmPondActivity.this, android.Manifest.permission.ACCESS_COARSE_LOCATION)
+                                != PackageManager.PERMISSION_GRANTED) {
+                            // TODO: Consider calling
+                            //    ActivityCompat#requestPermissions
+                            // here to request the missing permissions, and then overriding
+                            //   public void onRequestPermissionsResult(int requestCode, String[] permissions,
+                            //                                          int[] grantResults)
+                            // to handle the case where the user grants the permission. See the documentation
+                            // for ActivityCompat#requestPermissions for more details.
+                            return;
+                        }
+                        mFusedLocationClient.getLastLocation().addOnSuccessListener(AddFarmPondActivity.this, new OnSuccessListener<Location>() {
+                            @Override
+                            public void onSuccess(Location location)
+                            {
+                                if (location != null) {
+                                /*wayLatitude = location.getLatitude();
+                                wayLongitude = location.getLongitude();
+                                txtLocation.setText(String.format(Locale.US, "%s - %s", wayLatitude, wayLongitude));*/
+                                } else {
+                                    if (ActivityCompat.checkSelfPermission(AddFarmPondActivity.this, android.Manifest.permission.ACCESS_FINE_LOCATION)
+                                            != PackageManager.PERMISSION_GRANTED && ActivityCompat.checkSelfPermission
+                                            (AddFarmPondActivity.this, Manifest.permission.ACCESS_COARSE_LOCATION) != PackageManager.PERMISSION_GRANTED)
+                                    {
+                                        // TODO: Consider calling
+                                        //    ActivityCompat#requestPermissions
+                                        // here to request the missing permissions, and then overriding
+                                        //   public void onRequestPermissionsResult(int requestCode, String[] permissions,
+                                        //                                          int[] grantResults)
+                                        // to handle the case where the user grants the permission. See the documentation
+                                        // for ActivityCompat#requestPermissions for more details.
+                                        return;
+                                    }
+                                    mFusedLocationClient.requestLocationUpdates(locationRequest, locationCallback, null);
+                                }
+                            }
+                        });
+                    }
+                } else {
+                    Toast.makeText(this, "Permission denied", Toast.LENGTH_SHORT).show();
+                }
+                break;
+            }
+        }
+    }
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+    private void getLocation1() {
 
         try {
             if (canGetLocation) {

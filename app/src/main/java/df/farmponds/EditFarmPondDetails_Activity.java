@@ -558,7 +558,8 @@ public class EditFarmPondDetails_Activity extends AppCompatActivity {
 
                 // getLocation();
 
-                if (gps_enable()) {
+                if (gps_enable())
+                {
                     locationManager = (LocationManager) getSystemService(Service.LOCATION_SERVICE);
                     isGPSON = locationManager.isProviderEnabled(LocationManager.GPS_PROVIDER);
 
@@ -3464,6 +3465,7 @@ public class EditFarmPondDetails_Activity extends AppCompatActivity {
                         }
 
                         dialog_location.dismiss();
+
                         selectImage();
                     }
                     else{

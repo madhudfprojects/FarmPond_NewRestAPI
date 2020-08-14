@@ -695,54 +695,10 @@ public class EachFarmPondDetails_Activity extends AppCompatActivity {
                     holder.holder_editfarmerponddetails.setOnClickListener(new View.OnClickListener()
                     {
                         @Override
-                        public void onClick(View v) {
-                            //edit_farmponddetails_alertdialog_offline(farmponddetails_obj);
-                           /* gpstracker_obj2 = new Class_GPSTracker(EachFarmPondDetails_Activity.this);
-                            if (gpstracker_obj2.canGetLocation()) {
-                            appLocationService = new AppLocationService(
-                                    EachFarmPondDetails_Activity.this);
-                            android.location.Location nwLocation = appLocationService.getLocation(LocationManager.GPS_PROVIDER);
+                        public void onClick(View v)
+                        {
 
-                            if (nwLocation != null)
-                            {
-                                latitude = nwLocation.getLatitude();
-                                longitude = nwLocation.getLongitude();
-                                lat_str=Double.toString(latitude);
-                                log_str=Double.toString(longitude);
-                                Log.e(TAG,"latitude"+lat_str);
-                                Log.e(TAG,"longitude"+log_str);
-                                Toast.makeText(EachFarmPondDetails_Activity.this," Each latitude="+lat_str+" longitude="+log_str,Toast.LENGTH_LONG).show();
-                                str_latitude =Double.toString(latitude);
-                                str_longitude =Double.toString(longitude);
-                                str_gps_yes = "yes";
-
-                            }
-                            }else {
-                                Log.e("editstring", str_gps_yes);
-                                str_gps_yes = "no";
-                                 gpstracker_obj2.showSettingsAlert();
-                            }*/
-
-                         /*   gpstracker_obj2 = new Class_GPSTracker(EachFarmPondDetails_Activity.this);
-                            if (gpstracker_obj2.canGetLocation()) {
-                                double_currentlatitude = gpstracker_obj2.getLatitude();
-                                double_currentlongitude = gpstracker_obj2.getLongitude();
-
-
-                                str_latitude = Double.toString(double_currentlatitude);
-                                str_longitude = Double.toString(double_currentlongitude);
-
-
-                                Log.e("lat", str_latitude);
-                                Log.e("long", str_longitude);
-
-
-                                Log.e("editstring", str_gps_yes);
-
-
-
-                            }*/
-                            if (gps_enable())
+                         /*   if (gps_enable())
                             {
                                 locationManager = (LocationManager) getSystemService(Service.LOCATION_SERVICE);
                                 isGPSON = locationManager.isProviderEnabled(LocationManager.GPS_PROVIDER);
@@ -764,8 +720,7 @@ public class EachFarmPondDetails_Activity extends AppCompatActivity {
                                     // Log.d(TAG, "Can get location");
                                     if (isGPSON)
                                     {
-                                        // from GPS
-                                        //Log.d(TAG, "GPS on");
+                                        ;
 
                                         dialog_location.setMessage("Please wait location fetching...");
                                         dialog_location.setCanceledOnTouchOutside(false);
@@ -802,10 +757,6 @@ public class EachFarmPondDetails_Activity extends AppCompatActivity {
 
                                         dialog_location.dismiss();
 
-                                     /*   Intent intent_addfarmpondactivity = new Intent(EachFarmPondDetails_Activity.this, AddFarmPondActivity.class);
-                                        startActivity(intent_addfarmpondactivity);
-                                        finish();
-*/
 
                                     }
 
@@ -824,13 +775,51 @@ public class EachFarmPondDetails_Activity extends AppCompatActivity {
 
                                 edit_farmponddetails_alertdialog_offline(str_farmername, str_farmer_id, str_farmpond_id, str_approved);
                             }
-
+*/
 
                             // edit_farmponddetails_alertdialog(farmponddetails_obj);
 
                             //   edit_farmponddetails_alertdialog_offline(str_farmername, str_farmer_id, str_farmpond_id);
 
 
+
+
+                            gpstracker_obj2 = new Class_GPSTracker(EachFarmPondDetails_Activity.this);
+
+                            if (gps_enable())
+                            {
+
+
+                                if (gpstracker_obj2.canGetLocation()) {
+                                    double_currentlatitude = gpstracker_obj2.getLatitude();
+                                    double_currentlongitude = gpstracker_obj2.getLongitude();
+
+
+                                    str_latitude = Double.toString(double_currentlatitude);
+                                    str_longitude = Double.toString(double_currentlongitude);
+
+
+                                    Log.e("lat", str_latitude);
+                                    Log.e("long", str_longitude);
+
+
+                                    str_gps_yes = "yes";
+                                    Log.e("editstring", str_gps_yes);
+                                    // edit_farmponddetails_alertdialog(farmponddetails_obj);
+
+
+                                } else {
+                                    Log.e("editstring", str_gps_yes);
+                                    str_gps_yes = "no";
+                                    gpstracker_obj2.showSettingsAlert();
+                                }
+
+
+                                if (str_gps_yes.equalsIgnoreCase("yes")) {
+                                    edit_farmponddetails_alertdialog_offline(str_farmername, str_farmer_id, str_farmpond_id, str_approved);
+                                }
+
+                            }
                         }
                     });
 
