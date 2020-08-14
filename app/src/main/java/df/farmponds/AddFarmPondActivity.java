@@ -246,6 +246,8 @@ public class AddFarmPondActivity extends AppCompatActivity {
 
     Class_addfarmponddetails_ToFromServer1[] newpond_response;
 
+    Class_GPSTracker gpstracker_obj1,gpstracker_obj2;
+
     @Override
     protected void onCreate(Bundle savedInstanceState)
     {
@@ -433,7 +435,7 @@ public class AddFarmPondActivity extends AppCompatActivity {
 
 
 
-     /*   gpstracker_obj2 = new Class_GPSTracker(AddFarmPondActivity.this);
+      /*  gpstracker_obj2 = new Class_GPSTracker(AddFarmPondActivity.this);
         if(gpstracker_obj2.canGetLocation())
         {
             double_currentlatitude = gpstracker_obj2.getLatitude();
@@ -441,8 +443,8 @@ public class AddFarmPondActivity extends AppCompatActivity {
             str_latitude =Double.toString(double_currentlatitude);
             str_longitude =Double.toString(double_currentlongitude);
 
-            *//*latitude_tv.setText(str_latitude);
-            longitude_tv.setText(str_longitude);*//*
+            latitude_tv.setText(str_latitude);
+            longitude_tv.setText(str_longitude);
 
             Log.e("lat",str_latitude);
             Log.e("long",str_longitude);
@@ -452,14 +454,11 @@ public class AddFarmPondActivity extends AppCompatActivity {
                 // alertdialog_refresh_latandlong();
             }
 
-
         }else
         {
             //gpstracker_obj2.showSettingsAlert();
-        }
-*/
-        //newfarmpond_count();
-        //checkthecount();
+        }*/
+
 
 
         arraylist_image1_base64.add("noimage1");
