@@ -18,6 +18,7 @@ import android.location.LocationManager;
 import android.net.Uri;
 import android.os.Environment;
 import android.provider.MediaStore;
+import android.support.v4.app.ActivityCompat;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.app.AlertDialog;
@@ -51,6 +52,12 @@ import android.widget.Spinner;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import com.google.android.gms.location.FusedLocationProviderClient;
+import com.google.android.gms.location.LocationCallback;
+import com.google.android.gms.location.LocationRequest;
+import com.google.android.gms.location.LocationResult;
+import com.google.android.gms.location.LocationServices;
+import com.google.android.gms.tasks.OnSuccessListener;
 import com.google.gson.Gson;
 
 import java.io.ByteArrayOutputStream;
@@ -245,6 +252,15 @@ public class EditFarmPondDetails_Activity extends AppCompatActivity {
 
     int int_j,int_newfarmercount;
     Class_addfarmponddetails_ToFromServer1[] newpond_response;
+
+
+
+    /*private boolean isGPS = false;
+    ProgressDialog dialog_location;*/
+    private FusedLocationProviderClient mFusedLocationClient;
+    private LocationRequest locationRequest;
+    private LocationCallback locationCallback;
+    private boolean isContinue = false;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -447,8 +463,9 @@ public class EditFarmPondDetails_Activity extends AppCompatActivity {
         str_longitude = "";
 
         gpstracker_obj2 = new Class_GPSTracker(EditFarmPondDetails_Activity.this);
-        if (gpstracker_obj2.canGetLocation()) {
-            appLocationService = new AppLocationService(
+        if (gpstracker_obj2.canGetLocation())
+        {
+            /*appLocationService = new AppLocationService(
                     EditFarmPondDetails_Activity.this);
             android.location.Location nwLocation = appLocationService.getLocation(LocationManager.GPS_PROVIDER);
 
@@ -463,14 +480,7 @@ public class EditFarmPondDetails_Activity extends AppCompatActivity {
                 latitude_tv.setText(lat_str);
                 longitude_tv.setText(log_str);
 
-              /*  if(lat_str==null||log_str==null||lat_str.equals("0.0")||log_str.equals("0.0"))
-                {
-                    alertdialog_refresh_latandlong();
-                }
-                else{
-                    latitude_tv.setText(lat_str);
-                    longitude_tv.setText(log_str);
-                }*/
+
             } else {
                 if (lat_str == null || log_str == null || lat_str.equals("0.0") || log_str.equals("0.0")) {
                    // alertdialog_refresh_latandlong();
@@ -480,19 +490,6 @@ public class EditFarmPondDetails_Activity extends AppCompatActivity {
                 }
                 Toast.makeText(EditFarmPondDetails_Activity.this, " after camera latitude=" + lat_str + " longitude=" + log_str, Toast.LENGTH_LONG).show();
             }
-          /*  double_currentlatitude = gpstracker_obj2.getLatitude();
-            double_currentlongitude = gpstracker_obj2.getLongitude();
-*/
-
-           /* str_latitude =Double.toString(double_currentlatitude);
-            str_longitude =Double.toString(double_currentlongitude);
-
-
-            latitude_tv.setText(str_latitude);
-            longitude_tv.setText(str_longitude);
-
-            Log.e("lat",str_latitude);
-            Log.e("long",str_longitude);*/
 
             String str_lattest = Double.toString(double_currentlatitude);
             String str_longtest = Double.toString(double_currentlongitude);
@@ -501,7 +498,17 @@ public class EditFarmPondDetails_Activity extends AppCompatActivity {
             if (str_lattest.equals("0.0") || str_longtest.equals("0.0")) {
                // alertdialog_refresh_latandlong();
             }
+*/
 
+
+            double_currentlatitude = gpstracker_obj2.getLatitude();
+            double_currentlongitude = gpstracker_obj2.getLongitude();
+            String str_lattest=Double.toString(double_currentlatitude);
+            String str_longtest=Double.toString(double_currentlongitude);
+            if(str_lattest.equals("0.0")||str_longtest.equals("0.0"))
+            {
+                alertdialog_refresh_latandlong();
+            }
 
         } else {
             gpstracker_obj2.showSettingsAlert();
@@ -525,6 +532,74 @@ public class EditFarmPondDetails_Activity extends AppCompatActivity {
         uploadfromDB_Remarkslist();
 
         Data_from_PondDetails_DB(str_farmpond_id);
+
+
+
+
+        mFusedLocationClient = LocationServices.getFusedLocationProviderClient(this);
+
+        locationRequest = LocationRequest.create();
+        locationRequest.setPriority(LocationRequest.PRIORITY_HIGH_ACCURACY);
+        locationRequest.setInterval(10 * 1000); // 10 seconds
+        locationRequest.setFastestInterval(5 * 1000); // 5 seconds
+        dialog_location = new ProgressDialog(EditFarmPondDetails_Activity.this);
+        locationCallback = new LocationCallback()
+        {
+            @Override
+            public void onLocationResult(LocationResult locationResult) {
+                if (locationResult == null) {
+                    return;
+                }
+
+                for (Location location : locationResult.getLocations()) {
+                    if (location != null) {
+                        Log.e("inside location", "inside location");
+                        if (!isContinue)
+                        {
+                            Log.e("Flat",String.valueOf(location.getLatitude()));
+                            Log.e("Flong",String.valueOf(location.getLongitude()));
+
+                        } else {
+
+                        }
+                        if (!isContinue && mFusedLocationClient != null) {
+                            // if (isContinue && mFusedLocationClient != null)
+                            //{
+                            try {
+                                Thread.sleep(1 * 500);
+                            } catch (InterruptedException e) {
+                                e.printStackTrace();
+                            }
+
+                            mFusedLocationClient.removeLocationUpdates(locationCallback);
+                            dialog_location.dismiss();
+
+                            str_currentlatitude= String.valueOf(location.getLatitude());
+                            str_currentlongitude= String.valueOf(location.getLongitude());
+
+                            latitude_tv.setText(str_currentlatitude);
+                            longitude_tv.setText(str_currentlongitude);
+                            select_thirdimage();
+
+                        }
+                    } else {
+                        Log.e("location", "null");
+                        dialog_location.dismiss();
+                    }
+                }
+            }
+        };
+
+
+
+
+
+
+
+
+
+
+
 
 
         edit_pond_image1_iv.setOnClickListener(new View.OnClickListener() {
@@ -556,18 +631,18 @@ public class EditFarmPondDetails_Activity extends AppCompatActivity {
                 str_image2 = "false";
 
 
-                // getLocation();
-
-                if (gps_enable())
+                /*if (gps_enable())
                 {
                     locationManager = (LocationManager) getSystemService(Service.LOCATION_SERVICE);
                     isGPSON = locationManager.isProviderEnabled(LocationManager.GPS_PROVIDER);
-
-
                     getLocation();
-                }
+                }*/
 
-                //selectImage();
+                if (gps_enable())
+                {
+                getLocation_oldphp(); }
+
+
             }
         });
 
@@ -3470,7 +3545,8 @@ public class EditFarmPondDetails_Activity extends AppCompatActivity {
                     }
                     else{
                         dialog_location.dismiss();
-                        Toast.makeText(EditFarmPondDetails_Activity.this," after camera latitude="+str_latitude+" longitude="+str_longitude,Toast.LENGTH_LONG).show();
+                        Toast.makeText(EditFarmPondDetails_Activity.this," else after camera latitude="+str_latitude+" longitude="+str_longitude,Toast.LENGTH_LONG).show();
+
                     }
 
                   /*  for(int i=0;i<=50;i++)
@@ -3547,6 +3623,85 @@ public class EditFarmPondDetails_Activity extends AppCompatActivity {
 
 
     //location
+
+
+    public void select_thirdimage()
+    {
+        {
+            gpstracker_obj3 = new Class_GPSTracker(EditFarmPondDetails_Activity.this);
+            if (gpstracker_obj3.canGetLocation())
+            {
+                double_currentlatitude = gpstracker_obj3.getLatitude();
+                double_currentlongitude = gpstracker_obj3.getLongitude();
+
+                if (str_currentlatitude.equals("0.0") || str_currentlongitude.equals("0.0")) {
+                    alertdialog_refresh_latandlong();
+                } else {
+                    selectImage();
+                }
+            } else {
+                gpstracker_obj3.showSettingsAlert();
+            }
+        }
+    }
+
+
+
+
+
+
+
+
+
+    private void getLocation_oldphp()
+    {
+        if (ActivityCompat.checkSelfPermission(EditFarmPondDetails_Activity.this, android.Manifest.permission.ACCESS_FINE_LOCATION) != PackageManager.PERMISSION_GRANTED
+                && ActivityCompat.checkSelfPermission(EditFarmPondDetails_Activity.this, android.Manifest.permission.ACCESS_COARSE_LOCATION) != PackageManager.PERMISSION_GRANTED) {
+            ActivityCompat.requestPermissions(EditFarmPondDetails_Activity.this, new String[]{android.Manifest.permission.ACCESS_FINE_LOCATION, android.Manifest.permission.ACCESS_COARSE_LOCATION},
+                    AppConstants.LOCATION_REQUEST);
+
+        } else {
+            if (isContinue) {
+                mFusedLocationClient.requestLocationUpdates(locationRequest, locationCallback, null);
+            } else {
+                mFusedLocationClient.getLastLocation().addOnSuccessListener(EditFarmPondDetails_Activity.this, new OnSuccessListener<Location>() {
+                    @Override
+                    public void onSuccess(Location location) {
+                        location = null;
+                        if (location != null) {
+                            /*wayLatitude = location.getLatitude();
+                            wayLongitude = location.getLongitude();*/
+
+                        } else {
+                            dialog_location.setMessage("Please wait location fetching...");
+                            dialog_location.setCanceledOnTouchOutside(false);
+                            dialog_location.show();
+                            Log.e("else part", "else part");
+                            if (ActivityCompat.checkSelfPermission(EditFarmPondDetails_Activity.this, android.Manifest.permission.ACCESS_FINE_LOCATION)
+                                    != PackageManager.PERMISSION_GRANTED && ActivityCompat.checkSelfPermission(EditFarmPondDetails_Activity.this,
+                                    android.Manifest.permission.ACCESS_COARSE_LOCATION) != PackageManager.PERMISSION_GRANTED) {
+                                // TODO: Consider calling
+                                //    ActivityCompat#requestPermissions
+                                return;
+                            }
+                            mFusedLocationClient.requestLocationUpdates(locationRequest, locationCallback, null);
+                            Log.e("else end", "else end");
+                        }
+                    }
+                });
+            }
+        }
+    }
+
+
+
+
+
+
+
+
+
+
 
 
 
