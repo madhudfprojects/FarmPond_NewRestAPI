@@ -53,6 +53,33 @@
             android:name=".EachFarmPondDetails_Activity"
             android:screenOrientation="portrait"
             android:theme="@style/AppThemeNoActionBar" />
+
+
+
+        <service
+            android:name=".MyFirebaseMessagingService"
+            android:resource="@drawable/laucher_icon_farmpond">
+            <intent-filter>
+                <action android:name="com.google.firebase.MESSAGING_EVENT" />
+            </intent-filter>
+        </service>
+
+
+        <service
+            android:name=".MyFirebaseInstanceIDService"
+            android:resource="@drawable/laucher_icon_farmpond">
+            <intent-filter>
+                <action android:name="com.google.firebase.INSTANCE_ID_EVENT" />
+            </intent-filter>
+        </service>
+
+
+
+
+
+
+
+
         <activity android:name=".ViewFarmers_Activity" />
         <activity android:name=".CameraPhotoCapture" />
         <activity android:name=".Activity_FarmerHomeScreen" />

@@ -2310,12 +2310,15 @@ public class EditFarmPondDetails_Activity extends AppCompatActivity {
 
             if (arraylist_image1_base64.isEmpty()) {
                 arraylist_image1_base64.add("noimage1");
+                Log.e("editupdate","noimage1");
             }
             if (arraylist_image2_base64.isEmpty()) {
                 arraylist_image2_base64.add("noimage2");
+                Log.e("editupdate","noimage2");
             }
             if (arraylist_image3_base64.isEmpty()) {
                 arraylist_image3_base64.add("noimage3");
+                Log.e("editupdate","noimage3");
             }
 
 
@@ -2338,10 +2341,13 @@ public class EditFarmPondDetails_Activity extends AppCompatActivity {
 
             cv.put("Imageid1DB", image_id1_tv.getText().toString());
             cv.put("Image1Base64DB", arraylist_image1_base64.get(0));
+
             cv.put("Imageid2DB", image_id2_tv.getText().toString());
             cv.put("Image2Base64DB", arraylist_image2_base64.get(0));
+
             cv.put("Imageid3DB", image_id3_tv.getText().toString());
             cv.put("Image3Base64DB", arraylist_image3_base64.get(0));
+
             cv.put("EmployeeIDDB", str_employee_id);
 
 
