@@ -286,7 +286,7 @@ public class AddFarmer_Activity1 extends AppCompatActivity {
                 }
 
                 if (selectidproof_sp.getSelectedItem().toString().equalsIgnoreCase("Not Available")) {
-                    str_idproof_type = " ";
+                    str_idproof_type = "5";
                 }
             }
 
@@ -2224,11 +2224,11 @@ public class AddFarmer_Activity1 extends AppCompatActivity {
         arraylist_farmerimage_base64.add(class_farmerListDetails_obj.getStr_base64());
         removefarmerimage_ib.setVisibility(View.VISIBLE);
 
-        //if(!class_farmerListDetails_obj.getFarmerIDType().equalsIgnoreCase("")||class_farmerListDetails_obj.getFarmerIDType()!=null||!class_farmerListDetails_obj.getFarmerIDType().equalsIgnoreCase("null")) {
-        if (class_farmerListDetails_obj.getFarmerIDType().equalsIgnoreCase("null")) {
+       // if(!class_farmerListDetails_obj.getFarmerIDType().equalsIgnoreCase(" ")||class_farmerListDetails_obj.getFarmerIDType()!=null||!class_farmerListDetails_obj.getFarmerIDType().equalsIgnoreCase("null")) {
+        if (class_farmerListDetails_obj.getFarmerIDType().equalsIgnoreCase(" ")||class_farmerListDetails_obj.getFarmerIDType()==null||class_farmerListDetails_obj.getFarmerIDType().equalsIgnoreCase("null")) {
         } else {
             int int_idprooftype = Integer.parseInt(class_farmerListDetails_obj.getFarmerIDType());
-            if (int_idprooftype < 5) {
+            if (int_idprooftype <= 5) {
                 int_idprooftype--;
             } else {
                 int_idprooftype--;

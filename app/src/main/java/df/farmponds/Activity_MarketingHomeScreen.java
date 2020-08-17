@@ -191,7 +191,7 @@ Log.e("tag","str_employee_id="+str_employee_id);
          fetch_DB_farmerprofile_offline_data();
 
           /* fetch_DB_edited_offline_data();*/
-           // fetch_DB_Edited_farmerprofile_offline_data();
+            fetch_DB_Edited_farmerprofile_offline_data();
         }
         else
         {
