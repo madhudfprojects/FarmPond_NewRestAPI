@@ -191,7 +191,7 @@ Log.e("tag","str_employee_id="+str_employee_id);
          fetch_DB_farmerprofile_offline_data();
 
           /* fetch_DB_edited_offline_data();*/
-            fetch_DB_Edited_farmerprofile_offline_data();
+           // fetch_DB_Edited_farmerprofile_offline_data();
         }
         else
         {
@@ -1100,6 +1100,7 @@ Log.e("tag","str_employee_id="+str_employee_id);
 
         fetch_DB_New_pond_count();
         Class_DBHandler dbhandler_obj=new Class_DBHandler(getApplicationContext());
+
         if(dbhandler_obj.get_DB_edited_offline_data_count()>0)
         {
             int x=dbhandler_obj.get_DB_edited_offline_data_count();
@@ -1116,6 +1117,14 @@ Log.e("tag","str_employee_id="+str_employee_id);
 
                 AsyncTask_submit_edited_farmponddetails(k);
             }
+        }
+        else
+            {
+                fetch_DB_farmerprofile_offline_data_count();
+                fetch_DB_New_pond_count();
+                fetch_DB_edited_offline_data_count();
+
+                fetch_DB_Edited_farmerprofile_offline_data();
         }
     }
 
@@ -1424,6 +1433,9 @@ Log.e("tag","str_employee_id="+str_employee_id);
         fetch_DB_farmerprofile_offline_data_count();
         fetch_DB_New_pond_count();
         fetch_DB_edited_offline_data_count();
+
+        fetch_DB_Edited_farmerprofile_offline_data();
+
     }
 
 
@@ -1705,10 +1717,10 @@ Log.e("tag","str_employee_id="+str_employee_id);
                 {
 
                     //working
-                    fetch_DB_farmerprofile_offline_data();
+                    //fetch_DB_farmerprofile_offline_data();
 
                     /* fetch_DB_edited_offline_data();*/
-                    fetch_DB_Edited_farmerprofile_offline_data();
+                   // fetch_DB_Edited_farmerprofile_offline_data();
                 }
 
                 Intent i = new Intent(Activity_MarketingHomeScreen.this, Activity_ViewFarmers.class);
