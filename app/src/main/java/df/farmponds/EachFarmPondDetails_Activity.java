@@ -124,6 +124,9 @@ public class EachFarmPondDetails_Activity extends AppCompatActivity {
     private LocationCallback locationCallback;
     private boolean isContinue = false;
 
+
+    String str_approved;
+
     @Override
     protected void onCreate(Bundle savedInstanceState)
     {
@@ -636,10 +639,13 @@ public class EachFarmPondDetails_Activity extends AppCompatActivity {
                             farmponddetails_obj.getFarmpond_ApprovalStatus().equalsIgnoreCase("no") ||
                             farmponddetails_obj.getFarmpond_ApprovalStatus().equalsIgnoreCase("0")) {
                         holder.holder_approvalstatus_ll.setVisibility(View.GONE);
+                        str_approved="pending";
                         Log.e("approvalstatus","'null");
+
                     } else {
                         if(farmponddetails_obj.getFarmpond_ApprovalStatus().equalsIgnoreCase("null"))
-                        {}
+                        { holder.holder_approvalstatus_ll.setVisibility(View.GONE);
+                            str_approved="pending";}
                         else {
 
                             holder.holder_approvalstatus_ll.setVisibility(View.VISIBLE);
@@ -648,7 +654,7 @@ public class EachFarmPondDetails_Activity extends AppCompatActivity {
                                     farmponddetails_obj.getFarmpond_ApprovalStatus().equalsIgnoreCase("Rejected") ||
                                     farmponddetails_obj.getFarmpond_ApprovalStatus().equalsIgnoreCase("Deleted")
                             ) {
-
+                                    str_approved=farmponddetails_obj.getFarmpond_ApprovalStatus().trim();
                                 holder.holder_farmpond_approvalstatus_tv.setTextColor(getResources().getColor(R.color.color_red));
                                 holder.holder_farmpond_approvalstatus_tv.setText(farmponddetails_obj.getFarmpond_ApprovalStatus());
                             } else {
@@ -710,8 +716,10 @@ public class EachFarmPondDetails_Activity extends AppCompatActivity {
                     final String str_farmer_id = farmponddetails_obj.getfarmer_id();
                     final String str_farmername = farmponddetails_obj.getFarmer_Name();
 
-                    //final String str_approved = farmponddetails_obj.getFarmpond_ApprovalStatus();
-                    final String str_approved = "pending";
+                    //final String final_str_approved = farmponddetails_obj.getFarmpond_ApprovalStatus();
+                   // final String final_str_approved = str_approved;
+
+                    final String final_str_approved = holder.holder_farmpond_approvalstatus_tv.getText().toString();
 
 
 
@@ -799,7 +807,7 @@ public class EachFarmPondDetails_Activity extends AppCompatActivity {
                             if (str_gps_yes.equalsIgnoreCase("yes"))
                             {
 
-                                edit_farmponddetails_alertdialog_offline(str_farmername, str_farmer_id, str_farmpond_id, str_approved);
+                                edit_farmponddetails_alertdialog_offline(str_farmername, str_farmer_id, str_farmpond_id, final_str_approved);
                             }
 */
 
@@ -842,7 +850,7 @@ public class EachFarmPondDetails_Activity extends AppCompatActivity {
 
 
                                 if (str_gps_yes.equalsIgnoreCase("yes")) {
-                                    edit_farmponddetails_alertdialog_offline(str_farmername, str_farmer_id, str_farmpond_id, str_approved);
+                                    edit_farmponddetails_alertdialog_offline(str_farmername, str_farmer_id, str_farmpond_id, final_str_approved);
                                 }
 
                             }
@@ -923,7 +931,7 @@ public class EachFarmPondDetails_Activity extends AppCompatActivity {
 
 
     public void edit_farmponddetails_alertdialog_offline(final String str_farmername, final String str_farmer_id,
-                                                         final String str_farmpond_id, final String str_approved)
+                                                         final String str_farmpond_id, final String strs_approved)
     {
         AlertDialog.Builder dialog = new AlertDialog.Builder(EachFarmPondDetails_Activity.this);
         dialog.setCancelable(false);
@@ -935,11 +943,12 @@ public class EachFarmPondDetails_Activity extends AppCompatActivity {
             public void onClick(DialogInterface dialog, int id)
             {
 
+                Log.e("edit",strs_approved);
                 Intent i = new Intent(EachFarmPondDetails_Activity.this, EditFarmPondDetails_Activity.class);
                 i.putExtra("farmer_name", str_farmername);
                 i.putExtra("farmpond_id", str_farmpond_id);
                 i.putExtra("farmer_id", str_farmer_id);
-                i.putExtra("ApprovedStatus", str_approved);
+                i.putExtra("ApprovedStatus", strs_approved);
                 startActivity(i);
                 finish();
 

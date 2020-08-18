@@ -317,6 +317,7 @@ public class EditFarmPondDetails_Activity extends AppCompatActivity {
 
         Log.e("pondid", str_farmpond_id);
         Log.e("farmerid", str_farmer_id);
+        Log.e("approved", str_approvedstatus);
 
 
         //fetch the details previous activity
