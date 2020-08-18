@@ -104,12 +104,7 @@ public class MyFirebaseMessagingService extends FirebaseMessagingService
 
 
 
-      /*  RawMessage: {time=27-03-2020 18:21:24, image=2038, title=Rejected,
-      message=JANGAM  MALAIAH  : SIDDIPET: BUSSAPUR: TS20-00013: Rejected: }
-        {time=27-03-2020 18:30:09, title=Approved, Farmer_ID=2214,
-        message=BALAPPA GURAPPA SHIROL  SHIROL: VIJAYAPURA: ADAVISANGAPUR: KA20-01351:
-        Approved: Remarks, Pond_ID=2037}
-      */
+
         x=1;
       //  notificationBuilders = new NotificationCompat.Builder(this);
 
@@ -117,6 +112,11 @@ public class MyFirebaseMessagingService extends FirebaseMessagingService
 
        // Log.e(TAG, "From: " + remoteMessage.getData().get("title"));
          Log.e(TAG, "RawMessage: " + remoteMessage.getData().toString());
+
+
+         // RawMessage: {Farmpondcode=KA20-03056, Remarks=TEST, Status = Approved, time=17-08-2020 13:11:27,
+        // title=Approved, Pond_ID = 9677 , message=TESTY  TESTY: MYSURU: ASPATHREKAVAL: Approved: TEST, Farmer_ID = 11325}
+
 
          //RawMessage: {time=07-04-2020 10:21:42, title=Pending, Farmer_ID=1705,
         // message=MADIVALAPPA HITTANGI  HITTANGI: VIJAYAPURA: HALAGANI: KA20-01026: Pending: testing, Pond_ID=1540}
@@ -166,32 +166,11 @@ public class MyFirebaseMessagingService extends FirebaseMessagingService
        // str_titlewhr2go =  remoteMessage.getData().get("title").trim();
         str_titlewhr2go =  remoteMessage.getData().get("Status ").trim();
 
-        //Status
-
-        /*Log.e("notitle","notitle:"+str_titlewhr2go.toString());
-        if(str_titlewhr2go.equals("empty")||str_titlewhr2go.equals("Empty")||str_titlewhr2go==null ||str_titlewhr2go==""||str_titlewhr2go.isEmpty())
-        { str_titlewhr2go="empty";}
-        else {    }*/
-
-
-      /*  String imageUrl = remoteMessage.getData().get("image");
-        if(imageUrl.equals("empty")||imageUrl.equals("Empty")||imageUrl==null ||imageUrl==""||imageUrl.isEmpty())
-        { // Log.e("Storyimage","imageURLText:"+imageUrl.toString());
-
-        }
-        else {
-            //To get a Bitmap image from the URL received
-            url2bitmap = getBitmapfromUrl(imageUrl);
-        }
-
-       sendNotification(remoteMessage.getData().get("message").trim());
-
-        Log.e(TAG, "From: " + remoteMessage.getData().get("message").toString());*/
 
 
 
 
-     //   update_statusmessage_PondDetails_DB(str_remarks,str_status,str_farmid,str_pondID);
+        update_statusmessage_PondDetails_DB(str_remarks,str_status,str_farmid,str_pondID);
 
 
        // sendNotification(remoteMessage.getData().get("message").trim());
@@ -454,21 +433,10 @@ public class MyFirebaseMessagingService extends FirebaseMessagingService
     public void update_statusmessage_PondDetails_DB(String str_remarks,String str_status,
                                                     String str_farmid, String str_pondID)
     {
-        SQLiteDatabase db1 = this.openOrCreateDatabase("PondDetails_DB", Context.MODE_PRIVATE, null);
-
-        /*db1.execSQL("CREATE TABLE IF NOT EXISTS FarmPondDetails_fromServer(SlNo INTEGER PRIMARY KEY AUTOINCREMENT,FIDDB VARCHAR,TempFIDDB VARCHAR," +
-                "FNameDB VARCHAR,FMNameDB VARCHAR,FLNameDB VARCHAR,FYearIDDB VARCHAR,FStateIDDB VARCHAR,FDistrictIDDB VARCHAR," +
-                "FTalukIDDB VARCHAR,FPanchayatIDDB VARCHAR,FVillageIDDB VARCHAR,FageDB VARCHAR,FphonenumberDB VARCHAR," +
-                "FAnnualIncomeDB VARCHAR,FfamilymemberDB VARCHAR,FidprooftypeDB VARCHAR,FidproofnoDB VARCHAR,FphotoDB VARCHAR,FPondidDB VARCHAR,WidthDB VARCHAR," +
-                "HeightDB VARCHAR,DepthDB VARCHAR,LatitudeDB VARCHAR,LongitudeDB VARCHAR,Imageid1DB VARCHAR,Image1Base64DB VARCHAR," +
-                "Imageid2DB VARCHAR,Image2Base64DB VARCHAR,Imageid3DB VARCHAR,Image3Base64DB VARCHAR,EmployeeIDDB VARCHAR,SubmittedDateDB VARCHAR," +
-                "TotalDaysDB VARCHAR,StartDateDB VARCHAR,ConstructedDateDB VARCHAR,PondCostDB VARCHAR,McodeDB VARCHAR,FPondCodeDB VARCHAR," +
-                "FPondRemarksDB VARCHAR,FPondAmtTakenDB VARCHAR,FPondStatusDB VARCHAR," +
-                "FPondApprovalStatusDB VARCHAR,FPondApprovalRemarksDB VARCHAR,FPondApprovedbyDB VARCHAR,FPondApprovedDateDB VARCHAR,FPondDonorDB VARCHAR," +
-                "UploadedStatusFarmerprofile VARCHAR,UploadedStatus VARCHAR);");*/
+        SQLiteDatabase db1 = this.openOrCreateDatabase("FarmPond_db", Context.MODE_PRIVATE, null);
 
 
-        db1.execSQL("CREATE TABLE IF NOT EXISTS FarmPondDetails_fromServer(SlNo INTEGER PRIMARY KEY AUTOINCREMENT,FIDDB VARCHAR,TempFIDDB VARCHAR," +
+       /* db1.execSQL("CREATE TABLE IF NOT EXISTS FarmPondDetails_fromServer(SlNo INTEGER PRIMARY KEY AUTOINCREMENT,FIDDB VARCHAR,TempFIDDB VARCHAR," +
                 "FNameDB VARCHAR,FMNameDB VARCHAR,FLNameDB VARCHAR,FYearIDDB VARCHAR,FStateIDDB VARCHAR,FDistrictIDDB VARCHAR," +
                 "FTalukIDDB VARCHAR,FPanchayatIDDB VARCHAR,FVillageIDDB VARCHAR,FageDB VARCHAR,FphonenumberDB VARCHAR," +
                 "FAnnualIncomeDB VARCHAR,FfamilymemberDB VARCHAR,FidprooftypeDB VARCHAR,FidproofnoDB VARCHAR,FphotoDB VARCHAR,FPondidDB VARCHAR,WidthDB VARCHAR," +
@@ -478,7 +446,23 @@ public class MyFirebaseMessagingService extends FirebaseMessagingService
                 "FPondRemarksDB VARCHAR,FPondAmtTakenDB VARCHAR,FPondStatusDB VARCHAR," +
                 "FPondApprovalStatusDB VARCHAR,FPondApprovalRemarksDB VARCHAR,FPondApprovedbyDB VARCHAR,FPondApprovedDateDB VARCHAR,FPondDonorDB VARCHAR," +
                 "FPondLatitudeDB VARCHAR,FPondLongitudeDB VARCHAR," +
-                "UploadedStatusFarmerprofile VARCHAR,UploadedStatus VARCHAR);");
+                "UploadedStatusFarmerprofile VARCHAR,UploadedStatus VARCHAR);");*/
+
+        db1.execSQL("CREATE TABLE IF NOT EXISTS FarmPondDetails_fromServerRest(SlNo INTEGER PRIMARY KEY AUTOINCREMENT,FIDDB VARCHAR,TempFIDDB VARCHAR," +
+                "FNameDB VARCHAR,FMNameDB VARCHAR,FLNameDB VARCHAR,FYearIDDB VARCHAR,FStateIDDB VARCHAR,FDistrictIDDB VARCHAR," +
+                "FTalukIDDB VARCHAR,FPanchayatIDDB VARCHAR,FVillageIDDB VARCHAR,FageDB VARCHAR,FphonenumberDB VARCHAR," +
+                "FAnnualIncomeDB VARCHAR,FfamilymemberDB VARCHAR,FidprooftypeDB VARCHAR,FidproofnoDB VARCHAR,FphotoDB VARCHAR,FPondidDB VARCHAR,WidthDB VARCHAR," +
+                "HeightDB VARCHAR,DepthDB VARCHAR,LatitudeDB VARCHAR,LongitudeDB VARCHAR,Imageid1DB VARCHAR,Image1Base64DB VARCHAR," +
+                "Imageid2DB VARCHAR,Image2Base64DB VARCHAR,Imageid3DB VARCHAR,Image3Base64DB VARCHAR,EmployeeIDDB VARCHAR,SubmittedDateDB VARCHAR," +
+                "TotalDaysDB VARCHAR,StartDateDB VARCHAR,ConstructedDateDB VARCHAR,PondCostDB VARCHAR,McodeDB VARCHAR,FPondCodeDB VARCHAR," +
+                "FPondRemarksDB VARCHAR,FPondAmtTakenDB VARCHAR,FPondStatusDB VARCHAR," +
+                "FPondApprovalStatusDB VARCHAR,FPondApprovalRemarksDB VARCHAR,FPondApprovedbyDB VARCHAR,FPondApprovedDateDB VARCHAR,FPondDonorDB VARCHAR," +
+                "FPondLatitudeDB VARCHAR,FPondLongitudeDB VARCHAR," +
+                "FPondAcresDB VARCHAR,FPondGuntaDB VARCHAR,FPondCropBeforeDB VARCHAR,FPondCropAfterDB VARCHAR," +
+                "UploadedStatusFarmerprofile VARCHAR,UploadedStatus VARCHAR," +
+                "newpondImageId1 VARCHAR,pondImageType1 VARCHAR,newpondImageId2 VARCHAR,pondImageType2 VARCHAR,newpondImageId3 VARCHAR,pondImageType3 VARCHAR);");
+
+
 
 
         //FPondidDB
@@ -494,8 +478,8 @@ public class MyFirebaseMessagingService extends FirebaseMessagingService
         Log.e("Afcm_farmerpondID",str_pondID);
         Log.e("Afcm_farmerID",str_farmid);
 
-        Cursor cursor1 = db1.rawQuery("SELECT * FROM FarmPondDetails_fromServer WHERE FPondidDB='" +str_pondID+ "'", null);
-        Cursor cursor2 = db1.rawQuery("SELECT * FROM FarmPondDetails_fromServer WHERE FIDDB='" +str_farmid+ "'", null);
+        Cursor cursor1 = db1.rawQuery("SELECT * FROM FarmPondDetails_fromServerRest WHERE FPondidDB='" +str_pondID+ "'", null);
+        Cursor cursor2 = db1.rawQuery("SELECT * FROM FarmPondDetails_fromServerRest WHERE FIDDB='" +str_farmid+ "'", null);
 
         int x = cursor1.getCount();
         Log.e("fcmcount", String.valueOf(x));
@@ -513,7 +497,7 @@ public class MyFirebaseMessagingService extends FirebaseMessagingService
             cv.put("FPondApprovalRemarksDB", str_remarks);
 
            // db1.update("FarmPondDetails_fromServer", cv, "FIDDB = ?", new String[]{str_farmid});
-            db1.update("FarmPondDetails_fromServer", cv, "FPondidDB = ?", new String[]{str_pondID});
+            db1.update("FarmPondDetails_fromServerRest", cv, "FPondidDB = ?", new String[]{str_pondID});
             db1.close();
         }
         else{

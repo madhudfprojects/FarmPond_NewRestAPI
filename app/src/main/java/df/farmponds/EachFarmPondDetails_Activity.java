@@ -424,8 +424,8 @@ public class EachFarmPondDetails_Activity extends AppCompatActivity {
 
                     innerObj_class_farmpondetails.setFarmpondCode(cursor1.getString(cursor1.getColumnIndex("FPondCodeDB")));
 
-                    innerObj_class_farmpondetails.setFarmpond_status(cursor1.getString(cursor1.getColumnIndex("FPondApprovalStatusDB")));
-                    innerObj_class_farmpondetails.setFarmpond_remarks(cursor1.getString(cursor1.getColumnIndex("FPondApprovalRemarksDB")));
+                    innerObj_class_farmpondetails.setFarmpond_ApprovalStatus(cursor1.getString(cursor1.getColumnIndex("FPondApprovalStatusDB")));
+                    innerObj_class_farmpondetails.setFarmpond_ApprovalRemarks(cursor1.getString(cursor1.getColumnIndex("FPondApprovalRemarksDB")));
                     innerObj_class_farmpondetails.setFarmpond_Approvedby(cursor1.getString(cursor1.getColumnIndex("FPondApprovedbyDB")));
                    // innerObj_class_farmpondetails.setFarmpond_ApprovedDate(cursor1.getString(cursor1.getColumnIndex("FPondApprovedDateDB")));
                     innerObj_class_farmpondetails.setFarmpond_Donor(cursor1.getString(cursor1.getColumnIndex("FPondDonorDB")));
@@ -543,7 +543,8 @@ public class EachFarmPondDetails_Activity extends AppCompatActivity {
 
             Log.d("CustomAdapter", "position: " + position);
 
-            if (convertView1 == null) {
+            if (convertView1 == null)
+            {
                 holder = new Holder_offline();
                 convertView1 = LayoutInflater.from(getApplicationContext()).inflate(R.layout.listview_row_item_farmponddetails_new, parent, false);
 
@@ -619,62 +620,87 @@ public class EachFarmPondDetails_Activity extends AppCompatActivity {
                     }
 
 
-                   /* Log.e("approvalstatus", farmponddetails_obj.getFarmpond_ApprovalStatus());
+                  /*  Log.e("approvalstatus", farmponddetails_obj.getFarmpond_ApprovalStatus());
                     Log.e("approvalremarks", farmponddetails_obj.getFarmpond_ApprovalRemarks());
                     Log.e("approvedby", farmponddetails_obj.getFarmpond_Approvedby());
-                    Log.e("donorname", farmponddetails_obj.getFarmpond_Donor());*/
+                    Log.e("donorname", farmponddetails_obj.getFarmpond_Donor());
+*/
 
-                   /* if (farmponddetails_obj.getFarmpond_ApprovalStatus().equals(null)||
+
+                  //if (farmponddetails_obj.getFarmpond_ApprovalStatus().equalsIgnoreCase("null")
+
+
+
+                    if (farmponddetails_obj.getFarmpond_ApprovalStatus()==null||
                             farmponddetails_obj.getFarmpond_ApprovalStatus().isEmpty() ||
                             farmponddetails_obj.getFarmpond_ApprovalStatus().equalsIgnoreCase("no") ||
                             farmponddetails_obj.getFarmpond_ApprovalStatus().equalsIgnoreCase("0")) {
                         holder.holder_approvalstatus_ll.setVisibility(View.GONE);
+                        Log.e("approvalstatus","'null");
                     } else {
-                        holder.holder_approvalstatus_ll.setVisibility(View.VISIBLE);
-                        if (farmponddetails_obj.getFarmpond_ApprovalStatus().equals(null) ||
-                                farmponddetails_obj.getFarmpond_ApprovalStatus().equalsIgnoreCase("Pending") ||
-                                farmponddetails_obj.getFarmpond_ApprovalStatus().equalsIgnoreCase("Rejected") ||
-                                farmponddetails_obj.getFarmpond_ApprovalStatus().equalsIgnoreCase("Deleted")
-                        ) {
+                        if(farmponddetails_obj.getFarmpond_ApprovalStatus().equalsIgnoreCase("null"))
+                        {}
+                        else {
 
-                            holder.holder_farmpond_approvalstatus_tv.setTextColor(getResources().getColor(R.color.color_red));
-                            holder.holder_farmpond_approvalstatus_tv.setText(farmponddetails_obj.getFarmpond_ApprovalStatus());
-                        } else {
+                            holder.holder_approvalstatus_ll.setVisibility(View.VISIBLE);
+                            if (farmponddetails_obj.getFarmpond_ApprovalStatus() == null ||
+                                    farmponddetails_obj.getFarmpond_ApprovalStatus().equalsIgnoreCase("Pending") ||
+                                    farmponddetails_obj.getFarmpond_ApprovalStatus().equalsIgnoreCase("Rejected") ||
+                                    farmponddetails_obj.getFarmpond_ApprovalStatus().equalsIgnoreCase("Deleted")
+                            ) {
 
-                            holder.holder_farmpond_approvalstatus_tv.setTextColor(getResources().getColor(R.color.dark_green));
-                            holder.holder_farmpond_approvalstatus_tv.setText(farmponddetails_obj.getFarmpond_ApprovalStatus());
+                                holder.holder_farmpond_approvalstatus_tv.setTextColor(getResources().getColor(R.color.color_red));
+                                holder.holder_farmpond_approvalstatus_tv.setText(farmponddetails_obj.getFarmpond_ApprovalStatus());
+                            } else {
+
+                                holder.holder_farmpond_approvalstatus_tv.setTextColor(getResources().getColor(R.color.dark_green));
+                                holder.holder_farmpond_approvalstatus_tv.setText(farmponddetails_obj.getFarmpond_ApprovalStatus());
+                            }
                         }
-                    }*/
+                    }
 
 
-                   /* if (farmponddetails_obj.getFarmpond_ApprovalRemarks().isEmpty() ||
+                  /*  if ( farmponddetails_obj.getFarmpond_ApprovalRemarks()==null||
+                            farmponddetails_obj.getFarmpond_ApprovalRemarks().isEmpty() ||
                             farmponddetails_obj.getFarmpond_ApprovalRemarks().equalsIgnoreCase("no") ||
                             farmponddetails_obj.getFarmpond_ApprovalRemarks().equalsIgnoreCase("0")) {
                         holder.holder_approvalremarks_ll.setVisibility(View.GONE);
                     } else {
-                        holder.holder_approvalremarks_ll.setVisibility(View.VISIBLE);
-                        holder.holder_farmpond_approvalremarks_tv.setText(farmponddetails_obj.getFarmpond_ApprovalRemarks());
+                        if(farmponddetails_obj.getFarmpond_ApprovalRemarks().equalsIgnoreCase("null"))
+                        {}
+                        else {
+                            holder.holder_approvalremarks_ll.setVisibility(View.VISIBLE);
+                            holder.holder_farmpond_approvalremarks_tv.setText(farmponddetails_obj.getFarmpond_ApprovalRemarks());
+                        }
                     }
 
-                    if (farmponddetails_obj.getFarmpond_Approvedby().isEmpty() ||
+                    if ( farmponddetails_obj.getFarmpond_Approvedby()==null||
+                            farmponddetails_obj.getFarmpond_Approvedby().isEmpty() ||
                             farmponddetails_obj.getFarmpond_Approvedby().equalsIgnoreCase("no") ||
                             farmponddetails_obj.getFarmpond_Approvedby().equalsIgnoreCase("0")) {
                         holder.holder_approvedby_ll.setVisibility(View.GONE);
                     } else {
+                        if(farmponddetails_obj.getFarmpond_Approvedby().equalsIgnoreCase("null"))
+                        {}
+                        else{
                         holder.holder_approvedby_ll.setVisibility(View.VISIBLE);
-                        holder.holder_farmpond_approvedby_tv.setText(farmponddetails_obj.getFarmpond_Approvedby());
+                        holder.holder_farmpond_approvedby_tv.setText(farmponddetails_obj.getFarmpond_Approvedby());}
                     }
 
-                    if (farmponddetails_obj.getFarmpond_Donor().isEmpty() ||
+                    if (farmponddetails_obj.getFarmpond_Donor()==null||
+                            farmponddetails_obj.getFarmpond_Donor().isEmpty() ||
                             farmponddetails_obj.getFarmpond_Donor().equalsIgnoreCase("no") ||
                             farmponddetails_obj.getFarmpond_Donor().equalsIgnoreCase("0")
                     ) {
                         holder.holder_donorname_ll.setVisibility(View.GONE);
                     } else {
-                        holder.holder_donorname_ll.setVisibility(View.VISIBLE);
-                        holder.holder_farmpond_donorname_tv.setText(farmponddetails_obj.getFarmpond_Donor());
-                    }
-*/
+                        if(farmponddetails_obj.getFarmpond_Donor().equalsIgnoreCase("null"))
+                        {}
+                        else {
+                            holder.holder_donorname_ll.setVisibility(View.VISIBLE);
+                            holder.holder_farmpond_donorname_tv.setText(farmponddetails_obj.getFarmpond_Donor());
+                        }
+                    }*/
 
 
 
