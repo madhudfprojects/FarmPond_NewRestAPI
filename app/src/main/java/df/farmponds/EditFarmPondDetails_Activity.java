@@ -677,6 +677,7 @@ public class EditFarmPondDetails_Activity extends AppCompatActivity {
                 int int_imageResource = getResources().getIdentifier(str_imagefromdrawable, null, getPackageName());
                 Drawable res = getResources().getDrawable(int_imageResource);
                 edit_pond_image2_iv.setImageDrawable(res);
+
             }
         });
         edit_removeimage3_ib.setOnClickListener(new View.OnClickListener() {
@@ -723,7 +724,7 @@ public class EditFarmPondDetails_Activity extends AppCompatActivity {
                 if (validation()) {
                     // AsyncTask_submit_edited_farmponddetails();
 
-                    //cancel_submit_ll.setVisibility(View.GONE);
+                    cancel_submit_ll.setVisibility(View.GONE);
                     update_editedDetails_PondDetails_DB();
                 }
             }
@@ -1395,7 +1396,9 @@ public class EditFarmPondDetails_Activity extends AppCompatActivity {
             dblongitude_LL.setVisibility(View.GONE);
 
 
-        } else {
+        } else
+            {
+                str_image3present = "yes";
             arraylist_image3_base64.add(str_base64images3);
             edit_pond_image3_iv.setImageBitmap(arrayList_bitmap.get(2));
 
@@ -2029,10 +2032,10 @@ public class EditFarmPondDetails_Activity extends AppCompatActivity {
 
     public boolean validation() {
         boolean b_pond_width1, b_pond_width2, b_pond_height1, b_pond_height2, b_pond_depth1, b_pond_depth2, b_pondimages,
-                b_pond_completed_date, b_no_days, b_datevalidation, b_enteramount, b_reason;
+        b_pondimages2, b_pond_completed_date, b_no_days, b_datevalidation, b_enteramount, b_reason;
 
         b_pond_width1 = b_pond_width2 = b_pond_height1 = b_pond_height2 = b_pond_depth1 = b_pond_depth2 = b_pondimages
-                = b_pond_completed_date = b_no_days = b_datevalidation = b_enteramount = b_reason = true;
+       = b_pondimages2  = b_pond_completed_date = b_no_days = b_datevalidation = b_enteramount = b_reason = true;
         ;
 
 
@@ -2079,16 +2082,22 @@ public class EditFarmPondDetails_Activity extends AppCompatActivity {
            /* if(arraylist_image1_base64.get(0).equalsIgnoreCase("noimage1") ||
                     arraylist_image2_base64.get(0).equalsIgnoreCase("noimage2"))*/
 
+        Log.e("edit_str_image1present",str_image1present);
+           Log.e("edit_str_image2present",str_image2present);
+        Log.e("edit_str_image3present",str_image3present);
+
         if (arraylist_image1_base64.get(0).equalsIgnoreCase("noimage1")) {
             Toast.makeText(getApplication(), "Add the 1st Pond Image", Toast.LENGTH_LONG).show();
+            Log.e("inside", "if statement");
             b_pondimages = false;
-        } else {
+        }
+
             if ((str_image2present.equalsIgnoreCase("no") &&
                     str_image3present.equalsIgnoreCase("yes"))) {
                 Toast.makeText(getApplication(), "Add the 2nd Pond Image", Toast.LENGTH_LONG).show();
-                b_pondimages = false;
+                b_pondimages2 = false;
             }
-        }
+
 
         if (str_validation_for_completed.equalsIgnoreCase("yes")) {
             // b_add_completed_date,b_no_days
@@ -2231,7 +2240,7 @@ public class EditFarmPondDetails_Activity extends AppCompatActivity {
 
 
         return (b_pond_width1 && b_pond_width2 && b_pond_height1 && b_pond_height2 && b_pond_depth1 && b_pond_depth2 && b_pondimages
-                && b_pond_completed_date && b_no_days && b_datevalidation && b_enteramount && b_reason);
+              &&b_pondimages2  && b_pond_completed_date && b_no_days && b_datevalidation && b_enteramount && b_reason);
     }
 
 
