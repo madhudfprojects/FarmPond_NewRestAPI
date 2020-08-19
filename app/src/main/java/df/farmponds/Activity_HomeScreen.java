@@ -115,7 +115,7 @@ public class Activity_HomeScreen extends AppCompatActivity implements GoogleApiC
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main_new);
 
-    
+
         //admin_view_rl=(RelativeLayout)findViewById(R.id.admin_view_rl);
         admin_view_ll = (LinearLayout) findViewById(R.id.admin_view_ll);
 
@@ -156,14 +156,6 @@ public class Activity_HomeScreen extends AppCompatActivity implements GoogleApiC
 
 
 
-
-
-
-
-
-
-
-
         admin_view_iv.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
@@ -199,7 +191,15 @@ public class Activity_HomeScreen extends AppCompatActivity implements GoogleApiC
             }
         }
 
-        Add_setGCM1();
+
+        internetDectector = new Class_InternetDectector(getApplicationContext());
+        isInternetPresent = internetDectector.isConnectingToInternet();
+        if(isInternetPresent)
+        {
+            Add_setGCM1();
+        }
+
+
 
 
        /* LinearLayout homepagelayout_LL = (LinearLayout) findViewById(R.id.homepagelayout_ll);
