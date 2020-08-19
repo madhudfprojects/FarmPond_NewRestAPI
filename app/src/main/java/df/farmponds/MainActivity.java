@@ -374,7 +374,7 @@ public class MainActivity extends AppCompatActivity
         //retrofit2.Call call = userService1.getValidateLoginPostNew("eventtest464@gmail.com");
        // retrofit2.Call call = userService1.getValidateLoginPostNew(str_gmailid);
        // str_gmailid="anandkanade.tech@dfmail.org";
-       // str_gmailid="eventtest464@gmail.com";
+        str_gmailid="eventtest464@gmail.com";
        // str_gmailid="kanadeanand@gmail.com";
       //  str_gmailid="testdev326@gmail.com";
 
@@ -459,8 +459,8 @@ public class MainActivity extends AppCompatActivity
             public void onFailure(Call call, Throwable t)
             {
                 login_progressDoalog.dismiss();
-                Log.e("tag","error"+t.getMessage());
-                Toast.makeText(MainActivity.this, "error"+t.getMessage(), Toast.LENGTH_SHORT).show();
+                Log.e("WS","error"+t.getMessage());
+                Toast.makeText(MainActivity.this, "WS:"+t.getMessage(), Toast.LENGTH_LONG).show();
             }
         });
 
