@@ -1437,12 +1437,13 @@ public class Activity_ViewFarmers extends AppCompatActivity {
 
 
         Log.e("tag", "pond FIDDB str_farmerid=" + str_farmerid);
-        Cursor cursor = db1.rawQuery("SELECT * FROM FarmPondDetails_fromServerRest WHERE FIDDB='" + str_farmerid + "'", null);
+        Cursor cursor = db1.rawQuery("SELECT * FROM FarmPondDetails_fromServerRest WHERE FPondidDB='" + str_farmpond_id + "'", null);
         int x = cursor.getCount();
 
         if (x > 0) {
 
             ContentValues cv = new ContentValues();
+            cv.put("FIDDB", str_farmerid);
             cv.put("TempFIDDB", str_tempfid);
             cv.put("FNameDB", str_farmername);
             cv.put("FMNameDB", str_farmerMName);
@@ -1462,7 +1463,7 @@ public class Activity_ViewFarmers extends AppCompatActivity {
             cv.put("FidproofnoDB", str_FIDproofno);
 
             cv.put("FphotoDB", str_Fphoto);
-            cv.put("FPondidDB", str_farmpond_id);
+          //  cv.put("FPondidDB", str_farmpond_id);
             cv.put("WidthDB", str_width);
             cv.put("HeightDB", str_height);
             cv.put("DepthDB", str_depth);
@@ -4641,7 +4642,7 @@ public class Activity_ViewFarmers extends AppCompatActivity {
                             holder.farmerimage_iv.setImageBitmap(bmp_decodedImage1);
                         }
                     } else {
-                        Log.e("imagelist_else", Obj_Class_farmerlistdetails.getStr_base64().toString());
+                     //   Log.e("imagelist_else", Obj_Class_farmerlistdetails.getStr_base64().toString());
                     }
 
 
