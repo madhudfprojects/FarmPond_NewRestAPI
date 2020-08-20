@@ -5855,18 +5855,11 @@ Log.e("tag","pond FIDDB="+str_farmerid);
             Log.e("remarks_length", String.valueOf(jsonArray.length()));
 
             int_jsonarrayremarkslength = jsonArray.length();
-
-
             class_remarksdetails_array_obj = new Class_RemarksDetails[int_jsonarrayremarkslength];
 
             for (int i = 0; i < int_jsonarrayremarkslength; i++) {
 
                 JSONObject jresponse = jsonArray.getJSONObject(i);
-                // Log.e("jresponse",jresponse.toString());
-
-               /* Class_RemarksDetails class_remarksdetails_innerobj =
-                        new Gson().fromJson(String.valueOf(jsonArray.getJSONObject(i).toString()), Class_RemarksDetails.class);
-*/
                 Class_RemarksDetails class_remarksdetails_innerobj =
                         new Gson().fromJson((jsonArray.getJSONObject(i).toString()), Class_RemarksDetails.class);
 
@@ -5882,9 +5875,7 @@ Log.e("tag","pond FIDDB="+str_farmerid);
         }
 
         SQLiteDatabase db1 = this.openOrCreateDatabase("FarmPond_db", Context.MODE_PRIVATE, null);
-
         db1.execSQL("CREATE TABLE IF NOT EXISTS RemarksDetails_fromServer(SlNo INTEGER PRIMARY KEY AUTOINCREMENT,RemarksIDDB VARCHAR,RemarksNameDB VARCHAR);");
-
         for (int i = 0; i < int_jsonarrayremarkslength; i++) {
 
             if (i == 0) {
@@ -5892,8 +5883,6 @@ Log.e("tag","pond FIDDB="+str_farmerid);
                         " VALUES ('" + "100" + "','" + "Select" + "');";
                 db1.execSQL(SQLiteQuery);
             }
-
-
             String str_remarksid = class_remarksdetails_array_obj[i].getRemarks_ID().trim();
             String str_remarksname = class_remarksdetails_array_obj[i].getRemarks_Name().trim();
             String SQLiteQuery = "INSERT INTO RemarksDetails_fromServer (RemarksIDDB,RemarksNameDB)" +
