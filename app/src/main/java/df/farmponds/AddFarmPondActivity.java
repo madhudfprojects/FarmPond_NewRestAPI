@@ -1023,7 +1023,8 @@ public class AddFarmPondActivity extends AppCompatActivity {
     }//end of oncreate()
 
 
-    public boolean validation() {
+    public boolean validation()
+    {
         boolean b_pond_width1, b_pond_width2, b_pond_height1, b_pond_height2, b_pond_depth1, b_pond_depth2, b_pondimages,
                 b_add_completed_date, b_no_days, b_machine_no, b_datevalidation, b_enteramount, b_reason;
 
@@ -1992,7 +1993,7 @@ public class AddFarmPondActivity extends AppCompatActivity {
                     "FPondLatitudeDB VARCHAR,FPondLongitudeDB VARCHAR," +
                     "FPondAcresDB VARCHAR,FPondGuntaDB VARCHAR,FPondCropBeforeDB VARCHAR,FPondCropAfterDB VARCHAR," +
                     "UploadedStatusFarmerprofile VARCHAR,UploadedStatus VARCHAR," +
-                    "newpondImageId1 VARCHAR,pondImageType1 VARCHAR,newpondImageId2 VARCHAR,pondImageType2 VARCHAR,newpondImageId3 VARCHAR,pondImageType3 VARCHAR);");
+                    "newpondImageId1 VARCHAR,pondImageType1 VARCHAR,newpondImageId2 VARCHAR,pondImageType2 VARCHAR,newpondImageId3 VARCHAR,pondImageType3 VARCHAR,Farmer_Gender VARCHAR);");
 
 
 
@@ -2015,6 +2016,13 @@ public class AddFarmPondActivity extends AppCompatActivity {
             str_approvedby = "no";
             str_approveddate = "no";
             str_donorname = "no";
+
+
+            Class_farmponddetails innerObj_Class_farmponddetails = new Class_farmponddetails();
+
+
+
+
 
 
             //   "newpondImageId1 VARCHAR,pondImageType1 VARCHAR,
@@ -2259,7 +2267,7 @@ public class AddFarmPondActivity extends AppCompatActivity {
                 "FPondLatitudeDB VARCHAR,FPondLongitudeDB VARCHAR," +
                 "FPondAcresDB VARCHAR,FPondGuntaDB VARCHAR,FPondCropBeforeDB VARCHAR,FPondCropAfterDB VARCHAR," +
                 "UploadedStatusFarmerprofile VARCHAR,UploadedStatus VARCHAR," +
-                "newpondImageId1 VARCHAR,pondImageType1 VARCHAR,newpondImageId2 VARCHAR,pondImageType2 VARCHAR,newpondImageId3 VARCHAR,pondImageType3 VARCHAR);");
+                "newpondImageId1 VARCHAR,pondImageType1 VARCHAR,newpondImageId2 VARCHAR,pondImageType2 VARCHAR,newpondImageId3 VARCHAR,pondImageType3 VARCHAR,Farmer_Gender VARCHAR);");
 
 
 
@@ -2413,7 +2421,7 @@ public class AddFarmPondActivity extends AppCompatActivity {
                             "FPondLatitudeDB VARCHAR,FPondLongitudeDB VARCHAR," +
                             "FPondAcresDB VARCHAR,FPondGuntaDB VARCHAR,FPondCropBeforeDB VARCHAR,FPondCropAfterDB VARCHAR," +
                             "UploadedStatusFarmerprofile VARCHAR,UploadedStatus VARCHAR," +
-                            "newpondImageId1 VARCHAR,pondImageType1 VARCHAR,newpondImageId2 VARCHAR,pondImageType2 VARCHAR,newpondImageId3 VARCHAR,pondImageType3 VARCHAR);");
+                            "newpondImageId1 VARCHAR,pondImageType1 VARCHAR,newpondImageId2 VARCHAR,pondImageType2 VARCHAR,newpondImageId3 VARCHAR,pondImageType3 VARCHAR,Farmer_Gender VARCHAR);");
 
 
 
@@ -2506,7 +2514,7 @@ public class AddFarmPondActivity extends AppCompatActivity {
                 "FPondLatitudeDB VARCHAR,FPondLongitudeDB VARCHAR," +
                 "FPondAcresDB VARCHAR,FPondGuntaDB VARCHAR,FPondCropBeforeDB VARCHAR,FPondCropAfterDB VARCHAR," +
                 "UploadedStatusFarmerprofile VARCHAR,UploadedStatus VARCHAR," +
-                "newpondImageId1 VARCHAR,pondImageType1 VARCHAR,newpondImageId2 VARCHAR,pondImageType2 VARCHAR,newpondImageId3 VARCHAR,pondImageType3 VARCHAR);");
+                "newpondImageId1 VARCHAR,pondImageType1 VARCHAR,newpondImageId2 VARCHAR,pondImageType2 VARCHAR,newpondImageId3 VARCHAR,pondImageType3 VARCHAR,Farmer_Gender VARCHAR);");
 
 
         Cursor cursor1 = db1.rawQuery("SELECT * FROM FarmPondDetails_fromServerRest WHERE UploadedStatus='" + 2 + "'", null);
@@ -2887,7 +2895,7 @@ public class AddFarmPondActivity extends AppCompatActivity {
                 "FPondLatitudeDB VARCHAR,FPondLongitudeDB VARCHAR," +
                 "FPondAcresDB VARCHAR,FPondGuntaDB VARCHAR,FPondCropBeforeDB VARCHAR,FPondCropAfterDB VARCHAR," +
                 "UploadedStatusFarmerprofile VARCHAR,UploadedStatus VARCHAR," +
-                "newpondImageId1 VARCHAR,pondImageType1 VARCHAR,newpondImageId2 VARCHAR,pondImageType2 VARCHAR,newpondImageId3 VARCHAR,pondImageType3 VARCHAR);");
+                "newpondImageId1 VARCHAR,pondImageType1 VARCHAR,newpondImageId2 VARCHAR,pondImageType2 VARCHAR,newpondImageId3 VARCHAR,pondImageType3 VARCHAR,Farmer_Gender VARCHAR);");
 
 
         for(int i=0;i<numberofresponse;i++)

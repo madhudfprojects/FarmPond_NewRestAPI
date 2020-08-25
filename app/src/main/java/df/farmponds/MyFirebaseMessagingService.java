@@ -118,21 +118,6 @@ public class MyFirebaseMessagingService extends FirebaseMessagingService
         // title=Approved, Pond_ID = 9677 , message=TESTY  TESTY: MYSURU: ASPATHREKAVAL: Approved: TEST, Farmer_ID = 11325}
 
 
-         //RawMessage: {time=07-04-2020 10:21:42, title=Pending, Farmer_ID=1705,
-        // message=MADIVALAPPA HITTANGI  HITTANGI: VIJAYAPURA: HALAGANI: KA20-01026: Pending: testing, Pond_ID=1540}
-
-        /*System.out.println("TestTitle:" + remoteMessage.getData().get("tile"));
-
-        Log.e(TAG, "Image: " + remoteMessage.getData().get("image"));
-*/
-
-        /*{Farmpondcode=KA20-01404,
-                Remarks=calculate anything, anytime  anywhere Free online calculators for everything Some solve,
-                Status = Pending, time=07-04-2020 11:18:48,
-                title=Pending, Pond_ID = 2098 ,
-                message=GURAPPA GUNNUR  GUNNUR: VIJAYAPURA: ADAVISANGAPUR, Farmer_ID = 2251}*/
-
-
         str_remarks=str_status=str_farmid=str_pondID=str_message="";
 
         str_remarks=remoteMessage.getData().get("Remarks").trim();
@@ -233,66 +218,6 @@ public class MyFirebaseMessagingService extends FirebaseMessagingService
 
 
 
-           /*  if(str_loginTrack=="" || str_loginTrack==null ||(str_loginTrack.trim().length()==0)||str_loginTrack.trim().equals("com.leadcampusapp.LoginActivity"))
-             {
-                 intent = new Intent(this, MainActivity.class);
-                 intent_student = intent_pm = intent_events = intent_story = intent_request = intent;
-             }
-             else
-             {
-
-                 if(str_titlewhr2go.equals("Manager"))
-                 {
-                     intent_pm = new Intent(this, MainActivity.class);
-                     intent_student = intent= intent_events = intent_story = intent_request =
-                             intent_pm_request=intent_pm_tshirt=intent_pm;
-
-                 }
-                 if(str_titlewhr2go.equalsIgnoreCase("ApprovalLetter"))//ApprovalLetter
-                 {
-                     intent_pm_request = new Intent(this, MainActivity.class);
-
-                     intent_student = intent= intent_events = intent_story = intent_request =
-                             intent_pm=intent_pm_tshirt=intent_pm_request;
-                 }
-
-                 if(str_titlewhr2go.equalsIgnoreCase("pmtshirt"))//pmtshirt
-                 {
-                     intent_pm_tshirt = new Intent(this, MainActivity.class);
-
-                     intent_student = intent= intent_events = intent_story = intent_request =
-                             intent_pm=intent_pm_request=intent_pm_tshirt;
-                 }
-
-
-                 else
-                {
-                     if (str_isProfileEdited.equals("0"))
-                     {
-                         intent = new Intent(this, MainActivity.class);
-                         intent_student = intent_pm = intent_events = intent_story = intent_request=intent_pm_request=
-                                 intent_pm_tshirt=intent_pm=intent;
-
-                     } else {
-                         intent = new Intent(this, MainActivity.class);
-                         intent_student = new Intent(this, MainActivity.class);
-                         intent_pm = new Intent(this, MainActivity.class);
-                         intent_events = new Intent(this, MainActivity.class);
-                         intent_story = new Intent(this, MainActivity.class);
-                      //   intent_story.putExtra("story_possion" , "5");
-
-                         intent_request = new Intent(this, MainActivity.class);
-                         intent_pm_request= new Intent(this, MainActivity.class);
-                     }
-
-                 }//end of else
-
-             }//end of main else*/
-        //-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-
-        // intent.putExtra( "notification_id", 0);
-        //intent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
-        // intent.putExtra("2", messageBody);
-        //-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-
 
         intent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
        intent_farmerdetails.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
@@ -436,18 +361,6 @@ public class MyFirebaseMessagingService extends FirebaseMessagingService
         SQLiteDatabase db1 = this.openOrCreateDatabase("FarmPond_db", Context.MODE_PRIVATE, null);
 
 
-       /* db1.execSQL("CREATE TABLE IF NOT EXISTS FarmPondDetails_fromServer(SlNo INTEGER PRIMARY KEY AUTOINCREMENT,FIDDB VARCHAR,TempFIDDB VARCHAR," +
-                "FNameDB VARCHAR,FMNameDB VARCHAR,FLNameDB VARCHAR,FYearIDDB VARCHAR,FStateIDDB VARCHAR,FDistrictIDDB VARCHAR," +
-                "FTalukIDDB VARCHAR,FPanchayatIDDB VARCHAR,FVillageIDDB VARCHAR,FageDB VARCHAR,FphonenumberDB VARCHAR," +
-                "FAnnualIncomeDB VARCHAR,FfamilymemberDB VARCHAR,FidprooftypeDB VARCHAR,FidproofnoDB VARCHAR,FphotoDB VARCHAR,FPondidDB VARCHAR,WidthDB VARCHAR," +
-                "HeightDB VARCHAR,DepthDB VARCHAR,LatitudeDB VARCHAR,LongitudeDB VARCHAR,Imageid1DB VARCHAR,Image1Base64DB VARCHAR," +
-                "Imageid2DB VARCHAR,Image2Base64DB VARCHAR,Imageid3DB VARCHAR,Image3Base64DB VARCHAR,EmployeeIDDB VARCHAR,SubmittedDateDB VARCHAR," +
-                "TotalDaysDB VARCHAR,StartDateDB VARCHAR,ConstructedDateDB VARCHAR,PondCostDB VARCHAR,McodeDB VARCHAR,FPondCodeDB VARCHAR," +
-                "FPondRemarksDB VARCHAR,FPondAmtTakenDB VARCHAR,FPondStatusDB VARCHAR," +
-                "FPondApprovalStatusDB VARCHAR,FPondApprovalRemarksDB VARCHAR,FPondApprovedbyDB VARCHAR,FPondApprovedDateDB VARCHAR,FPondDonorDB VARCHAR," +
-                "FPondLatitudeDB VARCHAR,FPondLongitudeDB VARCHAR," +
-                "UploadedStatusFarmerprofile VARCHAR,UploadedStatus VARCHAR);");*/
-
         db1.execSQL("CREATE TABLE IF NOT EXISTS FarmPondDetails_fromServerRest(SlNo INTEGER PRIMARY KEY AUTOINCREMENT,FIDDB VARCHAR,TempFIDDB VARCHAR," +
                 "FNameDB VARCHAR,FMNameDB VARCHAR,FLNameDB VARCHAR,FYearIDDB VARCHAR,FStateIDDB VARCHAR,FDistrictIDDB VARCHAR," +
                 "FTalukIDDB VARCHAR,FPanchayatIDDB VARCHAR,FVillageIDDB VARCHAR,FageDB VARCHAR,FphonenumberDB VARCHAR," +
@@ -460,7 +373,7 @@ public class MyFirebaseMessagingService extends FirebaseMessagingService
                 "FPondLatitudeDB VARCHAR,FPondLongitudeDB VARCHAR," +
                 "FPondAcresDB VARCHAR,FPondGuntaDB VARCHAR,FPondCropBeforeDB VARCHAR,FPondCropAfterDB VARCHAR," +
                 "UploadedStatusFarmerprofile VARCHAR,UploadedStatus VARCHAR," +
-                "newpondImageId1 VARCHAR,pondImageType1 VARCHAR,newpondImageId2 VARCHAR,pondImageType2 VARCHAR,newpondImageId3 VARCHAR,pondImageType3 VARCHAR);");
+                "newpondImageId1 VARCHAR,pondImageType1 VARCHAR,newpondImageId2 VARCHAR,pondImageType2 VARCHAR,newpondImageId3 VARCHAR,pondImageType3 VARCHAR,Farmer_Gender VARCHAR);");
 
 
 
@@ -518,15 +431,7 @@ public class MyFirebaseMessagingService extends FirebaseMessagingService
         sendNotification(str_message,str_farmid,str_pondID);
 
 
-
-
     }
-
-
-
-
-
-
 
 
 

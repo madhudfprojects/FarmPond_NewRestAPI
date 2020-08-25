@@ -314,107 +314,7 @@ Log.e("tag","str_employee_id="+str_employee_id);
 
 
 
-    /*
-                       // Log.e("insize images", String.valueOf(class_farmerandpond_details_array_obj.size()));
 
-
-
-                        str_farmpond_id=class_farmerandpond_details_array_obj[i].
-                                getClass_farmponddetails_obj().get(j).getFarmpond_ID();
-                        str_width=class_farmerandpond_details_array_obj[i].
-                                getClass_farmponddetails_obj().get(j).getFarmpond_Width();
-                        str_height=class_farmerandpond_details_array_obj[i].
-                                getClass_farmponddetails_obj().get(j).getFarmpond_Height();
-                        str_depth=class_farmerandpond_details_array_obj[i].
-                                getClass_farmponddetails_obj().get(j).getFarmpond_Depth();
-
-                        if (class_farmerandpond_details_array_obj[i].getClass_farmponddetails_obj().get(j).
-                                getClass_farmpondimages_obj().size() > 0)
-                        {
-
-
-
-                            for (int k = 0; k < class_farmerandpond_details_array_obj[i].getClass_farmponddetails_obj().
-                                    get(j).getClass_farmpondimages_obj().size(); k++)
-                            {
-
-
-                                str_imageid = class_farmerandpond_details_array_obj[i].getClass_farmponddetails_obj().get(j).
-                                        getClass_farmpondimages_obj().get(k).getImage_ID();
-                                str_imageurl = class_farmerandpond_details_array_obj[i].getClass_farmponddetails_obj().get(j).
-                                        getClass_farmpondimages_obj().get(0).getImage_url();
-
-                                String str_farmpondimageurl = str_farmpondbaseimage_url + str_imageurl;
-                                Log.e("url", str_farmpondimageurl);
-
-                                InputStream inputstream_obj = null;
-                                try {
-                                    inputstream_obj = new URL(str_farmpondimageurl).openStream();
-                                } catch (IOException e) {
-                                    e.printStackTrace();
-                                }
-                                Bitmap mIcon12 = BitmapFactory.decodeStream(inputstream_obj);
-                                ByteArrayOutputStream baos = new ByteArrayOutputStream();
-                                mIcon12.compress(Bitmap.CompressFormat.PNG, 60, baos);
-                                byte[] b = baos.toByteArray();
-                                str_base64imagestring = Base64.encodeToString(b, Base64.DEFAULT);
-
-                                DBCreate_Farmpondsedetails_2SQLiteDB(str_farmerid, str_farmername,str_farmpond_id,str_width,str_height,
-                                        str_depth,str_imageid,str_base64imagestring );
-
-                            }//for 3
-
-
-                        }// if 2
-                        else
-                        {
-                            DBCreate_Farmpondsedetails_2SQLiteDB(str_farmerid, str_farmername,str_farmpond_id,str_width,str_height,
-                                    str_depth,"0","empty");
-                        }
-
-                    }// for 2
-
-                }//if 1
-
-
-            }
-
-        }//try 1
-            catch(Exception e)
-            {
-                Log.e("image Error", e.getMessage());
-                e.printStackTrace();
-            }
-        }//*/
-
-   public void  DBCreate_Farmpondsedetails_2SQLiteDB(String str_farmerid, String str_farmername,String str_farmpond_id,String str_width,
-                                         String str_height,String str_depth,String str_imageid,String str_base64imagestring)
-    {
-
-        Log.e("dbFid",str_farmerid);
-        SQLiteDatabase db1 = this.openOrCreateDatabase("FarmPond_db", Context.MODE_PRIVATE, null);
-
-        db1.execSQL("CREATE TABLE IF NOT EXISTS FarmPondDetails_fromServerRest(SlNo INTEGER PRIMARY KEY AUTOINCREMENT,FIDDB VARCHAR,TempFIDDB VARCHAR," +
-                "FNameDB VARCHAR,FMNameDB VARCHAR,FLNameDB VARCHAR,FYearIDDB VARCHAR,FStateIDDB VARCHAR,FDistrictIDDB VARCHAR," +
-                "FTalukIDDB VARCHAR,FPanchayatIDDB VARCHAR,FVillageIDDB VARCHAR,FageDB VARCHAR,FphonenumberDB VARCHAR," +
-                "FAnnualIncomeDB VARCHAR,FfamilymemberDB VARCHAR,FidprooftypeDB VARCHAR,FidproofnoDB VARCHAR,FphotoDB VARCHAR,FPondidDB VARCHAR,WidthDB VARCHAR," +
-                "HeightDB VARCHAR,DepthDB VARCHAR,LatitudeDB VARCHAR,LongitudeDB VARCHAR,Imageid1DB VARCHAR,Image1Base64DB VARCHAR," +
-                "Imageid2DB VARCHAR,Image2Base64DB VARCHAR,Imageid3DB VARCHAR,Image3Base64DB VARCHAR,EmployeeIDDB VARCHAR,SubmittedDateDB VARCHAR," +
-                "TotalDaysDB VARCHAR,StartDateDB VARCHAR,ConstructedDateDB VARCHAR,PondCostDB VARCHAR,McodeDB VARCHAR,FPondCodeDB VARCHAR," +
-                "FPondRemarksDB VARCHAR,FPondAmtTakenDB VARCHAR,FPondStatusDB VARCHAR," +
-                "FPondApprovalStatusDB VARCHAR,FPondApprovalRemarksDB VARCHAR,FPondApprovedbyDB VARCHAR,FPondApprovedDateDB VARCHAR,FPondDonorDB VARCHAR," +
-                "FPondLatitudeDB VARCHAR,FPondLongitudeDB VARCHAR," +
-                "FPondAcresDB VARCHAR,FPondGuntaDB VARCHAR,FPondCropBeforeDB VARCHAR,FPondCropAfterDB VARCHAR," +
-                "UploadedStatusFarmerprofile VARCHAR,UploadedStatus VARCHAR," +
-                "newpondImageId1 VARCHAR,pondImageType1 VARCHAR,newpondImageId2 VARCHAR,pondImageType2 VARCHAR,newpondImageId3 VARCHAR,pondImageType3 VARCHAR);");
-
-
-        String SQLiteQuery = "INSERT INTO FarmPondDetails_fromServerRest(FIDDB,FNameDB,FPondidDB,WidthDB,HeightDB,DepthDB,ImageidDB,ImageBase64DB,UploadedStatus)" +
-                " VALUES ('"+str_farmerid+"','"+str_farmername+"','"+str_farmpond_id+"','"+str_width+"'," +
-                "'"+str_height+"','"+str_depth+"','"+str_imageid+"','"+str_base64imagestring+"','"+str_employee_id+"','"+1+"');";
-        db1.execSQL(SQLiteQuery);
-        db1.close();
-    }
 
 
 
@@ -436,7 +336,7 @@ Log.e("tag","str_employee_id="+str_employee_id);
                 "FPondLatitudeDB VARCHAR,FPondLongitudeDB VARCHAR," +
                 "FPondAcresDB VARCHAR,FPondGuntaDB VARCHAR,FPondCropBeforeDB VARCHAR,FPondCropAfterDB VARCHAR," +
                 "UploadedStatusFarmerprofile VARCHAR,UploadedStatus VARCHAR," +
-                "newpondImageId1 VARCHAR,pondImageType1 VARCHAR,newpondImageId2 VARCHAR,pondImageType2 VARCHAR,newpondImageId3 VARCHAR,pondImageType3 VARCHAR);");
+                "newpondImageId1 VARCHAR,pondImageType1 VARCHAR,newpondImageId2 VARCHAR,pondImageType2 VARCHAR,newpondImageId3 VARCHAR,pondImageType3 VARCHAR,Farmer_Gender VARCHAR);");
 
 
         Cursor cursor1 = db1.rawQuery("SELECT * FROM FarmPondDetails_fromServerRest WHERE UploadedStatusFarmerprofile='" + 9 + "'", null);
@@ -596,7 +496,7 @@ Log.e("tag","str_employee_id="+str_employee_id);
                             "FPondLatitudeDB VARCHAR,FPondLongitudeDB VARCHAR," +
                             "FPondAcresDB VARCHAR,FPondGuntaDB VARCHAR,FPondCropBeforeDB VARCHAR,FPondCropAfterDB VARCHAR," +
                             "UploadedStatusFarmerprofile VARCHAR,UploadedStatus VARCHAR," +
-                            "newpondImageId1 VARCHAR,pondImageType1 VARCHAR,newpondImageId2 VARCHAR,pondImageType2 VARCHAR,newpondImageId3 VARCHAR,pondImageType3 VARCHAR);");
+                            "newpondImageId1 VARCHAR,pondImageType1 VARCHAR,newpondImageId2 VARCHAR,pondImageType2 VARCHAR,newpondImageId3 VARCHAR,pondImageType3 VARCHAR,Farmer_Gender VARCHAR);");
 
 
 
@@ -684,7 +584,7 @@ Log.e("tag","str_employee_id="+str_employee_id);
                 "FPondLatitudeDB VARCHAR,FPondLongitudeDB VARCHAR," +
                 "FPondAcresDB VARCHAR,FPondGuntaDB VARCHAR,FPondCropBeforeDB VARCHAR,FPondCropAfterDB VARCHAR," +
                 "UploadedStatusFarmerprofile VARCHAR,UploadedStatus VARCHAR," +
-                "newpondImageId1 VARCHAR,pondImageType1 VARCHAR,newpondImageId2 VARCHAR,pondImageType2 VARCHAR,newpondImageId3 VARCHAR,pondImageType3 VARCHAR);");
+                "newpondImageId1 VARCHAR,pondImageType1 VARCHAR,newpondImageId2 VARCHAR,pondImageType2 VARCHAR,newpondImageId3 VARCHAR,pondImageType3 VARCHAR,Farmer_Gender VARCHAR);");
 
         Cursor cursor1 = db1.rawQuery("SELECT * FROM FarmPondDetails_fromServerRest WHERE UploadedStatus='" + 2 + "'", null);
         int x = cursor1.getCount();
@@ -1031,7 +931,7 @@ Log.e("tag","str_employee_id="+str_employee_id);
                 "FPondLatitudeDB VARCHAR,FPondLongitudeDB VARCHAR," +
                 "FPondAcresDB VARCHAR,FPondGuntaDB VARCHAR,FPondCropBeforeDB VARCHAR,FPondCropAfterDB VARCHAR," +
                 "UploadedStatusFarmerprofile VARCHAR,UploadedStatus VARCHAR," +
-                "newpondImageId1 VARCHAR,pondImageType1 VARCHAR,newpondImageId2 VARCHAR,pondImageType2 VARCHAR,newpondImageId3 VARCHAR,pondImageType3 VARCHAR);");
+                "newpondImageId1 VARCHAR,pondImageType1 VARCHAR,newpondImageId2 VARCHAR,pondImageType2 VARCHAR,newpondImageId3 VARCHAR,pondImageType3 VARCHAR,Farmer_Gender VARCHAR);");
 
 
         for(int i=0;i<numberofresponse;i++)
@@ -1372,7 +1272,7 @@ Log.e("tag","str_employee_id="+str_employee_id);
                 "FPondLatitudeDB VARCHAR,FPondLongitudeDB VARCHAR," +
                 "FPondAcresDB VARCHAR,FPondGuntaDB VARCHAR,FPondCropBeforeDB VARCHAR,FPondCropAfterDB VARCHAR," +
                 "UploadedStatusFarmerprofile VARCHAR,UploadedStatus VARCHAR," +
-                "newpondImageId1 VARCHAR,pondImageType1 VARCHAR,newpondImageId2 VARCHAR,pondImageType2 VARCHAR,newpondImageId3 VARCHAR,pondImageType3 VARCHAR);");
+                "newpondImageId1 VARCHAR,pondImageType1 VARCHAR,newpondImageId2 VARCHAR,pondImageType2 VARCHAR,newpondImageId3 VARCHAR,pondImageType3 VARCHAR,Farmer_Gender VARCHAR);");
 
 
         for(int i=0;i<numberofresponse;i++)
@@ -1477,7 +1377,7 @@ Log.e("tag","str_employee_id="+str_employee_id);
                 "FPondLatitudeDB VARCHAR,FPondLongitudeDB VARCHAR," +
                 "FPondAcresDB VARCHAR,FPondGuntaDB VARCHAR,FPondCropBeforeDB VARCHAR,FPondCropAfterDB VARCHAR," +
                 "UploadedStatusFarmerprofile VARCHAR,UploadedStatus VARCHAR," +
-                "newpondImageId1 VARCHAR,pondImageType1 VARCHAR,newpondImageId2 VARCHAR,pondImageType2 VARCHAR,newpondImageId3 VARCHAR,pondImageType3 VARCHAR);");
+                "newpondImageId1 VARCHAR,pondImageType1 VARCHAR,newpondImageId2 VARCHAR,pondImageType2 VARCHAR,newpondImageId3 VARCHAR,pondImageType3 VARCHAR,Farmer_Gender VARCHAR);");
 
 
         Cursor cursor1 = db1.rawQuery("SELECT * FROM FarmPondDetails_fromServerRest WHERE UploadedStatusFarmerprofile='" + 9 + "'", null);

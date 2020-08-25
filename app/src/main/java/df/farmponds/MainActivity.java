@@ -139,6 +139,9 @@ public class MainActivity extends AppCompatActivity
 
     NormalLogin_List[] arrayObj_Class_yeardetails;
 
+    Class_InternetDectector internetDectector;
+    Boolean isInternetPresent = false;
+
 
     @Override
     protected void onCreate(Bundle savedInstanceState)
@@ -219,9 +222,18 @@ public class MainActivity extends AppCompatActivity
             public void onClick(View view)
             {
 
+
+                internetDectector = new Class_InternetDectector(getApplicationContext());
+                isInternetPresent = internetDectector.isConnectingToInternet();
+
                 if (checkPermissions())
                 {
+                    if (isInternetPresent)
+                    {
                     google_sign();
+                    }else{
+                        Toast.makeText(MainActivity.this, "Kindly connect to internet", Toast.LENGTH_SHORT).show();
+                    }
                 }
 
             }
@@ -374,10 +386,12 @@ public class MainActivity extends AppCompatActivity
         //retrofit2.Call call = userService1.getValidateLoginPostNew("eventtest464@gmail.com");
        // retrofit2.Call call = userService1.getValidateLoginPostNew(str_gmailid);
        // str_gmailid="anandkanade.tech@dfmail.org";
-        str_gmailid="eventtest464@gmail.com";
-      //  str_gmailid="kanadeanand@gmail.com";
+       // str_gmailid="eventtest464@gmail.com";
+       // str_gmailid="kanadeanand@gmail.com";
       //  str_gmailid="testdev326@gmail.com";
-      //  str_gmailid="madhushree.kubsad@dfmail.org";
+
+        str_gmailid="madhushree.kubsad@dfmail.org";
+
         retrofit2.Call call = userService1.getValidateLoginPostNew(str_gmailid);
 
         call.enqueue(new Callback()
@@ -459,8 +473,8 @@ public class MainActivity extends AppCompatActivity
             public void onFailure(Call call, Throwable t)
             {
                 login_progressDoalog.dismiss();
-                Log.e("tag","error"+t.getMessage());
-                Toast.makeText(MainActivity.this, "error"+t.getMessage(), Toast.LENGTH_SHORT).show();
+                Log.e("WS","error"+t.getMessage());
+                Toast.makeText(MainActivity.this, "WS:"+t.getMessage(), Toast.LENGTH_LONG).show();
             }
         });
 
