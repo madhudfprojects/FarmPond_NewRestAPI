@@ -374,6 +374,7 @@ Log.e("tag","str_employee_id="+str_employee_id);
                     innerObj_Class_farmerprofileoffline.setStr_idproofno(cursor1.getString(cursor1.getColumnIndex("FidproofnoDB")));
                     innerObj_Class_farmerprofileoffline.setStr_farmerimage(cursor1.getString(cursor1.getColumnIndex("FphotoDB")));
                     innerObj_Class_farmerprofileoffline.setStr_farmerprofile_UploadStatus(cursor1.getString(cursor1.getColumnIndex("UploadedStatusFarmerprofile")));
+                    innerObj_Class_farmerprofileoffline.setStr_farmerGender(cursor1.getString(cursor1.getColumnIndex("Farmer_Gender")));
 
                     //Log.e("employeeid",cursor1.getString(cursor1.getColumnIndex("EmployeeIDDB")));
                     innerObj_Class_farmerprofileoffline.setStr_employeeid(cursor1.getString(cursor1.getColumnIndex("EmployeeIDDB")));
@@ -440,6 +441,8 @@ Log.e("tag","str_employee_id="+str_employee_id);
         request.setSubmittedDate(class_farmerprofileoffline_array_obj[j].getStr_submittedDateTime());
         request.setMobileTempID(class_farmerprofileoffline_array_obj[j].getStr_tempfarmerid());
         request.setCreatedBy(str_employee_id);
+        request.setFarmer_Gender(class_farmerprofileoffline_array_obj[j].getStr_farmerGender());
+
         Log.e("tag","FarmerFirstName=="+class_farmerprofileoffline_array_obj[j].getStr_fname());
         Log.e("tag","FarmerID=="+class_farmerprofileoffline_array_obj[j].getStr_farmerID());
 
@@ -518,7 +521,7 @@ Log.e("tag","str_employee_id="+str_employee_id);
                             "DispFarmerTable_FarmerName VARCHAR,FarmerMName_DB VARCHAR,FarmerLName_DB VARCHAR,Farmerage_DB VARCHAR," +
                             "Farmercellno_DB VARCHAR,FIncome_DB VARCHAR,Ffamilymember_DB VARCHAR,FIDprooftype_DB VARCHAR,FIDProofNo_DB VARCHAR,UploadedStatusFarmerprofile_DB VARCHAR," +
                             "FarmerImageB64str_DB VARCHAR,DispFarmerTable_FarmerImage VARCHAR," +
-                            "LocalFarmerImg BLOB,Farmpondcount VARCHAR,Submitted_Date VARCHAR,Created_By VARCHAR,Created_Date VARCHAR,Created_User VARCHAR,Response VARCHAR,Response_Action VARCHAR);");
+                            "LocalFarmerImg BLOB,Farmpondcount VARCHAR,Submitted_Date VARCHAR,Created_By VARCHAR,Created_Date VARCHAR,Created_User VARCHAR,Response VARCHAR,Response_Action VARCHAR,Farmer_Gender VARCHAR);");
 
 
                     ContentValues cv_farmelistupdate = new ContentValues();
@@ -1661,7 +1664,7 @@ Log.e("tag","str_employee_id="+str_employee_id);
                 "DispFarmerTable_FarmerName VARCHAR,FarmerMName_DB VARCHAR,FarmerLName_DB VARCHAR,Farmerage_DB VARCHAR," +
                 "Farmercellno_DB VARCHAR,FIncome_DB VARCHAR,Ffamilymember_DB VARCHAR,FIDprooftype_DB VARCHAR,FIDProofNo_DB VARCHAR,UploadedStatusFarmerprofile_DB VARCHAR," +
                 "FarmerImageB64str_DB VARCHAR,DispFarmerTable_FarmerImage VARCHAR," +
-                "LocalFarmerImg BLOB,Farmpondcount VARCHAR,Submitted_Date VARCHAR,Created_By VARCHAR,Created_Date VARCHAR,Created_User VARCHAR,Response VARCHAR,Response_Action VARCHAR);");
+                "LocalFarmerImg BLOB,Farmpondcount VARCHAR,Submitted_Date VARCHAR,Created_By VARCHAR,Created_Date VARCHAR,Created_User VARCHAR,Response VARCHAR,Response_Action VARCHAR,Farmer_Gender VARCHAR);");
 
 
 
@@ -1704,6 +1707,7 @@ Log.e("tag","str_employee_id="+str_employee_id);
                     innerObj_class_farmerlistDetails.setFarmerIDNumber(cursor1.getString(cursor1.getColumnIndex("FIDProofNo_DB")));
                     innerObj_class_farmerlistDetails.setStr_base64(cursor1.getString(cursor1.getColumnIndex("FarmerImageB64str_DB")));
                     innerObj_class_farmerlistDetails.setSubmittedDate(cursor1.getString(cursor1.getColumnIndex("Submitted_Date")));
+                    innerObj_class_farmerlistDetails.setFarmer_Gender(cursor1.getString(cursor1.getColumnIndex("Farmer_Gender")));
 
                     class_farmerlistdetails_arrayObj[i] = innerObj_class_farmerlistDetails;
                     i++;
@@ -1740,8 +1744,9 @@ Log.e("tag","str_employee_id="+str_employee_id);
             String submittedDateTime=class_farmerlistdetails_arrayObj[j].getSubmittedDate();
             String tempfarmerid=class_farmerlistdetails_arrayObj[j].getMobileTempID();
             String empId=class_farmerlistdetails_arrayObj[j].getCreatedBy();
+            String Farmer_Gender=class_farmerlistdetails_arrayObj[j].getFarmer_Gender();
 
-              EditFarmerDetails(FarmerID,stateid,districtid,talukid,panchayatid,villageid,fname,mname,lname,phonenumber,idprooftyp,idproofno,farmerimage,age,annualincome,familymembers,submittedDateTime,tempfarmerid,empId);
+            EditFarmerDetails(FarmerID,stateid,districtid,talukid,panchayatid,villageid,fname,mname,lname,phonenumber,idprooftyp,idproofno,farmerimage,age,annualincome,familymembers,submittedDateTime,tempfarmerid,empId,Farmer_Gender);
 
 
         }
@@ -1781,7 +1786,7 @@ Log.e("tag","str_employee_id="+str_employee_id);
         request.setCreatedBy("40");*/
 
     private void EditFarmerDetails(String FarmerID,String stateid,String districtid,String talukid,String panchayatid,String villageid,
-                                  String fname,String mname,String lname,String phonenumber,String idprooftyp,String idproofno,String farmerimage,String age,String annualincome,String familymembers,String submittedDateTime,String tempfarmerid,String empId)
+                                  String fname,String mname,String lname,String phonenumber,String idprooftyp,String idproofno,String farmerimage,String age,String annualincome,String familymembers,String submittedDateTime,String tempfarmerid,String empId,String Farmer_Gender)
     {
         if(FarmerID.startsWith("temp")){
             Log.e("tag","FarmerID temp=="+FarmerID);
@@ -1808,7 +1813,9 @@ Log.e("tag","str_employee_id="+str_employee_id);
         request.setSubmittedDate(submittedDateTime);
         request.setMobileTempID(tempfarmerid);
         request.setCreatedBy(str_employee_id);
-      //  Log.e("tag","FarmerFirstName=="+class_farmerprofileoffline_array_obj[j].getStr_fname());
+        request.setFarmer_Gender(Farmer_Gender);
+
+        //  Log.e("tag","FarmerFirstName=="+class_farmerprofileoffline_array_obj[j].getStr_fname());
       //  Log.e("tag","FarmerID=="+class_farmerprofileoffline_array_obj[j].getStr_farmerID());
 
         Call<AddFarmerResponse> call = userService1.AddFarmer(request);
@@ -1864,7 +1871,7 @@ Log.e("tag","str_employee_id="+str_employee_id);
                             "DispFarmerTable_FarmerName VARCHAR,FarmerMName_DB VARCHAR,FarmerLName_DB VARCHAR,Farmerage_DB VARCHAR," +
                             "Farmercellno_DB VARCHAR,FIncome_DB VARCHAR,Ffamilymember_DB VARCHAR,FIDprooftype_DB VARCHAR,FIDProofNo_DB VARCHAR,UploadedStatusFarmerprofile_DB VARCHAR," +
                             "FarmerImageB64str_DB VARCHAR,DispFarmerTable_FarmerImage VARCHAR," +
-                            "LocalFarmerImg BLOB,Farmpondcount VARCHAR,Submitted_Date VARCHAR,Created_By VARCHAR,Created_Date VARCHAR,Created_User VARCHAR,Response VARCHAR,Response_Action VARCHAR);");
+                            "LocalFarmerImg BLOB,Farmpondcount VARCHAR,Submitted_Date VARCHAR,Created_By VARCHAR,Created_Date VARCHAR,Created_User VARCHAR,Response VARCHAR,Response_Action VARCHAR,Farmer_Gender VARCHAR);");
 
 
                     ContentValues cv = new ContentValues();

@@ -24,6 +24,7 @@ public class Class_FarmerProfileOffline
     String str_farmerprofile_UploadStatus;
     String str_tempfarmerid;
     String str_submittedDateTime;
+    String str_farmerGender;
 
 
     public String getStr_yearid() {
@@ -194,5 +195,13 @@ public class Class_FarmerProfileOffline
 
     public void setStr_submittedDateTime(String str_submittedDateTime) {
         this.str_submittedDateTime = str_submittedDateTime;
+    }
+
+    public String getStr_farmerGender() {
+        return str_farmerGender;
+    }
+
+    public void setStr_farmerGender(String str_farmerGender) {
+        this.str_farmerGender = str_farmerGender;
     }
 }

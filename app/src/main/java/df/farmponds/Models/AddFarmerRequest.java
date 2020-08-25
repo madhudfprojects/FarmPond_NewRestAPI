@@ -63,6 +63,10 @@ public class AddFarmerRequest {
     @SerializedName("Mobile_Temp_ID")
     @Expose
     private Object mobileTempID;
+    @SerializedName("Farmer_Gender")
+    @Expose
+    private String farmer_Gender;
+
 
 
 
@@ -218,6 +222,11 @@ public class AddFarmerRequest {
         this.mobileTempID = mobileTempID;
     }
 
+    public String getFarmer_Gender() {
+        return farmer_Gender;
+    }
 
-
+    public void setFarmer_Gender(String farmer_Gender) {
+        this.farmer_Gender = farmer_Gender;
+    }
 }

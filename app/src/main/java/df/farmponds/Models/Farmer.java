@@ -86,6 +86,9 @@ public class Farmer {
     @SerializedName("FarmPond_Count")
     @Expose
     private String farmPond_Count;
+    @SerializedName("Farmer_Gender")
+    @Expose
+    private String farmer_Gender;
 
     String str_base64;
     byte[] localfarmerimage;
@@ -93,27 +96,28 @@ public class Farmer {
     public Farmer(String dispFarmerTable_yearID, String dispFarmerTable_stateID, String dispFarmerTable_districtID, String dispFarmerTable_talukID, String dispFarmerTable_villageID,
                   String dispFarmerTable_grampanchayatID, String dispFarmerTable_farmerID, String dispFarmerTable_farmerName, String dispFarmerTable_farmerImage, String farmerImageB64str_db,
                   String farmerMName_db, String farmerLName_db, String farmerage_db, String farmercellno_db, String fIncome_db, String ffamilymember_db,
-                  String fiDprooftype_db, String fidProofNo_db, String farmpondcount, byte[] localFarmerImgs) {
-    academic_ID=dispFarmerTable_yearID;
-    stateID=dispFarmerTable_stateID;
-    districtID=dispFarmerTable_districtID;
-    talukaID=dispFarmerTable_talukID;
-    villageID=dispFarmerTable_villageID;
-    panchayatID=dispFarmerTable_grampanchayatID;
-    farmerID=dispFarmerTable_farmerID;
-    farmerFirstName=dispFarmerTable_farmerName;
-    farmerPhoto=dispFarmerTable_farmerImage;
-    farmerMiddleName=farmerMName_db;
-    farmerLastName=farmerLName_db;
-    farmerAge=farmerage_db;
-    farmerMobile=farmercellno_db;
-    farmerIncome=fIncome_db;
-    farmerFamily=ffamilymember_db;
-    farmerIDType=fiDprooftype_db;
-    farmerIDNumber=fidProofNo_db;
-    farmPond_Count=farmpondcount;
-    str_base64=farmerImageB64str_db;
-    localfarmerimage=localFarmerImgs;
+                  String fiDprooftype_db, String fidProofNo_db, String farmpondcount, byte[] localFarmerImgs, String farmer_Gender) {
+        academic_ID=dispFarmerTable_yearID;
+        stateID=dispFarmerTable_stateID;
+        districtID=dispFarmerTable_districtID;
+        talukaID=dispFarmerTable_talukID;
+        villageID=dispFarmerTable_villageID;
+        panchayatID=dispFarmerTable_grampanchayatID;
+        farmerID=dispFarmerTable_farmerID;
+        farmerFirstName=dispFarmerTable_farmerName;
+        farmerPhoto=dispFarmerTable_farmerImage;
+        farmerMiddleName=farmerMName_db;
+        farmerLastName=farmerLName_db;
+        farmerAge=farmerage_db;
+        farmerMobile=farmercellno_db;
+        farmerIncome=fIncome_db;
+        farmerFamily=ffamilymember_db;
+        farmerIDType=fiDprooftype_db;
+        farmerIDNumber=fidProofNo_db;
+        farmPond_Count=farmpondcount;
+        str_base64=farmerImageB64str_db;
+        localfarmerimage=localFarmerImgs;
+        farmer_Gender=farmer_Gender;
     }
 
     public Farmer() {
@@ -350,6 +354,14 @@ public class Farmer {
 
     public void setLocalfarmerimage(byte[] localfarmerimage) {
         this.localfarmerimage = localfarmerimage;
+    }
+
+    public String getFarmer_Gender() {
+        return farmer_Gender;
+    }
+
+    public void setFarmer_Gender(String farmer_Gender) {
+        this.farmer_Gender = farmer_Gender;
     }
 
     @Override

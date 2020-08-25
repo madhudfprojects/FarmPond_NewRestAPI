@@ -1163,7 +1163,7 @@ public class Activity_ViewFarmers extends AppCompatActivity {
                 "DispFarmerTable_FarmerName VARCHAR,FarmerMName_DB VARCHAR,FarmerLName_DB VARCHAR,Farmerage_DB VARCHAR," +
                 "Farmercellno_DB VARCHAR,FIncome_DB VARCHAR,Ffamilymember_DB VARCHAR,FIDprooftype_DB VARCHAR,FIDProofNo_DB VARCHAR,UploadedStatusFarmerprofile_DB VARCHAR," +
                 "FarmerImageB64str_DB VARCHAR,DispFarmerTable_FarmerImage VARCHAR," +
-                "LocalFarmerImg BLOB,Farmpondcount VARCHAR,Submitted_Date VARCHAR,Created_By VARCHAR,Created_Date VARCHAR,Created_User VARCHAR,Response VARCHAR,Response_Action VARCHAR);");
+                "LocalFarmerImg BLOB,Farmpondcount VARCHAR,Submitted_Date VARCHAR,Created_By VARCHAR,Created_Date VARCHAR,Created_User VARCHAR,Response VARCHAR,Response_Action VARCHAR,Farmer_Gender VARCHAR);");
 
         Cursor cursor = db_viewfarmerlist.rawQuery("SELECT * FROM ViewFarmerListRest", null);
         int x = cursor.getCount();
@@ -1202,7 +1202,9 @@ public class Activity_ViewFarmers extends AppCompatActivity {
                                                                 String str_farmerid, String str_farmercode, String str_farmername,
                                                                 String str_farmerimage, String farmpondcount, String str_imagebase64,
                                                                 String str_mname, String str_lname, String str_age, String str_cellno,
-                                                                String str_income, String str_member, String str_idprooftype, String str_idproofno, String Submitted_Date, String Created_By, String Created_Date, String Created_User, String ResponseOutput, String Response_Action) {
+                                                                String str_income, String str_member, String str_idprooftype, String str_idproofno,
+                                                                String Submitted_Date, String Created_By, String Created_Date, String Created_User,
+                                                                String ResponseOutput, String Response_Action, String Farmer_Gender) {
 
 
         String str_UploadedStatusFarmerprofile = "10";  //uploaded
@@ -1215,18 +1217,18 @@ public class Activity_ViewFarmers extends AppCompatActivity {
                 "DispFarmerTable_FarmerName VARCHAR,FarmerMName_DB VARCHAR,FarmerLName_DB VARCHAR,Farmerage_DB VARCHAR," +
                 "Farmercellno_DB VARCHAR,FIncome_DB VARCHAR,Ffamilymember_DB VARCHAR,FIDprooftype_DB VARCHAR,FIDProofNo_DB VARCHAR,UploadedStatusFarmerprofile_DB VARCHAR," +
                 "FarmerImageB64str_DB VARCHAR,DispFarmerTable_FarmerImage VARCHAR," +
-                "LocalFarmerImg BLOB,Farmpondcount VARCHAR,Submitted_Date VARCHAR,Created_By VARCHAR,Created_Date VARCHAR,Created_User VARCHAR,Response VARCHAR,Response_Action VARCHAR);");
+                "LocalFarmerImg BLOB,Farmpondcount VARCHAR,Submitted_Date VARCHAR,Created_By VARCHAR,Created_Date VARCHAR,Created_User VARCHAR,Response VARCHAR,Response_Action VARCHAR,Farmer_Gender VARCHAR);");
 
         String SQLiteQuery = "INSERT INTO ViewFarmerListRest (DispFarmerTable_YearID,DispFarmerTable_StateID, DispFarmerTable_DistrictID," +
                 "DispFarmerTable_TalukID,DispFarmerTable_VillageID,DispFarmerTable_GrampanchayatID,DispFarmerTable_FarmerID," +
                 "DispFarmerTable_Farmer_Code,DispFarmerTable_FarmerName,FarmerMName_DB,FarmerLName_DB,Farmerage_DB," +
                 "Farmercellno_DB,FIncome_DB,Ffamilymember_DB,FIDprooftype_DB,FIDProofNo_DB,UploadedStatusFarmerprofile_DB,FarmerImageB64str_DB,DispFarmerTable_FarmerImage," +
-                "Farmpondcount,Submitted_Date,Created_By,Created_Date,Created_User,Response,Response_Action)" +
+                "Farmpondcount,Submitted_Date,Created_By,Created_Date,Created_User,Response,Response_Action,Farmer_Gender)" +
                 " VALUES ('" + str_yearID + "','" + str_stateID + "','" + str_districtID + "','" + str_talukid + "','" + str_villageid + "','"
                 + str_grampanchayatid + "','" + str_farmerid + "','" + str_farmercode + "','" + str_farmername + "','" + str_mname + "'," +
                 "'" + str_lname + "','" + str_age + "','" + str_cellno + "','" + str_income + "','" + str_member + "','" + str_idprooftype + "','" + str_idproofno + "'," +
                 "'" + str_UploadedStatusFarmerprofile + "','" + str_imagebase64 + "','" + str_farmerimage + "','" + farmpondcount + "','"
-                + Submitted_Date + "','" + Created_By + "','" + Created_Date + "','" + Created_User + "','" + ResponseOutput + "','" + Response_Action + "');";
+                + Submitted_Date + "','" + Created_By + "','" + Created_Date + "','" + Created_User + "','" + ResponseOutput + "','" + Response_Action +"','" + Farmer_Gender+"');";
 
         db_viewfarmerlist.execSQL(SQLiteQuery);
 
@@ -1244,11 +1246,11 @@ public class Activity_ViewFarmers extends AppCompatActivity {
     }
 
     public void DBCreate_ViewFarmerlistdetails_insertORUpdate_2SQLiteDB(String str_yearID, String str_stateID, String str_districtID,
-                                                                String str_talukid, String str_villageid, String str_grampanchayatid,
-                                                                String str_farmerid, String str_farmercode, String str_farmername,
-                                                                String str_farmerimage, String farmpondcount, String str_imagebase64,
-                                                                String str_mname, String str_lname, String str_age, String str_cellno,
-                                                                String str_income, String str_member, String str_idprooftype, String str_idproofno, String Submitted_Date, String Created_By, String Created_Date, String Created_User, String ResponseOutput, String Response_Action) {
+                                                                        String str_talukid, String str_villageid, String str_grampanchayatid,
+                                                                        String str_farmerid, String str_farmercode, String str_farmername,
+                                                                        String str_farmerimage, String farmpondcount, String str_imagebase64,
+                                                                        String str_mname, String str_lname, String str_age, String str_cellno,
+                                                                        String str_income, String str_member, String str_idprooftype, String str_idproofno, String Submitted_Date, String Created_By, String Created_Date, String Created_User, String ResponseOutput, String Response_Action,String Farmer_Gender) {
 
 
         String str_UploadedStatusFarmerprofile = "10";  //uploaded
@@ -1260,13 +1262,13 @@ public class Activity_ViewFarmers extends AppCompatActivity {
 
         if(x>0){
 
-            db_viewfarmerlist.execSQL("CREATE TABLE IF NOT EXISTS ViewFarmerListRest(DispFarmerTable_YearID VARCHAR,DispFarmerTable_StateID VARCHAR," +
+            db_viewfarmerlist.execSQL("CREATE TABLE IF NOT EXISTS ViewFarmerListRest(MTempId INTEGER PRIMARY KEY,DispFarmerTable_YearID VARCHAR,DispFarmerTable_StateID VARCHAR," +
                     "DispFarmerTable_DistrictID VARCHAR,DispFarmerTable_TalukID VARCHAR,DispFarmerTable_VillageID VARCHAR," +
                     "DispFarmerTable_GrampanchayatID VARCHAR,DispFarmerTable_FarmerID VARCHAR,DispFarmerTable_Farmer_Code VARCHAR," +
                     "DispFarmerTable_FarmerName VARCHAR,FarmerMName_DB VARCHAR,FarmerLName_DB VARCHAR,Farmerage_DB VARCHAR," +
                     "Farmercellno_DB VARCHAR,FIncome_DB VARCHAR,Ffamilymember_DB VARCHAR,FIDprooftype_DB VARCHAR,FIDProofNo_DB VARCHAR,UploadedStatusFarmerprofile_DB VARCHAR," +
                     "FarmerImageB64str_DB VARCHAR,DispFarmerTable_FarmerImage VARCHAR," +
-                    "LocalFarmerImg BLOB,Farmpondcount VARCHAR,Submitted_Date VARCHAR,Created_By VARCHAR,Created_Date VARCHAR,Created_User VARCHAR,Response VARCHAR,Response_Action VARCHAR);");
+                    "LocalFarmerImg BLOB,Farmpondcount VARCHAR,Submitted_Date VARCHAR,Created_By VARCHAR,Created_Date VARCHAR,Created_User VARCHAR,Response VARCHAR,Response_Action VARCHAR,Farmer_Gender VARCHAR);");
 
 
             ContentValues cv_farmelistupdate = new ContentValues();
@@ -1289,7 +1291,7 @@ public class Activity_ViewFarmers extends AppCompatActivity {
             cv_farmelistupdate.put("UploadedStatusFarmerprofile_DB", str_UploadedStatusFarmerprofile);
             cv_farmelistupdate.put("FarmerImageB64str_DB", str_imagebase64);
             cv_farmelistupdate.put("DispFarmerTable_FarmerImage", str_farmerimage);
-           // cv_farmelistupdate.put("LocalFarmerImg", str_response_farmer_id);
+            // cv_farmelistupdate.put("LocalFarmerImg", str_response_farmer_id);
             cv_farmelistupdate.put("Farmpondcount", farmpondcount);
             cv_farmelistupdate.put("Submitted_Date", Submitted_Date);
             cv_farmelistupdate.put("Created_By", Created_By);
@@ -1297,6 +1299,7 @@ public class Activity_ViewFarmers extends AppCompatActivity {
             cv_farmelistupdate.put("Created_User", Created_User);
             cv_farmelistupdate.put("Response", ResponseOutput);
             cv_farmelistupdate.put("Response_Action", Response_Action);
+            cv_farmelistupdate.put("Farmer_Gender",Farmer_Gender);
             db_viewfarmerlist.update("ViewFarmerListRest", cv_farmelistupdate, "DispFarmerTable_FarmerID = ?", new String[]{str_farmerid});
             db_viewfarmerlist.close();
 
@@ -1307,18 +1310,18 @@ public class Activity_ViewFarmers extends AppCompatActivity {
                     "DispFarmerTable_FarmerName VARCHAR,FarmerMName_DB VARCHAR,FarmerLName_DB VARCHAR,Farmerage_DB VARCHAR," +
                     "Farmercellno_DB VARCHAR,FIncome_DB VARCHAR,Ffamilymember_DB VARCHAR,FIDprooftype_DB VARCHAR,FIDProofNo_DB VARCHAR,UploadedStatusFarmerprofile_DB VARCHAR," +
                     "FarmerImageB64str_DB VARCHAR,DispFarmerTable_FarmerImage VARCHAR," +
-                    "LocalFarmerImg BLOB,Farmpondcount VARCHAR,Submitted_Date VARCHAR,Created_By VARCHAR,Created_Date VARCHAR,Created_User VARCHAR,Response VARCHAR,Response_Action VARCHAR);");
+                    "LocalFarmerImg BLOB,Farmpondcount VARCHAR,Submitted_Date VARCHAR,Created_By VARCHAR,Created_Date VARCHAR,Created_User VARCHAR,Response VARCHAR,Response_Action VARCHAR,Farmer_Gender VARCHAR);");
 
             String SQLiteQuery = "INSERT INTO ViewFarmerListRest (DispFarmerTable_YearID,DispFarmerTable_StateID, DispFarmerTable_DistrictID," +
                     "DispFarmerTable_TalukID,DispFarmerTable_VillageID,DispFarmerTable_GrampanchayatID,DispFarmerTable_FarmerID," +
                     "DispFarmerTable_Farmer_Code,DispFarmerTable_FarmerName,FarmerMName_DB,FarmerLName_DB,Farmerage_DB," +
                     "Farmercellno_DB,FIncome_DB,Ffamilymember_DB,FIDprooftype_DB,FIDProofNo_DB,UploadedStatusFarmerprofile_DB,FarmerImageB64str_DB,DispFarmerTable_FarmerImage," +
-                    "Farmpondcount,Submitted_Date,Created_By,Created_Date,Created_User,Response,Response_Action)" +
+                    "Farmpondcount,Submitted_Date,Created_By,Created_Date,Created_User,Response,Response_Action,Farmer_Gender)" +
                     " VALUES ('" + str_yearID + "','" + str_stateID + "','" + str_districtID + "','" + str_talukid + "','" + str_villageid + "','"
                     + str_grampanchayatid + "','" + str_farmerid + "','" + str_farmercode + "','" + str_farmername + "','" + str_mname + "'," +
                     "'" + str_lname + "','" + str_age + "','" + str_cellno + "','" + str_income + "','" + str_member + "','" + str_idprooftype + "','" + str_idproofno + "'," +
                     "'" + str_UploadedStatusFarmerprofile + "','" + str_imagebase64 + "','" + str_farmerimage + "','" + farmpondcount + "','"
-                    + Submitted_Date + "','" + Created_By + "','" + Created_Date + "','" + Created_User + "','" + ResponseOutput + "','" + Response_Action + "');";
+                    + Submitted_Date + "','" + Created_By + "','" + Created_Date + "','" + Created_User + "','" + ResponseOutput + "','" + Response_Action +"','" + Farmer_Gender+ "');";
 
             db_viewfarmerlist.execSQL(SQLiteQuery);
         }
@@ -1336,7 +1339,7 @@ public class Activity_ViewFarmers extends AppCompatActivity {
                 "DispFarmerTable_FarmerName VARCHAR,FarmerMName_DB VARCHAR,FarmerLName_DB VARCHAR,Farmerage_DB VARCHAR," +
                 "Farmercellno_DB VARCHAR,FIncome_DB VARCHAR,Ffamilymember_DB VARCHAR,FIDprooftype_DB VARCHAR,FIDProofNo_DB VARCHAR,UploadedStatusFarmerprofile_DB VARCHAR," +
                 "FarmerImageB64str_DB VARCHAR,DispFarmerTable_FarmerImage VARCHAR," +
-                "LocalFarmerImg BLOB,Farmpondcount VARCHAR,Submitted_Date VARCHAR,Created_By VARCHAR,Created_Date VARCHAR,Created_User VARCHAR,Response VARCHAR,Response_Action VARCHAR);");
+                "LocalFarmerImg BLOB,Farmpondcount VARCHAR,Submitted_Date VARCHAR,Created_By VARCHAR,Created_Date VARCHAR,Created_User VARCHAR,Response VARCHAR,Response_Action VARCHAR,Farmer_Gender VARCHAR);");
 
 
         Cursor cursor = db_viewfarmerlist_delete.rawQuery("SELECT * FROM ViewFarmerListRest", null);
@@ -1350,17 +1353,17 @@ public class Activity_ViewFarmers extends AppCompatActivity {
     }
 
     public void DBCreate_FarmpondsRest_UpdateORInsert_details_2SQLiteDB(String str_farmerid, String str_farmername, String str_farmpond_id, String str_width,
-                                                         String str_height, String str_depth, String str_image1, String str_base64image1, String str_pondImageId1, String pondImageType1,
-                                                         String str_image2, String str_base64image2, String str_pondImageId2, String pondImageType2, String str_image3,
-                                                         String str_base64image3, String str_pondImageId3, String pondImageType3, String str_total_days, String str_constr_date,
-                                                         String str_submited_date, String str_pond_cost,
-                                                         String str_mcode, String str_fpondcode, String str_startdate, String str_farmpond_remarks,
-                                                         String str_farmpond_amtcollected, String str_farmpond_status, String str_farmerMName,
-                                                         String str_farmerLName, String str_Fphonenumber, String str_FIDprooftype,
-                                                         String str_FIDproofno, String str_approvalstatus, String str_approvalremarks,
-                                                         String str_approvedby, String str_approveddate, String str_donorname,
-                                                         String str_latitude, String str_longitude,
-                                                         String str_acres, String str_gunta, String str_crop_beforepond, String str_crop_afterpond)
+                                                                        String str_height, String str_depth, String str_image1, String str_base64image1, String str_pondImageId1, String pondImageType1,
+                                                                        String str_image2, String str_base64image2, String str_pondImageId2, String pondImageType2, String str_image3,
+                                                                        String str_base64image3, String str_pondImageId3, String pondImageType3, String str_total_days, String str_constr_date,
+                                                                        String str_submited_date, String str_pond_cost,
+                                                                        String str_mcode, String str_fpondcode, String str_startdate, String str_farmpond_remarks,
+                                                                        String str_farmpond_amtcollected, String str_farmpond_status, String str_farmerMName,
+                                                                        String str_farmerLName, String str_Fphonenumber, String str_FIDprooftype,
+                                                                        String str_FIDproofno, String str_approvalstatus, String str_approvalremarks,
+                                                                        String str_approvedby, String str_approveddate, String str_donorname,
+                                                                        String str_latitude, String str_longitude,
+                                                                        String str_acres, String str_gunta, String str_crop_beforepond, String str_crop_afterpond)
     {
         Log.e("submitDate",str_submited_date); //09-08-2020
         Log.e("str_startdate",str_startdate); //str_constr_date 08-08-2020
@@ -1433,7 +1436,7 @@ public class Activity_ViewFarmers extends AppCompatActivity {
                 "FPondLatitudeDB VARCHAR,FPondLongitudeDB VARCHAR," +
                 "FPondAcresDB VARCHAR,FPondGuntaDB VARCHAR,FPondCropBeforeDB VARCHAR,FPondCropAfterDB VARCHAR," +
                 "UploadedStatusFarmerprofile VARCHAR,UploadedStatus VARCHAR," +
-                "newpondImageId1 VARCHAR,pondImageType1 VARCHAR,newpondImageId2 VARCHAR,pondImageType2 VARCHAR,newpondImageId3 VARCHAR,pondImageType3 VARCHAR);");
+                "newpondImageId1 VARCHAR,pondImageType1 VARCHAR,newpondImageId2 VARCHAR,pondImageType2 VARCHAR,newpondImageId3 VARCHAR,pondImageType3 VARCHAR,Farmer_Gender VARCHAR);");
 
 
         Log.e("tag", "pond FIDDB str_farmerid=" + str_farmerid);
@@ -1463,7 +1466,7 @@ public class Activity_ViewFarmers extends AppCompatActivity {
             cv.put("FidproofnoDB", str_FIDproofno);
 
             cv.put("FphotoDB", str_Fphoto);
-          //  cv.put("FPondidDB", str_farmpond_id);
+            //  cv.put("FPondidDB", str_farmpond_id);
             cv.put("WidthDB", str_width);
             cv.put("HeightDB", str_height);
             cv.put("DepthDB", str_depth);
@@ -1507,7 +1510,7 @@ public class Activity_ViewFarmers extends AppCompatActivity {
             cv.put("pondImageType3", pondImageType3);
 
 
-            db1.update("FarmPondDetails_fromServerRest", cv, "FIDDB = ?", new String[]{str_farmerid});
+            db1.update("FarmPondDetails_fromServerRest", cv, "FPondidDB = ?", new String[]{str_farmpond_id});
 
         }else {
 
@@ -1678,7 +1681,7 @@ public class Activity_ViewFarmers extends AppCompatActivity {
                 "FPondLatitudeDB VARCHAR,FPondLongitudeDB VARCHAR," +
                 "FPondAcresDB VARCHAR,FPondGuntaDB VARCHAR,FPondCropBeforeDB VARCHAR,FPondCropAfterDB VARCHAR," +
                 "UploadedStatusFarmerprofile VARCHAR,UploadedStatus VARCHAR," +
-                "newpondImageId1 VARCHAR,pondImageType1 VARCHAR,newpondImageId2 VARCHAR,pondImageType2 VARCHAR,newpondImageId3 VARCHAR,pondImageType3 VARCHAR);");
+                "newpondImageId1 VARCHAR,pondImageType1 VARCHAR,newpondImageId2 VARCHAR,pondImageType2 VARCHAR,newpondImageId3 VARCHAR,pondImageType3 VARCHAR,Farmer_Gender VARCHAR);");
 
 
         Cursor cursor = db1.rawQuery("SELECT * FROM FarmPondDetails_fromServerRest", null);
@@ -2201,7 +2204,7 @@ public class Activity_ViewFarmers extends AppCompatActivity {
                 "DispFarmerTable_FarmerName VARCHAR,FarmerMName_DB VARCHAR,FarmerLName_DB VARCHAR,Farmerage_DB VARCHAR," +
                 "Farmercellno_DB VARCHAR,FIncome_DB VARCHAR,Ffamilymember_DB VARCHAR,FIDprooftype_DB VARCHAR,FIDProofNo_DB VARCHAR,UploadedStatusFarmerprofile_DB VARCHAR," +
                 "FarmerImageB64str_DB VARCHAR,DispFarmerTable_FarmerImage VARCHAR," +
-                "LocalFarmerImg BLOB,Farmpondcount VARCHAR,Submitted_Date VARCHAR,Created_By VARCHAR,Created_Date VARCHAR,Created_User VARCHAR,Response VARCHAR,Response_Action VARCHAR);");
+                "LocalFarmerImg BLOB,Farmpondcount VARCHAR,Submitted_Date VARCHAR,Created_By VARCHAR,Created_Date VARCHAR,Created_User VARCHAR,Response VARCHAR,Response_Action VARCHAR,Farmer_Gender VARCHAR);");
 
 
         // Cursor cursor1 = db1.rawQuery("SELECT DISTINCT * FROM ViewFarmerListRest  WHERE DispFarmerTable_YearID='" + str_yearid + "' AND DispFarmerTable_StateID='" + str_stateid + "' AND DispFarmerTable_DistrictID='" + str_distid + "'  AND DispFarmerTable_TalukID='" + str_talukid + "' AND DispFarmerTable_VillageID='" + str_villageid + "' AND DispFarmerTable_GrampanchayatID='" + str_panchayatid + "'", null);
@@ -2242,12 +2245,14 @@ public class Activity_ViewFarmers extends AppCompatActivity {
                 innerObj_Class_SandboxList.setFarmerFamily(cursor1.getString(cursor1.getColumnIndex("Ffamilymember_DB")));
                 innerObj_Class_SandboxList.setFarmerIDType(cursor1.getString(cursor1.getColumnIndex("FIDprooftype_DB")));
                 innerObj_Class_SandboxList.setFarmerIDNumber(cursor1.getString(cursor1.getColumnIndex("FIDProofNo_DB")));
+                innerObj_Class_SandboxList.setFarmer_Gender(cursor1.getString(cursor1.getColumnIndex("Farmer_Gender")));
 
 
                 String str_FarmerName = cursor1.getString(cursor1.getColumnIndex("DispFarmerTable_FarmerName"));
                 String str_Farmercode = cursor1.getString(cursor1.getColumnIndex("DispFarmerTable_Farmer_Code"));
                 String str_FarmerImage = cursor1.getString(cursor1.getColumnIndex("DispFarmerTable_FarmerImage"));
                 String str_farmerpondcount = cursor1.getString(cursor1.getColumnIndex("Farmpondcount"));
+
                 byte[] str_LocalImg = cursor1.getBlob(cursor1.getColumnIndex("LocalFarmerImg"));
 
                 Log.e("tag", "str_LocalImg oo=" + str_LocalImg);
@@ -2279,7 +2284,8 @@ public class Activity_ViewFarmers extends AppCompatActivity {
                         cursor1.getString(cursor1.getColumnIndex("FIDProofNo_DB")),
 
                         cursor1.getString(cursor1.getColumnIndex("Farmpondcount")),
-                        cursor1.getBlob(cursor1.getColumnIndex("LocalFarmerImg"))
+                        cursor1.getBlob(cursor1.getColumnIndex("LocalFarmerImg")),
+                        cursor1.getString(cursor1.getColumnIndex("Farmer_Gender"))
                 );//farmer_image
 
 
@@ -2322,7 +2328,7 @@ public class Activity_ViewFarmers extends AppCompatActivity {
     private void GetDropdownValuesRestData() {
 
         Call<Location_Data> call = userService1.getLocationData(str_employee_id);
-       //  Call<Location_Data> call = userService1.getLocationData("90");
+        //  Call<Location_Data> call = userService1.getLocationData("90");
         final ProgressDialog progressDoalog;
         progressDoalog = new ProgressDialog(Activity_ViewFarmers.this);
         progressDoalog.setMessage("Loading....");
@@ -2333,7 +2339,7 @@ public class Activity_ViewFarmers extends AppCompatActivity {
         call.enqueue(new Callback<Location_Data>() {
             @Override
             public void onResponse(Call<Location_Data> call, Response<Location_Data> response) {
-                   Log.e("Entered resp", response.message());
+                Log.e("Entered resp", response.message());
                 //     Log.e("Entered resp", response.body().getMessage());
 
                 if (response.isSuccessful()) {
@@ -2589,6 +2595,7 @@ public class Activity_ViewFarmers extends AppCompatActivity {
                                     String farmerCode = class_userData.getLst().get(i).getFarmer().get(j).getFarmer_Code();
                                     String farmpondcount = class_userData.getLst().get(i).getFarmer().get(j).getFarmPond_Count();
                                     String yearID = class_userData.getLst().get(i).getFarmer().get(j).getAcademic_ID();
+                                    String Farmer_Gender = class_userData.getLst().get(i).getFarmer().get(j).getFarmer_Gender();
 
                                     Log.e("tag", "str_imageurl=" + str_imageurl);
 
@@ -2643,7 +2650,7 @@ public class Activity_ViewFarmers extends AppCompatActivity {
                                     }
 
                                     //   Log.e("submitdate", submittedDate);
-                                    DBCreate_ViewFarmerlistdetails_insertORUpdate_2SQLiteDB(yearID, stateID, districtID, talukaID, villageID, panchayatID, farmerID, farmerCode, farmerFirstName, str_imageurl, farmpondcount, str_farmerbase64, farmerMiddleName, farmerLastName, farmerAge, farmerMobile, farmerIncome, farmerFamily, farmerIDType, farmerIDNumber, submittedDate, createdBy, createdDate, createdUser, responseoutput, responseAction);
+                                    DBCreate_ViewFarmerlistdetails_insertORUpdate_2SQLiteDB(yearID, stateID, districtID, talukaID, villageID, panchayatID, farmerID, farmerCode, farmerFirstName, str_imageurl, farmpondcount, str_farmerbase64, farmerMiddleName, farmerLastName, farmerAge, farmerMobile, farmerIncome, farmerFamily, farmerIDType, farmerIDNumber, submittedDate, createdBy, createdDate, createdUser, responseoutput, responseAction, Farmer_Gender);
                                 }
 
                                 Log.e("tag", "sizePond=" + sizePond);
@@ -2973,8 +2980,8 @@ public class Activity_ViewFarmers extends AppCompatActivity {
 
     private void GetFarmer_PondValuesRestData() {
 
-       Call<UserData> call = userService1.getUserData(str_employee_id);
-       //   Call<UserData> call = userService1.getUserData("90");
+        Call<UserData> call = userService1.getUserData(str_employee_id);
+        //   Call<UserData> call = userService1.getUserData("90");
 
         final ProgressDialog progressDoalog;
         progressDoalog = new ProgressDialog(Activity_ViewFarmers.this);
@@ -3076,6 +3083,7 @@ public class Activity_ViewFarmers extends AppCompatActivity {
                                     String farmerCode = class_userData.getLst().get(i).getFarmer().get(j).getFarmer_Code();
                                     String farmpondcount = class_userData.getLst().get(i).getFarmer().get(j).getFarmPond_Count();
                                     String yearID = class_userData.getLst().get(i).getFarmer().get(j).getAcademic_ID();
+                                    String Farmer_Gender = class_userData.getLst().get(i).getFarmer().get(j).getFarmer_Gender();
 
                                     Log.e("tag", "str_imageurl=" + str_imageurl);
 
@@ -3130,7 +3138,7 @@ public class Activity_ViewFarmers extends AppCompatActivity {
                                     }
 
                                     //   Log.e("submitdate", submittedDate);
-                                    DBCreate_ViewFarmerlistdetails_insert_2SQLiteDB(yearID, stateID, districtID, talukaID, villageID, panchayatID, farmerID, farmerCode, farmerFirstName, str_imageurl, farmpondcount, str_farmerbase64, farmerMiddleName, farmerLastName, farmerAge, farmerMobile, farmerIncome, farmerFamily, farmerIDType, farmerIDNumber, submittedDate, createdBy, createdDate, createdUser, responseoutput, responseAction);
+                                    DBCreate_ViewFarmerlistdetails_insert_2SQLiteDB(yearID, stateID, districtID, talukaID, villageID, panchayatID, farmerID, farmerCode, farmerFirstName, str_imageurl, farmpondcount, str_farmerbase64, farmerMiddleName, farmerLastName, farmerAge, farmerMobile, farmerIncome, farmerFamily, farmerIDType, farmerIDNumber, submittedDate, createdBy, createdDate, createdUser, responseoutput, responseAction,Farmer_Gender);
                                 }
 
                                 Log.e("tag", "sizePond=" + sizePond);
@@ -3139,10 +3147,10 @@ public class Activity_ViewFarmers extends AppCompatActivity {
                                     String farmerID = class_userData.getLst().get(i).getPond().get(j).getFarmerID();
                                     String academicID = class_userData.getLst().get(i).getPond().get(j).getAcademicID();
                                     String machineID = class_userData.getLst().get(i).getPond().get(j).getMachineID();
-                                   // String pondCode = class_userData.getLst().get(i).getPond().get(j).getPondCode();
+                                    // String pondCode = class_userData.getLst().get(i).getPond().get(j).getPondCode();
 
                                     String pondCode = class_userData.getLst().get(i).getPond().get(j).getPondID();
-                                    
+
                                     String pondLatitude = class_userData.getLst().get(i).getPond().get(j).getPondLatitude();
                                     String pondLongitude = class_userData.getLst().get(i).getPond().get(j).getPondLongitude();
                                     String pondLength = class_userData.getLst().get(i).getPond().get(j).getPondLength();
@@ -3638,7 +3646,7 @@ public class Activity_ViewFarmers extends AppCompatActivity {
                     "DispFarmerTable_FarmerName VARCHAR,FarmerMName_DB VARCHAR,FarmerLName_DB VARCHAR,Farmerage_DB VARCHAR," +
                     "Farmercellno_DB VARCHAR,FIncome_DB VARCHAR,Ffamilymember_DB VARCHAR,FIDprooftype_DB VARCHAR,FIDProofNo_DB VARCHAR,UploadedStatusFarmerprofile_DB VARCHAR," +
                     "FarmerImageB64str_DB VARCHAR,DispFarmerTable_FarmerImage VARCHAR," +
-                    "LocalFarmerImg BLOB,Farmpondcount VARCHAR,Submitted_Date VARCHAR,Created_By VARCHAR,Created_Date VARCHAR,Created_User VARCHAR,Response VARCHAR,Response_Action VARCHAR);");
+                    "LocalFarmerImg BLOB,Farmpondcount VARCHAR,Submitted_Date VARCHAR,Created_By VARCHAR,Created_Date VARCHAR,Created_User VARCHAR,Response VARCHAR,Response_Action VARCHAR,Farmer_Gender VARCHAR);");
 
 
             // Cursor cursor1 = db1.rawQuery("SELECT DISTINCT * FROM ViewFarmerListRest  WHERE DispFarmerTable_YearID='" + str_yearid + "' AND DispFarmerTable_StateID='" + str_stateid + "' AND DispFarmerTable_DistrictID='" + str_distid + "'  AND DispFarmerTable_TalukID='" + str_talukid + "' AND DispFarmerTable_VillageID='" + str_villageid + "' AND DispFarmerTable_GrampanchayatID='" + str_panchayatid + "'", null);
@@ -3760,7 +3768,7 @@ public class Activity_ViewFarmers extends AppCompatActivity {
                 "DispFarmerTable_FarmerName VARCHAR,FarmerMName_DB VARCHAR,FarmerLName_DB VARCHAR,Farmerage_DB VARCHAR," +
                 "Farmercellno_DB VARCHAR,FIncome_DB VARCHAR,Ffamilymember_DB VARCHAR,FIDprooftype_DB VARCHAR,FIDProofNo_DB VARCHAR,UploadedStatusFarmerprofile_DB VARCHAR," +
                 "FarmerImageB64str_DB VARCHAR,DispFarmerTable_FarmerImage VARCHAR," +
-                "LocalFarmerImg BLOB,Farmpondcount VARCHAR,Submitted_Date VARCHAR,Created_By VARCHAR,Created_Date VARCHAR,Created_User VARCHAR,Response VARCHAR,Response_Action VARCHAR);");
+                "LocalFarmerImg BLOB,Farmpondcount VARCHAR,Submitted_Date VARCHAR,Created_By VARCHAR,Created_Date VARCHAR,Created_User VARCHAR,Response VARCHAR,Response_Action VARCHAR,Farmer_Gender VARCHAR);");
 
 
         // Cursor cursor1 = db1.rawQuery("SELECT DISTINCT * FROM ViewFarmerListRest  WHERE DispFarmerTable_YearID='" + str_yearid + "' AND DispFarmerTable_StateID='" + str_stateid + "' AND DispFarmerTable_DistrictID='" + str_distid + "'  AND DispFarmerTable_TalukID='" + str_talukid + "' AND DispFarmerTable_VillageID='" + str_villageid + "' AND DispFarmerTable_GrampanchayatID='" + str_panchayatid + "'", null);
@@ -3807,7 +3815,7 @@ public class Activity_ViewFarmers extends AppCompatActivity {
                 new DialogInterface.OnClickListener() {
                     public void onClick(DialogInterface dialog, int id) {
                         dialog.cancel();
-                        Intent i = new Intent(Activity_ViewFarmers.this, Activity_FarmerHomeScreen.class);
+                        Intent i = new Intent(Activity_ViewFarmers.this, Activity_HomeScreen.class);
                         startActivity(i);
                         finish();
 
@@ -4406,7 +4414,7 @@ public class Activity_ViewFarmers extends AppCompatActivity {
                 "DispFarmerTable_FarmerName VARCHAR,FarmerMName_DB VARCHAR,FarmerLName_DB VARCHAR,Farmerage_DB VARCHAR," +
                 "Farmercellno_DB VARCHAR,FIncome_DB VARCHAR,Ffamilymember_DB VARCHAR,FIDprooftype_DB VARCHAR,FIDProofNo_DB VARCHAR,UploadedStatusFarmerprofile_DB VARCHAR," +
                 "FarmerImageB64str_DB VARCHAR,DispFarmerTable_FarmerImage VARCHAR," +
-                "LocalFarmerImg BLOB,Farmpondcount VARCHAR,Submitted_Date VARCHAR,Created_By VARCHAR,Created_Date VARCHAR,Created_User VARCHAR,Response VARCHAR,Response_Action VARCHAR);");
+                "LocalFarmerImg BLOB,Farmpondcount VARCHAR,Submitted_Date VARCHAR,Created_By VARCHAR,Created_Date VARCHAR,Created_User VARCHAR,Response VARCHAR,Response_Action VARCHAR,Farmer_Gender VARCHAR);");
 
     /*String SQLiteQuery = "UPDATE ViewFarmerList SET DispFarmerTable_FarmerImage = "+str_img+" WHERE DispFarmerTable_FarmerID = "+ str_selected_farmerID_forimagesaving;
 
@@ -4642,7 +4650,7 @@ public class Activity_ViewFarmers extends AppCompatActivity {
                             holder.farmerimage_iv.setImageBitmap(bmp_decodedImage1);
                         }
                     } else {
-                     //   Log.e("imagelist_else", Obj_Class_farmerlistdetails.getStr_base64().toString());
+                        //   Log.e("imagelist_else", Obj_Class_farmerlistdetails.getStr_base64().toString());
                     }
 
 
@@ -5855,11 +5863,18 @@ Log.e("tag","pond FIDDB="+str_farmerid);
             Log.e("remarks_length", String.valueOf(jsonArray.length()));
 
             int_jsonarrayremarkslength = jsonArray.length();
+
+
             class_remarksdetails_array_obj = new Class_RemarksDetails[int_jsonarrayremarkslength];
 
             for (int i = 0; i < int_jsonarrayremarkslength; i++) {
 
                 JSONObject jresponse = jsonArray.getJSONObject(i);
+                // Log.e("jresponse",jresponse.toString());
+
+               /* Class_RemarksDetails class_remarksdetails_innerobj =
+                        new Gson().fromJson(String.valueOf(jsonArray.getJSONObject(i).toString()), Class_RemarksDetails.class);
+*/
                 Class_RemarksDetails class_remarksdetails_innerobj =
                         new Gson().fromJson((jsonArray.getJSONObject(i).toString()), Class_RemarksDetails.class);
 
@@ -5875,7 +5890,9 @@ Log.e("tag","pond FIDDB="+str_farmerid);
         }
 
         SQLiteDatabase db1 = this.openOrCreateDatabase("FarmPond_db", Context.MODE_PRIVATE, null);
+
         db1.execSQL("CREATE TABLE IF NOT EXISTS RemarksDetails_fromServer(SlNo INTEGER PRIMARY KEY AUTOINCREMENT,RemarksIDDB VARCHAR,RemarksNameDB VARCHAR);");
+
         for (int i = 0; i < int_jsonarrayremarkslength; i++) {
 
             if (i == 0) {
@@ -5883,6 +5900,8 @@ Log.e("tag","pond FIDDB="+str_farmerid);
                         " VALUES ('" + "100" + "','" + "Select" + "');";
                 db1.execSQL(SQLiteQuery);
             }
+
+
             String str_remarksid = class_remarksdetails_array_obj[i].getRemarks_ID().trim();
             String str_remarksname = class_remarksdetails_array_obj[i].getRemarks_Name().trim();
             String SQLiteQuery = "INSERT INTO RemarksDetails_fromServer (RemarksIDDB,RemarksNameDB)" +

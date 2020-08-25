@@ -74,15 +74,7 @@
         </service>
 
 
-
-
-
-
-
-
-        <activity android:name=".ViewFarmers_Activity" />
         <activity android:name=".CameraPhotoCapture" />
-        <activity android:name=".Activity_FarmerHomeScreen" />
         <activity android:name=".Activity_HomeScreen" />
         <activity
             android:name=".Activity_MarketingHomeScreen"
