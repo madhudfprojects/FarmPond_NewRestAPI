@@ -580,6 +580,10 @@ public class EditFarmPondDetails_Activity extends AppCompatActivity {
 
                             latitude_tv.setText(str_currentlatitude);
                             longitude_tv.setText(str_currentlongitude);
+                            str_latitude=str_currentlatitude;
+                            str_longitude=str_currentlongitude;
+
+
                             select_thirdimage();
 
                         }
@@ -1406,8 +1410,12 @@ public class EditFarmPondDetails_Activity extends AppCompatActivity {
             dblatitude_LL.setVisibility(View.VISIBLE);
             dblongitude_LL.setVisibility(View.VISIBLE);
 
+
             dblatitude_tv.setText(class_farmponddetails_offline_obj.getFarmpond_Latitude());
             dblongitude_tv.setText(class_farmponddetails_offline_obj.getFarmpond_Longitude());
+
+            Log.e("displylat",class_farmponddetails_offline_obj.getFarmpond_Latitude());
+            Log.e("displylong",class_farmponddetails_offline_obj.getFarmpond_Longitude());
 
             str_latitude = class_farmponddetails_offline_obj.getFarmpond_Latitude();
             str_longitude = class_farmponddetails_offline_obj.getFarmpond_Longitude();
