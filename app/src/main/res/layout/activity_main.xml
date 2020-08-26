@@ -67,7 +67,7 @@
         android:layout_marginTop="100dp"
         android:gravity="center"
         android:text="Login"
-        android:visibility="visible" />
+        android:visibility="gone" />
 
 
 
@@ -80,7 +80,7 @@
         android:textStyle="italic"
         android:layout_gravity="center"
         android:textColor="@color/colorwhite"
-        android:text="Test Ver0.38"/>
+        android:text="Test Ver0.39"/>
 
 
     <Button
