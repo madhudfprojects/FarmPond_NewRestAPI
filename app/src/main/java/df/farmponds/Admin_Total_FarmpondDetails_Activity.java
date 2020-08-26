@@ -309,7 +309,7 @@ String DataAll="0",DataApproved="0",DataPending="0",DataProcess="0",DataRejected
                         if(ExcelLink==null||ExcelLink.equalsIgnoreCase("")){
                             downloadIcon.setVisibility(View.GONE);
                         }else{
-                            downloadIcon.setVisibility(View.VISIBLE);
+                       //     downloadIcon.setVisibility(View.VISIBLE);
                         }
                         //  str_VersionStatus = String.valueOf(class_loginresponse.getStatus());
                         progressDoalog.dismiss();
