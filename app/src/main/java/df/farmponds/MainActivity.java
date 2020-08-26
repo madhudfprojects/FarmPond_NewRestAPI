@@ -1,8 +1,10 @@
 package df.farmponds;
 
 import android.Manifest;
+import android.app.AlertDialog;
 import android.app.ProgressDialog;
 import android.content.Context;
+import android.content.DialogInterface;
 import android.content.Intent;
 import android.content.SharedPreferences;
 import android.content.pm.PackageManager;
@@ -385,12 +387,12 @@ public class MainActivity extends AppCompatActivity
 
         //retrofit2.Call call = userService1.getValidateLoginPostNew("eventtest464@gmail.com");
        // retrofit2.Call call = userService1.getValidateLoginPostNew(str_gmailid);
-       // str_gmailid="anandkanade.tech@dfmail.org";
+        str_gmailid="anandkanade.tech@dfmail.org";
        // str_gmailid="eventtest464@gmail.com";
        // str_gmailid="kanadeanand@gmail.com";
       //  str_gmailid="testdev326@gmail.com";
 
-        str_gmailid="madhushree.kubsad@dfmail.org";
+      //  str_gmailid="madhushree.kubsad@dfmail.org";
 
         retrofit2.Call call = userService1.getValidateLoginPostNew(str_gmailid);
 
@@ -458,8 +460,40 @@ public class MainActivity extends AppCompatActivity
                     login_progressDoalog.dismiss();
 
                     Log.e("tag", "mailid==" + SaveSharedPreference.getUsermailID(MainActivity.this));
-                    Intent i = new Intent(MainActivity.this, Activity_HomeScreen.class);
-                    startActivity(i);
+                    if(user_object.getLst().get(0).getUserRole().equalsIgnoreCase("Field Facilitator")) {
+                        Intent i = new Intent(MainActivity.this, Activity_HomeScreen.class);
+                        startActivity(i);
+                    }else{
+
+                            AlertDialog.Builder dialog = new AlertDialog.Builder(MainActivity.this);
+                            dialog.setCancelable(false);
+                            dialog.setTitle("DF Agri");
+                            dialog.setMessage(" You are not authorized to access. \n Please contact to Tech Support \n Mob-No:9606947789");
+
+                            dialog.setPositiveButton("Ok", new DialogInterface.OnClickListener() {
+                                @Override
+                                public void onClick(DialogInterface dialog, int id)
+                                {
+                                    SaveSharedPreference.setUserName(MainActivity.this, "");
+
+                                   /* Intent i = new Intent(getApplicationContext(), MainActivity.class);
+                                    i.putExtra("Key_Logout", "yes");
+                                    i.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK | Intent.FLAG_ACTIVITY_CLEAR_TASK);
+                                    startActivity(i);*/
+                                }
+                            });
+
+
+                            final AlertDialog alert = dialog.create();
+                            alert.setOnShowListener( new DialogInterface.OnShowListener() {
+                                @Override
+                                public void onShow(DialogInterface arg0) {
+                                    alert.getButton(AlertDialog.BUTTON_POSITIVE).setTextColor(Color.parseColor("#004D40"));
+                                }
+                            });
+                            alert.show();
+
+                    }
 
                 } else {
 
