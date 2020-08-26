@@ -45,6 +45,7 @@ import df.farmponds.Models.AdminEmpTotalPondCountList;
 import df.farmponds.Models.AdminEmpoyeeTotalPondCount;
 import df.farmponds.Models.AutoSyncVersion;
 import df.farmponds.Models.AutoSyncVersionList;
+import df.farmponds.Models.Class_farmponddetails;
 import df.farmponds.Models.DefaultResponse;
 import df.farmponds.Models.ErrorUtils;
 import df.farmponds.Models.UserDataSummary;
@@ -163,13 +164,14 @@ public class Admin_Total_FarmpondDetails_Activity extends AppCompatActivity
         excel_download.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
+                getFarmerTableToExcel();
                 String directory_path = Environment.getExternalStorageDirectory().getPath() + "/Backup_excel/";
                 File file = new File(directory_path);
                 if (!file.exists()) {
                     file.mkdirs();
                 }
                 SQLiteToExcel sqliteToExcel = new SQLiteToExcel(getApplicationContext(), "FarmPond_db", directory_path);
-                sqliteToExcel.exportSingleTable("FarmPondDetails_fromServerRest", "table1.xlsx", new SQLiteToExcel.ExportListener() {
+                sqliteToExcel.exportSingleTable("FarmPondDetails_Excel", "FarmPondDetails_Excel.csv", new SQLiteToExcel.ExportListener() {
                     @Override
                     public void onStart() {
                     }
@@ -192,6 +194,108 @@ public class Admin_Total_FarmpondDetails_Activity extends AppCompatActivity
 
     }//end of class
 
+    public  void getFarmerTableToExcel(){
+        SQLiteDatabase db1 = this.openOrCreateDatabase("FarmPond_db", Context.MODE_PRIVATE, null);
+
+        db1.execSQL("CREATE TABLE IF NOT EXISTS FarmPondDetails_fromServerRest(SlNo INTEGER PRIMARY KEY AUTOINCREMENT,FIDDB VARCHAR,TempFIDDB VARCHAR," +
+                "FNameDB VARCHAR,FMNameDB VARCHAR,FLNameDB VARCHAR,FYearIDDB VARCHAR,FStateIDDB VARCHAR,FDistrictIDDB VARCHAR," +
+                "FTalukIDDB VARCHAR,FPanchayatIDDB VARCHAR,FVillageIDDB VARCHAR,FageDB VARCHAR,FphonenumberDB VARCHAR," +
+                "FAnnualIncomeDB VARCHAR,FfamilymemberDB VARCHAR,FidprooftypeDB VARCHAR,FidproofnoDB VARCHAR,FphotoDB VARCHAR,FPondidDB VARCHAR,WidthDB VARCHAR," +
+                "HeightDB VARCHAR,DepthDB VARCHAR,LatitudeDB VARCHAR,LongitudeDB VARCHAR,Imageid1DB VARCHAR,Image1Base64DB VARCHAR," +
+                "Imageid2DB VARCHAR,Image2Base64DB VARCHAR,Imageid3DB VARCHAR,Image3Base64DB VARCHAR,EmployeeIDDB VARCHAR,SubmittedDateDB VARCHAR," +
+                "TotalDaysDB VARCHAR,StartDateDB VARCHAR,ConstructedDateDB VARCHAR,PondCostDB VARCHAR,McodeDB VARCHAR,FPondCodeDB VARCHAR," +
+                "FPondRemarksDB VARCHAR,FPondAmtTakenDB VARCHAR,FPondStatusDB VARCHAR," +
+                "FPondApprovalStatusDB VARCHAR,FPondApprovalRemarksDB VARCHAR,FPondApprovedbyDB VARCHAR,FPondApprovedDateDB VARCHAR,FPondDonorDB VARCHAR," +
+                "FPondLatitudeDB VARCHAR,FPondLongitudeDB VARCHAR," +
+                "FPondAcresDB VARCHAR,FPondGuntaDB VARCHAR,FPondCropBeforeDB VARCHAR,FPondCropAfterDB VARCHAR," +
+                "UploadedStatusFarmerprofile VARCHAR,UploadedStatus VARCHAR," +
+                "newpondImageId1 VARCHAR,pondImageType1 VARCHAR,newpondImageId2 VARCHAR,pondImageType2 VARCHAR,newpondImageId3 VARCHAR,pondImageType3 VARCHAR,Farmer_Gender VARCHAR);");
+
+
+      //  Log.e("tag", "pond FIDDB str_farmerid=" + str_farmerid);
+        Cursor cursor1 = db1.rawQuery("SELECT FIDDB,FNameDB,FMNameDB,FLNameDB,FphonenumberDB,FYearIDDB,FStateIDDB,FDistrictIDDB,FTalukIDDB ,FPanchayatIDDB,FVillageIDDB," +
+                "FPondidDB,WidthDB,HeightDB,DepthDB,FPondLatitudeDB,FPondLongitudeDB,StartDateDB,ConstructedDateDB,PondCostDB,FPondAmtTakenDB,FPondStatusDB,FPondDonorDB FROM FarmPondDetails_fromServerRest", null);
+        int x = cursor1.getCount();
+        if(x>0) {
+            if (cursor1.moveToFirst()) {
+
+                do {
+
+                    String FPondidDB,WidthDB,HeightDB,DepthDB,FPondLatitudeDB,FPondLongitudeDB,StartDateDB,ConstructedDateDB,PondCostDB,FPondAmtTakenDB,FPondStatusDB,FPondDonorDB;
+                    String str_FIDDB = cursor1.getString(cursor1.getColumnIndex("FIDDB"));
+                    String str_FNameDB = cursor1.getString(cursor1.getColumnIndex("FNameDB"));
+                    String str_FMNameDB = cursor1.getString(cursor1.getColumnIndex("FMNameDB"));
+                    String str_FLNameDB = cursor1.getString(cursor1.getColumnIndex("FLNameDB"));
+
+                    String str_FphonenumberDB = cursor1.getString(cursor1.getColumnIndex("FphonenumberDB"));
+                    String str_FYearIDDB = cursor1.getString(cursor1.getColumnIndex("FYearIDDB"));
+                    String str_FStateIDDB = cursor1.getString(cursor1.getColumnIndex("FStateIDDB"));
+                    String str_FDistrictIDDB = cursor1.getString(cursor1.getColumnIndex("FDistrictIDDB"));
+                    String str_FTalukIDDB = cursor1.getString(cursor1.getColumnIndex("FTalukIDDB"));
+                    String str_FPanchayatIDDB = cursor1.getString(cursor1.getColumnIndex("FPanchayatIDDB"));
+                    String str_FVillageIDDB = cursor1.getString(cursor1.getColumnIndex("FVillageIDDB"));
+
+                    FPondidDB=cursor1.getString(cursor1.getColumnIndex("FPondidDB"));
+                    WidthDB=cursor1.getString(cursor1.getColumnIndex("WidthDB"));
+                    HeightDB=cursor1.getString(cursor1.getColumnIndex("HeightDB"));
+                    DepthDB=cursor1.getString(cursor1.getColumnIndex("DepthDB"));
+                    FPondLatitudeDB=cursor1.getString(cursor1.getColumnIndex("FPondLatitudeDB"));
+                    FPondLongitudeDB=cursor1.getString(cursor1.getColumnIndex("FPondLongitudeDB"));
+                    StartDateDB=cursor1.getString(cursor1.getColumnIndex("StartDateDB"));
+                    ConstructedDateDB=cursor1.getString(cursor1.getColumnIndex("ConstructedDateDB"));
+                    PondCostDB=cursor1.getString(cursor1.getColumnIndex("PondCostDB"));
+                    FPondAmtTakenDB=cursor1.getString(cursor1.getColumnIndex("FPondAmtTakenDB"));
+                    FPondStatusDB=cursor1.getString(cursor1.getColumnIndex("FPondStatusDB"));
+                    FPondDonorDB=cursor1.getString(cursor1.getColumnIndex("FPondDonorDB"));
+
+                    String Full_Name=str_FNameDB+" "+str_FMNameDB+" "+ str_FLNameDB;
+                    String PondSize=HeightDB+"*"+WidthDB+"*"+DepthDB;
+
+                    SQLiteDatabase db2 = this.openOrCreateDatabase("FarmPond_db", Context.MODE_PRIVATE, null);
+
+                    db2.execSQL("CREATE TABLE IF NOT EXISTS FarmPondDetails_Excel(SlNo INTEGER PRIMARY KEY AUTOINCREMENT,FarmerID VARCHAR," +
+                                    "FarmerName VARCHAR,Year VARCHAR,State VARCHAR,District VARCHAR," +
+                                    "Taluk VARCHAR,Panchayat VARCHAR,Village VARCHAR,MobileNo VARCHAR,Pond_ID VARCHAR,Latitude VARCHAR,Longitude VARCHAR,StartDate VARCHAR," +
+                                    "ConstructedDate VARCHAR,PondCost VARCHAR,PondAmtTaken VARCHAR,PondStatus VARCHAR,PondDonor VARCHAR,PondSize VARCHAR);");
+                                  //  "FAnnualIncomeDB VARCHAR,FfamilymemberDB VARCHAR,FidprooftypeDB VARCHAR,FidproofnoDB VARCHAR,FphotoDB VARCHAR,FPondidDB VARCHAR,WidthDB VARCHAR);");
+
+                    String SQLiteQuery = "INSERT INTO FarmPondDetails_Excel(FarmerID,FarmerName,Year,State,District," +
+                            "Taluk,Panchayat,Village,MobileNo,Pond_ID,Latitude ,Longitude ,StartDate,ConstructedDate ,PondCost ,PondAmtTaken ,PondStatus ,PondDonor,PondSize )" +
+                    " VALUES ('" + str_FIDDB + "','" + Full_Name+ "','" + str_FYearIDDB + "','" + str_FStateIDDB + "','" + str_FDistrictIDDB + "','" + str_FTalukIDDB + "'," +
+                            "'" + str_FPanchayatIDDB + "','" + str_FVillageIDDB + "','" + str_FphonenumberDB + "','" + FPondidDB +"','" + FPondLatitudeDB +"','" + FPondLongitudeDB +
+                            "','" + StartDateDB +"','" + ConstructedDateDB +"','" + PondCostDB +"','" + FPondAmtTakenDB +"','" + FPondStatusDB +"','" + FPondDonorDB+"','" + PondSize+"');";
+
+                    db2.execSQL(SQLiteQuery);
+
+           /*         innerObj_Class_farmponddetails.setSubmittedDate(cursor1.getString(cursor1.getColumnIndex("SubmittedDateDB")));
+
+
+                    innerObj_Class_farmponddetails.setPondEnd(cursor1.getString(cursor1.getColumnIndex("ConstructedDateDB")));
+                    innerObj_Class_farmponddetails.setPondDays(cursor1.getString(cursor1.getColumnIndex("TotalDaysDB")));
+                    innerObj_Class_farmponddetails.setPondCost(cursor1.getString(cursor1.getColumnIndex("PondCostDB")));
+                    innerObj_Class_farmponddetails.setMachineID(cursor1.getString(cursor1.getColumnIndex("McodeDB")));
+
+                    innerObj_Class_farmponddetails.setPondStatus(cursor1.getString(cursor1.getColumnIndex("FPondStatusDB")));
+
+                    innerObj_Class_farmponddetails.setPondStart(cursor1.getString(cursor1.getColumnIndex("StartDateDB")));
+
+                    innerObj_Class_farmponddetails.setApprovalRemarks(cursor1.getString(cursor1.getColumnIndex("FPondRemarksDB")));
+                    innerObj_Class_farmponddetails.setPondCollectedAmount(cursor1.getString(cursor1.getColumnIndex("FPondAmtTakenDB")));
+                    //"FPondRemarksDB VARCHAR,FPondAmtTakenDB VARCHAR,FPondStatusDB VARCHAR," +
+
+                    innerObj_Class_farmponddetails.setPondTempID(cursor1.getString(cursor1.getColumnIndex("TempFIDDB")));
+
+                    innerObj_Class_farmponddetails.setPondCode(cursor1.getString(cursor1.getColumnIndex("FPondCodeDB")));
+
+                    Log.e("class_farmpondcode",cursor1.getString(cursor1.getColumnIndex("FPondCodeDB")));
+                    Log.e("class_farmpondID",cursor1.getString(cursor1.getColumnIndex("FPondidDB")));
+*/
+
+                } while (cursor1.moveToNext());
+            }//if ends
+        }
+
+    }
     private void GetEmpWiseCount() {
 //        Map<String,String> params = new HashMap<String, String>();
 //
