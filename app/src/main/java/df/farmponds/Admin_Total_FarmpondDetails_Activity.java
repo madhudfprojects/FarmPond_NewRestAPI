@@ -7,6 +7,7 @@ import android.content.SharedPreferences;
 import android.database.Cursor;
 import android.database.sqlite.SQLiteDatabase;
 import android.os.Bundle;
+import android.os.Environment;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
 import android.util.Log;
@@ -23,6 +24,7 @@ import android.widget.Spinner;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import com.ajts.androidmads.library.SQLiteToExcel;
 import com.android.volley.DefaultRetryPolicy;
 import com.android.volley.RequestQueue;
 import com.android.volley.VolleyError;
@@ -34,6 +36,7 @@ import org.json.JSONArray;
 import org.json.JSONException;
 import org.json.JSONObject;
 
+import java.io.File;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
@@ -81,7 +84,7 @@ public class Admin_Total_FarmpondDetails_Activity extends AppCompatActivity
     Year Obj_Class_yearDetails;
     Spinner yearlist_farmers_sp;
     String selected_year, sp_stryear_ID;
-    ImageView downloadIcon;
+    ImageView downloadIcon,excel_download;
     TextView dataReject,dataApproved,dataPending,dataProcess,dataAll;
 
     @Override
@@ -111,7 +114,7 @@ public class Admin_Total_FarmpondDetails_Activity extends AppCompatActivity
         dataPending = (TextView) findViewById(R.id.dataPending);
         dataProcess = (TextView) findViewById(R.id.dataProcess);
         dataReject = (TextView) findViewById(R.id.dataReject);
-
+        excel_download = (ImageView) findViewById(R.id.excel_download);
 
         sharedpreferencebook_usercredential_Obj = getSharedPreferences(sharedpreferencebook_usercredential, Context.MODE_PRIVATE);
         str_employee_id = sharedpreferencebook_usercredential_Obj.getString(KeyValue_employeeid, "").trim();
@@ -154,6 +157,31 @@ public class Admin_Total_FarmpondDetails_Activity extends AppCompatActivity
             @Override
             public void onNothingSelected(AdapterView<?> parent) {
 
+            }
+        });
+
+        excel_download.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                String directory_path = Environment.getExternalStorageDirectory().getPath() + "/Backup_excel/";
+                File file = new File(directory_path);
+                if (!file.exists()) {
+                    file.mkdirs();
+                }
+                SQLiteToExcel sqliteToExcel = new SQLiteToExcel(getApplicationContext(), "FarmPond_db", directory_path);
+                sqliteToExcel.exportSingleTable("FarmPondDetails_fromServerRest", "table1.xlsx", new SQLiteToExcel.ExportListener() {
+                    @Override
+                    public void onStart() {
+                    }
+                    @Override
+                    public void onCompleted(String filePath) {
+                        Toast.makeText(Admin_Total_FarmpondDetails_Activity.this, "Successfully Exported", Toast.LENGTH_SHORT).show();
+                    }
+                    @Override
+                    public void onError(Exception e) {
+                        Log.e("tag","error:"+e.toString());
+                    }
+                });
             }
         });
         if (isInternetPresent) {

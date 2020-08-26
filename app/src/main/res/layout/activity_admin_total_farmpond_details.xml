@@ -81,6 +81,14 @@
             android:layout_weight="1"
             android:visibility="gone"
             android:src="@drawable/download" />
+        <ImageView
+            android:id="@+id/excel_download"
+            android:layout_width="30dp"
+            android:layout_height="30dp"
+            android:layout_gravity="end"
+            android:layout_weight="1"
+            android:visibility="visible"
+            android:src="@drawable/download" />
     </LinearLayout>
     <android.support.v7.widget.CardView
         android:layout_width="match_parent"
