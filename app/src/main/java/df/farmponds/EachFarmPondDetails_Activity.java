@@ -618,6 +618,7 @@ public class EachFarmPondDetails_Activity extends AppCompatActivity {
                     holder.holder_pondheight.setText(farmponddetails_obj.getFarmpond_Height());
                     holder.holder_ponddepth.setText(farmponddetails_obj.getFarmpond_Depth());
 
+                    Log.e("finalpondcode",farmponddetails_obj.getFinal_farmpond_code());
                     holder.holder_farmpond_id.setText(farmponddetails_obj.getFarmpondCode());
                     holder.holder_final_farmpondcode.setText(farmponddetails_obj.getFinal_farmpond_code());
 
