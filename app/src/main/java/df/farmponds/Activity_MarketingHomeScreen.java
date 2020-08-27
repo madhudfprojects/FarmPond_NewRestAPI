@@ -1082,6 +1082,10 @@ Log.e("tag","str_employee_id="+str_employee_id);
             request.setPond_Latitude(str_latitude);
             request.setPond_Longitude(str_longitude);
 
+            Log.e("height",class_farmponddetails_offline_array_obj[k].getFarmpond_Height());
+            Log.e("Width",class_farmponddetails_offline_array_obj[k].getFarmpond_Width());
+            Log.e("Depth",class_farmponddetails_offline_array_obj[k].getFarmpond_Depth());
+
             request.setPond_Length(class_farmponddetails_offline_array_obj[k].getFarmpond_Height());
             request.setPond_Width(class_farmponddetails_offline_array_obj[k].getFarmpond_Width());
             request.setPond_Depth(class_farmponddetails_offline_array_obj[k].getFarmpond_Depth());
@@ -1159,10 +1163,13 @@ Log.e("tag","str_employee_id="+str_employee_id);
             request.setPond_Land_Gunta(class_farmponddetails_offline_array_obj[k].getFarmpond_gunta());
             request.setPond_Land_Acre(class_farmponddetails_offline_array_obj[k].getFarmpond_acres());
             request.setPond_remarks(class_farmponddetails_offline_array_obj[k].getFarmpond_remarks());
+            request.setPond_Status(class_farmponddetails_offline_array_obj[k].getFarmpond_status());
 
             int_k = k;
             Log.e("kvalue", String.valueOf(k));
             Log.e("Editrequest", request.toString());
+
+            Log.e("Editrequest",new Gson().toJson(request));
 
         }
         catch(Exception e){
@@ -1322,6 +1329,25 @@ Log.e("tag","str_employee_id="+str_employee_id);
                 }
 
             }
+
+
+
+            //
+
+            cv.put("WidthDB",editedpond_response[i].getLst2().get(0).getPond_Width());
+            cv.put("HeightDB",editedpond_response[i].getLst2().get(0).getPond_Length());
+            cv.put("DepthDB",editedpond_response[i].getLst2().get(0).getPond_Depth());
+            cv.put("TotalDaysDB",editedpond_response[i].getLst2().get(0).getPond_Days());
+            cv.put("StartDateDB",editedpond_response[i].getLst2().get(0).getPond_Start());
+            cv.put("ConstructedDateDB",editedpond_response[i].getLst2().get(0).getPond_End());
+            cv.put("PondCostDB",editedpond_response[i].getLst2().get(0).getPond_Cost());
+            cv.put("McodeDB",editedpond_response[i].getLst2().get(0).getMachine_ID());
+            cv.put("FPondRemarksDB",editedpond_response[i].getLst2().get(0).getPond_remarks());
+            cv.put("FPondAmtTakenDB",editedpond_response[i].getLst2().get(0).getPond_Collected_Amount());
+            cv.put("FPondStatusDB",editedpond_response[i].getLst2().get(0).getPond_Status());
+
+
+            //
 
 
             cv.put("FPondCodeDB",editedpond_response[i].getLst2().get(0).getPond_ID());

@@ -2396,7 +2396,7 @@ public class EditFarmPondDetails_Activity extends AppCompatActivity {
             cv.put("McodeDB", str_mcode);
             cv.put("FPondRemarksDB", str_farmpond_remarks);
             cv.put("FPondAmtTakenDB", str_farmpond_amttaken);
-            cv.put("FPondStatusDB", "3");
+            cv.put("FPondStatusDB", str_farmpondstatus);
 
 
             if (str_farmpond_id.contains("tempfarmpond")) {
@@ -3218,6 +3218,7 @@ public class EditFarmPondDetails_Activity extends AppCompatActivity {
             request.setPond_Latitude(str_latitude);
             request.setPond_Longitude(str_longitude);
 
+
             request.setPond_Length(class_farmponddetails_offline_array_obj[k].getFarmpond_Height());
             request.setPond_Width(class_farmponddetails_offline_array_obj[k].getFarmpond_Width());
             request.setPond_Depth(class_farmponddetails_offline_array_obj[k].getFarmpond_Depth());
@@ -3300,6 +3301,7 @@ public class EditFarmPondDetails_Activity extends AppCompatActivity {
             request.setPond_Land_Gunta(class_farmponddetails_offline_array_obj[k].getFarmpond_gunta());
             request.setPond_Land_Acre(class_farmponddetails_offline_array_obj[k].getFarmpond_acres());
             request.setPond_remarks(class_farmponddetails_offline_array_obj[k].getFarmpond_remarks());
+            request.setPond_Status(class_farmponddetails_offline_array_obj[k].getFarmpond_status());
 
             int_k = k;
             Log.e("kvalue", String.valueOf(k));
@@ -3422,6 +3424,8 @@ public class EditFarmPondDetails_Activity extends AppCompatActivity {
                 "newpondImageId1 VARCHAR,pondImageType1 VARCHAR,newpondImageId2 VARCHAR,pondImageType2 VARCHAR,newpondImageId3 VARCHAR,pondImageType3 VARCHAR,Farmer_Gender VARCHAR,finalfarmpondcodeDB VARCHAR);");
 
 
+
+
         for(int i=0;i<numberofresponse;i++)
         {
 
@@ -3471,6 +3475,31 @@ public class EditFarmPondDetails_Activity extends AppCompatActivity {
             }
 
 
+            /*WidthDB
+        *  "HeightDB VARCHAR,DepthDB VARCHAR
+        *  "TotalDaysDB VARCHAR,StartDateDB VARCHAR,ConstructedDateDB VARCHAR,PondCostDB VARCHAR,McodeDB VARCHAR,FPondCodeDB VARCHAR," +
+                "FPondRemarksDB VARCHAR,FPondAmtTakenDB VARCHAR,FPondStatusDB VARCHAR,"
+
+                "FPondAcresDB VARCHAR,FPondGuntaDB VARCHAR
+
+        * */
+
+            //
+
+            cv.put("WidthDB",editedpond_response[i].getLst2().get(0).getPond_Width());
+            cv.put("HeightDB",editedpond_response[i].getLst2().get(0).getPond_Length());
+            cv.put("DepthDB",editedpond_response[i].getLst2().get(0).getPond_Depth());
+            cv.put("TotalDaysDB",editedpond_response[i].getLst2().get(0).getPond_Days());
+            cv.put("StartDateDB",editedpond_response[i].getLst2().get(0).getPond_Start());
+            cv.put("ConstructedDateDB",editedpond_response[i].getLst2().get(0).getPond_End());
+            cv.put("PondCostDB",editedpond_response[i].getLst2().get(0).getPond_Cost());
+            cv.put("McodeDB",editedpond_response[i].getLst2().get(0).getMachine_ID());
+            cv.put("FPondRemarksDB",editedpond_response[i].getLst2().get(0).getPond_remarks());
+            cv.put("FPondAmtTakenDB",editedpond_response[i].getLst2().get(0).getPond_Collected_Amount());
+            cv.put("FPondStatusDB",editedpond_response[i].getLst2().get(0).getPond_Status());
+
+
+            //
             cv.put("FPondCodeDB",editedpond_response[i].getLst2().get(0).getPond_ID());
             cv.put("finalfarmpondcodeDB",editedpond_response[i].getLst2().get(0).getPondCode());
             cv.put("FPondStatusDB","3");

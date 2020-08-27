@@ -176,7 +176,9 @@ public class Class_DBHandler extends SQLiteOpenHelper
 
                     innerObj_Class_farmponddetails_offline.setSubmittedDateTime(cursor1.getString(cursor1.getColumnIndex("SubmittedDateDB")));
 
+                    innerObj_Class_farmponddetails_offline.setFarmpond_status(cursor1.getString(cursor1.getColumnIndex("FPondStatusDB")));
 
+                    //FPondStatusDB
 
 
 
