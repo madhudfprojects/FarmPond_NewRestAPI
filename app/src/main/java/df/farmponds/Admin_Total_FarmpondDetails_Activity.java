@@ -222,18 +222,19 @@ public class Admin_Total_FarmpondDetails_Activity extends AppCompatActivity
                 do {
 
                     String FPondidDB,WidthDB,HeightDB,DepthDB,FPondLatitudeDB,FPondLongitudeDB,StartDateDB,ConstructedDateDB,PondCostDB,FPondAmtTakenDB,FPondStatusDB,FPondDonorDB;
+                    String str_FphonenumberDB =null,str_FYearIDDB = null,str_FStateIDDB= null,str_FDistrictIDDB= null,str_FTalukIDDB= null,str_FPanchayatIDDB= null,str_FVillageIDDB= null;
                     String str_FIDDB = cursor1.getString(cursor1.getColumnIndex("FIDDB"));
                     String str_FNameDB = cursor1.getString(cursor1.getColumnIndex("FNameDB"));
                     String str_FMNameDB = cursor1.getString(cursor1.getColumnIndex("FMNameDB"));
                     String str_FLNameDB = cursor1.getString(cursor1.getColumnIndex("FLNameDB"));
 
-                    String str_FphonenumberDB = cursor1.getString(cursor1.getColumnIndex("FphonenumberDB"));
-                    String str_FYearIDDB = cursor1.getString(cursor1.getColumnIndex("FYearIDDB"));
+                  //  String str_FphonenumberDB = cursor1.getString(cursor1.getColumnIndex("FphonenumberDB"));
+                    /*String str_FYearIDDB = cursor1.getString(cursor1.getColumnIndex("FYearIDDB"));
                     String str_FStateIDDB = cursor1.getString(cursor1.getColumnIndex("FStateIDDB"));
                     String str_FDistrictIDDB = cursor1.getString(cursor1.getColumnIndex("FDistrictIDDB"));
                     String str_FTalukIDDB = cursor1.getString(cursor1.getColumnIndex("FTalukIDDB"));
                     String str_FPanchayatIDDB = cursor1.getString(cursor1.getColumnIndex("FPanchayatIDDB"));
-                    String str_FVillageIDDB = cursor1.getString(cursor1.getColumnIndex("FVillageIDDB"));
+                    String str_FVillageIDDB = cursor1.getString(cursor1.getColumnIndex("FVillageIDDB"));*/
 
                     FPondidDB=cursor1.getString(cursor1.getColumnIndex("FPondidDB"));
                     WidthDB=cursor1.getString(cursor1.getColumnIndex("WidthDB"));
@@ -251,6 +252,94 @@ public class Admin_Total_FarmpondDetails_Activity extends AppCompatActivity
                     String Full_Name=str_FNameDB+" "+str_FMNameDB+" "+ str_FLNameDB;
                     String PondSize=HeightDB+"*"+WidthDB+"*"+DepthDB;
 
+                    SQLiteDatabase db3 = this.openOrCreateDatabase("FarmPond_db", Context.MODE_PRIVATE, null);
+
+                    String YearID = null,StateID = null,DistrictID = null,TalukID = null,VillageID= null,PanchayatID= null;
+                   // Cursor cursor3 = db3.rawQuery("SELECT ViewFarmerListRest.DispFarmerTable_StateID , ViewFarmerListRest.DispFarmerTable_DistrictID , ViewFarmerListRest.DispFarmerTable_TalukID , ViewFarmerListRest.DispFarmerTable_VillageID , ViewFarmerListRest.DispFarmerTable_GrampanchayatID FROM ViewFarmerListRest INNER JOIN FarmPondDetails_fromServerRest ON ViewFarmerListRest.DispFarmerTable_FarmerID = FarmPondDetails_fromServerRest.FIDDB",null);
+                    Cursor cursor3 = db3.rawQuery("SELECT Farmercellno_DB,DispFarmerTable_YearID,DispFarmerTable_StateID , DispFarmerTable_DistrictID , DispFarmerTable_TalukID , DispFarmerTable_VillageID , DispFarmerTable_GrampanchayatID FROM ViewFarmerListRest WHERE DispFarmerTable_FarmerID='" + str_FIDDB+ "'",null);
+
+                    int x3 = cursor3.getCount();
+                    if(x3>0) {
+                        if (cursor3.moveToFirst()) {
+
+                            do {
+                                YearID=cursor3.getString(cursor3.getColumnIndex("DispFarmerTable_YearID"));
+                                StateID=cursor3.getString(cursor3.getColumnIndex("DispFarmerTable_StateID"));
+                                DistrictID=cursor3.getString(cursor3.getColumnIndex("DispFarmerTable_DistrictID"));
+                                TalukID=cursor3.getString(cursor3.getColumnIndex("DispFarmerTable_TalukID"));
+                                VillageID =cursor3.getString(cursor3.getColumnIndex("DispFarmerTable_VillageID"));
+                                PanchayatID =cursor3.getString(cursor3.getColumnIndex("DispFarmerTable_GrampanchayatID"));
+                                str_FphonenumberDB =cursor3.getString(cursor3.getColumnIndex("Farmercellno_DB"));
+                                Log.e("tag","StateID="+StateID+"DistrictID="+DistrictID+"TalukID="+TalukID+"VillageID="+VillageID+"PanchayatID="+PanchayatID);
+
+                            }while (cursor3.moveToNext());
+                        }
+                    }
+                    Log.e("tag","2 StateID="+StateID+"DistrictID="+DistrictID+"TalukID="+TalukID+"VillageID="+VillageID+"PanchayatID="+PanchayatID);
+
+                    SQLiteDatabase db_state = this.openOrCreateDatabase("FarmPond_db", Context.MODE_PRIVATE, null);
+                    Cursor cursor_state = db_state.rawQuery("SELECT StateName FROM StateListRest WHERE StateID='" + StateID+ "'", null);
+                    int xstate = cursor_state.getCount();
+                    if(xstate>0) {
+                        if (cursor_state.moveToFirst()) {
+
+                            do {
+                                str_FStateIDDB=cursor_state.getString(cursor_state.getColumnIndex("StateName"));
+                            }while (cursor_state.moveToNext());
+                        }
+                    }
+                    SQLiteDatabase db_District = this.openOrCreateDatabase("FarmPond_db", Context.MODE_PRIVATE, null);
+                    Cursor cursor_District = db_District.rawQuery("SELECT DistrictName FROM DistrictListRest WHERE DistrictID='" + DistrictID+ "'", null);
+                    int xDistrict = cursor_District.getCount();
+                    if(xDistrict>0) {
+                        if (cursor_District.moveToFirst()) {
+                            do {
+                                str_FDistrictIDDB=cursor_District.getString(cursor_District.getColumnIndex("DistrictName"));
+                            }while (cursor_District.moveToNext());
+                        }
+                    }
+                    SQLiteDatabase db_Taluk = this.openOrCreateDatabase("FarmPond_db", Context.MODE_PRIVATE, null);
+                    Cursor cursor_Taluk = db_Taluk.rawQuery("SELECT TalukName FROM TalukListRest WHERE TalukID='" + TalukID+ "'", null);
+                    int xTaluk = cursor_Taluk.getCount();
+                    if(xTaluk>0) {
+                        if (cursor_Taluk.moveToFirst()) {
+                            do {
+                                str_FTalukIDDB=cursor_Taluk.getString(cursor_Taluk.getColumnIndex("TalukName"));
+                            }while (cursor_Taluk.moveToNext());
+                        }
+                    }
+                    SQLiteDatabase db_Village = this.openOrCreateDatabase("FarmPond_db", Context.MODE_PRIVATE, null);
+                    Cursor cursor_Village = db_Village.rawQuery("SELECT Village FROM VillageListRest WHERE VillageID='" + VillageID+ "'", null);
+                    int xVillage = cursor_Village.getCount();
+                    if(xVillage>0) {
+                        if (cursor_Village.moveToFirst()) {
+
+                            do {
+                                str_FVillageIDDB=cursor_Village.getString(cursor_Village.getColumnIndex("Village"));
+                            }while (cursor_Village.moveToNext());
+                        }
+                    }
+                    SQLiteDatabase db_Gramanchayat = this.openOrCreateDatabase("FarmPond_db", Context.MODE_PRIVATE, null);
+                    Cursor cursor_Gramanchayat = db_Gramanchayat.rawQuery("SELECT Gramanchayat FROM GrampanchayatListRest WHERE GramanchayatID='" + PanchayatID+ "'", null);
+                    int xGramanchayat = cursor_Gramanchayat.getCount();
+                    if(xGramanchayat>0) {
+                        if (cursor_Gramanchayat.moveToFirst()) {
+                            do {
+                                str_FPanchayatIDDB=cursor_Gramanchayat.getString(cursor_Gramanchayat.getColumnIndex("Gramanchayat"));
+                            }while (cursor_Gramanchayat.moveToNext());
+                        }
+                    }
+                    SQLiteDatabase db_Year = this.openOrCreateDatabase("FarmPond_db", Context.MODE_PRIVATE, null);
+                    Cursor cursor_Year = db_Year.rawQuery("SELECT YearName FROM YearListRest WHERE YearID='" + YearID+ "'", null);
+                    int xYear = cursor_Year.getCount();
+                    if(xYear>0) {
+                        if (cursor_Year.moveToFirst()) {
+
+                            do {
+                                str_FYearIDDB=cursor_Year.getString(cursor_Year.getColumnIndex("YearName"));
+                            }while (cursor_Year.moveToNext());
+                        }
+                    }
                     SQLiteDatabase db2 = this.openOrCreateDatabase("FarmPond_db", Context.MODE_PRIVATE, null);
 
                     db2.execSQL("CREATE TABLE IF NOT EXISTS FarmPondDetails_Excel(SlNo INTEGER PRIMARY KEY AUTOINCREMENT,FarmerID VARCHAR," +
