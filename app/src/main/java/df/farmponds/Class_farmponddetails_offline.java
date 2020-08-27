@@ -94,6 +94,8 @@ public class Class_farmponddetails_offline
     private String Farmpond_yearid;
 
 
+    private String final_farmpond_code;
+
    /* public String getFarmer_Id() {
         return Farmer_Id;
     }
@@ -451,5 +453,14 @@ public class Class_farmponddetails_offline
 
     public void setFarmpond_crop_after_pond(String farmpond_crop_after_pond) {
         Farmpond_crop_after_pond = farmpond_crop_after_pond;
+    }
+
+
+    public String getFinal_farmpond_code() {
+        return final_farmpond_code;
+    }
+
+    public void setFinal_farmpond_code(String final_farmpond_code) {
+        this.final_farmpond_code = final_farmpond_code;
     }
 }

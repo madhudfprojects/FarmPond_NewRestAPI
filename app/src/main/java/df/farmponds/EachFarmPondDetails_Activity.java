@@ -370,7 +370,7 @@ public class EachFarmPondDetails_Activity extends AppCompatActivity {
                 "FPondLatitudeDB VARCHAR,FPondLongitudeDB VARCHAR," +
                 "FPondAcresDB VARCHAR,FPondGuntaDB VARCHAR,FPondCropBeforeDB VARCHAR,FPondCropAfterDB VARCHAR," +
                 "UploadedStatusFarmerprofile VARCHAR,UploadedStatus VARCHAR," +
-                "newpondImageId1 VARCHAR,pondImageType1 VARCHAR,newpondImageId2 VARCHAR,pondImageType2 VARCHAR,newpondImageId3 VARCHAR,pondImageType3 VARCHAR,Farmer_Gender VARCHAR);");
+                "newpondImageId1 VARCHAR,pondImageType1 VARCHAR,newpondImageId2 VARCHAR,pondImageType2 VARCHAR,newpondImageId3 VARCHAR,pondImageType3 VARCHAR,Farmer_Gender VARCHAR,finalfarmpondcodeDB VARCHAR);");
 
 
         // Cursor cursor1 = db1.rawQuery("SELECT DISTINCT * FROM FarmPondDetails_fromServer WHERE FIDDB='" + str_farmerID + "'", null);
@@ -433,6 +433,7 @@ public class EachFarmPondDetails_Activity extends AppCompatActivity {
                    // innerObj_class_farmpondetails.setFarmpond_ApprovedDate(cursor1.getString(cursor1.getColumnIndex("FPondApprovedDateDB")));
                     innerObj_class_farmpondetails.setFarmpond_Donor(cursor1.getString(cursor1.getColumnIndex("FPondDonorDB")));
 
+                    innerObj_class_farmpondetails.setFinal_farmpond_code(cursor1.getString(cursor1.getColumnIndex("finalfarmpondcodeDB")));
 
                     Log.e("farmpondcode", cursor1.getString(cursor1.getColumnIndex("FPondCodeDB")));
 
@@ -484,6 +485,7 @@ public class EachFarmPondDetails_Activity extends AppCompatActivity {
         TextView holder_ponddepth;
         TextView holder_farmer_id;
         TextView holder_farmpond_id;
+        TextView holder_final_farmpondcode;
         ImageView holder_farmpond_image1;
         ImageView holder_farmpond_image2;
         ImageView holder_farmpond_image3;
@@ -567,6 +569,8 @@ public class EachFarmPondDetails_Activity extends AppCompatActivity {
                 holder.holder_farmpond_image3 = (ImageView) convertView1.findViewById(R.id.farmpondimage3_iv);
                 holder.holder_farmer_id = (TextView) convertView1.findViewById(R.id.farmer_id_tv);
                 holder.holder_farmpond_id = (TextView) convertView1.findViewById(R.id.farmpond_id_tv);
+                holder.holder_final_farmpondcode = (TextView) convertView1.findViewById(R.id.final_farmpondcode_tv);
+
                 holder.holder_editfarmerponddetails = (ImageView) convertView1.findViewById(R.id.editfarmerponddetails_iv);
                 holder.holder_notsubmittedtoserver_ll = (LinearLayout) convertView1.findViewById(R.id.notsubmittedtoserver_ll);
 
@@ -615,6 +619,7 @@ public class EachFarmPondDetails_Activity extends AppCompatActivity {
                     holder.holder_ponddepth.setText(farmponddetails_obj.getFarmpond_Depth());
 
                     holder.holder_farmpond_id.setText(farmponddetails_obj.getFarmpondCode());
+                    holder.holder_final_farmpondcode.setText(farmponddetails_obj.getFinal_farmpond_code());
 
                     if (farmponddetails_obj.getFarmpondCode().contains("temp")) {
                         holder.holder_notsubmittedtoserver_ll.setVisibility(View.VISIBLE);
