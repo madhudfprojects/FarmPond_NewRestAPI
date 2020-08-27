@@ -2791,7 +2791,7 @@ public class AddFarmPondActivity extends AppCompatActivity {
 
 
                     Log.e("response", response.toString());
-                    //  Log.e("TAG", "response 33: " + new Gson().toJson(response));
+                      //Log.e("TAG", "response 33: " + new Gson().toJson(response));
                     Log.e("response_body", String.valueOf(response.body()));
 
                     if (response.isSuccessful())
@@ -2911,6 +2911,41 @@ public class AddFarmPondActivity extends AppCompatActivity {
             Log.e("newpondImageID", newpond_response[0].getLst2().get(0).getPondImage().get(0).getImageID());
             Log.e("newpondTempID", newpond_response[0].getLst2().get(0).getPond_Temp_ID());
 */
+
+
+           /* {"body":{"Message":"Success","objFarmerPond":[{"Academic_ID":"2020","Created_By":"28",
+                    "Farmer_ID":"11325","Machine_ID":"1","PondImage":[{"Image_ID":"22855",
+                    "Image_Link":"http://13.250.59.29/Document/Pond/9774_1_11325_20200827042237.jpg",
+                    "Image_Status":"1","Image_Type":"1","Pond_ID":"9774"},
+                {"Image_ID":"22856","Image_Link":"http://13.250.59.29/Document/Pond/9774_2_11325_20200827042237.jpg",
+                        "Image_Status":"1","Image_Type":"2","Pond_ID":"9774"},
+                {"Image_ID":"22857","Image_Link":"http://13.250.59.29/Document/Pond/9774_3_11325_20200827042237.jpg",
+                        "Image_Status":"1","Image_Type":"3","Pond_ID":"9774"}],"Pond_Collected_Amount":"2000 ",
+                        "Pond_Cost":"2000","Pond_Days":"1","Pond_Depth":"15","Pond_End":"27-08-2020",
+                        "Pond_ID":"9774","Pond_Land_Acre":"16","Pond_Land_Gunta":"18",
+                        "Pond_Latitude":"15.3642704","Pond_Length":"12","Pond_Longitude":"75.115413",
+                        "Pond_Start":"27-08-2020","Pond_Status":"6",
+                        "Pond_Temp_ID":"tempfarmpond159852555111727082020","Pond_Width":"151",
+                        "Submitted_Date":"27-08-2020 0:00:00"}],"Status":"true"},
+
+                "rawResponse":{"body":{"contentLength":-1,"contentType":{"charset":"utf-8",
+                    "mediaType":"application/json; charset\u003dutf-8","subtype":"json","type":"application"}},
+                "code":200,"headers":{"namesAndValues":["Cache-Control","no-cache","Pragma","no-cache",
+                        "Content-Type","application/json; charset\u003dutf-8","Expires","-1","Server",
+                        "Microsoft-IIS/10.0","X-AspNet-Version","4.0.30319","X-Powered-By","ASP.NET","Date",
+                        "Thu, 27 Aug 2020 10:52:37 GMT","Connection","keep-alive"]},"message":"OK",
+                        "networkResponse":{"code":200,"headers":{"namesAndValues":["Cache-Control","no-cache",
+                        "Pragma","no-cache","Content-Type","application/json; charset\u003dutf-8",
+                        "Expires","-1","Server","Microsoft-IIS/10.0","X-AspNet-Version","4.0.30319",
+                        "X-Powered-By","ASP.NET","Date","Thu, 27 Aug 2020 10:52:37 GMT","Content-Encoding",
+                        "gzip","Content-Length","637","Connection","keep-alive"]},"message":"OK",
+                        "protocol":"HTTP_1_1","receivedResponseAtMillis":1598525556177,
+                        "request":{"body":{"contentType":{"charset":"UTF-8",
+                        "mediaType":"application/json;charset\u003dUTF-8","subtype":"json","type":"application"}},
+                    "cacheControl":{"immutable":false,"isPrivate":false,"isPublic":false,"maxAgeSeconds":-1,"maxStaleSeconds":-1,"minFreshSeconds":-1,"mustRevalidate":false,"noCache":false,"noStore":false,"noTransform":false,"onlyIfCached":false,"sMaxAgeSeconds":-1},"headers":{"namesAndValues":["Content-Type","application/json;charset\u003dUTF-8","Content-Length","345765","Host","13.250.59.29","Connection","Keep-Alive","Accept-Encoding","gzip","User-Agent","okhttp/3.11.0"]},"method":"POST","tags":{},"url":{"host":"13.250.59.29","password":"","pathSegments":["api","Authentication","Post_ActionFarmerPondData"],"port":80,"scheme":"http","url":"http://13.250.59.29/api/Authentication/Post_ActionFarmerPondData","username":""}},"sentRequestAtMillis":1598525551550},"protocol":"HTTP_1_1","receivedResponseAtMillis":1598525556177,"request":{"body":{"contentType":{"charset":"UTF-8","mediaType":"application/json;charset\u003dUTF-8","subtype":"json","type":"application"}},"headers":{"namesAndValues":[]},"method":"POST","tags":{},"url":{"host":"13.250.59.29","password":"","pathSegments":["api","Authentication","Post_ActionFarmerPondData"],"port":80,"scheme":"http","url":"http://13.250.59.29/api/Authentication/Post_ActionFarmerPondData","username":""}},"sentRequestAtMillis":1598525551550}}
+           */
+
+
             String TemppondID_response=newpond_response[i].getLst2().get(0).getPond_Temp_ID();
 
             ContentValues cv = new ContentValues();

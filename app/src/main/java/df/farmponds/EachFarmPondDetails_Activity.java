@@ -618,7 +618,7 @@ public class EachFarmPondDetails_Activity extends AppCompatActivity {
                     holder.holder_pondheight.setText(farmponddetails_obj.getFarmpond_Height());
                     holder.holder_ponddepth.setText(farmponddetails_obj.getFarmpond_Depth());
 
-                    Log.e("finalpondcode",farmponddetails_obj.getFinal_farmpond_code());
+//                    Log.e("finalpondcode",farmponddetails_obj.getFinal_farmpond_code());
                     holder.holder_farmpond_id.setText(farmponddetails_obj.getFarmpondCode());
                     holder.holder_final_farmpondcode.setText(farmponddetails_obj.getFinal_farmpond_code());
 
@@ -643,18 +643,22 @@ public class EachFarmPondDetails_Activity extends AppCompatActivity {
                     if (farmponddetails_obj.getFarmpond_ApprovalStatus()==null||
                             farmponddetails_obj.getFarmpond_ApprovalStatus().isEmpty() ||
                             farmponddetails_obj.getFarmpond_ApprovalStatus().equalsIgnoreCase("no") ||
-                            farmponddetails_obj.getFarmpond_ApprovalStatus().equalsIgnoreCase("0")) {
-                        holder.holder_approvalstatus_ll.setVisibility(View.GONE);
+                            farmponddetails_obj.getFarmpond_ApprovalStatus().equalsIgnoreCase("0"))
+                    {
+                        holder.holder_approvalstatus_ll.setVisibility(View.GONE);//GONE
                         str_approved="pending";
                         Log.e("approvalstatus","'null");
+                        holder.holder_farmpond_approvalstatus_tv.setText("pending");
 
                     } else {
                         if(farmponddetails_obj.getFarmpond_ApprovalStatus().equalsIgnoreCase("null"))
-                        { holder.holder_approvalstatus_ll.setVisibility(View.GONE);
-                            str_approved="pending";}
+                        { holder.holder_approvalstatus_ll.setVisibility(View.GONE);//GONE
+                            str_approved="pending";
+                            holder.holder_farmpond_approvalstatus_tv.setText("pending");
+                        }
                         else {
 
-                            holder.holder_approvalstatus_ll.setVisibility(View.VISIBLE);
+                            holder.holder_approvalstatus_ll.setVisibility(View.VISIBLE);//VISIBLE
                             if (farmponddetails_obj.getFarmpond_ApprovalStatus() == null ||
                                     farmponddetails_obj.getFarmpond_ApprovalStatus().equalsIgnoreCase("Pending") ||
                                     farmponddetails_obj.getFarmpond_ApprovalStatus().equalsIgnoreCase("Rejected") ||
