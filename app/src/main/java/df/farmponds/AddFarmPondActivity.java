@@ -2495,7 +2495,7 @@ public class AddFarmPondActivity extends AppCompatActivity {
                 Log.e("TAG", "onFailure: " + t.toString());
 
                 Log.e("tag", "Error:" + t.getMessage());
-                Toast.makeText(AddFarmPondActivity.this, t.getMessage(), Toast.LENGTH_SHORT).show();
+                Toast.makeText(AddFarmPondActivity.this, "WS:Error:"+t.getMessage(), Toast.LENGTH_SHORT).show();
             }
         });// end of call
     }
@@ -2854,7 +2854,7 @@ public class AddFarmPondActivity extends AppCompatActivity {
 
                 @Override
                 public void onFailure(Call call, Throwable t) {
-                    Toast.makeText(AddFarmPondActivity.this, "error" + t.getMessage(), Toast.LENGTH_SHORT).show();
+                    Toast.makeText(AddFarmPondActivity.this, "WS:Error:"+ t.getMessage(), Toast.LENGTH_SHORT).show();
                     Log.e("response_error", t.getMessage().toString());
                 }
             });
@@ -3393,7 +3393,7 @@ public class AddFarmPondActivity extends AppCompatActivity {
 
             @Override
             public void onFailure(Call call, Throwable t) {
-                Toast.makeText(AddFarmPondActivity.this, "error" + t.getMessage(), Toast.LENGTH_SHORT).show();
+                Toast.makeText(AddFarmPondActivity.this, "WS:Error:"+t.getMessage(), Toast.LENGTH_SHORT).show();
                 Log.e("response_error", t.getMessage().toString());
             }
         });

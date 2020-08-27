@@ -1363,7 +1363,8 @@ public class Activity_ViewFarmers extends AppCompatActivity {
                                                                         String str_FIDproofno, String str_approvalstatus, String str_approvalremarks,
                                                                         String str_approvedby, String str_approveddate, String str_donorname,
                                                                         String str_latitude, String str_longitude,
-                                                                        String str_acres, String str_gunta, String str_crop_beforepond, String str_crop_afterpond)
+                                                                        String str_acres, String str_gunta, String str_crop_beforepond, String str_crop_afterpond,
+                                                                        String str_final_farmpondcode)
     {
         Log.e("submitDate",str_submited_date); //09-08-2020
         Log.e("str_startdate",str_startdate); //str_constr_date 08-08-2020
@@ -1436,7 +1437,7 @@ public class Activity_ViewFarmers extends AppCompatActivity {
                 "FPondLatitudeDB VARCHAR,FPondLongitudeDB VARCHAR," +
                 "FPondAcresDB VARCHAR,FPondGuntaDB VARCHAR,FPondCropBeforeDB VARCHAR,FPondCropAfterDB VARCHAR," +
                 "UploadedStatusFarmerprofile VARCHAR,UploadedStatus VARCHAR," +
-                "newpondImageId1 VARCHAR,pondImageType1 VARCHAR,newpondImageId2 VARCHAR,pondImageType2 VARCHAR,newpondImageId3 VARCHAR,pondImageType3 VARCHAR,Farmer_Gender VARCHAR);");
+                "newpondImageId1 VARCHAR,pondImageType1 VARCHAR,newpondImageId2 VARCHAR,pondImageType2 VARCHAR,newpondImageId3 VARCHAR,pondImageType3 VARCHAR,Farmer_Gender VARCHAR,finalfarmpondcodeDB VARCHAR);");
 
 
         Log.e("tag", "pond FIDDB str_farmerid=" + str_farmerid);
@@ -1508,6 +1509,7 @@ public class Activity_ViewFarmers extends AppCompatActivity {
             cv.put("pondImageType2", pondImageType2);
             cv.put("newpondImageId3", str_pondImageId3);
             cv.put("pondImageType3", pondImageType3);
+            cv.put("finalfarmpondcodeDB",str_final_farmpondcode);
 
 
             db1.update("FarmPondDetails_fromServerRest", cv, "FPondidDB = ?", new String[]{str_farmpond_id});
@@ -1681,7 +1683,7 @@ public class Activity_ViewFarmers extends AppCompatActivity {
                 "FPondLatitudeDB VARCHAR,FPondLongitudeDB VARCHAR," +
                 "FPondAcresDB VARCHAR,FPondGuntaDB VARCHAR,FPondCropBeforeDB VARCHAR,FPondCropAfterDB VARCHAR," +
                 "UploadedStatusFarmerprofile VARCHAR,UploadedStatus VARCHAR," +
-                "newpondImageId1 VARCHAR,pondImageType1 VARCHAR,newpondImageId2 VARCHAR,pondImageType2 VARCHAR,newpondImageId3 VARCHAR,pondImageType3 VARCHAR,Farmer_Gender VARCHAR);");
+                "newpondImageId1 VARCHAR,pondImageType1 VARCHAR,newpondImageId2 VARCHAR,pondImageType2 VARCHAR,newpondImageId3 VARCHAR,pondImageType3 VARCHAR,Farmer_Gender VARCHAR,finalfarmpondcodeDB VARCHAR);");
 
 
         Cursor cursor = db1.rawQuery("SELECT * FROM FarmPondDetails_fromServerRest", null);
@@ -2663,6 +2665,8 @@ public class Activity_ViewFarmers extends AppCompatActivity {
 
                                     String pondCode = class_userData.getLst().get(i).getPond().get(j).getPondID();
 
+                                    String str_final_farmpondcode=class_userData.getLst().get(i).getPond().get(j).getPondCode();
+
                                     String pondLatitude = class_userData.getLst().get(i).getPond().get(j).getPondLatitude();
                                     String pondLongitude = class_userData.getLst().get(i).getPond().get(j).getPondLongitude();
                                     String pondLength = class_userData.getLst().get(i).getPond().get(j).getPondLength();
@@ -2940,7 +2944,7 @@ public class Activity_ViewFarmers extends AppCompatActivity {
                                             pondCode, pondStart, str_farmpond_remarks, CollectedAmount, pondStatus,
                                             farmer_Middle_Name, farmer_Last_Name, "", Farmer_ID_Type, Farmer_ID_Number, Approval_Status,
                                             Approval_Remarks, Approval_By, str_approveddate, Donor_Name, pondLatitude, pondLongitude,
-                                            Pond_Land_Acre, Pond_Land_Gunta, Crop_Before, Crop_After);
+                                            Pond_Land_Acre, Pond_Land_Gunta, Crop_Before, Crop_After,str_final_farmpondcode);
                                 }
                             }
 
@@ -3776,27 +3780,7 @@ public class Activity_ViewFarmers extends AppCompatActivity {
 
         int x = cursor1.getCount();
         cursor1.close();
-        //   SQLiteDatabase db = openOrCreateDatabase("FarmPond_db", Context.MODE_PRIVATE, null);
 
-       /* db1.execSQL("CREATE TABLE IF NOT EXISTS FarmPondDetails_fromServerRest(SlNo INTEGER PRIMARY KEY AUTOINCREMENT,FIDDB VARCHAR,TempFIDDB VARCHAR," +
-                "FNameDB VARCHAR,FMNameDB VARCHAR,FLNameDB VARCHAR,FYearIDDB VARCHAR,FStateIDDB VARCHAR,FDistrictIDDB VARCHAR," +
-                "FTalukIDDB VARCHAR,FPanchayatIDDB VARCHAR,FVillageIDDB VARCHAR,FageDB VARCHAR,FphonenumberDB VARCHAR," +
-                "FAnnualIncomeDB VARCHAR,FfamilymemberDB VARCHAR,FidprooftypeDB VARCHAR,FidproofnoDB VARCHAR,FphotoDB VARCHAR,FPondidDB VARCHAR,WidthDB VARCHAR," +
-                "HeightDB VARCHAR,DepthDB VARCHAR,LatitudeDB VARCHAR,LongitudeDB VARCHAR,Imageid1DB VARCHAR,Image1Base64DB VARCHAR," +
-                "Imageid2DB VARCHAR,Image2Base64DB VARCHAR,Imageid3DB VARCHAR,Image3Base64DB VARCHAR,EmployeeIDDB VARCHAR,SubmittedDateDB VARCHAR," +
-                "TotalDaysDB VARCHAR,StartDateDB VARCHAR,ConstructedDateDB VARCHAR,PondCostDB VARCHAR,McodeDB VARCHAR,FPondCodeDB VARCHAR," +
-                "FPondRemarksDB VARCHAR,FPondAmtTakenDB VARCHAR,FPondStatusDB VARCHAR," +
-                "FPondApprovalStatusDB VARCHAR,FPondApprovalRemarksDB VARCHAR,FPondApprovedbyDB VARCHAR,FPondApprovedDateDB VARCHAR,FPondDonorDB VARCHAR," +
-                "FPondLatitudeDB VARCHAR,FPondLongitudeDB VARCHAR," +
-                "FPondAcresDB VARCHAR,FPondGuntaDB VARCHAR,FPondCropBeforeDB VARCHAR,FPondCropAfterDB VARCHAR," +
-                "UploadedStatusFarmerprofile VARCHAR,UploadedStatus VARCHAR," +
-                "newpondImageId1 VARCHAR,pondImageType1 VARCHAR,newpondImageId2 VARCHAR,pondImageType2 VARCHAR,newpondImageId3 VARCHAR,pondImageType3 VARCHAR);");
-
-
-        Cursor cursor = db1.rawQuery("SELECT * FROM FarmPondDetails_fromServerRest", null);
-        int x2 = cursor.getCount();
-
-        cursor.close();*/
 
         Log.d("tag","cursor Farmercount auto sync="+ Integer.toString(x));
         if(x==0){
@@ -5636,29 +5620,7 @@ Log.e("tag","pond FIDDB="+str_farmerid);
 
 
 
-    /*public void DBCount()
-    {
 
-        SQLiteDatabase db1 = this.openOrCreateDatabase("FarmPond_db", Context.MODE_PRIVATE, null);
-
-
-        db1.execSQL("CREATE TABLE IF NOT EXISTS FarmPondDetails_fromServerRest(SlNo INTEGER PRIMARY KEY AUTOINCREMENT,FIDDB VARCHAR," +
-                "FNameDB VARCHAR,FMNameDB VARCHAR,FLNameDB VARCHAR,FYearIDDB VARCHAR,FStateIDDB VARCHAR,FDistrictIDDB VARCHAR," +
-                "FTalukIDDB VARCHAR,FPanchayatIDDB VARCHAR,FVillageIDDB VARCHAR,FageDB VARCHAR,FphonenumberDB VARCHAR," +
-                "FfamilymemberDB VARCHAR,FidprooftypeDB VARCHAR,FidproofnoDB VARCHAR,FphotoDB VARCHAR,FPondidDB VARCHAR,WidthDB VARCHAR," +
-                "HeightDB VARCHAR,DepthDB VARCHAR,LatitudeDB VARCHAR,LongitudeDB VARCHAR,Imageid1DB VARCHAR,Image1Base64DB VARCHAR," +
-                "Imageid2DB VARCHAR,Image2Base64DB VARCHAR,Imageid3DB VARCHAR,Image3Base64DB VARCHAR,EmployeeIDDB VARCHAR," +
-                "UploadedStatusFarmerprofile VARCHAR,UploadedStatus VARCHAR);");
-
-
-
-        Cursor cursor = db1.rawQuery("SELECT * FROM FarmPondDetails_fromServerRest", null);
-        int x = cursor.getCount();
-        Log.e("farmpond_count", String.valueOf(x));
-
-        db1.close();
-
-    }*/
 
     public void deleteMachineTable_B4insertion() {
 

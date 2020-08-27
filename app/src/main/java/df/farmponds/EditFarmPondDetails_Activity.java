@@ -2680,7 +2680,7 @@ public class EditFarmPondDetails_Activity extends AppCompatActivity {
                 Log.e("TAG", "onFailure: " + t.toString());
 
                 Log.e("tag", "Error:" + t.getMessage());
-                Toast.makeText(EditFarmPondDetails_Activity.this, t.getMessage(), Toast.LENGTH_SHORT).show();
+                Toast.makeText(EditFarmPondDetails_Activity.this, "WS:Error:"+t.getMessage(), Toast.LENGTH_SHORT).show();
             }
         });// end of call
     }
@@ -3029,7 +3029,7 @@ public class EditFarmPondDetails_Activity extends AppCompatActivity {
 
                 @Override
                 public void onFailure(Call call, Throwable t) {
-                    Toast.makeText(EditFarmPondDetails_Activity.this, "error" + t.getMessage(), Toast.LENGTH_SHORT).show();
+                    Toast.makeText(EditFarmPondDetails_Activity.this, "WS:Error:"+t.getMessage(), Toast.LENGTH_SHORT).show();
                     Log.e("response_error", t.getMessage().toString());
                 }
             });
@@ -3376,7 +3376,7 @@ public class EditFarmPondDetails_Activity extends AppCompatActivity {
 
                 @Override
                 public void onFailure(Call call, Throwable t) {
-                    Toast.makeText(EditFarmPondDetails_Activity.this, "error" + t.getMessage(), Toast.LENGTH_SHORT).show();
+                    Toast.makeText(EditFarmPondDetails_Activity.this, "WS:Error:"+t.getMessage(), Toast.LENGTH_SHORT).show();
                     Log.e("Editresp_error", t.getMessage().toString());
                 }
             });

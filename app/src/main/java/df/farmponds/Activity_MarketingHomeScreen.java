@@ -563,7 +563,7 @@ Log.e("tag","str_employee_id="+str_employee_id);
                 Log.e("TAG", "onFailure: "+t.toString() );
 
                 Log.e("tag","Error:"+t.getMessage());
-                Toast.makeText(Activity_MarketingHomeScreen.this, t.getMessage(), Toast.LENGTH_SHORT).show();
+                Toast.makeText(Activity_MarketingHomeScreen.this, "WS:Error:"+t.getMessage(), Toast.LENGTH_SHORT).show();
             }
         });// end of call
     }
@@ -894,7 +894,7 @@ Log.e("tag","str_employee_id="+str_employee_id);
 
                 @Override
                 public void onFailure(Call call, Throwable t) {
-                    Toast.makeText(Activity_MarketingHomeScreen.this, "error" + t.getMessage(), Toast.LENGTH_SHORT).show();
+                    Toast.makeText(Activity_MarketingHomeScreen.this, "WS:error:" + t.getMessage(), Toast.LENGTH_SHORT).show();
                     Log.e("response_error", t.getMessage().toString());
                 }
             });
@@ -1234,7 +1234,7 @@ Log.e("tag","str_employee_id="+str_employee_id);
 
                 @Override
                 public void onFailure(Call call, Throwable t) {
-                    Toast.makeText(Activity_MarketingHomeScreen.this, "error" + t.getMessage(), Toast.LENGTH_SHORT).show();
+                    Toast.makeText(Activity_MarketingHomeScreen.this, "WS:error:" + t.getMessage(), Toast.LENGTH_SHORT).show();
                     Log.e("Editresp_error", t.getMessage().toString());
                 }
             });
@@ -1492,7 +1492,7 @@ Log.e("tag","str_employee_id="+str_employee_id);
                 Log.e("TAG", "onFailure: "+t.toString() );
 
                 Log.e("tag","Error:"+t.getMessage());
-                Toast.makeText(Activity_MarketingHomeScreen.this, t.getMessage(), Toast.LENGTH_SHORT).show();
+                Toast.makeText(Activity_MarketingHomeScreen.this, "WS:Error:"+t.getMessage(), Toast.LENGTH_SHORT).show();
             }
         });
 
@@ -1564,7 +1564,7 @@ Log.e("tag","str_employee_id="+str_employee_id);
                 Log.e("TAG", "onFailure: " + t.toString());
 
                 Log.e("tag", "Error:" + t.getMessage());
-                Toast.makeText(Activity_MarketingHomeScreen.this, t.getMessage(), Toast.LENGTH_SHORT).show();
+                Toast.makeText(Activity_MarketingHomeScreen.this, "WS:Error:"+t.getMessage(), Toast.LENGTH_SHORT).show();
             }
         });
 
@@ -1900,7 +1900,7 @@ Log.e("tag","str_employee_id="+str_employee_id);
                 Log.e("TAG", "onFailure: "+t.toString() );
 
                 Log.e("tag","Error:"+t.getMessage());
-                Toast.makeText(Activity_MarketingHomeScreen.this, t.getMessage(), Toast.LENGTH_SHORT).show();
+                Toast.makeText(Activity_MarketingHomeScreen.this, "WS:Error:"+t.getMessage(), Toast.LENGTH_SHORT).show();
             }
         });// end of call
     }
