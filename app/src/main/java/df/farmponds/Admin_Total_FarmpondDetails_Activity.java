@@ -609,7 +609,7 @@ String DataAll="0",DataApproved="0",DataPending="0",DataProcess="0",DataRejected
 
     }
 
-    private void AsyncTask_fetch_empwise_count() {
+  /*  private void AsyncTask_fetch_empwise_count() {
 
         final ProgressDialog pdLoading = new ProgressDialog(Admin_Total_FarmpondDetails_Activity.this);
         pdLoading.setMessage("\tLoading...");
@@ -666,7 +666,7 @@ String DataAll="0",DataApproved="0",DataPending="0",DataProcess="0",DataRejected
         Log.e("request", stringRequest.toString());
         requestQueue.add(stringRequest);
     }
-
+*/
     public void parse_emplyoeewise_count(String response) {
 
         try {

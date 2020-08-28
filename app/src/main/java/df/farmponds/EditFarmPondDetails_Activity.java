@@ -276,7 +276,7 @@ public class EditFarmPondDetails_Activity extends AppCompatActivity {
 
         getSupportActionBar().setDisplayHomeAsUpEnabled(true);
 
-        str_farmpondbaseimage_url = Class_URL.URL_farmpondbaselink.toString().trim();
+        //str_farmpondbaseimage_url = Class_URL.URL_farmpondbaselink.toString().trim();
         TextView title = (TextView) toolbar.findViewById(R.id.title_name);
         add_newfarmpond_iv = (ImageView) toolbar.findViewById(R.id.add_newfarmpond_iv);
         title.setText("Edit FarmPond Details");

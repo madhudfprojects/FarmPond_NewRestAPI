@@ -38,7 +38,7 @@ public interface Interface_userservice {
 
   /*  @POST("api/Authentication/ValidateLogin")
     @FormUrlEncoded*/
-    Call<NormalLogin_Response> getValidateLoginPost(@FieldMap Map<String, String> params);
+   // Call<NormalLogin_Response> getValidateLoginPost(@FieldMap Map<String, String> params);
 
     @POST("Authentication/Post_ValidateLogin")
     @FormUrlEncoded
@@ -50,9 +50,9 @@ public interface Interface_userservice {
   Call<Location_Data> getLocationData(@Query("User_ID") String User_ID);
 
   //  @FormUrlEncoded
-  @Headers("Content-Type: application/json")
+  /*@Headers("Content-Type: application/json")
   @GET("Authentication/UserLocation")
-  Call<Location_Data> getLocationDataNew(@Query("User_ID") String User_ID);
+  Call<Location_Data> getLocationDataNew(@Query("User_ID") String User_ID);*/
 
   @Headers("Content-Type: application/json")
   @GET("Authentication/Get_UserData")
@@ -82,14 +82,14 @@ public interface Interface_userservice {
                                      @Part("Created_By") RequestBody Created_By,
                                      @Part("Mobile_Temp_ID") RequestBody Mobile_Temp_ID);*/
 
-  @Headers("Content-Type: application/json;charset=utf-8")
+  /*@Headers("Content-Type: application/json;charset=utf-8")
   @POST("Authentication/Post_ActionFarmerData_Test")
-  Call<AddFarmerResponse> AddFarmerNew(@Body AddFarmerRequestTest request);
+  Call<AddFarmerResponse> AddFarmerNew(@Body AddFarmerRequestTest request);*/
 
-  @Multipart
+/*  @Multipart
   @Headers("Content-Type: application/json;charset=utf-8")
   @POST("Authentication/Post_ActionFarmerData_Test")
-  Call<ResponseData>Post_ActionFarmerPondData(@Body Class_farmponddetails_ToServer request);
+  Call<ResponseData>Post_ActionFarmerPondData(@Body Class_farmponddetails_ToServer request);*/
 
   @Headers({ "Content-Type: application/json;charset=UTF-8"})
   @POST("Authentication/Post_ActionFarmerPondData")
@@ -99,17 +99,6 @@ public interface Interface_userservice {
   @Headers({ "Content-Type: application/json;charset=UTF-8"})
   @POST("Authentication/Post_ActionDeviceDetails")
   Call<Class_devicedetails>Post_ActionDeviceDetails(@Body Class_devicedetails request);
-
-
-
-  Call<AddFarmerResponse> AddFarmerTest(@Part("Farmer_ID") RequestBody Farmer_ID,
-                                        @Part("Village_ID") RequestBody Village_ID,
-                                        @Part("Farmer_First_Name") RequestBody Farmer_First_Name,
-                                        @Part("Farmer_Mobile") RequestBody Farmer_Mobile,
-                                        //  @Part("Farmer_ID_Number") RequestBody Farmer_ID_Number,
-                                        @Part("Submitted_Date") RequestBody Submitted_Date,
-                                        @Part("Created_By") RequestBody Created_By,
-                                        @Part("Mobile_Temp_ID") RequestBody Mobile_Temp_ID);
 
   @GET("Authentication/Get_User_FarmerPond_Count")
   Call<AdminEmpoyeeTotalPondCount> getEmpWiseCount(@Query("User_ID") String User_ID);

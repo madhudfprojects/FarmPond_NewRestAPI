@@ -2543,7 +2543,7 @@ public class Activity_ViewFarmers extends AppCompatActivity {
                                 str_farmpond_remarks = "NoRemarks";
 
 
-                                str_farmpondbaseimage_url = Class_URL.URL_farmpondbaselink.toString().trim();
+                              //  str_farmpondbaseimage_url = Class_URL.URL_farmpondbaselink.toString().trim();
 
                                 Log.e("status", String.valueOf(class_userData.getStatus()));
                                 // Log.e("tag","farmer name=="+class_userData.getLst().get(0).getFarmer().get(0).getFarmerFirstName());
@@ -3033,7 +3033,7 @@ public class Activity_ViewFarmers extends AppCompatActivity {
                                 str_farmpond_remarks = "NoRemarks";
 
 
-                                str_farmpondbaseimage_url = Class_URL.URL_farmpondbaselink.toString().trim();
+                              //  str_farmpondbaseimage_url = Class_URL.URL_farmpondbaselink.toString().trim();
 
                                 Log.e("status", String.valueOf(class_userData.getStatus()));
                                 // Log.e("tag","farmer name=="+class_userData.getLst().get(0).getFarmer().get(0).getFarmerFirstName());
@@ -4301,87 +4301,6 @@ public class Activity_ViewFarmers extends AppCompatActivity {
             });// end of call
 
     }*/
-    private void NormalLoginNew() {
-
-        // Call call = userService1.getLocationDataNew(str_employee_id);
-        Call call = userService1.getLocationDataNew("101");
-
-        call.enqueue(new Callback() {
-            @Override
-            public void onResponse(Call call, Response response) {
-
-                Toast.makeText(Activity_ViewFarmers.this, "" + response.toString(), Toast.LENGTH_SHORT).show();
-
-                // Log.e("response",response.body().toString());
-                Location_Data user_object = new Location_Data();
-                user_object = (Location_Data) response.body();
-                // String x=response.body().toString();
-
-              /*  try{
-                    JSONObject jsonObject = new JSONObject(response.body().toString());
-                    String y=jsonObject.getString("Status").toString();
-                    Toast.makeText(getApplicationContext(),"S:"+y,Toast.LENGTH_LONG).show();
-
-                } catch (JSONException e) {
-                    e.printStackTrace();
-                    Log.e("error ponds",e.toString());
-                }*/
-
-
-                //     Log.e("response",user_object.getStatus().toString());
-
-                //  Toast.makeText(Activity_ViewFarmers.this, ""+user_object.getStatus().toString(), Toast.LENGTH_LONG).show();
-
-                Toast.makeText(Activity_ViewFarmers.this, "stateName=" + user_object.getLst().get(0).getState().get(0).getStateName(), Toast.LENGTH_LONG).show();
-
-               /* SaveSharedPreference.setUserMailID(Activity_ViewFarmers.this,user_object.getLst().get(0).getUserID());
-
-                editor_obj = sharedpreferencebook_usercredential_Obj.edit();
-
-                editor_obj.putString(KeyValue_User_ID, user_object.getLst().get(0).getUserID());
-                editor_obj.putString(KeyValue_User_Name, user_object.getLst().get(0).getUserName());
-                editor_obj.putString(KeyValue_User_Email, user_object.getLst().get(0).getUserEmail());
-                editor_obj.putString(KeyValue_User_Role, user_object.getLst().get(0).getUserRole());
-                editor_obj.putString(KeyValue_User_State, user_object.getLst().get(0).getUserState());
-                editor_obj.putString(KeyValue_User_State_Amount, user_object.getLst().get(0).getUserStateAmount());
-                editor_obj.putString(KeyValue_User_Desigation, user_object.getLst().get(0).getUserDesigation());
-                editor_obj.putString(KeyValue_Response, user_object.getLst().get(0).getResponse());
-
-
-                editor_obj.commit();
-*/
-                Log.e("tag", "stateName==" + user_object.getLst().get(0).getState().get(0).getStateName());
-
-                //editor_obj.putString(KeyValue_employeeid, "78");
-                //editor_obj.putString(KeyValue_employeeid, "66");
-              /*  editor_obj.putString(KeyValue_employeeid, user_object.getLst().get(0).getUserID());
-                editor_obj.putString(KeyValue_employeename, user_object.getLst().get(0).getUserName());
-                editor_obj.putString(KeyValue_employee_mailid, user_object.getLst().get(0).getUserEmail());
-                editor_obj.putString(KeyValue_employeecategory, user_object.getLst().get(0).getUserRole());
-                editor_obj.putString(KeyValue_employeesandbox, user_object.getLst().get(0).getUserState());
-                editor_obj.putString(KeyValue_perdayamount, user_object.getLst().get(0).getUserStateAmount());
-
-
-
-                editor_obj.commit();
-
-
-               *//* Intent intent = new Intent(MainActivity.this,HomeActivity.class);
-                startActivity(intent);*//*
-
-                Intent intent = new Intent(MainActivity.this,Activity_HomeScreen.class);
-                startActivity(intent);*/
-            }
-
-            @Override
-            public void onFailure(Call call, Throwable t) {
-                Log.e("tag", "error" + t.getMessage());
-                Toast.makeText(Activity_ViewFarmers.this, "error" + t.getMessage(), Toast.LENGTH_SHORT).show();
-            }
-        });
-
-
-    }
 
 
 
@@ -4415,7 +4334,7 @@ public class Activity_ViewFarmers extends AppCompatActivity {
 
     }
 
-    public static void SaveFarmerImage(final String FarmerId, final String FarmerImg, final Context context1) {
+    /*public static void SaveFarmerImage(final String FarmerId, final String FarmerImg, final Context context1) {
 
         final ProgressDialog dialog = new ProgressDialog(context1, R.style.AppCompatAlertDialogStyle);
 
@@ -4461,8 +4380,8 @@ public class Activity_ViewFarmers extends AppCompatActivity {
 
 
 //                params.put("farmer_id","1");
-            /*params.put("Farmer_ID",str_selected_farmerID_forimagesaving);//str_selected_farmerID_forimagesaving,str_selected_farmerID_forimagesaving
-            params.put("image_link",str_img);*/
+            *//*params.put("Farmer_ID",str_selected_farmerID_forimagesaving);//str_selected_farmerID_forimagesaving,str_selected_farmerID_forimagesaving
+            params.put("image_link",str_img);*//*
                 params.put("Farmer_ID", FarmerId);//str_selected_farmerID_forimagesaving,str_selected_farmerID_forimagesaving
                 params.put("image_link", FarmerImg);
                 return params;
@@ -4475,7 +4394,7 @@ public class Activity_ViewFarmers extends AppCompatActivity {
         //adding the string request to request queue
         requestQueue.add(stringRequest);
     }
-
+*/
     public static void parse_farmpondresponse(Context context1, String response) {
         try {
             JSONObject jsonObject = new JSONObject(response);
@@ -4605,7 +4524,7 @@ public class Activity_ViewFarmers extends AppCompatActivity {
                     holder.farmercode_tv.setText(Obj_Class_farmerlistdetails.getFarmerID());
 
                     holder.farmerimage_iv.setTag(position);
-                    String str_fetched_imgfile = Class_URL.URL_farmerimageurl + Obj_Class_farmerlistdetails.getFarmerPhoto();
+                 //   String str_fetched_imgfile = Class_URL.URL_farmerimageurl + Obj_Class_farmerlistdetails.getFarmerPhoto();
                     Log.e("Obj_ClFarmerimage()", Obj_Class_farmerlistdetails.getFarmerPhoto());
                     Log.e("getLocalfarmerimage()", String.valueOf(Obj_Class_farmerlistdetails.getLocalfarmerimage()));
 
@@ -4822,7 +4741,7 @@ public class Activity_ViewFarmers extends AppCompatActivity {
         //  holder.farmerimage_iv.setImageBitmap(bm);
         Update_ImageLocaly();
         if (isInternetPresent) {
-            SaveFarmerImage(str_selected_farmerID_forimagesaving, str_img, this);
+            //SaveFarmerImage(str_selected_farmerID_forimagesaving, str_img, this);
         } else {
 
             Toast.makeText(getApplicationContext(), "No Internet Connection", Toast.LENGTH_SHORT).show();
@@ -4854,7 +4773,7 @@ public class Activity_ViewFarmers extends AppCompatActivity {
         Update_ImageLocaly();
 
         if (isInternetPresent) {
-            SaveFarmerImage(str_selected_farmerID_forimagesaving, str_img, this);
+          //  SaveFarmerImage(str_selected_farmerID_forimagesaving, str_img, this);
         } else {
             Toast.makeText(getApplicationContext(), "No Internet Connection", Toast.LENGTH_SHORT).show();
         }
@@ -5669,7 +5588,7 @@ Log.e("tag","pond FIDDB="+str_farmerid);
 
 
 
-    private class AsyncCallWS_imageurltobase64_farmerimage extends AsyncTask<String, Void, String> {
+  /*  private class AsyncCallWS_imageurltobase64_farmerimage extends AsyncTask<String, Void, String> {
         ProgressDialog dialog;
 
         Context context;
@@ -5728,9 +5647,9 @@ Log.e("tag","pond FIDDB="+str_farmerid);
         }//end of OnPostExecute
 
     }// end Async task
+*/
 
-
-    public String urltobase64_farmerimage(String str_imageurl) {
+   /* public String urltobase64_farmerimage(String str_imageurl) {
 
         String str_farmpondbaseimage_url, str_base64image = null;
         try {
@@ -5772,7 +5691,7 @@ Log.e("tag","pond FIDDB="+str_farmerid);
         return str_base64image;
 
     }//end of urltobase64
-
+*/
 
 
 

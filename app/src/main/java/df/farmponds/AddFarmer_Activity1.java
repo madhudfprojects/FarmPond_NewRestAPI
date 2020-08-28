@@ -2519,7 +2519,7 @@ public class AddFarmer_Activity1 extends AppCompatActivity {
     }
 
 
-    private void AddFarmerDetailsNew() {
+  /*  private void AddFarmerDetailsNew() {
 
         AddFarmerRequestTest request = new AddFarmerRequestTest();
         request.setFarmerID("0");
@@ -2538,21 +2538,21 @@ public class AddFarmer_Activity1 extends AppCompatActivity {
 //        request.setMobileTempID("1");
 //        request.setCreatedBy("40");
 
-      /*  Log.e("tag","FarmerFirstName=="+class_farmerprofileoffline_array_obj[j].getStr_fname());
+      *//*  Log.e("tag","FarmerFirstName=="+class_farmerprofileoffline_array_obj[j].getStr_fname());
         Log.e("tag","FarmerID=="+class_farmerprofileoffline_array_obj[j].getStr_farmerID());
-*/
+*//*
         Call<AddFarmerResponse> call = userService1.AddFarmerNew(request);
         //   Call<AddFarmerRequest> call = userService1.AddFarmer(farmerId, stateId, districtId, talukaId, panchayatId, villageId, fname, mname, lname, phoneNum,idType,idPronum,farmerImg,age,annualIncome,familyMember,submittedData,tempFarmerID,empId);
         Log.e("TAG", "Request 33: " + new Gson().toJson(call.request()));
         Log.e("TAG", "Request: " + request.toString());
-        /*final ProgressDialog progressDoalog;
+        *//*final ProgressDialog progressDoalog;
         progressDoalog = new ProgressDialog(AddFarmer_Activity1.this);
         progressDoalog.setMessage("Loading....");
         progressDoalog.setTitle("Please wait....");
         progressDoalog.setCancelable(false);
         progressDoalog.setProgressStyle(ProgressDialog.STYLE_SPINNER);
         // show it
-        progressDoalog.show();*/
+        progressDoalog.show();*//*
         call.enqueue(new Callback<AddFarmerResponse>() {
             @Override
             public void onResponse(Call<AddFarmerResponse> call, Response<AddFarmerResponse> response) {
@@ -2560,8 +2560,8 @@ public class AddFarmer_Activity1 extends AppCompatActivity {
                 Log.e("TAG", "response 33: " + new Gson().toJson(response));
                 Log.e("response body", String.valueOf(response.body()));
                 //   DefaultResponse error1 = ErrorUtils.parseError(response);
-                   /* Log.e("response new:",error1.getMsg());
-                    Log.e("response new status:", String.valueOf(error1.getstatus()));*/
+                   *//* Log.e("response new:",error1.getMsg());
+                    Log.e("response new status:", String.valueOf(error1.getstatus()));*//*
                 // Log.e("response",Gson.fromJson(response.toString(),AddFarmer_Activity1.class));
 
                 if (response.isSuccessful()) {
@@ -2602,7 +2602,7 @@ public class AddFarmer_Activity1 extends AppCompatActivity {
             }
         });// end of call
     }
-
+*/
     private void AddFarmerDetails(final int j) {
         AddFarmerRequest request = new AddFarmerRequest();
         //  request.setFarmerID(class_farmerprofileoffline_array_obj[j].getStr_farmerID());
