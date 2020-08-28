@@ -3822,7 +3822,7 @@ public class Activity_ViewFarmers extends AppCompatActivity {
         // Inflate menu items
         getMenuInflater().inflate(R.menu.menu_register, menu);
         menu.findItem(R.id.Sync)
-                .setVisible(true);
+                .setVisible(false);
         return super.onCreateOptionsMenu(menu);
     }
 
@@ -3840,10 +3840,7 @@ public class Activity_ViewFarmers extends AppCompatActivity {
                 finish();
                 break;
 
-            case R.id.Sync:
-
-
-                //if(Async_Alertdialog().equalsIgnoreCase("yes"))
+            /*case R.id.Sync:
             {
 
                 internetDectector2 = new Class_InternetDectector(getApplicationContext());
@@ -3909,7 +3906,7 @@ public class Activity_ViewFarmers extends AppCompatActivity {
 
             }
 
-            break;
+            break;*/
 
 
         }

@@ -168,6 +168,7 @@ public class AddFarmer_Activity1 extends AppCompatActivity {
     public static String imageFilePath;
     RadioGroup gender_radiogroup;
     String str_gender="Male",O_Gender;
+    RadioButton rdb_male,rdb_female;
 
 
     @Override
@@ -215,6 +216,9 @@ public class AddFarmer_Activity1 extends AppCompatActivity {
 
         removefarmerimage_ib = (ImageButton) findViewById(R.id.removefarmerimage_ib);
         gender_radiogroup =(RadioGroup)findViewById(R.id. gender_radiogroup);
+        rdb_male=(RadioButton) findViewById(R.id.rdb_male);
+        rdb_female=(RadioButton) findViewById(R.id.rdb_female);
+
     /*    Button submit_farmerdetails_bt_temp=(Button)findViewById(R.id.submit_farmerdetails_bt_temp);
 
         submit_farmerdetails_bt_temp.setOnClickListener(new View.OnClickListener() {
@@ -2299,6 +2303,18 @@ public class AddFarmer_Activity1 extends AppCompatActivity {
         try {
 
             Log.e("updateFID", str_farmerID_foredit);
+
+           /* if(rdb_male.isChecked()){
+                str_gender="Female";
+            }else if(rdb_male.isChecked()){
+                str_gender="Male";
+            }*/
+            int selectedId = gender_radiogroup.getCheckedRadioButtonId();
+
+           RadioButton radioButton = (RadioButton) findViewById(selectedId);
+
+            str_gender= String.valueOf(radioButton.getText());
+            Log.e("tag","str_gender="+str_gender);
 
             ContentValues cv = new ContentValues();
             cv.put("DispFarmerTable_YearID", sp_stryear_ID);

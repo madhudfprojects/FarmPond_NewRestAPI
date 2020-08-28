@@ -272,6 +272,16 @@ Log.e("tag","str_employee_id="+str_employee_id);
         int id = item.getItemId();
 
         //noinspection SimplifiableIfStatement
+        if(id==R.id.contactus)
+        {
+
+            Intent i = new Intent(Activity_MarketingHomeScreen.this, ContactUs_Activity.class);
+            startActivity(i);
+            finish();
+            return true;
+
+
+        }
         if (id == R.id.logout) {
             // Toast.makeText(CalenderActivity.this, "Action clicked", Toast.LENGTH_LONG).show();
             internetDectector = new Class_InternetDectector(getApplicationContext());
