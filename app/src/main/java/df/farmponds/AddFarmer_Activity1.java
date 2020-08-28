@@ -1634,7 +1634,7 @@ public class AddFarmer_Activity1 extends AppCompatActivity {
 
     //volley asynctask
 
-    private void AsyncTask_Add_farmponddetails() {
+   /* private void AsyncTask_Add_farmponddetails() {
 
         final ProgressDialog pdLoading = new ProgressDialog(AddFarmer_Activity1.this);
         pdLoading.setMessage("\tLoading...");
@@ -1669,9 +1669,9 @@ public class AddFarmer_Activity1 extends AppCompatActivity {
                 Map<String, String> params = new HashMap<String, String>();
 
 
-                /*String str_image1=arraylist_image1_base64.get(0).toString();
+                *//*String str_image1=arraylist_image1_base64.get(0).toString();
                 String str_image2=arraylist_image2_base64.get(0).toString();
-                String str_image3=arraylist_image3_base64.get(0).toString();*/
+                String str_image3=arraylist_image3_base64.get(0).toString();*//*
 
 
                 params.put("year_id", sp_stryear_ID); //
@@ -1703,7 +1703,7 @@ public class AddFarmer_Activity1 extends AppCompatActivity {
         Log.e("request", stringRequest.toString());
         requestQueue.add(stringRequest);
     }
-
+*/
 
     public void parse_newfarmer_details_response(String response) {
         //volley response: {"statusMessage":"success"}
