@@ -1480,9 +1480,21 @@ public class EditFarmPondDetails_Activity extends AppCompatActivity {
 
             edit_amountcollected_et.setText(class_farmponddetails_offline_obj.getFarmpond_amttaken());
 
-            Log.e("remarksID", class_farmponddetails_offline_obj.getFarmpond_remarks());
+//            Log.e("remarksID", class_farmponddetails_offline_obj.getFarmpond_remarks());
 
-            search_Remarkslist(class_farmponddetails_offline_obj.getFarmpond_remarks());
+           /* if(class_farmponddetails_offline_obj.getFarmpond_remarks().equals(null))
+            {
+                search_Remarkslist("0");
+            }else{
+            search_Remarkslist(class_farmponddetails_offline_obj.getFarmpond_remarks()); }*/
+
+
+            if(class_farmponddetails_offline_obj.getFarmpond_remarks()==null)
+            {
+            }else{
+                search_Remarkslist(class_farmponddetails_offline_obj.getFarmpond_remarks());
+            }
+
             search_Machinelist(class_farmponddetails_offline_obj.getMachineCode());
         }
 
@@ -2386,10 +2398,10 @@ public class EditFarmPondDetails_Activity extends AppCompatActivity {
             cv.put("FPondLatitudeDB", str_latitude);
             cv.put("FPondLongitudeDB", str_longitude);
 
-            cv.put("StartDateDB", str_startdate);
+            cv.put("StartDateDB", str_startdate);//pond_startdate
             cv.put("SubmittedDateDB", str_submitteddatetime);
             cv.put("TotalDaysDB", str_nodays);
-            cv.put("ConstructedDateDB", str_completeddate);
+            cv.put("ConstructedDateDB", str_completeddate);//pond_enddate
             cv.put("PondCostDB", str_pondcost);
             cv.put("FPondAmtTakenDB", str_pondcost);
 
@@ -2724,7 +2736,8 @@ public class EditFarmPondDetails_Activity extends AppCompatActivity {
                     innerObj_Class_farmponddetails.setFarmerFirstName(cursor1.getString(cursor1.getColumnIndex("FNameDB")));
                     innerObj_Class_farmponddetails.setPondID(cursor1.getString(cursor1.getColumnIndex("FPondidDB")));
                     innerObj_Class_farmponddetails.setPondWidth(cursor1.getString(cursor1.getColumnIndex("WidthDB")));
-                    //   innerObj_Class_farmponddetails.setPondDepth(cursor1.getString(cursor1.getColumnIndex("HeightDB")));
+                      innerObj_Class_farmponddetails.setPondLength(cursor1.getString(cursor1.getColumnIndex("HeightDB")));
+
                     innerObj_Class_farmponddetails.setPondDepth(cursor1.getString(cursor1.getColumnIndex("DepthDB")));
                     innerObj_Class_farmponddetails.setAcademicID(cursor1.getString(cursor1.getColumnIndex("FYearIDDB")));
                     innerObj_Class_farmponddetails.setPondLandAcre(cursor1.getString(cursor1.getColumnIndex("FPondAcresDB")));
@@ -3484,6 +3497,11 @@ public class EditFarmPondDetails_Activity extends AppCompatActivity {
 
         * */
 
+           /* cv.put("StartDateDB", str_startdate);//pond_startdate
+            cv.put("SubmittedDateDB", str_submitteddatetime);
+            cv.put("TotalDaysDB", str_nodays);
+            cv.put("ConstructedDateDB", str_completeddate);//pond_enddate
+*/
             //
 
             cv.put("WidthDB",editedpond_response[i].getLst2().get(0).getPond_Width());
