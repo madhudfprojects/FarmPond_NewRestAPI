@@ -28,9 +28,11 @@ public class Class_farmponddetails
     @SerializedName("Pond_Longitude")
     @Expose
     private String pondLongitude;
+
     @SerializedName("Pond_Length")
     @Expose
     private String pondLength;
+
     @SerializedName("Pond_Width")
     @Expose
     private String pondWidth;
