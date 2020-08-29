@@ -3521,7 +3521,7 @@ public class EditFarmPondDetails_Activity extends AppCompatActivity {
             cv.put("FPondAmtTakenDB",editedpond_response[i].getLst2().get(0).getPond_Collected_Amount());
             cv.put("FPondStatusDB",editedpond_response[i].getLst2().get(0).getPond_Status());
 
-          //  Log.e("RespFPondStatusDB",editedpond_response[i].getLst2().get(0).getPond_Status());
+            Log.e("RespFPondStatusDB",editedpond_response[i].getLst2().get(0).getPond_Status());
             //Log.e("RespFPondRemarksDB",editedpond_response[i].getLst2().get(0).getPond_remarks());
             //
             cv.put("FPondCodeDB",editedpond_response[i].getLst2().get(0).getPond_ID());

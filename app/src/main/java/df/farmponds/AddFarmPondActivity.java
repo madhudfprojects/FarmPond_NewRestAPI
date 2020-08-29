@@ -1947,7 +1947,8 @@ public class AddFarmPondActivity extends AppCompatActivity {
         add_newpond_depth_et=(EditText)findViewById(R.id.add_newpond_depth_et);*/
 
             String str_completeddate, str_nodays, str_pondcost, str_mcode, str_startdate,
-                    str_farmpond_remarks, str_farmpond_amttaken, str_farmpondstatus, str_enteredpondcost;
+                    str_farmpond_remarks, str_farmpond_amttaken, str_farmpondstatus, str_enteredpondcost,
+                    str_finalfarmpondcode;
 
             if (str_validation_for_completed.equalsIgnoreCase("yes")) {
                 str_startdate = add_newpond_startdate_tv.getText().toString();
@@ -1961,6 +1962,7 @@ public class AddFarmPondActivity extends AppCompatActivity {
                 str_farmpond_remarks = str_remarksid;
                 str_farmpond_amttaken = add_newpond_amountcollected_et.getText().toString();
                 str_farmpondstatus = "6"; //If image1,2,3 and start date & end date added parameter "Pond_Status": "6", is sent to API
+                str_finalfarmpondcode="nocodegenerated";
 
             } else {
                 str_startdate = "0";
@@ -1974,7 +1976,7 @@ public class AddFarmPondActivity extends AppCompatActivity {
                 str_farmpondstatus = "3"; // If image1 or both image 1 and image2 are submitted then
                 //Parameter 3 is added to  parameter "Pond_Status": "3",
                         //And sent to API (it will be updated as 3 (incomplete))
-
+                str_finalfarmpondcode="nocodegenerated";
             }
 
 
@@ -2052,7 +2054,7 @@ public class AddFarmPondActivity extends AppCompatActivity {
                     "'" + str_approvalstatus + "','" + str_approvalremarks + "','" + str_approvedby + "','" + str_approveddate + "','" + str_donorname + "'," +
                     "'" + str_latitude + "','" + str_longitude + "','" + str_acres + "','" + str_gunta + "','" + str_crop_beforepond + "','" + str_crop_afterpond + "'," +
                     "'" + 0 + "','"+2+"','"+str_newpondImageId1+"','"+str_pondImageType1+"'," +
-                    "'"+str_newpondImageId2+"','"+str_pondImageType2+"','"+str_newpondImageId3+"','"+str_pondImageType3+"','"+"no"+"','"+str_farmpond_code+"');";
+                    "'"+str_newpondImageId2+"','"+str_pondImageType2+"','"+str_newpondImageId3+"','"+str_pondImageType3+"','"+"no"+"','"+str_finalfarmpondcode+"');";
 
 
 

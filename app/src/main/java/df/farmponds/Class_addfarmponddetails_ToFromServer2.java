@@ -149,7 +149,7 @@ public class Class_addfarmponddetails_ToFromServer2
 
 
 
-    @SerializedName("pond_remarks")
+    @SerializedName("Pond_Remarks")
     @Expose
     private String pond_remarks;
 
