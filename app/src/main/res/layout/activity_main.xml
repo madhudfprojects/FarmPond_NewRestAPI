@@ -80,7 +80,7 @@
         android:textStyle="italic"
         android:layout_gravity="center"
         android:textColor="@color/colorwhite"
-        android:text="Test Ver0.39"/>
+        android:text="Test Ver0.40"/>
 
 
     <Button

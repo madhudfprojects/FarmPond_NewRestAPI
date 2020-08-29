@@ -154,7 +154,13 @@ public class Class_addfarmponddetails_ToFromServer2
     private String pond_remarks;
 
 
+    @SerializedName("Approval_Status")
+    @Expose
+    private String approval_status;
 
+    @SerializedName("Approval_Remarks")
+    @Expose
+    private String approval_remarks;
 
 
 
@@ -401,5 +407,22 @@ public class Class_addfarmponddetails_ToFromServer2
 
     public void setPond_remarks(String pond_remarks) {
         this.pond_remarks = pond_remarks;
+    }
+
+
+    public String getApproval_status() {
+        return approval_status;
+    }
+
+    public void setApproval_status(String approval_status) {
+        this.approval_status = approval_status;
+    }
+
+    public String getApproval_remarks() {
+        return approval_remarks;
+    }
+
+    public void setApproval_remarks(String approval_remarks) {
+        this.approval_remarks = approval_remarks;
     }
 }

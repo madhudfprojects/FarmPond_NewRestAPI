@@ -3523,6 +3523,25 @@ public class EditFarmPondDetails_Activity extends AppCompatActivity {
 
             Log.e("RespFPondStatusDB",editedpond_response[i].getLst2().get(0).getPond_Status());
             //Log.e("RespFPondRemarksDB",editedpond_response[i].getLst2().get(0).getPond_remarks());
+
+            if(editedpond_response[i].getLst2().get(0).getApproval_status()==null)
+            {
+                Log.e("pondstatus","null");
+                cv.put("FPondApprovalStatusDB","no");
+            }else{
+                cv.put("FPondApprovalStatusDB",editedpond_response[i].getLst2().get(0).getApproval_status());
+            }
+
+            if(editedpond_response[i].getLst2().get(0).getApproval_remarks()==null)
+            {
+                cv.put("FPondApprovalRemarksDB","NA");
+            }else{
+                cv.put("FPondApprovalRemarksDB",editedpond_response[i].getLst2().get(0).getApproval_remarks());
+            }
+
+
+
+
             //
             cv.put("FPondCodeDB",editedpond_response[i].getLst2().get(0).getPond_ID());
             cv.put("finalfarmpondcodeDB",editedpond_response[i].getLst2().get(0).getPondCode());
