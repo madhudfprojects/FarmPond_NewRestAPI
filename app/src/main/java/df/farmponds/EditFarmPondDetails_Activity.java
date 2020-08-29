@@ -3508,6 +3508,7 @@ public class EditFarmPondDetails_Activity extends AppCompatActivity {
             cv.put("HeightDB",editedpond_response[i].getLst2().get(0).getPond_Length());
             cv.put("DepthDB",editedpond_response[i].getLst2().get(0).getPond_Depth());
             cv.put("TotalDaysDB",editedpond_response[i].getLst2().get(0).getPond_Days());
+
             cv.put("StartDateDB",editedpond_response[i].getLst2().get(0).getPond_Start());
             cv.put("ConstructedDateDB",editedpond_response[i].getLst2().get(0).getPond_End());
             cv.put("PondCostDB",editedpond_response[i].getLst2().get(0).getPond_Cost());
@@ -3516,11 +3517,12 @@ public class EditFarmPondDetails_Activity extends AppCompatActivity {
             cv.put("FPondAmtTakenDB",editedpond_response[i].getLst2().get(0).getPond_Collected_Amount());
             cv.put("FPondStatusDB",editedpond_response[i].getLst2().get(0).getPond_Status());
 
-
+            Log.e("RespFPondStatusDB",editedpond_response[i].getLst2().get(0).getPond_Status());
+            Log.e("RespFPondRemarksDB",editedpond_response[i].getLst2().get(0).getPond_remarks());
             //
             cv.put("FPondCodeDB",editedpond_response[i].getLst2().get(0).getPond_ID());
             cv.put("finalfarmpondcodeDB",editedpond_response[i].getLst2().get(0).getPondCode());
-            cv.put("FPondStatusDB","3");
+            //cv.put("FPondStatusDB","3");
 
             cv.put("UploadedStatus",0); //0 means uploaded 1 means not uploaded
 

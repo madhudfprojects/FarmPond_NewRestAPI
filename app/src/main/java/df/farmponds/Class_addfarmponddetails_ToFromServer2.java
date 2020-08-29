@@ -97,6 +97,8 @@ public class Class_addfarmponddetails_ToFromServer2
     private String Pond_Collected_Amount;
 
 
+    @SerializedName("Pond_Code")
+    @Expose
     private String PondCode;
 
     /*@SerializedName("Pond_Image_1")
