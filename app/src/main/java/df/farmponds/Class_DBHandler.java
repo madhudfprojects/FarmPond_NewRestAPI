@@ -215,6 +215,10 @@ public class Class_DBHandler extends SQLiteOpenHelper
                     Log.e("Imageid1DB", cursor1.getString(cursor1.getColumnIndex("Imageid1DB")));
                     Log.e("Imageid2DB", cursor1.getString(cursor1.getColumnIndex("Imageid2DB")));
                     Log.e("Imageid3DB", cursor1.getString(cursor1.getColumnIndex("Imageid3DB")));
+
+                    Log.e("editremarks", cursor1.getString(cursor1.getColumnIndex("FPondRemarksDB")));
+                    Log.e("editstatus", cursor1.getString(cursor1.getColumnIndex("FPondStatusDB")));
+
                 } while (cursor1.moveToNext());
             }//if ends
         }

@@ -3316,6 +3316,10 @@ public class EditFarmPondDetails_Activity extends AppCompatActivity {
             request.setPond_remarks(class_farmponddetails_offline_array_obj[k].getFarmpond_remarks());
             request.setPond_Status(class_farmponddetails_offline_array_obj[k].getFarmpond_status());
 
+
+            Log.e("reqremarks",class_farmponddetails_offline_array_obj[k].getFarmpond_remarks());
+            Log.e("reqstatus",class_farmponddetails_offline_array_obj[k].getFarmpond_status());
+
             int_k = k;
             Log.e("kvalue", String.valueOf(k));
             Log.e("Editrequest", request.toString());
@@ -3517,8 +3521,8 @@ public class EditFarmPondDetails_Activity extends AppCompatActivity {
             cv.put("FPondAmtTakenDB",editedpond_response[i].getLst2().get(0).getPond_Collected_Amount());
             cv.put("FPondStatusDB",editedpond_response[i].getLst2().get(0).getPond_Status());
 
-            Log.e("RespFPondStatusDB",editedpond_response[i].getLst2().get(0).getPond_Status());
-            Log.e("RespFPondRemarksDB",editedpond_response[i].getLst2().get(0).getPond_remarks());
+          //  Log.e("RespFPondStatusDB",editedpond_response[i].getLst2().get(0).getPond_Status());
+            //Log.e("RespFPondRemarksDB",editedpond_response[i].getLst2().get(0).getPond_remarks());
             //
             cv.put("FPondCodeDB",editedpond_response[i].getLst2().get(0).getPond_ID());
             cv.put("finalfarmpondcodeDB",editedpond_response[i].getLst2().get(0).getPondCode());
