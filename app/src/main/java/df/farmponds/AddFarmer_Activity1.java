@@ -2309,11 +2309,22 @@ public class AddFarmer_Activity1 extends AppCompatActivity {
             }else if(rdb_male.isChecked()){
                 str_gender="Male";
             }*/
-            int selectedId = gender_radiogroup.getCheckedRadioButtonId();
+            /*int selectedId = gender_radiogroup.getCheckedRadioButtonId();
 
            RadioButton radioButton = (RadioButton) findViewById(selectedId);
 
-            str_gender= String.valueOf(radioButton.getText());
+            str_gender= String.valueOf(radioButton.getText());*/
+
+            if(rdb_female.isChecked())
+            {
+                // is checked
+                str_gender="Female";
+            }
+            else
+            {
+                // not checked
+                str_gender="Male";
+            }
             Log.e("tag","str_gender="+str_gender);
 
             ContentValues cv = new ContentValues();
