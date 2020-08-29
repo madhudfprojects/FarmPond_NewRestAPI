@@ -212,7 +212,7 @@
                 android:textColor="@color/dark_black"
                 android:textSize="14dp" />
 
-            <TextView
+           <!-- <TextView
 
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
@@ -226,9 +226,37 @@
                 android:layout_height="wrap_content"
                 android:text="1111"
                 android:textColor="@color/dark_black"
-                android:textSize="14dp" />
+                android:textSize="14dp" />-->
 
         </LinearLayout>
+
+            <LinearLayout
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:gravity="center"
+                android:orientation="horizontal">
+
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:gravity="center_horizontal"
+                    android:text="                           "
+                    android:textColor="@color/light_gray"
+                    android:textSize="15dp"
+                    android:layout_margin="2dp"/>
+
+
+                <TextView
+                    android:id="@+id/final_farmpondcode_tv"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="1111"
+                    android:textColor="@color/dark_black"
+                    android:textSize="14dp" />
+
+            </LinearLayout>
+
+
             <LinearLayout
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
