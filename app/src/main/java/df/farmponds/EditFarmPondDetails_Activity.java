@@ -1188,7 +1188,8 @@ public class EditFarmPondDetails_Activity extends AppCompatActivity {
     }
 
 
-    public void Data_from_PondDetails_DB(String str_farmerpondID) {
+    public void Data_from_PondDetails_DB(String str_farmerpondID)
+    {
 
         Log.e("editfarmerID", str_farmerpondID);
         SQLiteDatabase db1 = this.openOrCreateDatabase("FarmPond_db", Context.MODE_PRIVATE, null);
@@ -1367,6 +1368,7 @@ public class EditFarmPondDetails_Activity extends AppCompatActivity {
         } else {
             arraylist_image1_base64.add(str_base64images1);
             edit_pond_image1_iv.setImageBitmap(arrayList_bitmap.get(0));
+            str_image1present="yes";
         }
 
 
@@ -3258,7 +3260,11 @@ public class EditFarmPondDetails_Activity extends AppCompatActivity {
                 }
             }
 
-            Log.e("pondlength", String.valueOf(x));
+            Log.e("str_image1present",str_image1present);
+            Log.e("str_image2present",str_image2present);
+            Log.e("str_image3present",str_image3present);
+
+            Log.e("Editpondlength", String.valueOf(x));
 
             PondImage[] pondimage_arrayobj = new PondImage[x];
 
@@ -3294,7 +3300,6 @@ public class EditFarmPondDetails_Activity extends AppCompatActivity {
                     }
                 }
 
-
                 if (j == 2) {
                     pondimage_innerobj.setImageData(class_farmponddetails_offline_array_obj[k].getImage3_Base64());
                     pondimage_innerobj.setImageType("3");
@@ -3307,6 +3312,8 @@ public class EditFarmPondDetails_Activity extends AppCompatActivity {
 
             List list = Arrays.asList(pondimage_arrayobj);
             request.setPondImage(list);
+
+
 
             request.setSubmitted_Date(class_farmponddetails_offline_array_obj[k].getSubmittedDateTime());
             request.setCreated_By(class_farmponddetails_offline_array_obj[k].getEmployeeID());
@@ -3523,6 +3530,25 @@ public class EditFarmPondDetails_Activity extends AppCompatActivity {
 
             Log.e("RespFPondStatusDB",editedpond_response[i].getLst2().get(0).getPond_Status());
             //Log.e("RespFPondRemarksDB",editedpond_response[i].getLst2().get(0).getPond_remarks());
+
+            if(editedpond_response[i].getLst2().get(0).getApproval_status()==null)
+            {
+                Log.e("pondstatus","null");
+                cv.put("FPondApprovalStatusDB","no");
+            }else{
+                cv.put("FPondApprovalStatusDB",editedpond_response[i].getLst2().get(0).getApproval_status());
+            }
+
+            if(editedpond_response[i].getLst2().get(0).getApproval_remarks()==null)
+            {
+                cv.put("FPondApprovalRemarksDB","NA");
+            }else{
+                cv.put("FPondApprovalRemarksDB",editedpond_response[i].getLst2().get(0).getApproval_remarks());
+            }
+
+
+
+
             //
             cv.put("FPondCodeDB",editedpond_response[i].getLst2().get(0).getPond_ID());
             cv.put("finalfarmpondcodeDB",editedpond_response[i].getLst2().get(0).getPondCode());
