@@ -2351,11 +2351,11 @@ public class AddFarmer_Activity1 extends AppCompatActivity {
 
             cv.put("Farmer_Gender",str_gender);
 
-            if (str_farmerID_foredit.contains("tempfarmpond")) {
+          /*  if (str_farmerID_foredit.contains("tempfarmer")) {
                 cv.put("UploadedStatusFarmerprofile_DB", "10");
             } else {
                 cv.put("UploadedStatusFarmerprofile_DB", "9");
-            }
+            }*/
 
             db_viewfarmerlist.update("ViewFarmerListRest", cv, "DispFarmerTable_FarmerID = ?", new String[]{str_farmerID_foredit});
             db_viewfarmerlist.close();
@@ -2417,7 +2417,7 @@ public class AddFarmer_Activity1 extends AppCompatActivity {
             cv.put("FphotoDB", arraylist_farmerimage_base64.get(0).toString());
 
             cv.put("Farmer_Gender",str_gender);
-            if (str_farmerID_foredit.contains("tempfarmpond")) {
+            if (str_farmerID_foredit.contains("tempfarmer")) {
                 cv.put("UploadedStatusFarmerprofile", "9");
             } else {
                 cv.put("UploadedStatusFarmerprofile", "10");
