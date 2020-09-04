@@ -1136,7 +1136,7 @@ Log.e("tag","str_employee_id="+str_employee_id);
 
 
 
-            Log.e("pondlength", String.valueOf(x));
+            Log.e("Editpondlength", String.valueOf(x));
 
             PondImage[] pondimage_arrayobj = new PondImage[x];
 
