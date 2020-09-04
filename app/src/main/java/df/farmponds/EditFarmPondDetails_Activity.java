@@ -2451,7 +2451,14 @@ public class EditFarmPondDetails_Activity extends AppCompatActivity {
                 cv.put("FPondLongitudeDB", str_longitude);
             }
 
+        if(str_nodays.equalsIgnoreCase("0"))
+        {
+            cv.put("LatitudeDB", "0.0");
+            cv.put("LongitudeDB", "0.0");
 
+            cv.put("FPondLatitudeDB", "0.0");
+            cv.put("FPondLongitudeDB", "0.0");
+        }
 
 
             cv.put("StartDateDB", str_startdate);//pond_startdate
