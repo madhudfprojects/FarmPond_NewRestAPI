@@ -837,6 +837,7 @@ public class Activity_ViewFarmers extends AppCompatActivity {
                 //Toast.makeText(getApplicationContext(),"clicked",Toast.LENGTH_LONG).show();
                 // Intent i = new Intent(getApplicationContext(),AddFarmer_Activity.class);
                 Intent i = new Intent(getApplicationContext(), AddFarmer_Activity1.class);
+
                 startActivity(i);
                 finish();
             }
@@ -4606,6 +4607,15 @@ public class Activity_ViewFarmers extends AppCompatActivity {
 
                             Intent i = new Intent(getApplicationContext(), AddFarmer_Activity1.class);
                             i.putExtra("farmerID", Obj_Class_farmerlistdetails.getFarmerID());
+                            SharedPreferences.Editor myprefs_spinner = sharedpref_spinner_Obj.edit();
+                            myprefs_spinner.putString(Key_sel_yearsp, String.valueOf(sel_yearsp));
+                            myprefs_spinner.putString(Key_sel_statesp, String.valueOf(sel_statesp));
+                            myprefs_spinner.putString(Key_sel_districtsp, String.valueOf(sel_districtsp));
+                            myprefs_spinner.putString(Key_sel_taluksp, String.valueOf(sel_taluksp));
+                            myprefs_spinner.putString(Key_sel_villagesp, String.valueOf(sel_villagesp));
+                            myprefs_spinner.putString(Key_sel_grampanchayatsp, String.valueOf(sel_grampanchayatsp));
+
+                            myprefs_spinner.apply();
                             startActivity(i);
 
                             //selectImage();

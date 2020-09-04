@@ -6,33 +6,167 @@
         <item name="colorPrimary">@color/colorPrimary</item>
         <item name="colorPrimaryDark">@color/colorPrimaryDark</item>
         <item name="colorAccent">@color/colorAccent</item>
+        <item name="windowActionBar">false</item>
+        <item name="windowNoTitle">true</item>
+
+    </style>
+
+    <style name="AppThemeNoActionBar" parent="Theme.AppCompat.Light.NoActionBar">
+        <item name="colorPrimary">@color/colorPrimary</item>
+        <item name="colorPrimaryDark">@color/colorPrimaryDark</item>
+        <item name="colorAccent">@color/colorAccent</item>
+    </style>
+
+    <style name="AppTheme.NoActionBar">
+        <item name="windowActionBar">false</item>
+        <item name="windowNoTitle">true</item>
+        <!--        <item name="android:windowFullscreen">true</item>-->
+
+    </style>
+
+    <!--    <style name="AppTheme" parent="Theme.AppCompat.Light.DarkActionBar">-->
+    <!--        &lt;!&ndash; Customize your theme here. &ndash;&gt;-->
+    <!--        <item name="colorPrimary">@color/colorPrimary</item>-->
+    <!--        <item name="colorPrimaryDark">@color/colorPrimaryDark</item>-->
+    <!--        <item name="colorAccent">@color/colorAccent</item>-->
+    <!--        <item name="windowActionBar">false</item>-->
+    <!--        <item name="windowNoTitle">true</item>-->
+    <!--    </style>-->
+
+    <style name="ToolbarTheme" parent="@style/ThemeOverlay.AppCompat.ActionBar">
+        <!-- Customize color of navigation drawer icon and back arrow -->
+        <item name="colorControlNormal">@android:color/white</item>
+    </style>
+
+    <style name="AppTheme.AppBarOverlay" parent="ThemeOverlay.AppCompat.Dark.ActionBar"
+        />
+
+    <style name="AppTheme.PopupOverlay" parent="ThemeOverlay.AppCompat.Light" />
+
+
+    <style name="AppThemeActionBar" parent="Theme.AppCompat.Light.DarkActionBar">
+        <!-- Customize your theme here. -->
+        <item name="colorPrimary">@color/colorPrimary</item>
+        <item name="colorPrimaryDark">@color/colorPrimaryDark</item>
+        <!-- <item name="colorAccent">@color/colorAccent</item>-->
+        <item name="colorAccent">@color/colorPrimaryDark</item>
+
+        <!-- To change the popup menu and app text color  -->
+        <!-- <item name="android:textColor">@color/colorWhite</item>-->
+
+        <!-- To change the background of options menu-->
+        <item name="android:itemBackground">@color/colorPrimary</item>
+        <item name="android:itemTextAppearance">@style/customMenuTextApearance</item>
+        <item name="android:datePickerStyle">@style/DatePickerTheme</item>
+    </style>
+
+    <style name="customMenuTextApearance" parent="@android:style/TextAppearance.Widget.IconMenu.Item">
+        <item name="android:textColor">@color/colorwhite</item>
+        <item name="android:textSize">16sp</item>
+        <item name="android:textStyle">bold</item>
+    </style>
+    <style name="DatePickerTheme" parent="Theme.AppCompat.Light.Dialog">
+        <item name="colorAccent">@color/colorPrimaryDark</item>
     </style>
 
     <style name="AppCompatAlertDialogStyle" parent="Theme.AppCompat.Light.Dialog.Alert">
         <item name="colorAccent">@color/colorAccent</item>
-        <item name="android:textColorPrimary">@color/dark_black_red</item>
+        <item name="android:textColorPrimary">@color/colorPrimaryDark</item>
         <item name="android:background">@color/colorwhite</item>
     </style>
 
-
-    <style name="AppThemeNoActionBar" parent="Theme.AppCompat.Light.NoActionBar">
-        <!-- Customize your theme here. -->
-        <item name="colorPrimary">@color/colorPrimary</item>
-        <item name="colorPrimaryDark">@color/colorPrimaryDark</item>
-        <item name="colorAccent">@color/colorAccent</item>
-        <item name="colorControlNormal">@color/colorwhite</item>
-        <item name="android:itemBackground">@color/colorwhite</item>
+    <style name="collapsed">
+        <item name="android:textColor">@android:color/white</item>
     </style>
-
     <style name="CollapsingToolbarLayoutExpandedTextStyle" parent="AppTheme">
         <item name="android:textColor">@android:color/transparent</item>
         <item name="android:textSize">0sp</item>
         <item name="windowNoTitle">true</item>
 
     </style>
-
-    <style name="collapsed">
-        <item name="android:textColor">@android:color/white</item>
-    </style>
-
 </resources>
+
+    <!--
+    <resources>
+
+        &lt;!&ndash; Base application theme. &ndash;&gt;
+     &lt;!&ndash;   <style name="AppTheme" parent="Theme.AppCompat.Light.DarkActionBar">
+            &lt;!&ndash; Customize your theme here. &ndash;&gt;
+            <item name="colorPrimary">@color/colorPrimary</item>
+            <item name="colorPrimaryDark">@color/colorPrimaryDark</item>
+            <item name="colorAccent">@color/colorAccent</item>
+        </style>&ndash;&gt;
+
+        <style name="AppCompatAlertDialogStyle" parent="Theme.AppCompat.Light.Dialog.Alert">
+            <item name="colorAccent">@color/colorAccent</item>
+            <item name="android:textColorPrimary">@color/dark_black_red</item>
+            <item name="android:background">@color/colorwhite</item>
+        </style>
+
+
+        <style name="AppThemeNoActionBar" parent="Theme.AppCompat.Light.NoActionBar">
+            &lt;!&ndash; Customize your theme here. &ndash;&gt;
+            <item name="colorPrimary">@color/colorPrimary</item>
+            <item name="colorPrimaryDark">@color/colorPrimaryDark</item>
+            <item name="colorAccent">@color/colorAccent</item>
+            <item name="colorControlNormal">@color/colorwhite</item>
+            <item name="android:itemBackground">@color/colorwhite</item>
+        </style>
+
+        <style name="CollapsingToolbarLayoutExpandedTextStyle" parent="AppTheme">
+            <item name="android:textColor">@android:color/transparent</item>
+            <item name="android:textSize">0sp</item>
+            <item name="windowNoTitle">true</item>
+
+        </style>
+
+        <style name="collapsed">
+            <item name="android:textColor">@android:color/white</item>
+        </style>
+
+        <style name="AppTheme" parent="Theme.AppCompat.Light.DarkActionBar">
+            &lt;!&ndash; Customize your theme here. &ndash;&gt;
+            <item name="colorPrimary">@color/colorPrimary</item>
+            <item name="colorPrimaryDark">@color/colorPrimaryDark</item>
+            <item name="colorAccent">@color/colorAccent</item>
+            <item name="windowActionBar">false</item>
+            <item name="windowNoTitle">true</item>
+
+        </style>
+
+        <style name="AppTheme.NoActionBar">
+            <item name="windowActionBar">false</item>
+            <item name="windowNoTitle">true</item>
+            &lt;!&ndash;        <item name="android:windowFullscreen">true</item>&ndash;&gt;
+
+        </style>
+
+        <style name="AppTheme.PopupOverlay" parent="ThemeOverlay.AppCompat.Light" />
+
+
+        <style name="AppThemeActionBar" parent="Theme.AppCompat.Light.DarkActionBar">
+            &lt;!&ndash; Customize your theme here. &ndash;&gt;
+            <item name="colorPrimary">@color/colorPrimary</item>
+            <item name="colorPrimaryDark">@color/colorPrimaryDark</item>
+            &lt;!&ndash; <item name="colorAccent">@color/colorAccent</item>&ndash;&gt;
+            <item name="colorAccent">@color/colorPrimaryDark</item>
+
+            &lt;!&ndash; To change the popup menu and app text color  &ndash;&gt;
+            &lt;!&ndash; <item name="android:textColor">@color/colorWhite</item>&ndash;&gt;
+
+            &lt;!&ndash; To change the background of options menu&ndash;&gt;
+            <item name="android:itemBackground">@color/colorPrimary</item>
+            <item name="android:itemTextAppearance">@style/customMenuTextApearance</item>
+            <item name="android:datePickerStyle">@style/DatePickerTheme</item>
+        </style>
+
+        <style name="customMenuTextApearance" parent="@android:style/TextAppearance.Widget.IconMenu.Item">
+            <item name="android:textColor">@color/colorwhite</item>
+            <item name="android:textSize">16sp</item>
+            <item name="android:textStyle">bold</item>
+        </style>
+        <style name="DatePickerTheme" parent="Theme.AppCompat.Light.Dialog">
+            <item name="colorAccent">@color/colorPrimaryDark</item>
+        </style>
+    </resources>
+    -->

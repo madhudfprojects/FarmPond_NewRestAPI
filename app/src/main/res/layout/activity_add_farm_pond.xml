@@ -26,6 +26,7 @@
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_marginTop="10dp"
+                android:padding="3dp"
                 android:gravity="start"
                 android:background="@drawable/round_row_edittext2"
                 android:orientation="horizontal">
@@ -35,7 +36,6 @@
                     android:layout_height="wrap_content"
                     android:layout_marginLeft="10dp"
                     android:gravity="start"
-                    android:textAlignment="center"
                     android:text="Farmer Name : "
                     android:textColor="#20b6e8"
                     android:textSize="15dp" />
@@ -693,7 +693,7 @@
                     android:layout_width="0dp"
                     android:layout_height="wrap_content"
                     android:layout_weight="0.54"
-                    android:text="Latitude"
+                    android:text=" Latitude"
                     android:textColor="@color/light_gray"
                     android:textSize="15dp" />
 
@@ -722,7 +722,7 @@
                     android:layout_width="0dp"
                     android:layout_height="wrap_content"
                     android:layout_weight="0.54"
-                    android:text="longitude"
+                    android:text=" Longitude"
                     android:textColor="@color/light_gray"
                     android:textSize="15dp" />
 
@@ -769,7 +769,7 @@
                 <CheckBox
                     android:id="@+id/new_farmpond_completed_cb"
                     android:layout_width="wrap_content"
-                    android:layout_height="50dp"
+                    android:layout_height="40dp"
                     android:buttonTint="@color/vivid_cyan"
                     android:layoutDirection="rtl"
                     android:scaleX="1.80"
@@ -792,7 +792,7 @@
                     android:layout_width="0dp"
                     android:layout_height="wrap_content"
                     android:layout_weight="0.54"
-                    android:gravity="center"
+                    android:gravity="start"
                     android:text="Start Date : "
                     android:textColor="@color/dark_black"
                     android:textSize="15dp" />
@@ -823,7 +823,7 @@
                     android:layout_width="0dp"
                     android:layout_height="wrap_content"
                     android:layout_weight="0.54"
-                    android:gravity="center"
+                    android:gravity="start"
                     android:text="Completed Date : "
                     android:textColor="@color/dark_black"
                     android:textSize="15dp" />
@@ -856,15 +856,15 @@
                     android:layout_width="0dp"
                     android:layout_height="wrap_content"
                     android:layout_weight="0.54"
-                    android:gravity="center"
-                    android:text="     No. of Days    : "
+                    android:gravity="start"
+                    android:text="No. of Days : "
                     android:textColor="@color/dark_black"
                     android:textSize="15dp" />
 
                 <EditText
                     android:id="@+id/add_newpond_no_of_days_et"
                     android:layout_width="0dp"
-                    android:layout_height="30dp"
+                    android:layout_height="40dp"
                     android:layout_weight="1"
                     android:background="@drawable/shadow_new"
                     android:digits="0123456789."
@@ -903,15 +903,15 @@
                     android:layout_width="0dp"
                     android:layout_height="wrap_content"
                     android:layout_weight="0.54"
-                    android:gravity="center"
-                    android:text="   Amount collected  : "
+                    android:gravity="start"
+                    android:text="Amount collected:"
                     android:textColor="@color/dark_black"
                     android:textSize="15dp" />
 
                 <EditText
                     android:id="@+id/add_newpond_amountcollected_et"
                     android:layout_width="0dp"
-                    android:layout_height="30dp"
+                    android:layout_height="40dp"
                     android:layout_weight="1"
                     android:background="@drawable/shadow_new"
                     android:digits="0123456789."
@@ -974,9 +974,114 @@
                     android:textSize="15dp" />
             </LinearLayout>
 
+            <LinearLayout
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:orientation="horizontal"
+                android:layout_marginTop="10dp"
+                android:weightSum="2"
+                android:visibility="visible">
+
+                <LinearLayout
+                    android:id="@+id/remarks_LL"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="10dp"
+                    android:orientation="vertical"
+                    android:layout_weight="1"
+                    android:visibility="visible">
+
+                    <RelativeLayout
+                        android:id="@+id/rel_remarkslayout"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:layout_below="@+id/mainlinearlayout_ll"
+                        android:layout_marginLeft="0dp"
+                        android:layout_marginRight="8dp"
+                        android:layout_marginTop="10dp"
+                        android:layout_marginBottom="10dp">
+
+                        <LinearLayout
+                            android:layout_width="match_parent"
+                            android:layout_height="40dp"
+                            android:background="@drawable/spinner_layout"
+                            android:orientation="horizontal"
+                            tools:ignore="UselessParent">
+
+                            <Spinner
+                                android:id="@+id/selectremarks_sp"
+                                android:layout_width="match_parent"
+                                android:layout_height="40dp"
+                                android:dropDownVerticalOffset="35dp"
+                                android:spinnerMode="dropdown" />
 
 
-            <TableRow
+                        </LinearLayout>
+
+                        <TextView
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:layout_marginLeft="15dp"
+                            android:layout_marginTop="-4dp"
+                            android:background="#FFFFFF"
+                            android:paddingLeft="3dp"
+                            android:paddingRight="3dp"
+                            android:text="Reason"
+                            android:textColor="@color/colorPrimaryDark"
+                            android:textSize="10sp" />
+                    </RelativeLayout>
+                </LinearLayout>
+                <LinearLayout
+                    android:id="@+id/machineno_LL"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:orientation="vertical"
+                    android:layout_marginTop="10dp"
+                    android:layout_weight="1"
+                    android:visibility="visible">
+                    <RelativeLayout
+                        android:id="@+id/rel_machinenolayout"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:layout_below="@+id/mainlinearlayout_ll"
+                        android:layout_marginLeft="8dp"
+                        android:layout_marginRight="0dp"
+                        android:layout_marginTop="10dp"
+                        android:layout_marginBottom="10dp">
+
+                        <LinearLayout
+                            android:layout_width="match_parent"
+                            android:layout_height="40dp"
+                            android:background="@drawable/spinner_layout"
+                            android:orientation="horizontal"
+                            tools:ignore="UselessParent">
+
+                            <Spinner
+                                android:id="@+id/selectmachineno_sp"
+                                android:layout_width="match_parent"
+                                android:layout_height="40dp"
+                                android:dropDownVerticalOffset="35dp"
+                                android:spinnerMode="dropdown" />
+
+
+                        </LinearLayout>
+
+                        <TextView
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:layout_marginLeft="15dp"
+                            android:layout_marginTop="-4dp"
+                            android:background="#FFFFFF"
+                            android:paddingLeft="3dp"
+                            android:paddingRight="3dp"
+                            android:text="Machine No"
+                            android:textColor="@color/colorPrimaryDark"
+                            android:textSize="10sp" />
+                    </RelativeLayout>
+                </LinearLayout>
+            </LinearLayout>
+
+            <!--<TableRow
                 android:id="@+id/remarks_LL"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
@@ -1000,7 +1105,7 @@
                     android:background="@drawable/spinnerarrow2"
                     android:popupBackground="@drawable/layout_background" />
 
-            </TableRow>
+            </TableRow>-->
 
 
 
@@ -1011,7 +1116,7 @@
 
 
 
-            <TableRow
+          <!--  <TableRow
                 android:id="@+id/machineno_LL"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
@@ -1037,7 +1142,7 @@
                     android:popupBackground="@drawable/layout_background" />
 
 
-            </TableRow>
+            </TableRow>-->
 
 
             <LinearLayout

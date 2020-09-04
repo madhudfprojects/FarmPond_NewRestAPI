@@ -268,7 +268,7 @@ public class EditFarmPondDetails_Activity extends AppCompatActivity {
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_editfarmponddetails);
+        setContentView(R.layout.activity_editfarmponddetails_new);
 
 
         toolbar = (Toolbar) findViewById(R.id.toolbar_farmponddetails);

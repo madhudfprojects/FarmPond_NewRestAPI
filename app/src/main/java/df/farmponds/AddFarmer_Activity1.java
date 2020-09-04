@@ -169,12 +169,13 @@ public class AddFarmer_Activity1 extends AppCompatActivity {
     RadioGroup gender_radiogroup;
     String str_gender="Male",O_Gender;
     RadioButton rdb_male,rdb_female;
+    Farmer[] class_farmerlistdetails_arrayObj;
 
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_add_farmer_new);
+        setContentView(R.layout.activity_add_farmer_new2);
 
         getWindow().setSoftInputMode(WindowManager.LayoutParams.SOFT_INPUT_STATE_ALWAYS_HIDDEN);
         toolbar = (Toolbar) findViewById(R.id.toolbar_n_actionbar);
@@ -2433,10 +2434,12 @@ public class AddFarmer_Activity1 extends AppCompatActivity {
             Toast.makeText(getApplicationContext(), "error" + e.toString(), Toast.LENGTH_SHORT).show();
         }
 
+        internetDectector = new Class_InternetDectector(getApplicationContext());
+        isInternetPresent = internetDectector.isConnectingToInternet();
 
-        Intent i = new Intent(AddFarmer_Activity1.this, Activity_ViewFarmers.class);
-        startActivity(i);
-        finish();
+        if (isInternetPresent) {
+            fetch_DB_Edited_farmerprofile_offline_data();
+        }
 
 
     }
@@ -2765,6 +2768,225 @@ public class AddFarmer_Activity1 extends AppCompatActivity {
         });// end of call
     }
 
+    private void EditFarmerDetails(String FarmerID,String stateid,String districtid,String talukid,String panchayatid,String villageid,
+                                   String fname,String mname,String lname,String phonenumber,String idprooftyp,String idproofno,String farmerimage,String age,String annualincome,String familymembers,String submittedDateTime,String tempfarmerid,String empId,String Farmer_Gender)
+    {
+        if(FarmerID.startsWith("temp")){
+            Log.e("tag","FarmerID temp=="+FarmerID);
+            FarmerID="0";
+        }
+
+        AddFarmerRequest request = new AddFarmerRequest();
+        request.setFarmerID(FarmerID);
+        request.setStateID(stateid);
+        request.setDistrictID(districtid);
+        request.setTalukaID(talukid);
+        request.setPanchayatID(panchayatid);
+        request.setVillageID(villageid);
+        request.setFarmerFirstName(fname);
+        request.setFarmerMiddleName(mname);
+        request.setFarmerLastName(lname);
+        request.setFarmerMobile(phonenumber);
+        request.setFarmerIDType(idprooftyp);
+        request.setFarmerIDNumber(idproofno);
+        request.setFarmerPhoto(farmerimage);
+        request.setFarmerAge(age);
+        request.setFarmerIncome(annualincome);
+        request.setFarmerFamily(familymembers);
+        request.setSubmittedDate(submittedDateTime);
+        request.setMobileTempID(tempfarmerid);
+        request.setCreatedBy(str_employee_id);
+        request.setFarmer_Gender(Farmer_Gender);
+
+        //  Log.e("tag","FarmerFirstName=="+class_farmerprofileoffline_array_obj[j].getStr_fname());
+        //  Log.e("tag","FarmerID=="+class_farmerprofileoffline_array_obj[j].getStr_farmerID());
+
+        Call<AddFarmerResponse> call = userService1.AddFarmer(request);
+        Log.e("TAG", "Request 33: "+new Gson().toJson(request) );
+        Log.e("TAG", "Request edit: "+request.toString() );
+
+        final ProgressDialog progressDoalog;
+        progressDoalog = new ProgressDialog(AddFarmer_Activity1.this);
+        progressDoalog.setMessage("Loading....");
+        progressDoalog.setTitle("Please wait....");
+        progressDoalog.setCancelable(false);
+        progressDoalog.setProgressStyle(ProgressDialog.STYLE_SPINNER);
+        // show it
+        progressDoalog.show();
+
+        call.enqueue(new Callback<AddFarmerResponse>()
+        {
+            @Override
+            public void onResponse(Call<AddFarmerResponse> call, Response<AddFarmerResponse> response)
+            {
+                //     System.out.println("response "+response.body().toString());
+
+                  /*  Log.e("response",response.toString());
+                    Log.e("TAG", "response 33: "+new Gson().toJson(response) );
+                    Log.e("response body", String.valueOf(response.body()));*/
+                //   DefaultResponse error1 = ErrorUtils.parseError(response);
+                   /* Log.e("response new:",error1.getMsg());
+                    Log.e("response new status:", String.valueOf(error1.getstatus()));*/
+                // Log.e("response",Gson.fromJson(response.toString(),AddFarmer_Activity1.class));
+
+                if(response.isSuccessful())
+                {
+                    AddFarmerResList addFarmerResList = response.body().getLst();
+                    Log.e("tag","editFarmerResList NAme="+addFarmerResList.getFarmerFirstName());
+
+                   /* String str_response_farmer_id=addFarmerResList.getFarmerID();
+                    String str_response_farmercode=addFarmerResList.getFarmerCode();
+                    String str_response_tempId=addFarmerResList.getMobileTempID();
+                    Log.e("tag","getMobileTempID="+addFarmerResList.getMobileTempID());
+                    Log.e("tag","getFarmerCode="+addFarmerResList.getFarmerCode());*/
+                    String str_response_farmer_id = addFarmerResList.getFarmerID();
+                    String str_response_farmercode = addFarmerResList.getFarmerCode();
+                    String str_response_tempId = addFarmerResList.getMobileTempID();
+                    Log.e("tag", "getMobileTempID=" + addFarmerResList.getMobileTempID());
+                    Log.e("tag", "getFarmerCode=" + addFarmerResList.getFarmerCode());
+                    Log.e("tag", "getFarmerID=" + addFarmerResList.getFarmerID());
+
+                    SQLiteDatabase db_viewfarmerlist = getApplication().openOrCreateDatabase("FarmPond_db", Context.MODE_PRIVATE, null);
+
+                    db_viewfarmerlist.execSQL("CREATE TABLE IF NOT EXISTS ViewFarmerListRest(MTempId INTEGER PRIMARY KEY,DispFarmerTable_YearID VARCHAR,DispFarmerTable_StateID VARCHAR," +
+                            "DispFarmerTable_DistrictID VARCHAR,DispFarmerTable_TalukID VARCHAR,DispFarmerTable_VillageID VARCHAR," +
+                            "DispFarmerTable_GrampanchayatID VARCHAR,DispFarmerTable_FarmerID VARCHAR,DispFarmerTable_Farmer_Code VARCHAR," +
+                            "DispFarmerTable_FarmerName VARCHAR,FarmerMName_DB VARCHAR,FarmerLName_DB VARCHAR,Farmerage_DB VARCHAR," +
+                            "Farmercellno_DB VARCHAR,FIncome_DB VARCHAR,Ffamilymember_DB VARCHAR,FIDprooftype_DB VARCHAR,FIDProofNo_DB VARCHAR,UploadedStatusFarmerprofile_DB VARCHAR," +
+                            "FarmerImageB64str_DB VARCHAR,DispFarmerTable_FarmerImage VARCHAR," +
+                            "LocalFarmerImg BLOB,Farmpondcount VARCHAR,Submitted_Date VARCHAR,Created_By VARCHAR,Created_Date VARCHAR,Created_User VARCHAR,Response VARCHAR,Response_Action VARCHAR,Farmer_Gender VARCHAR);");
+
+
+                    ContentValues cv = new ContentValues();
+                    cv.put("UploadedStatusFarmerprofile_DB",10);
+
+                    db_viewfarmerlist.update("ViewFarmerListRest", cv, "DispFarmerTable_FarmerID = ?", new String[]{str_response_farmer_id});
+                    db_viewfarmerlist.close();
+
+                    Intent i = new Intent(AddFarmer_Activity1.this, Activity_ViewFarmers.class);
+                    startActivity(i);
+                    finish();
+
+                    progressDoalog.dismiss();
+                } else {
+                    progressDoalog.dismiss();
+
+                    DefaultResponse error = ErrorUtils.parseError(response);
+                    // … and use it to show error information
+
+                    // … or just log the issue like we’re doing :)
+                    Log.d("error message", error.getMsg());
+
+                    Toast.makeText(AddFarmer_Activity1.this, error.getMsg(), Toast.LENGTH_SHORT).show();
+
+                }
+            }
+
+            @Override
+            public void onFailure(Call call, Throwable t)
+            {
+                Log.e("TAG", "onFailure: "+t.toString() );
+
+                Log.e("tag","Error:"+t.getMessage());
+                Toast.makeText(AddFarmer_Activity1.this, "WS:Error:"+t.getMessage(), Toast.LENGTH_SHORT).show();
+            }
+        });// end of call
+    }
+
+    public void fetch_DB_Edited_farmerprofile_offline_data() {
+
+
+        SQLiteDatabase db_viewfarmerlist = this.openOrCreateDatabase("FarmPond_db", Context.MODE_PRIVATE, null);
+
+        db_viewfarmerlist.execSQL("CREATE TABLE IF NOT EXISTS ViewFarmerListRest(MTempId INTEGER PRIMARY KEY,DispFarmerTable_YearID VARCHAR,DispFarmerTable_StateID VARCHAR," +
+                "DispFarmerTable_DistrictID VARCHAR,DispFarmerTable_TalukID VARCHAR,DispFarmerTable_VillageID VARCHAR," +
+                "DispFarmerTable_GrampanchayatID VARCHAR,DispFarmerTable_FarmerID VARCHAR,DispFarmerTable_Farmer_Code VARCHAR," +
+                "DispFarmerTable_FarmerName VARCHAR,FarmerMName_DB VARCHAR,FarmerLName_DB VARCHAR,Farmerage_DB VARCHAR," +
+                "Farmercellno_DB VARCHAR,FIncome_DB VARCHAR,Ffamilymember_DB VARCHAR,FIDprooftype_DB VARCHAR,FIDProofNo_DB VARCHAR,UploadedStatusFarmerprofile_DB VARCHAR," +
+                "FarmerImageB64str_DB VARCHAR,DispFarmerTable_FarmerImage VARCHAR," +
+                "LocalFarmerImg BLOB,Farmpondcount VARCHAR,Submitted_Date VARCHAR,Created_By VARCHAR,Created_Date VARCHAR,Created_User VARCHAR,Response VARCHAR,Response_Action VARCHAR,Farmer_Gender VARCHAR);");
+
+
+        Cursor cursor1 = db_viewfarmerlist.rawQuery("SELECT * FROM ViewFarmerListRest WHERE UploadedStatusFarmerprofile_DB='" + 9 + "'", null);
+        int x = cursor1.getCount();
+
+        Log.e("profile_count", String.valueOf(x));
+
+
+        int i = 0;
+
+
+        class_farmerlistdetails_arrayObj = new Farmer[x];
+        if (x > 0) {
+            if (cursor1.moveToFirst()) {
+
+                do {
+
+                    Farmer innerObj_class_farmerlistDetails = new Farmer();
+
+                    //
+                    innerObj_class_farmerlistDetails.setAcademic_ID(cursor1.getString(cursor1.getColumnIndex("DispFarmerTable_YearID")));
+                    innerObj_class_farmerlistDetails.setStateID(cursor1.getString(cursor1.getColumnIndex("DispFarmerTable_StateID")));
+                    innerObj_class_farmerlistDetails.setDistrictID(cursor1.getString(cursor1.getColumnIndex("DispFarmerTable_DistrictID")));
+                    innerObj_class_farmerlistDetails.setTalukaID(cursor1.getString(cursor1.getColumnIndex("DispFarmerTable_TalukID")));
+                    innerObj_class_farmerlistDetails.setVillageID(cursor1.getString(cursor1.getColumnIndex("DispFarmerTable_VillageID")));
+                    innerObj_class_farmerlistDetails.setPanchayatID(cursor1.getString(cursor1.getColumnIndex("DispFarmerTable_GrampanchayatID")));
+                    innerObj_class_farmerlistDetails.setFarmerID(cursor1.getString(cursor1.getColumnIndex("DispFarmerTable_FarmerID")));
+                    innerObj_class_farmerlistDetails.setFarmer_Code(cursor1.getString(cursor1.getColumnIndex("DispFarmerTable_Farmer_Code")));
+                    innerObj_class_farmerlistDetails.setFarmerFirstName(cursor1.getString(cursor1.getColumnIndex("DispFarmerTable_FarmerName")));
+                    innerObj_class_farmerlistDetails.setFarmerMiddleName(cursor1.getString(cursor1.getColumnIndex("FarmerMName_DB")));
+                    innerObj_class_farmerlistDetails.setFarmerMiddleName(cursor1.getString(cursor1.getColumnIndex("FarmerLName_DB")));
+                    innerObj_class_farmerlistDetails.setFarmerAge(cursor1.getString(cursor1.getColumnIndex("Farmerage_DB")));
+                    innerObj_class_farmerlistDetails.setFarmerMobile(cursor1.getString(cursor1.getColumnIndex("Farmercellno_DB")));
+                    innerObj_class_farmerlistDetails.setFarmerIncome(cursor1.getString(cursor1.getColumnIndex("FIncome_DB")));
+                    innerObj_class_farmerlistDetails.setFarmerFamily(cursor1.getString(cursor1.getColumnIndex("Ffamilymember_DB")));
+                    innerObj_class_farmerlistDetails.setFarmerIDType(cursor1.getString(cursor1.getColumnIndex("FIDprooftype_DB")));
+                    innerObj_class_farmerlistDetails.setFarmerIDNumber(cursor1.getString(cursor1.getColumnIndex("FIDProofNo_DB")));
+                    innerObj_class_farmerlistDetails.setStr_base64(cursor1.getString(cursor1.getColumnIndex("FarmerImageB64str_DB")));
+                    innerObj_class_farmerlistDetails.setSubmittedDate(cursor1.getString(cursor1.getColumnIndex("Submitted_Date")));
+                    innerObj_class_farmerlistDetails.setFarmer_Gender(cursor1.getString(cursor1.getColumnIndex("Farmer_Gender")));
+
+                    class_farmerlistdetails_arrayObj[i] = innerObj_class_farmerlistDetails;
+                    i++;
+                } while (cursor1.moveToNext());
+            }//if ends
+
+        }
+
+
+        db_viewfarmerlist.close();
+
+        Log.e("length", String.valueOf(class_farmerlistdetails_arrayObj.length));
+
+        for (int j = 0; j < class_farmerlistdetails_arrayObj.length; j++) {
+            Log.e("tag", "FarmerFirstName==" + class_farmerlistdetails_arrayObj[j].getFarmerFirstName());
+            //  EditFarmerDetails(j);
+            String FarmerID = class_farmerlistdetails_arrayObj[j].getFarmerID();
+            String stateid = class_farmerlistdetails_arrayObj[j].getStateID();
+            String districtid = class_farmerlistdetails_arrayObj[j].getDistrictID();
+            String talukid = class_farmerlistdetails_arrayObj[j].getTalukaID();
+            String panchayatid = class_farmerlistdetails_arrayObj[j].getPanchayatID();
+            String villageid = class_farmerlistdetails_arrayObj[j].getVillageID();
+            String fname = class_farmerlistdetails_arrayObj[j].getFarmerFirstName();
+            String mname = class_farmerlistdetails_arrayObj[j].getFarmerMiddleName();
+            String lname = class_farmerlistdetails_arrayObj[j].getFarmerLastName();
+            String phonenumber = class_farmerlistdetails_arrayObj[j].getFarmerMobile();
+            String idprooftyp = class_farmerlistdetails_arrayObj[j].getFarmerIDType();
+            String idproofno = class_farmerlistdetails_arrayObj[j].getFarmerIDNumber();
+            String farmerimage = class_farmerlistdetails_arrayObj[j].getStr_base64();
+            String age = class_farmerlistdetails_arrayObj[j].getFarmerAge();
+            String annualincome = class_farmerlistdetails_arrayObj[j].getFarmerIncome();
+            String familymembers = class_farmerlistdetails_arrayObj[j].getFarmerFamily();
+            String submittedDateTime = class_farmerlistdetails_arrayObj[j].getSubmittedDate();
+            String tempfarmerid = class_farmerlistdetails_arrayObj[j].getMobileTempID();
+            String empId = class_farmerlistdetails_arrayObj[j].getCreatedBy();
+            String Farmer_Gender = class_farmerlistdetails_arrayObj[j].getFarmer_Gender();
+
+            EditFarmerDetails(FarmerID, stateid, districtid, talukid, panchayatid, villageid, fname, mname, lname, phonenumber, idprooftyp, idproofno, farmerimage, age, annualincome, familymembers, submittedDateTime, tempfarmerid, empId, Farmer_Gender);
+
+
+        }
+    }
 
 //Online Sync
 
