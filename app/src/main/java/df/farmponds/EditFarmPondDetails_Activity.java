@@ -113,6 +113,7 @@ public class EditFarmPondDetails_Activity extends AppCompatActivity {
     ArrayList<String> arraylist_image1_base64 = new ArrayList<>();
     ArrayList<String> arraylist_image2_base64 = new ArrayList<>();
     ArrayList<String> arraylist_image3_base64 = new ArrayList<>();
+    ArrayList<String> arraylist_image4_base64 = new ArrayList<>();
 
     ArrayList<String> arraylist_image1_ID_base64 = new ArrayList<>();
     ArrayList<String> arraylist_image2_ID_base64 = new ArrayList<>();
@@ -182,6 +183,8 @@ public class EditFarmPondDetails_Activity extends AppCompatActivity {
     LinearLayout startdate_LL, completeddate_LL, nodays_LL, machineno_LL, farmpondcompleted_LL, notcompleted_text_LL, remarks_LL, amountcollected_LL;
     LinearLayout amount_LL;
     String str_image1present, str_image2present, str_image3present;
+    String  str_image1edited,str_image2edited,str_image3edited;
+
 
     Class_GPSTracker gpstracker_obj1, gpstracker_obj2, gpstracker_obj3;
     Double double_currentlatitude = 0.0;
@@ -526,6 +529,7 @@ public class EditFarmPondDetails_Activity extends AppCompatActivity {
 
 
         str_image1present = str_image2present = str_image3present = "no";
+        str_image1edited=str_image2edited=str_image3edited="no";
         int_k=0;
 
 
@@ -659,6 +663,7 @@ public class EditFarmPondDetails_Activity extends AppCompatActivity {
                 arraylist_image1_base64.add("noimage1");
 
                 str_image1present = "no";
+                str_image1edited="no";
                 edit_removeimage1_ib.setVisibility(View.GONE);
                 String str_imagefromdrawable = "@drawable/add_farmpond_image";
                 int int_imageResource = getResources().getIdentifier(str_imagefromdrawable, null, getPackageName());
@@ -675,6 +680,7 @@ public class EditFarmPondDetails_Activity extends AppCompatActivity {
                 arraylist_image2_base64.add("noimage2");
 
                 str_image2present = "no";
+                str_image2edited="no";
                 edit_removeimage2_ib.setVisibility(View.GONE);
 
                 String str_imagefromdrawable = "@drawable/add_farmpond_image";
@@ -693,6 +699,7 @@ public class EditFarmPondDetails_Activity extends AppCompatActivity {
 
                 str_location = "no";
                 str_image3present = "no";
+                str_image1edited="no";
                 str_validation_for_completed = "no";
                 startdate_LL.setVisibility(View.GONE);
                 completeddate_LL.setVisibility(View.GONE);
@@ -1580,7 +1587,8 @@ public class EditFarmPondDetails_Activity extends AppCompatActivity {
     }
 
 
-    private void selectImage() {
+    private void selectImage()
+    {
         final CharSequence[] items;
 
         if (str_image3.equalsIgnoreCase("true")) {
@@ -1667,8 +1675,10 @@ public class EditFarmPondDetails_Activity extends AppCompatActivity {
         super.onActivityResult(requestCode, resultCode, data);
 
         if (resultCode == Activity.RESULT_OK) {
-            if (requestCode == SELECT_FILE) {
+            if (requestCode == SELECT_FILE)
+            {
                 onSelectFromGalleryResult(data);
+
             } else if (requestCode == 2) {
 
 
@@ -1743,6 +1753,7 @@ public class EditFarmPondDetails_Activity extends AppCompatActivity {
             edit_removeimage1_ib.setVisibility(View.VISIBLE);
 
             str_image1present = "yes";
+            str_image1edited="yes";
 
             ByteArrayOutputStream baos = new ByteArrayOutputStream();
             bitmap_thumbnail.compress(Bitmap.CompressFormat.PNG, 60, baos);
@@ -1759,6 +1770,7 @@ public class EditFarmPondDetails_Activity extends AppCompatActivity {
             edit_removeimage2_ib.setVisibility(View.VISIBLE);
             str_image2 = "false";
             str_image2present = "yes";
+            str_image2edited="yes";
             ByteArrayOutputStream baos = new ByteArrayOutputStream();
             bitmap_thumbnail.compress(Bitmap.CompressFormat.PNG, 60, baos);
             byte[] b = baos.toByteArray();
@@ -1775,6 +1787,7 @@ public class EditFarmPondDetails_Activity extends AppCompatActivity {
 
             str_location = "yes";
             str_image3present = "yes";
+            str_image3edited="yes";
             edit_farmpond_completed_cb.setChecked(true);
 
             notcompleted_text_LL.setVisibility(View.GONE);
@@ -1845,6 +1858,7 @@ public class EditFarmPondDetails_Activity extends AppCompatActivity {
             edit_removeimage1_ib.setVisibility(View.VISIBLE);
 
             str_image1present = "yes";
+            str_image1edited="yes";
 
 
             ByteArrayOutputStream baos = new ByteArrayOutputStream();
@@ -1861,6 +1875,7 @@ public class EditFarmPondDetails_Activity extends AppCompatActivity {
             edit_pond_image2_iv.setImageBitmap(userImage1);
             edit_removeimage2_ib.setVisibility(View.VISIBLE);
             str_image2present = "yes";
+            str_image2edited="yes";
 
             str_base64imagestring = "";
             ByteArrayOutputStream baos = new ByteArrayOutputStream();
@@ -2371,14 +2386,45 @@ public class EditFarmPondDetails_Activity extends AppCompatActivity {
             cv.put("FPondCropBeforeDB", " ");
             cv.put("FPondCropAfterDB", " ");
 
-            cv.put("Imageid1DB", image_id1_tv.getText().toString());
+
+
+            if (str_image1present.equalsIgnoreCase("yes")&&
+                    str_image1edited.equalsIgnoreCase("yes")) {
+                cv.put("Imageid1DB", "-1");
+                cv.put("Image1Base64DB", arraylist_image1_base64.get(0));
+            }else{
+                cv.put("Imageid1DB", image_id1_tv.getText().toString());
+                cv.put("Image1Base64DB", arraylist_image1_base64.get(0));
+            }
+            if (str_image2present.equalsIgnoreCase("yes")&&
+                    str_image2edited.equalsIgnoreCase("yes"))
+            {
+                cv.put("Imageid2DB", "-1");
+                cv.put("Image2Base64DB", arraylist_image2_base64.get(0));
+            }else{
+                cv.put("Imageid2DB", image_id2_tv.getText().toString());
+                cv.put("Image2Base64DB", arraylist_image2_base64.get(0));
+            }
+            if (str_image3present.equalsIgnoreCase("yes")
+                    && str_image3edited.equalsIgnoreCase("yes"))
+            {
+                cv.put("Imageid3DB", "-1");
+                cv.put("Image3Base64DB", arraylist_image3_base64.get(0));
+            }else
+            {
+                cv.put("Imageid3DB", image_id3_tv.getText().toString());
+                cv.put("Image3Base64DB", arraylist_image3_base64.get(0));
+            }
+
+
+            /*cv.put("Imageid1DB", image_id1_tv.getText().toString());
             cv.put("Image1Base64DB", arraylist_image1_base64.get(0));
 
             cv.put("Imageid2DB", image_id2_tv.getText().toString());
             cv.put("Image2Base64DB", arraylist_image2_base64.get(0));
 
             cv.put("Imageid3DB", image_id3_tv.getText().toString());
-            cv.put("Image3Base64DB", arraylist_image3_base64.get(0));
+            cv.put("Image3Base64DB", arraylist_image3_base64.get(0));*/
 
             cv.put("EmployeeIDDB", str_employee_id);
 
@@ -2394,11 +2440,19 @@ public class EditFarmPondDetails_Activity extends AppCompatActivity {
             Log.e("updateLatitude", str_latitude);
             Log.e("updateLongitude", str_longitude);
 
-            cv.put("LatitudeDB", str_latitude);
-            cv.put("LongitudeDB", str_longitude); // vijaylat
 
-            cv.put("FPondLatitudeDB", str_latitude);
-            cv.put("FPondLongitudeDB", str_longitude);
+            if (str_image3present.equalsIgnoreCase("yes")
+                    && str_image3edited.equalsIgnoreCase("yes"))
+            {
+                cv.put("LatitudeDB", str_latitude);
+                cv.put("LongitudeDB", str_longitude); // vijaylat
+
+                cv.put("FPondLatitudeDB", str_latitude);
+                cv.put("FPondLongitudeDB", str_longitude);
+            }
+
+
+
 
             cv.put("StartDateDB", str_startdate);//pond_startdate
             cv.put("SubmittedDateDB", str_submitteddatetime);
@@ -3151,14 +3205,6 @@ public class EditFarmPondDetails_Activity extends AppCompatActivity {
 
 
 
-
-
-
-
-
-
-
-
     public void fetch_DB_edited_offline_data()
     {
 
@@ -3250,7 +3296,7 @@ public class EditFarmPondDetails_Activity extends AppCompatActivity {
 
 
             int x = 0;
-            if (str_image1present.equalsIgnoreCase("yes")) {
+           /* if (str_image1present.equalsIgnoreCase("yes")) {
                 x++;
                 if (str_image2present.equalsIgnoreCase("yes")) {
                     x++;
@@ -3258,59 +3304,122 @@ public class EditFarmPondDetails_Activity extends AppCompatActivity {
                         x++;
                     }
                 }
+            }*/
+
+            if (str_image1present.equalsIgnoreCase("yes")&& str_image1edited.equalsIgnoreCase("yes")) {
+                x++;
             }
+            if (str_image2present.equalsIgnoreCase("yes")&& str_image2edited.equalsIgnoreCase("yes")) {
+                x++;
+            }
+            if (str_image3present.equalsIgnoreCase("yes")&& str_image3edited.equalsIgnoreCase("yes")) {
+                x++;
+            }
+
 
             Log.e("str_image1present",str_image1present);
             Log.e("str_image2present",str_image2present);
             Log.e("str_image3present",str_image3present);
 
+            Log.e("str_image1edited",str_image1edited);
+            Log.e("str_image2edited",str_image2edited);
+            Log.e("str_image3edited",str_image3edited);
+
             Log.e("Editpondlength", String.valueOf(x));
 
             PondImage[] pondimage_arrayobj = new PondImage[x];
 
-            for (int j = 0; j < x; j++) {
-                PondImage pondimage_innerobj = new PondImage();
-                pondimage_innerobj.setImageID("0");
-                pondimage_innerobj.setPondID("0");
-                pondimage_innerobj.setImageData1("");
-                if (j == 0) {
-                    pondimage_innerobj.setImageData(class_farmponddetails_offline_array_obj[k].getImage1_Base64());
-                    if (str_image1present.equalsIgnoreCase("yes")) {
+            for (int j = 0; j < x; j++)
+            {
+
+                if (j == 0)
+                {
+                    PondImage pondimage_innerobj = new PondImage();
+                    pondimage_innerobj.setImageID("0");
+                    pondimage_innerobj.setPondID("0");
+                    pondimage_innerobj.setImageData1("");
+                    if (str_image1present.equalsIgnoreCase("yes")&&
+                            str_image1edited.equalsIgnoreCase("yes"))
+                    {
+                        pondimage_innerobj.setImageData(class_farmponddetails_offline_array_obj[k].getImage1_Base64());
                         pondimage_innerobj.setImageType("1");
+                        pondimage_innerobj.setImageLink("");
+                        pondimage_innerobj.setImageStatus("0");
+                        pondimage_arrayobj[j] = pondimage_innerobj;
                     } else {
-                        if (str_image2present.equalsIgnoreCase("yes")) {
+                        if (str_image2present.equalsIgnoreCase("yes")
+                         && str_image2edited.equalsIgnoreCase("yes"))
+                        {
+                            pondimage_innerobj.setImageData(class_farmponddetails_offline_array_obj[k].getImage2_Base64());
                             pondimage_innerobj.setImageType("2");
+                            pondimage_innerobj.setImageLink("");
+                            pondimage_innerobj.setImageStatus("0");
+                            pondimage_arrayobj[j] = pondimage_innerobj;
                         } else {
-                            if (str_image3present.equalsIgnoreCase("yes")) {
+                            if (str_image3present.equalsIgnoreCase("yes")
+                                    && str_image3edited.equalsIgnoreCase("yes"))
+                            {
+                                pondimage_innerobj.setImageData(class_farmponddetails_offline_array_obj[k].getImage3_Base64());
                                 pondimage_innerobj.setImageType("3");
+                                pondimage_innerobj.setImageLink("");
+                                pondimage_innerobj.setImageStatus("0");
+                                pondimage_arrayobj[j] = pondimage_innerobj;
                             }
                         }
                     }
 
-
                 }
-                if (j == 1) {
-                    pondimage_innerobj.setImageData(class_farmponddetails_offline_array_obj[k].getImage2_Base64());
-                    if (str_image2present.equalsIgnoreCase("yes")) {
+                if (j == 1)
+                {
+                    PondImage pondimage_innerobj = new PondImage();
+                    pondimage_innerobj.setImageID("0");
+                    pondimage_innerobj.setPondID("0");
+                    pondimage_innerobj.setImageData1("");
+
+                    if (str_image2present.equalsIgnoreCase("yes")&&
+                            str_image2edited.equalsIgnoreCase("yes"))
+                    {
+                        pondimage_innerobj.setImageData(class_farmponddetails_offline_array_obj[k].getImage2_Base64());
                         pondimage_innerobj.setImageType("2");
+
+                        pondimage_innerobj.setImageLink("");
+                        pondimage_innerobj.setImageStatus("0");
+                        pondimage_arrayobj[j] = pondimage_innerobj;
                     } else {
-                        if (str_image3present.equalsIgnoreCase("yes")) {
+                        if (str_image3present.equalsIgnoreCase("yes")
+                                && str_image3edited.equalsIgnoreCase("yes"))
+                        {
+                            pondimage_innerobj.setImageData(class_farmponddetails_offline_array_obj[k].getImage3_Base64());
                             pondimage_innerobj.setImageType("3");
+                            pondimage_innerobj.setImageLink("");
+                            pondimage_innerobj.setImageStatus("0");
+                            pondimage_arrayobj[j] = pondimage_innerobj;
                         }
                     }
                 }
 
-                if (j == 2) {
+                if (j == 2)
+                {
+                    PondImage pondimage_innerobj = new PondImage();
+                    pondimage_innerobj.setImageID("0");
+                    pondimage_innerobj.setPondID("0");
+                    pondimage_innerobj.setImageData1("");
+
                     pondimage_innerobj.setImageData(class_farmponddetails_offline_array_obj[k].getImage3_Base64());
                     pondimage_innerobj.setImageType("3");
+                    pondimage_innerobj.setImageLink("");
+                    pondimage_innerobj.setImageStatus("0");
+                    pondimage_arrayobj[j] = pondimage_innerobj;
                 }
 
-                pondimage_innerobj.setImageLink("");
+               /* pondimage_innerobj.setImageLink("");
                 pondimage_innerobj.setImageStatus("0");
-                pondimage_arrayobj[j] = pondimage_innerobj;
+                pondimage_arrayobj[j] = pondimage_innerobj;*/
             }
 
+
             List list = Arrays.asList(pondimage_arrayobj);
+            Log.e("listsize", String.valueOf(list.size()));
             request.setPondImage(list);
 
 
@@ -3571,14 +3680,6 @@ public class EditFarmPondDetails_Activity extends AppCompatActivity {
 
 
     }
-
-
-
-
-
-
-
-
 
 
         //offlinedata verfication
