@@ -74,7 +74,7 @@
 
             <TextView
                 android:id="@+id/FarmerIDlabel_tv"
-                android:layout_width="0dp"
+                android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_weight="0.6"
                 android:gravity="start"
@@ -86,7 +86,7 @@
 
             <TextView
                 android:id="@+id/farmercode_tv"
-                android:layout_width="0dp"
+                android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_weight="1"
                 android:text=""
@@ -96,7 +96,7 @@
 
 
             <TextView
-                android:layout_width="0dp"
+                android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_weight="0.6"
                 android:gravity="start"
@@ -108,7 +108,7 @@
 
             <TextView
                 android:id="@+id/pondcount_tv"
-                android:layout_width="0dp"
+                android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_weight="1"
                 android:text=""
