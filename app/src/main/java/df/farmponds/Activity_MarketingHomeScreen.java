@@ -1116,7 +1116,7 @@ Log.e("tag","str_employee_id="+str_employee_id);
 
 
 
-            if(class_farmponddetails_offline_array_obj[k].getImage1_Base64().equalsIgnoreCase("noimage1")
+            /*if(class_farmponddetails_offline_array_obj[k].getImage1_Base64().equalsIgnoreCase("noimage1")
                     ||class_farmponddetails_offline_array_obj[k].getImage1_Base64().equalsIgnoreCase("0"))
             {}
             else{
@@ -1132,31 +1132,96 @@ Log.e("tag","str_employee_id="+str_employee_id);
                     else{
                         x++;}
                 }
-            }
-
-
-
-            Log.e("Editpondlength", String.valueOf(x));
-
-            PondImage[] pondimage_arrayobj = new PondImage[x];
-
-            for (int j = 0; j < x; j++) {
+            }*/
+           /* PondImage[] pondimage_arrayobj = new PondImage[x];
+            for (int j = 0; j < x; j++)
+            {
                 PondImage pondimage_innerobj = new PondImage();
                 pondimage_innerobj.setImageID("0");
                 pondimage_innerobj.setPondID("0");
                 pondimage_innerobj.setImageData1("");
                 if (j == 0) {
                     pondimage_innerobj.setImageData(class_farmponddetails_offline_array_obj[k].getImage1_Base64());
-                        pondimage_innerobj.setImageType("1");
-                    }
+                    pondimage_innerobj.setImageType("1");
+                }
                 if (j == 1)
                 {
                     pondimage_innerobj.setImageData(class_farmponddetails_offline_array_obj[k].getImage2_Base64());
-                        pondimage_innerobj.setImageType("2");
+                    pondimage_innerobj.setImageType("2");
                 }
                 if (j == 2) {
                     pondimage_innerobj.setImageData(class_farmponddetails_offline_array_obj[k].getImage3_Base64());
                     pondimage_innerobj.setImageType("3");
+                }
+
+                pondimage_innerobj.setImageLink("");
+                pondimage_innerobj.setImageStatus("0");
+                pondimage_arrayobj[j] = pondimage_innerobj;
+            }
+
+            List list = Arrays.asList(pondimage_arrayobj);
+            request.setPondImage(list);*/
+
+
+            if(class_farmponddetails_offline_array_obj[k].getImage1_ID().equalsIgnoreCase("-1"))
+            {
+                x++;
+            }
+            if(class_farmponddetails_offline_array_obj[k].getImage2_ID().equalsIgnoreCase("-1"))
+            { x++;}
+
+            if(class_farmponddetails_offline_array_obj[k].getImage3_ID().equalsIgnoreCase("-1"))
+            { x++;}
+
+            Log.e("Editpondlength", String.valueOf(x));
+
+            PondImage[] pondimage_arrayobj = new PondImage[x];
+            for (int j = 0; j < x; j++)
+            {
+                PondImage pondimage_innerobj = new PondImage();
+                pondimage_innerobj.setImageID("0");
+                pondimage_innerobj.setPondID("0");
+                pondimage_innerobj.setImageData1("");
+                if (j == 0)
+                {
+                    if(class_farmponddetails_offline_array_obj[k].getImage1_ID().equalsIgnoreCase("-1")) {
+                        pondimage_innerobj.setImageData(class_farmponddetails_offline_array_obj[k].getImage1_Base64());
+                        pondimage_innerobj.setImageType("1");
+                    }else if(class_farmponddetails_offline_array_obj[k].getImage2_ID().equalsIgnoreCase("-1"))
+                    {
+                        pondimage_innerobj.setImageData(class_farmponddetails_offline_array_obj[k].getImage2_Base64());
+                        pondimage_innerobj.setImageType("2");
+                    }else
+                    {
+                        if(class_farmponddetails_offline_array_obj[k].getImage3_ID().equalsIgnoreCase("-1"))
+                        {
+                            pondimage_innerobj.setImageData(class_farmponddetails_offline_array_obj[k].getImage3_Base64());
+                            pondimage_innerobj.setImageType("3");
+                        }
+                    }
+                    }
+                if (j == 1)
+                {
+                    if(class_farmponddetails_offline_array_obj[k].getImage2_ID().equalsIgnoreCase("-1")) {
+                        pondimage_innerobj.setImageData(class_farmponddetails_offline_array_obj[k].getImage2_Base64());
+                        pondimage_innerobj.setImageType("2");
+                    }else{
+
+                        if(class_farmponddetails_offline_array_obj[k].getImage3_ID().equalsIgnoreCase("-1"))
+                        {
+                            pondimage_innerobj.setImageData(class_farmponddetails_offline_array_obj[k].getImage3_Base64());
+                            pondimage_innerobj.setImageType("3");
+                        }
+                    }
+
+                }
+                if (j == 2) {
+
+                    if(class_farmponddetails_offline_array_obj[k].getImage3_ID().equalsIgnoreCase("-1"))
+                    {
+                        pondimage_innerobj.setImageData(class_farmponddetails_offline_array_obj[k].getImage3_Base64());
+                        pondimage_innerobj.setImageType("3");
+                    }
                 }
 
                 pondimage_innerobj.setImageLink("");
