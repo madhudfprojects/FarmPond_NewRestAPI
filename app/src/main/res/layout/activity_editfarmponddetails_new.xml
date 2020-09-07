@@ -528,8 +528,10 @@
                 android:layout_height="wrap_content"
                 android:layout_marginLeft="30dp"
                 android:gravity="center_vertical"
-                android:layout_marginBottom="2dp"
+                android:layout_marginBottom="3dp"
                 android:id="@+id/currentlatitude_LL"
+
+                android:background="@drawable/round_row_edittext2"
                 android:orientation="horizontal">
 
                 <TextView
@@ -537,6 +539,7 @@
                     android:layout_height="wrap_content"
                     android:layout_weight="0.54"
                     android:text=" Latitude"
+                    android:padding="2dp"
                     android:textColor="@color/light_gray"
                     android:textSize="15dp" />
 
@@ -560,6 +563,7 @@
                 android:layout_marginBottom="10dp"
                 android:gravity="center_vertical"
                 android:id="@+id/currentlongitude_LL"
+                android:background="@drawable/round_row_edittext2"
                 android:orientation="horizontal">
 
                 <TextView
@@ -567,6 +571,7 @@
                     android:layout_height="wrap_content"
                     android:layout_weight="0.54"
                     android:text=" Longitude"
+                    android:padding="2dp"
                     android:textColor="@color/light_gray"
                     android:textSize="15dp" />
 
@@ -587,8 +592,9 @@
                 android:layout_height="wrap_content"
                 android:layout_marginLeft="30dp"
                 android:gravity="center_vertical"
-                android:layout_marginBottom="2dp"
+                android:layout_marginBottom="3dp"
                 android:id="@+id/dblatitude_LL"
+                android:background="@drawable/round_row_edittext2"
                 android:orientation="horizontal">
 
                 <TextView
@@ -596,6 +602,7 @@
                     android:layout_height="wrap_content"
                     android:layout_weight="0.54"
                     android:text=" Latitude"
+                    android:padding="2dp"
                     android:textColor="@color/light_gray"
                     android:textSize="15dp" />
 
@@ -618,6 +625,8 @@
                 android:layout_marginLeft="30dp"
                 android:gravity="center_vertical"
                 android:id="@+id/dblongitude_LL"
+                android:layout_marginBottom="3dp"
+                android:background="@drawable/round_row_edittext2"
                 android:orientation="horizontal">
 
                 <TextView
@@ -625,6 +634,7 @@
                     android:layout_height="wrap_content"
                     android:layout_weight="0.54"
                     android:text=" Longitude"
+                    android:padding="2dp"
                     android:textColor="@color/light_gray"
                     android:textSize="15dp" />
 

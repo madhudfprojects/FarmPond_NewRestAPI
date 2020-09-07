@@ -187,17 +187,15 @@
 
 
         <LinearLayout
-            android:layout_width="match_parent"
+            android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:gravity="center"
-            android:weightSum="3"
             android:orientation="horizontal">
 
             <TextView
-
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:gravity="start"
+                android:gravity="center_horizontal"
                 android:text="Farm Pond code : "
                 android:textColor="@color/light_gray"
                 android:textSize="15dp"
@@ -205,7 +203,6 @@
 
 
             <TextView
-                android:layout_weight="1"
                 android:id="@+id/farmpond_id_tv"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
@@ -213,14 +210,6 @@
                 android:textColor="@color/dark_black"
                 android:textSize="14dp" />
 
-            <TextView
-                android:layout_weight="1.5"
-                android:id="@+id/final_farmpondcode_tv"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:text="1111"
-                android:textColor="@color/dark_black"
-                android:textSize="14dp" />
            <!-- <TextView
 
                 android:layout_width="wrap_content"
@@ -252,10 +241,18 @@
                     android:text="                           "
                     android:textColor="@color/light_gray"
                     android:textSize="15dp"
-                    android:layout_margin="2dp"/>
+                    android:padding="2dp"
+                    android:layout_marginRight="10dp"/>
 
 
-
+                <TextView
+                    android:id="@+id/final_farmpondcode_tv"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginLeft="10dp"
+                    android:text="1111"
+                    android:textColor="@color/dark_black"
+                    android:textSize="14dp" />
 
             </LinearLayout>
 

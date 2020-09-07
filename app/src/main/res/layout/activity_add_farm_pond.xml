@@ -682,6 +682,7 @@
                 android:layout_height="wrap_content"
                 android:layout_marginLeft="30dp"
                 android:layout_marginTop="15dp"
+                android:layout_marginBottom="3dp"
                 android:gravity="center_vertical"
                 android:id="@+id/farmpondLocationlatitude_LL"
                 android:background="@drawable/round_row_edittext2"
@@ -694,6 +695,7 @@
                     android:layout_height="wrap_content"
                     android:layout_weight="0.54"
                     android:text=" Latitude"
+                    android:padding="2dp"
                     android:textColor="@color/light_gray"
                     android:textSize="15dp" />
 
@@ -723,6 +725,7 @@
                     android:layout_height="wrap_content"
                     android:layout_weight="0.54"
                     android:text=" Longitude"
+                    android:padding="2dp"
                     android:textColor="@color/light_gray"
                     android:textSize="15dp" />
 
