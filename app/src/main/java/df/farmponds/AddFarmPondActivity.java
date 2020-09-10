@@ -268,6 +268,8 @@ public class AddFarmPondActivity extends AppCompatActivity {
 
     int i;
 
+    ImageView locateinmap_iv;
+
     @Override
     protected void onCreate(Bundle savedInstanceState)
     {
@@ -339,6 +341,8 @@ public class AddFarmPondActivity extends AppCompatActivity {
         add_newpond_image1_iv = (ImageView) findViewById(R.id.add_newpond_image1_iv);
         add_newpond_image2_iv = (ImageView) findViewById(R.id.add_newpond_image2_iv);
         add_newpond_image3_iv = (ImageView) findViewById(R.id.add_newpond_image3_iv);
+
+        locateinmap_iv=(ImageView)findViewById(R.id.locateinmap_iv);
 
 
         removeimage1_ib = (ImageButton) findViewById(R.id.removeimage1_ib);
