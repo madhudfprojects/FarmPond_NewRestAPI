@@ -209,10 +209,10 @@ public class Admin_Total_FarmpondDetails_Activity extends AppCompatActivity
                 "FPondLatitudeDB VARCHAR,FPondLongitudeDB VARCHAR," +
                 "FPondAcresDB VARCHAR,FPondGuntaDB VARCHAR,FPondCropBeforeDB VARCHAR,FPondCropAfterDB VARCHAR," +
                 "UploadedStatusFarmerprofile VARCHAR,UploadedStatus VARCHAR," +
-                "newpondImageId1 VARCHAR,pondImageType1 VARCHAR,newpondImageId2 VARCHAR,pondImageType2 VARCHAR,newpondImageId3 VARCHAR,pondImageType3 VARCHAR,Farmer_Gender VARCHAR);");
+                "newpondImageId1 VARCHAR,pondImageType1 VARCHAR,newpondImageId2 VARCHAR,pondImageType2 VARCHAR,newpondImageId3 VARCHAR,pondImageType3 VARCHAR,Farmer_Gender VARCHAR,finalfarmpondcodeDB VARCHAR,Location_Status VARCHAR);");
 
 
-      //  Log.e("tag", "pond FIDDB str_farmerid=" + str_farmerid);
+        //  Log.e("tag", "pond FIDDB str_farmerid=" + str_farmerid);
         Cursor cursor1 = db1.rawQuery("SELECT FIDDB,FNameDB,FMNameDB,FLNameDB,FphonenumberDB,FYearIDDB,FStateIDDB,FDistrictIDDB,FTalukIDDB ,FPanchayatIDDB,FVillageIDDB," +
                 "FPondidDB,WidthDB,HeightDB,DepthDB,FPondLatitudeDB,FPondLongitudeDB,StartDateDB,ConstructedDateDB,PondCostDB,FPondAmtTakenDB,FPondStatusDB,FPondDonorDB FROM FarmPondDetails_fromServerRest", null);
         int x = cursor1.getCount();
