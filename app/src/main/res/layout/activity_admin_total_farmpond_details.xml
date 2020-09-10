@@ -46,8 +46,9 @@
 
     <LinearLayout
         android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
+        android:layout_height="65dp"
         android:weightSum="2"
+        android:layout_marginBottom="10dp"
         android:orientation="horizontal">
         <RelativeLayout
             android:id="@+id/rel_yearlayout"
