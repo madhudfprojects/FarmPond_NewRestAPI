@@ -115,6 +115,12 @@ public class Activity_HomeScreen extends AppCompatActivity implements GoogleApiC
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main_new);
 
+        toolbar = (Toolbar) findViewById(R.id.toolbar_n_actionbar);
+        setSupportActionBar(toolbar);
+       // getSupportActionBar().setDisplayHomeAsUpEnabled(true);
+        TextView title = (TextView) toolbar.findViewById(R.id.title_name);
+        title.setText("Farmer View");
+        getSupportActionBar().setTitle("");
 
         //admin_view_rl=(RelativeLayout)findViewById(R.id.admin_view_rl);
         admin_view_ll = (LinearLayout) findViewById(R.id.admin_view_ll);
