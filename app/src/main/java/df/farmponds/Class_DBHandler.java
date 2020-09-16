@@ -41,7 +41,8 @@ public class Class_DBHandler extends SQLiteOpenHelper
                 "FPondLatitudeDB VARCHAR,FPondLongitudeDB VARCHAR," +
                 "FPondAcresDB VARCHAR,FPondGuntaDB VARCHAR,FPondCropBeforeDB VARCHAR,FPondCropAfterDB VARCHAR," +
                 "UploadedStatusFarmerprofile VARCHAR,UploadedStatus VARCHAR," +
-                "newpondImageId1 VARCHAR,pondImageType1 VARCHAR,newpondImageId2 VARCHAR,pondImageType2 VARCHAR,newpondImageId3 VARCHAR,pondImageType3 VARCHAR,Farmer_Gender VARCHAR,finalfarmpondcodeDB VARCHAR);");
+                "newpondImageId1 VARCHAR,pondImageType1 VARCHAR,newpondImageId2 VARCHAR,pondImageType2 VARCHAR,newpondImageId3 VARCHAR," +
+                "pondImageType3 VARCHAR,Farmer_Gender VARCHAR,finalfarmpondcodeDB VARCHAR,Location_Status VARCHAR);");
 
 
     }
@@ -201,6 +202,9 @@ public class Class_DBHandler extends SQLiteOpenHelper
                     { innerObj_Class_farmponddetails_offline.setFarmpond_amttaken(cursor1.getString(cursor1.getColumnIndex("FPondAmtTakenDB")));
                     }
 
+
+                    innerObj_Class_farmponddetails_offline.setLocation_status(cursor1.getString(cursor1.getColumnIndex("Location_Status")));
+
                     //innerObj_Class_farmponddetails_offline.setFarmpond_amttaken(cursor1.getString(cursor1.getColumnIndex("FPondAmtTakenDB")));
                     // "FPondRemarksDB VARCHAR,FPondAmtTakenDB VARCHAR,FPondStatusDB VARCHAR," +
 
@@ -226,5 +230,26 @@ public class Class_DBHandler extends SQLiteOpenHelper
         Log.e("length", String.valueOf(class_farmponddetails_offline_array_obj.length));
 return class_farmponddetails_offline_array_obj;
     }
+
+
+
+
+
+
+    public int get_DB_location_mapped_status_count()
+    {
+        SQLiteDatabase db = this.getReadableDatabase();
+        Cursor cursor1 = db.rawQuery("SELECT * FROM FarmPondDetails_fromServerRest WHERE Location_Status='" +"Pending"+ "'", null);
+        int x = cursor1.getCount();
+        Log.e("locatStatus_count", String.valueOf(x));
+        db.close();
+
+        return x;
+    }
+
+
+
+
+
 
 }//end of class

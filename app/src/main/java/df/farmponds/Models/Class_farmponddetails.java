@@ -150,6 +150,7 @@ public class Class_farmponddetails
     @SerializedName("Pond_Image_3")
     @Expose
     private String pondImage3;
+
     @SerializedName("Location_Status")
     @Expose
     private String location_Status;

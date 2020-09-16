@@ -435,6 +435,9 @@ public class EachFarmPondDetails_Activity extends AppCompatActivity {
 
                     innerObj_class_farmpondetails.setFinal_farmpond_code(cursor1.getString(cursor1.getColumnIndex("finalfarmpondcodeDB")));
 
+
+                    innerObj_class_farmpondetails.setLocation_status(cursor1.getString(cursor1.getColumnIndex("Location_Status")));
+
                     Log.e("farmpondcode", cursor1.getString(cursor1.getColumnIndex("FPondCodeDB")));
 
                     class_farmponddetails_array_obj[i] = innerObj_class_farmpondetails;
@@ -490,8 +493,11 @@ public class EachFarmPondDetails_Activity extends AppCompatActivity {
         ImageView holder_farmpond_image2;
         ImageView holder_farmpond_image3;
         ImageView holder_editfarmerponddetails;
+
+        LinearLayout holder_nopondinlist_ll;
         LinearLayout holder_listview_ll;
         LinearLayout holder_notsubmittedtoserver_ll;
+        LinearLayout holder_locationnotmapped_ll;
 
 
         LinearLayout holder_approvalstatus_ll;
@@ -503,6 +509,7 @@ public class EachFarmPondDetails_Activity extends AppCompatActivity {
         TextView holder_farmpond_approvalremarks_tv;
         TextView holder_farmpond_approvedby_tv;
         TextView holder_farmpond_donorname_tv;
+        
     }
 
 
@@ -556,7 +563,7 @@ public class EachFarmPondDetails_Activity extends AppCompatActivity {
 
                 //
 
-
+                holder.holder_nopondinlist_ll=(LinearLayout)convertView1.findViewById(R.id.nopondinlist_ll);
                 holder.holder_listview_ll = (LinearLayout) convertView1.findViewById(R.id.listview_ll);
                 holder.holder_farmername = (TextView) convertView1.findViewById(R.id.farmername_tv);
                 holder.holder_pondheight = (TextView) convertView1.findViewById(R.id.pond_height);
@@ -573,6 +580,7 @@ public class EachFarmPondDetails_Activity extends AppCompatActivity {
 
                 holder.holder_editfarmerponddetails = (ImageView) convertView1.findViewById(R.id.editfarmerponddetails_iv);
                 holder.holder_notsubmittedtoserver_ll = (LinearLayout) convertView1.findViewById(R.id.notsubmittedtoserver_ll);
+                holder.holder_locationnotmapped_ll=(LinearLayout) convertView1.findViewById(R.id.locationnotmapped_ll);
 
                 holder.holder_approvalstatus_ll = (LinearLayout) convertView1.findViewById(R.id.approvalstatus_ll);
                 holder.holder_approvalremarks_ll = (LinearLayout) convertView1.findViewById(R.id.approvalremarks_ll);
@@ -626,6 +634,13 @@ public class EachFarmPondDetails_Activity extends AppCompatActivity {
                         holder.holder_notsubmittedtoserver_ll.setVisibility(View.VISIBLE);
                     } else {
                         holder.holder_notsubmittedtoserver_ll.setVisibility(View.GONE);
+                    }
+
+                    if(farmponddetails_obj.getLocation_status().equalsIgnoreCase("Pending"))
+                    {
+                        holder.holder_locationnotmapped_ll.setVisibility(View.VISIBLE);
+                    }else{
+                        holder.holder_locationnotmapped_ll.setVisibility(View.GONE);
                     }
 
 

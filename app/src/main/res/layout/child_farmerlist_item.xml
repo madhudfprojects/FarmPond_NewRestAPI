@@ -115,6 +115,16 @@
                 android:textColor="@color/dark_black"
                 android:textSize="13dp"
                 android:fontFamily="serif"/>
+            <TextView
+                android:id="@+id/locationstatus_tv"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_weight="1"
+                android:visibility="gone"
+                android:text="!"
+                android:textColor="@color/color_red"
+                android:textSize="13dp"
+                android:fontFamily="serif"/>
         </LinearLayout>
 
 

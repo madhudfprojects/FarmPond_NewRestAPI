@@ -96,6 +96,8 @@ public class Class_farmponddetails_offline
 
     private String final_farmpond_code;
 
+    private String Location_status;
+
    /* public String getFarmer_Id() {
         return Farmer_Id;
     }
@@ -462,5 +464,13 @@ public class Class_farmponddetails_offline
 
     public void setFinal_farmpond_code(String final_farmpond_code) {
         this.final_farmpond_code = final_farmpond_code;
+    }
+
+    public String getLocation_status() {
+        return Location_status;
+    }
+
+    public void setLocation_status(String location_status) {
+        Location_status = location_status;
     }
 }

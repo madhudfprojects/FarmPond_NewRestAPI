@@ -4480,6 +4480,7 @@ public class Activity_ViewFarmers extends AppCompatActivity {
         TextView farmercode_tv;
         Button farmpond_bt;
         TextView farmerpondcount_tv;
+        TextView locationstatus_tv;
         //j TextView status_tv;
 
         ///////////////////////sept16th2019
@@ -4537,6 +4538,9 @@ public class Activity_ViewFarmers extends AppCompatActivity {
                 holder.farmpond_bt = (Button) convertView.findViewById(R.id.farmpond_bt);
                 holder.farmerimage_iv = (ImageView) convertView.findViewById(R.id.farmerimage_iv);
                 holder.farmerpondcount_tv = (TextView) convertView.findViewById(R.id.pondcount_tv);
+                holder.locationstatus_tv = (TextView) convertView.findViewById(R.id.locationstatus_tv);
+
+
                 // holder.status_tv=(TextView)convertView.findViewById(R.id.status_tv);
                 convertView.setTag(holder);
             } else {
@@ -4567,6 +4571,7 @@ public class Activity_ViewFarmers extends AppCompatActivity {
 
 //                    holder.status_tv.setText(Obj_Class_farmerlistdetails.getResponse());
                     holder.farmerpondcount_tv.setText(Obj_Class_farmerlistdetails.getFarmPond_Count());
+
                     /*if(Obj_Class_farmerlistdetails.getFarmpondcount().isEmpty()
                             ||Obj_Class_farmerlistdetails.getFarmpondcount().equals(null))*/
                         /*if(Obj_Class_farmerlistdetails.getFarmpondcount().equals(null))

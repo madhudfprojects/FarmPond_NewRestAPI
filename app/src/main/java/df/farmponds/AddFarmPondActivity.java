@@ -111,6 +111,11 @@ public class AddFarmPondActivity extends AppCompatActivity {
 
 
     TextView latitude_tv, longitude_tv;
+   public static TextView statlatitude_tv;
+    public static TextView statlongitude_tv;
+    public static TextView statlocatedmap_status_tv;
+    public static TextView statlocationnotconfirmedtext_tv;
+
 
     Class_InternetDectector internetDectector;
     Boolean isInternetPresent = false;
@@ -173,6 +178,13 @@ public class AddFarmPondActivity extends AppCompatActivity {
     public static final String Key_sel_villagesp = "sel_villagesp";
     public static final String Key_sel_grampanchayatsp = "sel_grampanchayatsp";
     SharedPreferences sharedpref_spinner_Obj;
+
+
+
+    public static final String sharedpreferencebook_addpondlocation = "sharedpreferencebook_addpondlocation";
+    public static final String KeyValue_latitude = "KeyValue_latitude";
+    public static final String KeyValue_Longitude = "KeyValue_Longitude";
+    SharedPreferences sharedpref_addpondlocation_Obj;
 
 
 
@@ -269,6 +281,11 @@ public class AddFarmPondActivity extends AppCompatActivity {
     int i;
 
     ImageView locateinmap_iv;
+    LinearLayout locatemap_ll;
+
+    public static String stat_str_latitude;
+    public static String stat_str_longitude;
+
 
     @Override
     protected void onCreate(Bundle savedInstanceState)
@@ -343,6 +360,7 @@ public class AddFarmPondActivity extends AppCompatActivity {
         add_newpond_image3_iv = (ImageView) findViewById(R.id.add_newpond_image3_iv);
 
         locateinmap_iv=(ImageView)findViewById(R.id.locateinmap_iv);
+        locatemap_ll=(LinearLayout)findViewById(R.id.locatemap_ll);
 
 
         removeimage1_ib = (ImageButton) findViewById(R.id.removeimage1_ib);
@@ -354,8 +372,15 @@ public class AddFarmPondActivity extends AppCompatActivity {
 
         cancel_submit_addnew_ll = (LinearLayout) findViewById(R.id.cancel_submit_addnew_ll);
 
-        longitude_tv = (TextView) findViewById(R.id.longitude_tv);
         latitude_tv = (TextView) findViewById(R.id.latitude_tv);
+        longitude_tv = (TextView) findViewById(R.id.longitude_tv);
+
+        statlatitude_tv=(TextView)findViewById(R.id.statlatitude_tv);
+        statlongitude_tv=(TextView)findViewById(R.id.statlongitude_tv);
+
+        statlocatedmap_status_tv=(TextView)findViewById(R.id.statlocatedmap_status_tv);
+        statlocationnotconfirmedtext_tv=(TextView)findViewById(R.id.statlocationnotconfirmedtext_tv);
+
 
         new_farmpond_completed_cb = (CheckBox) findViewById(R.id.new_farmpond_completed_cb);
         add_newpond_completeddate_tv = (TextView) findViewById(R.id.add_newpond_completeddate_tv);
@@ -467,8 +492,8 @@ public class AddFarmPondActivity extends AppCompatActivity {
             String str_latitude_inner =Double.toString(double_currentlatitude_inner);
             String str_longitude_inner =Double.toString(double_currentlongitude_inner);
 
-            latitude_tv.setText(str_latitude_inner);
-            longitude_tv.setText(str_longitude_inner);
+           /* latitude_tv.setText(str_latitude_inner);
+            longitude_tv.setText(str_longitude_inner);*/
 
             Log.e("lat",str_latitude_inner);
             Log.e("long",str_longitude_inner);
@@ -491,6 +516,8 @@ public class AddFarmPondActivity extends AppCompatActivity {
 
 
         str_image1present = str_image2present = str_image3present = "no";
+
+        statlocatedmap_status_tv.setText("Pending");
 
         uploadfromDB_Machinelist();
         uploadfromDB_Remarkslist();
@@ -561,8 +588,11 @@ public class AddFarmPondActivity extends AppCompatActivity {
 
                                 str_latitude = String.valueOf(location.getLatitude());
                                 str_longitude = String.valueOf(location.getLongitude());
-                                latitude_tv.setText(str_latitude);
-                                longitude_tv.setText(str_longitude);
+
+                                /*latitude_tv.setText(str_latitude);
+                                longitude_tv.setText(str_longitude);*/
+                                statlatitude_tv.setText(str_latitude);
+                                statlongitude_tv.setText(str_longitude);
 
                                 selectImage();
                             }
@@ -755,6 +785,7 @@ public class AddFarmPondActivity extends AppCompatActivity {
                 amountcollected_LL.setVisibility(View.GONE);
                 farmpondcompleted_LL.setVisibility(View.GONE);
 
+                locatemap_ll.setVisibility(View.GONE);
                 farmpondLocationlabel_LL.setVisibility(View.GONE);
                 farmpondLocationlatitude_LL.setVisibility(View.GONE);
                 farmpondLocationlongitude_LL.setVisibility(View.GONE);
@@ -1021,6 +1052,31 @@ public class AddFarmPondActivity extends AppCompatActivity {
         });
 
 
+
+
+
+        locateinmap_iv.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v)
+            {
+
+
+                internetDectector = new Class_InternetDectector(getApplicationContext());
+                isInternetPresent = internetDectector.isConnectingToInternet();
+
+                if (isInternetPresent)
+                {
+                    Intent i = new Intent(AddFarmPondActivity.this,MapsActivity.class);
+                    i.putExtra("from", "addfarmpond");
+                    startActivity(i);
+
+                }else{
+                Toast.makeText(getApplicationContext(),"Connect to Internet",Toast.LENGTH_LONG).show();
+                }
+
+
+            }
+        });
 
 
 
@@ -1716,6 +1772,7 @@ public class AddFarmPondActivity extends AppCompatActivity {
             add_newpond_image3_iv.setImageBitmap(bitmap_thumbnail);
             removeimage3_ib.setVisibility(View.VISIBLE);
             farmpondcompleted_LL.setVisibility(View.VISIBLE);
+            locatemap_ll.setVisibility(View.VISIBLE);
 
             str_image3present = "yes";
             notcompleted_text_LL.setVisibility(View.GONE);
@@ -1920,8 +1977,14 @@ public class AddFarmPondActivity extends AppCompatActivity {
             String str_width = add_newpond_width_et.getText().toString();
             String str_height = add_newpond_height_et.getText().toString();
             String str_depth = add_newpond_depth_et.getText().toString();
-            String str_latitude = latitude_tv.getText().toString();
+
+           /* String str_latitude = latitude_tv.getText().toString();
             String str_longitude = longitude_tv.getText().toString();
+*/
+            String str_latitude_mapped = statlatitude_tv.getText().toString();
+            String str_longitude_mapped = statlongitude_tv.getText().toString();
+
+            String str_locationstatus=statlocatedmap_status_tv.getText().toString();
 
             String str_acres = add_landacres_et.getText().toString();
             String str_gunta = add_landgunta_et.getText().toString();
@@ -2045,20 +2108,20 @@ public class AddFarmPondActivity extends AppCompatActivity {
                     "FPondApprovalStatusDB,FPondApprovalRemarksDB,FPondApprovedbyDB,FPondApprovedDateDB,FPondDonorDB," +
                     "FPondLatitudeDB,FPondLongitudeDB,FPondAcresDB,FPondGuntaDB,FPondCropBeforeDB,FPondCropAfterDB," +
                     "UploadedStatusFarmerprofile,UploadedStatus," +
-                    "newpondImageId1,pondImageType1,newpondImageId2,pondImageType2,newpondImageId3,pondImageType3,Farmer_Gender,finalfarmpondcodeDB)" +
+                    "newpondImageId1,pondImageType1,newpondImageId2,pondImageType2,newpondImageId3,pondImageType3,Farmer_Gender,finalfarmpondcodeDB,Location_Status)" +
                     " VALUES ('" + str_farmerid_db + "','" + str_farmerid_db + "','" + str_farmername_db + "','" + str_farmerMName + "','" + str_farmerLName + "','" + str_yearID + "'," +
                     "'" + str_stateID + "','" + str_districtID + "','" + str_talukID + "','" + str_panchayatID + "','" + str_villageID + "','" + str_farmerage + "'," +
                     "'" + str_Fphonenumber + "','" + str_FannualIncome + "','" + str_Ffamilymember + "','" + str_FIDprooftype + "','" + str_FIDproofno + "','" + str_Fphoto + "'," +
                     "'" + str_Tempfarmpond_id + "','" + str_width + "'," +
-                    "'" + str_height + "','" + str_depth + "','" + str_latitude + "','" + str_longitude + "','" + str_imageid1 + "','" + arraylist_image1_base64.get(0) + "'," +
+                    "'" + str_height + "','" + str_depth + "','" + str_latitude_mapped + "','" + str_longitude_mapped + "','" + str_imageid1 + "','" + arraylist_image1_base64.get(0) + "'," +
                     "'" + str_imageid2 + "','" + arraylist_image2_base64.get(0) + "','" + str_imageid3 + "','" + arraylist_image3_base64.get(0) + "'," +
                     "'" + str_employee_id + "','" + str_submitteddatetime + "','" + str_nodays + "','" + str_startdate + "','" + str_completeddate + "'," +
                     "'" + str_pondcost + "','" + str_mcode + "','" + str_farmpond_code + "'," +
                     "'" + str_farmpond_remarks + "','" + str_farmpond_amttaken + "','" + str_farmpondstatus + "'," +
                     "'" + str_approvalstatus + "','" + str_approvalremarks + "','" + str_approvedby + "','" + str_approveddate + "','" + str_donorname + "'," +
-                    "'" + str_latitude + "','" + str_longitude + "','" + str_acres + "','" + str_gunta + "','" + str_crop_beforepond + "','" + str_crop_afterpond + "'," +
+                    "'" + str_latitude_mapped + "','" + str_longitude_mapped + "','" + str_acres + "','" + str_gunta + "','" + str_crop_beforepond + "','" + str_crop_afterpond + "'," +
                     "'" + 0 + "','"+2+"','"+str_newpondImageId1+"','"+str_pondImageType1+"'," +
-                    "'"+str_newpondImageId2+"','"+str_pondImageType2+"','"+str_newpondImageId3+"','"+str_pondImageType3+"','"+"no"+"','"+str_finalfarmpondcode+"');";
+                    "'"+str_newpondImageId2+"','"+str_pondImageType2+"','"+str_newpondImageId3+"','"+str_pondImageType3+"','"+"no"+"','"+str_finalfarmpondcode+"','"+str_locationstatus+"');";
 
 
 
@@ -2616,6 +2679,9 @@ public class AddFarmPondActivity extends AppCompatActivity {
 
                     innerObj_Class_farmponddetails.setPondCode(cursor1.getString(cursor1.getColumnIndex("FPondCodeDB")));
 
+                    innerObj_Class_farmponddetails.setLocation_Status(cursor1.getString(cursor1.getColumnIndex("Location_Status")));
+
+                    //Location_Status
 
                   //  Log.e("YearID", cursor1.getString(cursor1.getColumnIndex("FYearIDDB")));
 
@@ -2780,6 +2846,7 @@ public class AddFarmPondActivity extends AppCompatActivity {
         request.setPond_Temp_ID(newfarmponddetails_offline_array_objRest[k].getPondCode());
         request.setPond_Land_Gunta(newfarmponddetails_offline_array_objRest[k].getPondLandGunta());
         request.setPond_Land_Acre(newfarmponddetails_offline_array_objRest[k].getPondLandAcre());
+        request.setLocation_Status(newfarmponddetails_offline_array_objRest[k].getLocation_Status());
 
         int_k=k;
         Log.e("kvalue", String.valueOf(k));

@@ -53,7 +53,7 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:gravity="center"
-                android:layout_marginTop="125dp"
+                android:layout_marginTop="115dp"
                 android:layout_marginLeft="14dp"
                 android:orientation="horizontal">
 
@@ -81,7 +81,7 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:gravity="center"
-                android:layout_marginTop="140dp"
+                android:layout_marginTop="130dp"
                 android:layout_marginLeft="13dp"
                 android:orientation="horizontal">
 
@@ -109,7 +109,7 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:gravity="center"
-                android:layout_marginTop="160dp"
+                android:layout_marginTop="145dp"
                 android:layout_marginLeft="10dp"
                 android:orientation="horizontal">
 
@@ -131,6 +131,35 @@
                     android:textSize="15dp" />
 
             </LinearLayout>
+
+            <LinearLayout
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:gravity="center"
+                android:layout_marginTop="165dp"
+                android:layout_marginLeft="10dp"
+                android:orientation="horizontal">
+
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:gravity="center_horizontal"
+                    android:text="Location Pending  : "
+                    android:textStyle="bold"
+                    android:textSize="15dp"
+                    android:layout_margin="2dp"/>
+
+                <TextView
+                    android:id="@+id/locationpending_count_tv"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="0"
+                    android:textColor="@color/dark_black"
+                    android:textSize="15dp" />
+
+            </LinearLayout>
+
+
 
 
 
