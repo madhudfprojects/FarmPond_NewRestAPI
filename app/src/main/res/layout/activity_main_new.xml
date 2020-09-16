@@ -3,6 +3,9 @@
     xmlns:app="http://schemas.android.com/apk/res-auto"
     android:layout_width="match_parent"
     android:layout_height="match_parent">
+    <include
+        android:id="@+id/toolbar_n_actionbar"
+        layout="@layout/common_titlebar" />
 
     <android.support.design.widget.AppBarLayout
         android:id="@+id/appbar"
@@ -194,6 +197,7 @@
                     android:id="@+id/displ_Userimg_IV"
                     android:layout_width="68dp"
                     android:layout_height="68dp"
+                    android:layout_marginTop="3dp"
                     android:layout_gravity="center|top" />
             </FrameLayout>
 
