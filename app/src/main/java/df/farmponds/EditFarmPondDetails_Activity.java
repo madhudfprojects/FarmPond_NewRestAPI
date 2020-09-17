@@ -271,8 +271,12 @@ public class EditFarmPondDetails_Activity extends AppCompatActivity {
     public static TextView statlongitude_tv;
     public static TextView statlocatedmap_status_tv;
     public static TextView statlocationnotconfirmedtext_tv;
+
+    public static TextView statlocation_confirmedtext_tv;
     ImageView locateinmap_iv;
     LinearLayout locatemap_ll;
+
+    private static Context static_context = null;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -336,7 +340,7 @@ public class EditFarmPondDetails_Activity extends AppCompatActivity {
 
 
 
-
+        static_context=EditFarmPondDetails_Activity.this;
 
 
         /*String str_farmername =class_farmponddetails_offline_obj.getFarmer_Name();
@@ -371,6 +375,7 @@ public class EditFarmPondDetails_Activity extends AppCompatActivity {
         statlocationnotconfirmedtext_tv=(TextView)findViewById(R.id.statlocationnotconfirmedtext_tv);
         locateinmap_iv=(ImageView)findViewById(R.id.locateinmap_iv);
         locatemap_ll=(LinearLayout)findViewById(R.id.locatemap_ll);
+        statlocation_confirmedtext_tv=(TextView)findViewById(R.id.statlocation_confirmedtext_tv);
 
 
 
@@ -1538,6 +1543,7 @@ public class EditFarmPondDetails_Activity extends AppCompatActivity {
             if(class_farmponddetails_offline_obj.getLocation_status().equalsIgnoreCase("Completed"))
             {
                 statlocationnotconfirmedtext_tv.setVisibility(View.GONE);
+                statlocation_confirmedtext_tv.setVisibility(View.VISIBLE);
             }
 
             if (class_farmponddetails_offline_obj.getStartDate().equalsIgnoreCase("0")) {
@@ -2006,6 +2012,8 @@ public class EditFarmPondDetails_Activity extends AppCompatActivity {
             int month = calendar.get(Calendar.MONTH);
             int day = calendar.get(Calendar.DAY_OF_MONTH);
 
+            year=year-5;
+
             DatePickerDialog dpd = new DatePickerDialog(getActivity(),
                     AlertDialog.THEME_HOLO_LIGHT, this, year, month, day);
 
@@ -2035,6 +2043,51 @@ public class EditFarmPondDetails_Activity extends AppCompatActivity {
             // dpd.setTitle("Choose the Date"); // Uncomment this line to activate it
 
             // Return the DatePickerDialog
+
+            //dpd.getDatePicker().setMinDate(System.currentTimeMillis()- (1000 * 60 * 60 * 24 * 1000));
+           // dpd.getDatePicker().setMinDate(System.currentTimeMillis()- 24);
+           // dpd.getDatePicker().setMaxDate(System.currentTimeMillis() + (1000 * 60 * 60 * 24 * 1));
+
+
+            //dpd.getDatePicker().setYearRange(calendar.get(Calendar.YEAR), calendar.get(Calendar.YEAR) + 1);
+
+
+            Calendar cl = Calendar.getInstance();
+            cl.setTimeInMillis(System.currentTimeMillis());  //here your time in miliseconds
+           // String date = "" + cl.get(Calendar.DAY_OF_MONTH) + ":" + cl.get(Calendar.MONTH) + ":" + cl.get(Calendar.YEAR);
+
+
+            String str_dates=String.valueOf(cl.get(Calendar.DATE));
+            String str_months= String.valueOf(cl.get(Calendar.DAY_OF_MONTH));
+            String str_year= String.valueOf(cl.get(Calendar.YEAR)-1);
+            String str_maxyear= String.valueOf(cl.get(Calendar.YEAR)+1);
+
+
+            Log.e("year",str_year);
+            String someDate = "05.10.2011";
+            someDate="01"+"."+"01"+"."+str_year;
+            String str_maxdate="01"+"."+"01"+"."+str_maxyear;
+
+            Log.e("date",someDate);
+            SimpleDateFormat sdf = new SimpleDateFormat("MM.dd.yyyy");
+            Date date = null;
+            try {
+                date = sdf.parse(someDate);
+            } catch (ParseException e) {
+                e.printStackTrace();
+            }
+           // System.out.println(date.getTime());
+
+            Date date1=null;
+            try {
+                date1 = sdf.parse(str_maxdate);
+            } catch (ParseException e) {
+                e.printStackTrace();
+            }
+
+            dpd.getDatePicker().setMinDate(date.getTime());
+            dpd.getDatePicker().setMaxDate(System.currentTimeMillis());
+
             return dpd;
         }
 
@@ -2060,6 +2113,52 @@ public class EditFarmPondDetails_Activity extends AppCompatActivity {
             //Toast.makeText(getApplicationContext(), x, 1000).show();
 // tv_fromdate.setText(month+"/"+day+"/"+year);
             //btn.setText(year+"-"+month+"-"+day);
+
+
+
+            SimpleDateFormat mdyFormat = new SimpleDateFormat("dd-MM-yyyy");  //2017-06-22
+
+            try {
+                Date fromdate = mdyFormat.parse(edit_pond_startddate_tv.getText().toString());
+                Date todate = mdyFormat.parse(edit_pond_completeddate_tv.getText().toString());
+
+
+
+                long duration = Math.abs(fromdate.getTime() - todate.getTime());
+                Log.e("days", String.valueOf(duration));
+                long differenceDates = duration / (24 * 60 * 60 * 1000);
+                String dayDifference = Long.toString(differenceDates);
+                int int_days= (int)(differenceDates);
+                Log.e("daysnow", dayDifference);
+
+                Log.e("days_int", String.valueOf(int_days));
+
+
+
+
+
+                if (fromdate.compareTo(todate) <= 0)
+                {
+
+                    if(int_days>=31)
+                    {
+                        alerts_dialog_datevalidation("daysmore");
+                    }
+
+
+                } else {
+
+                    alerts_dialog_datevalidation("fromdateHigher");
+                }
+            } catch (ParseException e) {
+                e.printStackTrace();
+            }//end of try catch
+
+
+
+
+
+
         }
     }// end of datepickerclass
 
@@ -2104,6 +2203,52 @@ public class EditFarmPondDetails_Activity extends AppCompatActivity {
             // dpd.setTitle("Choose the Date"); // Uncomment this line to activate it
 
             // Return the DatePickerDialog
+
+
+
+
+            Calendar cl = Calendar.getInstance();
+            cl.setTimeInMillis(System.currentTimeMillis());  //here your time in miliseconds
+            // String date = "" + cl.get(Calendar.DAY_OF_MONTH) + ":" + cl.get(Calendar.MONTH) + ":" + cl.get(Calendar.YEAR);
+
+
+            String str_dates=String.valueOf(cl.get(Calendar.DATE));
+            String str_months= String.valueOf(cl.get(Calendar.DAY_OF_MONTH));
+            String str_year= String.valueOf(cl.get(Calendar.YEAR)-1);
+            String str_maxyear= String.valueOf(cl.get(Calendar.YEAR)+1);
+
+
+            Log.e("year",str_year);
+            String someDate = "05.10.2011";
+            someDate="01"+"."+"01"+"."+str_year;
+            String str_maxdate="01"+"."+"01"+"."+str_maxyear;
+
+            Log.e("date",someDate);
+            SimpleDateFormat sdf = new SimpleDateFormat("MM.dd.yyyy");
+            Date date = null;
+            try {
+                date = sdf.parse(someDate);
+            } catch (ParseException e) {
+                e.printStackTrace();
+            }
+            // System.out.println(date.getTime());
+
+            Date date1=null;
+            try {
+                date1 = sdf.parse(str_maxdate);
+            } catch (ParseException e) {
+                e.printStackTrace();
+            }
+
+            dpd.getDatePicker().setMinDate(date.getTime());
+            dpd.getDatePicker().setMaxDate(date1.getTime());
+
+
+
+
+
+
+
             return dpd;
         }
 
@@ -2133,6 +2278,77 @@ public class EditFarmPondDetails_Activity extends AppCompatActivity {
 
         }
     }// end of datepickerclass
+
+
+
+
+
+
+    public static void alerts_dialog_datevalidation(final String str_value)
+    {
+
+        Calendar c = Calendar.getInstance();
+
+        SimpleDateFormat df = new SimpleDateFormat("dd-MM-yyyy");
+        final String str_currentdate = df.format(c.getTime());
+
+
+        AlertDialog.Builder dialog;
+        dialog = new AlertDialog.Builder(static_context);
+        dialog.setCancelable(false);
+        dialog.setTitle(R.string.app_name);
+        if(str_value.equalsIgnoreCase("fromdateHigher"))
+        { dialog.setMessage("Start Date is Higher than\n Completed Date");}
+
+        else if(str_value.equalsIgnoreCase("daysmore"))
+        {dialog.setMessage("No of days are more"); }
+        else{}
+        //dialog.setMessage("Completed Date smaller than\nStart Date ");
+        dialog.setPositiveButton("Ok", new DialogInterface.OnClickListener()
+        {
+            @Override
+            public void onClick(DialogInterface dialog, int id)
+            {
+
+                //add_newpond_startdate_tv.getText().toString());
+                //add_newpond_completeddate_tv.getText().toString());
+
+                if(str_value.equalsIgnoreCase("fromdateHigher"))
+                {
+                    edit_pond_startddate_tv.setText(str_currentdate);
+                    edit_pond_completeddate_tv.setText(str_currentdate);
+                }
+                else if(str_value.equalsIgnoreCase("daysmore"))
+                {
+                    edit_pond_startddate_tv.setText(str_currentdate);
+                    edit_pond_completeddate_tv.setText(str_currentdate);
+                }
+
+            }
+        });
+
+
+        final AlertDialog alert = dialog.create();
+        alert.setOnShowListener( new DialogInterface.OnShowListener() {
+            @Override
+            public void onShow(DialogInterface arg0) {
+                alert.getButton(AlertDialog.BUTTON_POSITIVE).setTextColor(Color.parseColor("#004D40"));
+            }
+        });
+        alert.show();
+
+    }
+
+
+
+
+
+
+
+
+
+
+
 
 //date
 

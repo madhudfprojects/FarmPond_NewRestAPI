@@ -565,6 +565,19 @@
                     android:textSize="15dp" />
 
 
+
+                <TextView
+                    android:id="@+id/statlocation_confirmedtext_tv"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginLeft="10dp"
+                    android:gravity="center"
+                    android:text="Location Confirmed"
+                    android:visibility="gone"
+                    android:textColor="@color/dark_green"
+                    android:textSize="15dp" />
+
+
                 <TextView
                     android:id="@+id/statlocatedmap_status_tv"
                     android:layout_width="wrap_content"

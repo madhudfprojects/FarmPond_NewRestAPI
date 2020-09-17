@@ -104,7 +104,7 @@ public class AddFarmer_Activity1 extends AppCompatActivity {
 
 
     Spinner yearlist_farmers_sp, statelist_farmers_sp, districtlist_farmers_sp, taluklist_farmers_sp, grampanchayatlist_farmers_sp, villagelist_farmers_sp, selectidproof_sp;
-    String[] ary_str_idproof = {"AdharaCard", "Driving License", "Ration Card", "Voter Id", "Not Available"};
+    String[] ary_str_idproof = {"AadhaarCard", "Driving License", "Ration Card", "Voter Id", "Not Available"};
     EditText farmerfirstname_et, farmerlastname_et, farmermiddlename_et, farmerage_et, farmercellno_et, farmerannualincome_et, familymember_et, farmeridno_et;
 
     String str_idproof_type, str_idproof_no;
@@ -284,7 +284,7 @@ public class AddFarmer_Activity1 extends AppCompatActivity {
             @Override
             public void onItemSelected(AdapterView<?> parent, View view, int position, long id) {
 
-                if (selectidproof_sp.getSelectedItem().toString().equalsIgnoreCase("AdharaCard")) {
+                if (selectidproof_sp.getSelectedItem().toString().equalsIgnoreCase("AadhaarCard")) {
                     str_idproof_type = "1";
                 }
                 if (selectidproof_sp.getSelectedItem().toString().equalsIgnoreCase("Driving License")) {

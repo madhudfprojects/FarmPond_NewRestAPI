@@ -509,7 +509,7 @@ public class EachFarmPondDetails_Activity extends AppCompatActivity {
         TextView holder_farmpond_approvalremarks_tv;
         TextView holder_farmpond_approvedby_tv;
         TextView holder_farmpond_donorname_tv;
-        
+
     }
 
 
@@ -940,6 +940,7 @@ public class EachFarmPondDetails_Activity extends AppCompatActivity {
                 } else {
 
                     holder.holder_listview_ll.setVisibility(View.GONE);
+                    holder.holder_nopondinlist_ll.setVisibility(View.VISIBLE);
                 }
 
             }// end if 1

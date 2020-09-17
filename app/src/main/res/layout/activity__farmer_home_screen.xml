@@ -34,6 +34,28 @@
             android:layout_height="2dp"
             android:background="@color/colorPrimary" />
 
+        <LinearLayout
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:gravity="center"
+            android:layout_marginTop="10dp"
+            android:layout_marginLeft="14dp"
+            android:orientation="horizontal">
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:gravity="center_horizontal"
+                android:text="Pending pond will\n automatically Sync to Server when internet connects"
+                android:textStyle="bold"
+                android:textSize="15dp"
+                android:layout_margin="2dp"/>
+
+
+
+        </LinearLayout>
+
+
         <FrameLayout
             android:layout_weight="1"
             android:padding="5dp"
@@ -45,8 +67,12 @@
                 android:id="@+id/notupload_IB"
                 android:layout_width="200dp"
                 android:layout_height="210dp"
+                android:layout_marginTop="1dp"
                 android:layout_gravity="center"
                 android:src="@drawable/syncpending" />
+
+
+
 
 
             <LinearLayout
