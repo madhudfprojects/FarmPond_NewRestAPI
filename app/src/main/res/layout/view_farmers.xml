@@ -416,13 +416,12 @@
 
         <android.support.design.widget.FloatingActionButton
             android:id="@+id/addfarmerdetails_fab"
-            android:layout_width="40dp"
-            android:layout_height="45dp"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
             android:layout_gravity="end|bottom"
-            android:layout_margin="10dp"
+            android:layout_margin="4dp"
             android:src="@drawable/user2"
-            android:text="+"
-            android:textSize="45dp" />
+           />
 
     </FrameLayout>
 

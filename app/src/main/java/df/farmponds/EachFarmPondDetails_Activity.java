@@ -277,7 +277,8 @@ public class EachFarmPondDetails_Activity extends AppCompatActivity {
         locationCallback = new LocationCallback()
         {
             @Override
-            public void onLocationResult(LocationResult locationResult) {
+            public void onLocationResult(LocationResult locationResult)
+            {
                 if (locationResult == null) {
                     return;
                 }
@@ -301,7 +302,7 @@ public class EachFarmPondDetails_Activity extends AppCompatActivity {
                             // if (isContinue && mFusedLocationClient != null)
                             //{
                             try {
-                                Thread.sleep(1 * 500);
+                                Thread.sleep(1 * 100);
                             } catch (InterruptedException e) {
                                 e.printStackTrace();
                             }
