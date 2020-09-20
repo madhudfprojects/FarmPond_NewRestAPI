@@ -46,7 +46,7 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:gravity="center_horizontal"
-                android:text="Pending pond will\n automatically Sync to Server when internet connects"
+                android:text="Pending pond will\n automatically Sync to Server\nwhen internet is enabled or ON"
                 android:textStyle="bold"
                 android:textSize="15dp"
                 android:layout_margin="2dp"/>

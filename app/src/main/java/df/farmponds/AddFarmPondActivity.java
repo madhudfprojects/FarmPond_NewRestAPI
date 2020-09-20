@@ -1475,6 +1475,40 @@ public class AddFarmPondActivity extends AppCompatActivity {
 
 
 
+            SimpleDateFormat mdyFormat = new SimpleDateFormat("dd-MM-yyyy");  //2017-06-22
+
+            try {
+                Date fromdate = mdyFormat.parse(add_newpond_startdate_tv.getText().toString());
+                Date todate = mdyFormat.parse(add_newpond_completeddate_tv.getText().toString());
+
+
+
+                long duration = Math.abs(fromdate.getTime() - todate.getTime());
+                Log.e("days", String.valueOf(duration));
+                long differenceDates = duration / (24 * 60 * 60 * 1000);
+                String dayDifference = Long.toString(differenceDates);
+                int int_days= (int)(differenceDates);
+                Log.e("daysnow", dayDifference);
+
+                Log.e("days_int", String.valueOf(int_days));
+
+
+                if (fromdate.compareTo(todate) <= 0)
+                {
+                    if(int_days>=31)
+                    {
+                        alerts_dialog_datevalidation("daysmore");
+                    }
+
+                } else {
+
+                    alerts_dialog_datevalidation("fromdateHigher");
+                }
+            } catch (ParseException e) {
+                e.printStackTrace();
+            }//end of try catch
+
+
 
 
         }

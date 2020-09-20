@@ -23,6 +23,8 @@ import android.os.Environment;
 import android.provider.MediaStore;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
+import android.text.InputFilter;
+import android.text.InputType;
 import android.util.Base64;
 import android.util.Log;
 import android.view.MenuItem;
@@ -284,11 +286,19 @@ public class AddFarmer_Activity1 extends AppCompatActivity {
             @Override
             public void onItemSelected(AdapterView<?> parent, View view, int position, long id) {
 
-                if (selectidproof_sp.getSelectedItem().toString().equalsIgnoreCase("AadhaarCard")) {
+                if (selectidproof_sp.getSelectedItem().toString().equalsIgnoreCase("AadhaarCard"))
+                {
                     str_idproof_type = "1";
+
+                    farmeridno_et.setInputType(InputType.TYPE_CLASS_NUMBER);
+                    farmeridno_et.setFilters(new InputFilter[] { new InputFilter.LengthFilter(12) });
+
                 }
                 if (selectidproof_sp.getSelectedItem().toString().equalsIgnoreCase("Driving License")) {
                     str_idproof_type = "2";
+                    farmeridno_et.setInputType(InputType.TYPE_CLASS_NUMBER|InputType.TYPE_CLASS_TEXT);
+                    farmeridno_et.setFilters(new InputFilter[] { new InputFilter.LengthFilter(17) });
+
                 }
                 if (selectidproof_sp.getSelectedItem().toString().equalsIgnoreCase("Ration Card")) {
                     str_idproof_type = "3";
