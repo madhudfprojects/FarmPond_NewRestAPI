@@ -25,6 +25,8 @@ import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
 import android.text.InputFilter;
 import android.text.InputType;
+import android.text.Spanned;
+import android.text.method.DigitsKeyListener;
 import android.util.Base64;
 import android.util.Log;
 import android.view.MenuItem;
@@ -290,25 +292,118 @@ public class AddFarmer_Activity1 extends AppCompatActivity {
                 {
                     str_idproof_type = "1";
 
+                    farmeridno_et.setText("");
                     farmeridno_et.setInputType(InputType.TYPE_CLASS_NUMBER);
                     farmeridno_et.setFilters(new InputFilter[] { new InputFilter.LengthFilter(12) });
 
                 }
-                if (selectidproof_sp.getSelectedItem().toString().equalsIgnoreCase("Driving License")) {
+                if (selectidproof_sp.getSelectedItem().toString().equalsIgnoreCase("Driving License"))
+                {
                     str_idproof_type = "2";
-                    farmeridno_et.setInputType(InputType.TYPE_CLASS_NUMBER|InputType.TYPE_CLASS_TEXT);
+                    //farmeridno_et.setInputType(InputType.TYPE_CLASS_NUMBER|InputType.TYPE_CLASS_TEXT);
+                    farmeridno_et.setText("");
                     farmeridno_et.setFilters(new InputFilter[] { new InputFilter.LengthFilter(17) });
+
+                    farmeridno_et.setInputType(InputType.TYPE_CLASS_TEXT);
+                    farmeridno_et.setFilters(new InputFilter[]{
+                            new InputFilter() {
+                                public CharSequence filter(CharSequence src, int start,
+                                                           int end, Spanned dst, int dstart, int dend) {
+                                    if (src.equals("")) {
+                                        return src;
+                                    }
+                                    if (src.toString().matches("[a-zA-Z0-9/\\- ]+")) {
+                                        return src;
+                                    }
+                                    return "";
+                                }
+                            }
+                    });
+
+
+
+                  //  farmeridno_et.setKeyListener(DigitsKeyListener.getInstance("abcdefghijklmnopqrstuvwxyz1234567890 "));
+
+                   // farmeridno_et.setInputType(InputType.TYPE_TEXT_FLAG_CAP_CHARACTERS|InputType.TYPE_CLASS_NUMBER);
+                    //farmeridno_et.setFilters(new InputFilter[] { new InputFilter.LengthFilter(17) });
 
                 }
                 if (selectidproof_sp.getSelectedItem().toString().equalsIgnoreCase("Ration Card")) {
                     str_idproof_type = "3";
+                    farmeridno_et.setText("");
+
+
+                    farmeridno_et.setText("");
+                    farmeridno_et.setInputType(InputType.TYPE_CLASS_TEXT);
+                    farmeridno_et.setFilters(new InputFilter[]{
+                            new InputFilter() {
+                                public CharSequence filter(CharSequence src, int start,
+                                                           int end, Spanned dst, int dstart, int dend) {
+                                    if (src.equals("")) {
+                                        return src;
+                                    }
+                                    if (src.toString().matches("[a-zA-Z0-9/\\- ]+")) {
+                                        return src;
+                                    }
+                                    return "";
+                                }
+                            }
+                    });
+
+                    farmeridno_et.setFilters(new InputFilter[] { new InputFilter.LengthFilter(10) });
                 }
                 if (selectidproof_sp.getSelectedItem().toString().equalsIgnoreCase("Voter Id")) {
                     str_idproof_type = "4";
+                    farmeridno_et.setText("");
+
+
+
+                    farmeridno_et.setText("");
+                    farmeridno_et.setInputType(InputType.TYPE_CLASS_TEXT);
+                    farmeridno_et.setFilters(new InputFilter[]{
+                            new InputFilter() {
+                                public CharSequence filter(CharSequence src, int start,
+                                                           int end, Spanned dst, int dstart, int dend) {
+                                    if (src.equals("")) {
+                                        return src;
+                                    }
+                                    if (src.toString().matches("[a-zA-Z0-9 ]+")) {
+                                        return src;
+                                    }
+                                    return "";
+                                }
+                            }
+                    });
+
+
+                    farmeridno_et.setFilters(new InputFilter[] { new InputFilter.LengthFilter(10) });
+
+
                 }
 
                 if (selectidproof_sp.getSelectedItem().toString().equalsIgnoreCase("Not Available")) {
                     str_idproof_type = "5";
+
+                    farmeridno_et.setText("Not Available");
+                    
+                    farmeridno_et.setFilters(new InputFilter[]{
+                            new InputFilter() {
+                                public CharSequence filter(CharSequence src, int start,
+                                                           int end, Spanned dst, int dstart, int dend) {
+                                    if (src.equals("")) {
+                                        return src;
+                                    }
+                                    if (src.toString().matches("[a-zA-Z ]+")) {
+                                        return src;
+                                    }
+                                    return "";
+                                }
+                            }
+                    });
+
+
+                    //farmeridno_et.setFilters(new InputFilter[] { new InputFilter.LengthFilter(16) });
+
                 }
             }
 
@@ -2999,6 +3094,12 @@ public class AddFarmer_Activity1 extends AppCompatActivity {
     }
 
 //Online Sync
+
+
+
+
+
+
 
 
     public boolean onOptionsItemSelected(MenuItem item) {
