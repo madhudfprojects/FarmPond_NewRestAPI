@@ -33,7 +33,7 @@
             android:layout_margin="20dp"
             android:gravity="center"
             android:id="@+id/nopondinlist_ll"
-            android:visibility="visible"
+            android:visibility="gone"
             android:orientation="horizontal">
 
             <TextView
