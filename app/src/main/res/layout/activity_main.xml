@@ -80,7 +80,7 @@
         android:textStyle="italic"
         android:layout_gravity="center"
         android:textColor="@color/colorwhite"
-        android:text="For Demo purpose"/>
+        android:text="UAT Ver 1.2.6"/>
 
 
     <Button
