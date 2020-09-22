@@ -23,6 +23,10 @@ import android.os.Environment;
 import android.provider.MediaStore;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
+import android.text.InputFilter;
+import android.text.InputType;
+import android.text.Spanned;
+import android.text.method.DigitsKeyListener;
 import android.util.Base64;
 import android.util.Log;
 import android.view.MenuItem;
@@ -104,7 +108,7 @@ public class AddFarmer_Activity1 extends AppCompatActivity {
 
 
     Spinner yearlist_farmers_sp, statelist_farmers_sp, districtlist_farmers_sp, taluklist_farmers_sp, grampanchayatlist_farmers_sp, villagelist_farmers_sp, selectidproof_sp;
-    String[] ary_str_idproof = {"AdharaCard", "Driving License", "Ration Card", "Voter Id", "Not Available"};
+    String[] ary_str_idproof = {"AadhaarCard", "Driving License", "Ration Card", "Voter Id", "Not Available"};
     EditText farmerfirstname_et, farmerlastname_et, farmermiddlename_et, farmerage_et, farmercellno_et, farmerannualincome_et, familymember_et, farmeridno_et;
 
     String str_idproof_type, str_idproof_no;
@@ -284,21 +288,129 @@ public class AddFarmer_Activity1 extends AppCompatActivity {
             @Override
             public void onItemSelected(AdapterView<?> parent, View view, int position, long id) {
 
-                if (selectidproof_sp.getSelectedItem().toString().equalsIgnoreCase("AdharaCard")) {
+                if (selectidproof_sp.getSelectedItem().toString().equalsIgnoreCase("AadhaarCard"))
+                {
                     str_idproof_type = "1";
+
+                    farmeridno_et.setText("");
+                    farmeridno_et.setEnabled(true);
+                    farmeridno_et.setInputType(InputType.TYPE_CLASS_NUMBER);
+                    farmeridno_et.setFilters(new InputFilter[] { new InputFilter.LengthFilter(12) });
+
                 }
-                if (selectidproof_sp.getSelectedItem().toString().equalsIgnoreCase("Driving License")) {
+                if (selectidproof_sp.getSelectedItem().toString().equalsIgnoreCase("Driving License"))
+                {
                     str_idproof_type = "2";
+                    //farmeridno_et.setInputType(InputType.TYPE_CLASS_NUMBER|InputType.TYPE_CLASS_TEXT);
+                    farmeridno_et.setText("");
+                    farmeridno_et.setEnabled(true);
+                    farmeridno_et.setFilters(new InputFilter[] { new InputFilter.LengthFilter(17) });
+
+                    farmeridno_et.setInputType(InputType.TYPE_CLASS_TEXT);
+                    farmeridno_et.setFilters(new InputFilter[]{
+                            new InputFilter() {
+                                public CharSequence filter(CharSequence src, int start,
+                                                           int end, Spanned dst, int dstart, int dend) {
+                                    if (src.equals("")) {
+                                        return src;
+                                    }
+                                    if (src.toString().matches("[a-zA-Z0-9/\\- ]+")) {
+                                        return src;
+                                    }
+                                    return "";
+                                }
+                            }
+                    });
+
+
+
+                  //  farmeridno_et.setKeyListener(DigitsKeyListener.getInstance("abcdefghijklmnopqrstuvwxyz1234567890 "));
+
+                   // farmeridno_et.setInputType(InputType.TYPE_TEXT_FLAG_CAP_CHARACTERS|InputType.TYPE_CLASS_NUMBER);
+                    //farmeridno_et.setFilters(new InputFilter[] { new InputFilter.LengthFilter(17) });
+
                 }
                 if (selectidproof_sp.getSelectedItem().toString().equalsIgnoreCase("Ration Card")) {
                     str_idproof_type = "3";
+
+
+
+                    farmeridno_et.setText("");
+                    farmeridno_et.setEnabled(true);
+                    farmeridno_et.setInputType(InputType.TYPE_CLASS_TEXT);
+                    farmeridno_et.setFilters(new InputFilter[]{
+                            new InputFilter() {
+                                public CharSequence filter(CharSequence src, int start,
+                                                           int end, Spanned dst, int dstart, int dend) {
+                                    if (src.equals("")) {
+                                        return src;
+                                    }
+                                    if (src.toString().matches("[a-zA-Z0-9/\\- ]+")) {
+                                        return src;
+                                    }
+                                    return "";
+                                }
+                            }
+                    });
+
+                    farmeridno_et.setFilters(new InputFilter[] { new InputFilter.LengthFilter(10) });
                 }
                 if (selectidproof_sp.getSelectedItem().toString().equalsIgnoreCase("Voter Id")) {
                     str_idproof_type = "4";
+
+
+
+
+                    farmeridno_et.setText("");
+                    farmeridno_et.setEnabled(true);
+                    farmeridno_et.setInputType(InputType.TYPE_CLASS_TEXT);
+                    farmeridno_et.setFilters(new InputFilter[]{
+                            new InputFilter() {
+                                public CharSequence filter(CharSequence src, int start,
+                                                           int end, Spanned dst, int dstart, int dend) {
+                                    if (src.equals("")) {
+                                        return src;
+                                    }
+                                    if (src.toString().matches("[a-zA-Z0-9 ]+")) {
+                                        return src;
+                                    }
+                                    return "";
+                                }
+                            }
+                    });
+
+
+                    farmeridno_et.setFilters(new InputFilter[] { new InputFilter.LengthFilter(10) });
+
+
                 }
 
                 if (selectidproof_sp.getSelectedItem().toString().equalsIgnoreCase("Not Available")) {
                     str_idproof_type = "5";
+
+                    farmeridno_et.setFilters(new InputFilter[] { new InputFilter.LengthFilter(14) });
+                    farmeridno_et.setText("Not Available");
+
+                    farmeridno_et.setFilters(new InputFilter[]{
+                            new InputFilter() {
+                                public CharSequence filter(CharSequence src, int start,
+                                                           int end, Spanned dst, int dstart, int dend) {
+                                    if (src.equals("")) {
+                                        return src;
+                                    }
+                                    if (src.toString().matches("[a-zA-Z ]+")) {
+                                        return src;
+                                    }
+                                    return "";
+                                }
+                            }
+                    });
+                    farmeridno_et.setInputType(0);
+                    farmeridno_et.setEnabled(false);
+
+
+                    //farmeridno_et.setFilters(new InputFilter[] { new InputFilter.LengthFilter(16) });
+
                 }
             }
 
@@ -1358,7 +1470,7 @@ public class AddFarmer_Activity1 extends AppCompatActivity {
                 "FPondLatitudeDB VARCHAR,FPondLongitudeDB VARCHAR," +
                 "FPondAcresDB VARCHAR,FPondGuntaDB VARCHAR,FPondCropBeforeDB VARCHAR,FPondCropAfterDB VARCHAR," +
                 "UploadedStatusFarmerprofile VARCHAR,UploadedStatus VARCHAR," +
-                "newpondImageId1 VARCHAR,pondImageType1 VARCHAR,newpondImageId2 VARCHAR,pondImageType2 VARCHAR,newpondImageId3 VARCHAR,pondImageType3 VARCHAR,Farmer_Gender VARCHAR,finalfarmpondcodeDB VARCHAR);");
+                "newpondImageId1 VARCHAR,pondImageType1 VARCHAR,newpondImageId2 VARCHAR,pondImageType2 VARCHAR,newpondImageId3 VARCHAR,pondImageType3 VARCHAR,Farmer_Gender VARCHAR,finalfarmpondcodeDB VARCHAR,Location_Status VARCHAR);");
 
 
 
@@ -2389,7 +2501,7 @@ public class AddFarmer_Activity1 extends AppCompatActivity {
                 "FPondLatitudeDB VARCHAR,FPondLongitudeDB VARCHAR," +
                 "FPondAcresDB VARCHAR,FPondGuntaDB VARCHAR,FPondCropBeforeDB VARCHAR,FPondCropAfterDB VARCHAR," +
                 "UploadedStatusFarmerprofile VARCHAR,UploadedStatus VARCHAR," +
-                "newpondImageId1 VARCHAR,pondImageType1 VARCHAR,newpondImageId2 VARCHAR,pondImageType2 VARCHAR,newpondImageId3 VARCHAR,pondImageType3 VARCHAR,Farmer_Gender VARCHAR,finalfarmpondcodeDB VARCHAR);");
+                "newpondImageId1 VARCHAR,pondImageType1 VARCHAR,newpondImageId2 VARCHAR,pondImageType2 VARCHAR,newpondImageId3 VARCHAR,pondImageType3 VARCHAR,Farmer_Gender VARCHAR,finalfarmpondcodeDB VARCHAR,Location_Status VARCHAR);");
 
 
 
@@ -2467,7 +2579,7 @@ public class AddFarmer_Activity1 extends AppCompatActivity {
                 "FPondAcresDB VARCHAR,FPondGuntaDB VARCHAR,FPondCropBeforeDB VARCHAR,FPondCropAfterDB VARCHAR," +
                 "UploadedStatusFarmerprofile VARCHAR,UploadedStatus VARCHAR," +
                 "newpondImageId1 VARCHAR,pondImageType1 VARCHAR,newpondImageId2 VARCHAR," +
-                "pondImageType2 VARCHAR,newpondImageId3 VARCHAR,pondImageType3 VARCHAR,Farmer_Gender VARCHAR,finalfarmpondcodeDB VARCHAR);");
+                "pondImageType2 VARCHAR,newpondImageId3 VARCHAR,pondImageType3 VARCHAR,Farmer_Gender VARCHAR,finalfarmpondcodeDB VARCHAR,Location_Status VARCHAR);");
 
 
 
@@ -2711,7 +2823,7 @@ public class AddFarmer_Activity1 extends AppCompatActivity {
                             "FPondLatitudeDB VARCHAR,FPondLongitudeDB VARCHAR," +
                             "FPondAcresDB VARCHAR,FPondGuntaDB VARCHAR,FPondCropBeforeDB VARCHAR,FPondCropAfterDB VARCHAR," +
                             "UploadedStatusFarmerprofile VARCHAR,UploadedStatus VARCHAR," +
-                            "newpondImageId1 VARCHAR,pondImageType1 VARCHAR,newpondImageId2 VARCHAR,pondImageType2 VARCHAR,newpondImageId3 VARCHAR,pondImageType3 VARCHAR,Farmer_Gender VARCHAR,finalfarmpondcodeDB VARCHAR);");
+                            "newpondImageId1 VARCHAR,pondImageType1 VARCHAR,newpondImageId2 VARCHAR,pondImageType2 VARCHAR,newpondImageId3 VARCHAR,pondImageType3 VARCHAR,Farmer_Gender VARCHAR,finalfarmpondcodeDB VARCHAR,Location_Status VARCHAR);");
 
 
 
@@ -2989,6 +3101,12 @@ public class AddFarmer_Activity1 extends AppCompatActivity {
     }
 
 //Online Sync
+
+
+
+
+
+
 
 
     public boolean onOptionsItemSelected(MenuItem item) {

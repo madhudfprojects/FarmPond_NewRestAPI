@@ -419,13 +419,13 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_gravity="end|bottom"
-            android:src="@drawable/add"
-            android:layout_margin="16dp"
-            android:textSize="50dp"
-            android:text=" + "
-             />
+            android:layout_margin="4dp"
+            android:src="@drawable/user2"
+           />
 
     </FrameLayout>
+
+    <!--android:src="@drawable/user2"-->
 
 <!--    <View-->
 <!--        android:id="@+id/toolbar_shadow"-->

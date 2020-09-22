@@ -144,7 +144,6 @@ public class MainActivity extends AppCompatActivity
     Class_InternetDectector internetDectector;
     Boolean isInternetPresent = false;
 
-    String Employee_Role;
 
     @Override
     protected void onCreate(Bundle savedInstanceState)
@@ -167,11 +166,6 @@ public class MainActivity extends AppCompatActivity
         sharedpreferencebookRest_usercredential_Obj=this.getSharedPreferences(sharedpreferencebook_User_Credential, Context.MODE_PRIVATE);
         sharedpreferencebook_usercredential_Obj=this.getSharedPreferences(sharedpreferencebook_usercredential, Context.MODE_PRIVATE);
 
-        sharedpreferencebook_usercredential_Obj=getSharedPreferences(sharedpreferencebook_usercredential, Context.MODE_PRIVATE);
-        Employee_Role=sharedpreferencebook_usercredential_Obj.getString(KeyValue_employeecategory, "").trim();
-
-        Log.e("tag","Employee_Role="+Employee_Role);
-
         normallogin_bt =(Button)findViewById(R.id.normallogin_bt);
 
 
@@ -185,15 +179,9 @@ public class MainActivity extends AppCompatActivity
         {
             Log.e("sharedvalue",SaveSharedPreference.getUserName(MainActivity.this).toString());
 
-            if(Employee_Role.equalsIgnoreCase("Field Facilitator")) {
-                Intent i = new Intent(MainActivity.this, Activity_HomeScreen.class);
-                startActivity(i);
-                finish();
-            }else if(Employee_Role.equalsIgnoreCase("Cluster Head")){
-                Intent i = new Intent(MainActivity.this, ClusterHomeActivity.class);
-                startActivity(i);
-                finish();
-            }
+            Intent i=new Intent(MainActivity.this,Activity_HomeScreen.class);
+            startActivity(i);
+            finish();
 
             // Stay at the current activity.
         }
@@ -402,9 +390,9 @@ public class MainActivity extends AppCompatActivity
        // str_gmailid="anandkanade.tech@dfmail.org";
        // str_gmailid="eventtest464@gmail.com";
        // str_gmailid="kanadeanand@gmail.com";
-       str_gmailid="pramod.kumar@dfmail.org";
-      //  str_gmailid="johnson.buraga@dfmail.org";
-       // str_gmailid="madhushree.kubsad@dfmail.org";
+      //  str_gmailid="testdev326@gmail.com";
+
+        str_gmailid="madhushree.kubsad@dfmail.org";
 
         retrofit2.Call call = userService1.getValidateLoginPostNew(str_gmailid);
 
@@ -476,10 +464,6 @@ public class MainActivity extends AppCompatActivity
                     if(user_object.getLst().get(0).getUserRole().equalsIgnoreCase("Field Facilitator"))
                     {
                         Intent i = new Intent(MainActivity.this, Activity_HomeScreen.class);
-                        startActivity(i);
-                    }
-                    else if(user_object.getLst().get(0).getUserRole().equalsIgnoreCase("Cluster Head")){
-                        Intent i = new Intent(MainActivity.this, ClusterHomeActivity.class);
                         startActivity(i);
                     }
                     else{

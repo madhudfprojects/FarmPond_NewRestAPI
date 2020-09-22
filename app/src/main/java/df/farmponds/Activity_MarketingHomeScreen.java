@@ -83,7 +83,7 @@ public class Activity_MarketingHomeScreen extends AppCompatActivity {
     int int_fetch_sandboxid, int_fetch_academicid, int_fetch_clusterid, int_fetch_instituteid, int_fetch_schoolid, int_fetch_levelid;
     Boolean RegisterResponse_marketingscreen;
 
-    TextView Notuploadedcount_edited_tv,Notuploadedcount_new_tv,farmerprofile_count_tv;
+    TextView Notuploadedcount_edited_tv,Notuploadedcount_new_tv,farmerprofile_count_tv,locationpending_count_tv;
     int OfflineStudentTable_count;
     Cursor cursor;
     SQLiteDatabase db;
@@ -174,6 +174,8 @@ Log.e("tag","str_employee_id="+str_employee_id);
         Notuploadedcount_new_tv=  (TextView) findViewById(R.id.Notuploadedcount_new_tv);
         farmerprofile_count_tv=(TextView) findViewById(R.id.farmerprofile_count_tv);
 
+        locationpending_count_tv=(TextView)findViewById(R.id.locationpending_count_tv);
+
         notupload_ib = (ImageButton) findViewById(R.id.notupload_IB);
 
         try {
@@ -200,6 +202,7 @@ Log.e("tag","str_employee_id="+str_employee_id);
             fetch_DB_farmerprofile_offline_data_count();
             fetch_DB_edited_offline_data_count();
             fetch_DB_New_pond_count();
+            fetch_DB_location_pending_count();
             Toast.makeText(getApplicationContext(),"No Internet",Toast.LENGTH_SHORT).show();
         }
 
@@ -346,7 +349,7 @@ Log.e("tag","str_employee_id="+str_employee_id);
                 "FPondLatitudeDB VARCHAR,FPondLongitudeDB VARCHAR," +
                 "FPondAcresDB VARCHAR,FPondGuntaDB VARCHAR,FPondCropBeforeDB VARCHAR,FPondCropAfterDB VARCHAR," +
                 "UploadedStatusFarmerprofile VARCHAR,UploadedStatus VARCHAR," +
-                "newpondImageId1 VARCHAR,pondImageType1 VARCHAR,newpondImageId2 VARCHAR,pondImageType2 VARCHAR,newpondImageId3 VARCHAR,pondImageType3 VARCHAR,Farmer_Gender VARCHAR,finalfarmpondcodeDB VARCHAR);");
+                "newpondImageId1 VARCHAR,pondImageType1 VARCHAR,newpondImageId2 VARCHAR,pondImageType2 VARCHAR,newpondImageId3 VARCHAR,pondImageType3 VARCHAR,Farmer_Gender VARCHAR,finalfarmpondcodeDB VARCHAR,Location_Status VARCHAR);");
 
 
         Cursor cursor1 = db1.rawQuery("SELECT * FROM FarmPondDetails_fromServerRest WHERE UploadedStatusFarmerprofile='" + 9 + "'", null);
@@ -509,7 +512,7 @@ Log.e("tag","str_employee_id="+str_employee_id);
                             "FPondLatitudeDB VARCHAR,FPondLongitudeDB VARCHAR," +
                             "FPondAcresDB VARCHAR,FPondGuntaDB VARCHAR,FPondCropBeforeDB VARCHAR,FPondCropAfterDB VARCHAR," +
                             "UploadedStatusFarmerprofile VARCHAR,UploadedStatus VARCHAR," +
-                            "newpondImageId1 VARCHAR,pondImageType1 VARCHAR,newpondImageId2 VARCHAR,pondImageType2 VARCHAR,newpondImageId3 VARCHAR,pondImageType3 VARCHAR,Farmer_Gender VARCHAR,finalfarmpondcodeDB VARCHAR);");
+                            "newpondImageId1 VARCHAR,pondImageType1 VARCHAR,newpondImageId2 VARCHAR,pondImageType2 VARCHAR,newpondImageId3 VARCHAR,pondImageType3 VARCHAR,Farmer_Gender VARCHAR,finalfarmpondcodeDB VARCHAR,Location_Status VARCHAR);");
 
 
 
@@ -597,7 +600,7 @@ Log.e("tag","str_employee_id="+str_employee_id);
                 "FPondLatitudeDB VARCHAR,FPondLongitudeDB VARCHAR," +
                 "FPondAcresDB VARCHAR,FPondGuntaDB VARCHAR,FPondCropBeforeDB VARCHAR,FPondCropAfterDB VARCHAR," +
                 "UploadedStatusFarmerprofile VARCHAR,UploadedStatus VARCHAR," +
-                "newpondImageId1 VARCHAR,pondImageType1 VARCHAR,newpondImageId2 VARCHAR,pondImageType2 VARCHAR,newpondImageId3 VARCHAR,pondImageType3 VARCHAR,Farmer_Gender VARCHAR,finalfarmpondcodeDB VARCHAR);");
+                "newpondImageId1 VARCHAR,pondImageType1 VARCHAR,newpondImageId2 VARCHAR,pondImageType2 VARCHAR,newpondImageId3 VARCHAR,pondImageType3 VARCHAR,Farmer_Gender VARCHAR,finalfarmpondcodeDB VARCHAR,Location_Status VARCHAR);");
 
         Cursor cursor1 = db1.rawQuery("SELECT * FROM FarmPondDetails_fromServerRest WHERE UploadedStatus='" + 2 + "'", null);
         int x = cursor1.getCount();
@@ -682,6 +685,8 @@ Log.e("tag","str_employee_id="+str_employee_id);
                     innerObj_Class_farmponddetails.setPondTempID(cursor1.getString(cursor1.getColumnIndex("TempFIDDB")));
 
                     innerObj_Class_farmponddetails.setPondCode(cursor1.getString(cursor1.getColumnIndex("FPondCodeDB")));
+
+                    innerObj_Class_farmponddetails.setLocation_Status(cursor1.getString(cursor1.getColumnIndex("Location_Status")));
 
                     Log.e("class_farmpondcode",cursor1.getString(cursor1.getColumnIndex("FPondCodeDB")));
                     Log.e("class_farmpondID",cursor1.getString(cursor1.getColumnIndex("FPondidDB")));
@@ -827,6 +832,8 @@ Log.e("tag","str_employee_id="+str_employee_id);
         request.setPond_Land_Gunta(newfarmponddetails_offline_array_objRest[k].getPondLandGunta());
         request.setPond_Land_Acre(newfarmponddetails_offline_array_objRest[k].getPondLandAcre());
 
+        request.setLocation_Status(newfarmponddetails_offline_array_objRest[k].getLocation_Status());
+
         int_k=k;
         Log.e("kvalue", String.valueOf(k));
         Log.e("addrequest",request.toString());
@@ -944,7 +951,7 @@ Log.e("tag","str_employee_id="+str_employee_id);
                 "FPondLatitudeDB VARCHAR,FPondLongitudeDB VARCHAR," +
                 "FPondAcresDB VARCHAR,FPondGuntaDB VARCHAR,FPondCropBeforeDB VARCHAR,FPondCropAfterDB VARCHAR," +
                 "UploadedStatusFarmerprofile VARCHAR,UploadedStatus VARCHAR," +
-                "newpondImageId1 VARCHAR,pondImageType1 VARCHAR,newpondImageId2 VARCHAR,pondImageType2 VARCHAR,newpondImageId3 VARCHAR,pondImageType3 VARCHAR,Farmer_Gender VARCHAR,finalfarmpondcodeDB VARCHAR);");
+                "newpondImageId1 VARCHAR,pondImageType1 VARCHAR,newpondImageId2 VARCHAR,pondImageType2 VARCHAR,newpondImageId3 VARCHAR,pondImageType3 VARCHAR,Farmer_Gender VARCHAR,finalfarmpondcodeDB VARCHAR,Location_Status VARCHAR);");
 
 
         for(int i=0;i<numberofresponse;i++)
@@ -1013,6 +1020,7 @@ Log.e("tag","str_employee_id="+str_employee_id);
     {
 
         fetch_DB_New_pond_count();
+        fetch_DB_location_pending_count();
         Class_DBHandler dbhandler_obj=new Class_DBHandler(getApplicationContext());
 
         if(dbhandler_obj.get_DB_edited_offline_data_count()>0)
@@ -1039,6 +1047,7 @@ Log.e("tag","str_employee_id="+str_employee_id);
                 fetch_DB_edited_offline_data_count();
 
                 fetch_DB_Edited_farmerprofile_offline_data();
+                fetch_DB_location_pending_count();
         }
     }
 
@@ -1239,6 +1248,7 @@ Log.e("tag","str_employee_id="+str_employee_id);
             request.setPond_Land_Acre(class_farmponddetails_offline_array_obj[k].getFarmpond_acres());
             request.setPond_remarks(class_farmponddetails_offline_array_obj[k].getFarmpond_remarks());
             request.setPond_Status(class_farmponddetails_offline_array_obj[k].getFarmpond_status());
+            request.setLocation_Status(class_farmponddetails_offline_array_obj[k].getLocation_status());
 
             int_k = k;
             Log.e("kvalue", String.valueOf(k));
@@ -1358,7 +1368,7 @@ Log.e("tag","str_employee_id="+str_employee_id);
                 "FPondLatitudeDB VARCHAR,FPondLongitudeDB VARCHAR," +
                 "FPondAcresDB VARCHAR,FPondGuntaDB VARCHAR,FPondCropBeforeDB VARCHAR,FPondCropAfterDB VARCHAR," +
                 "UploadedStatusFarmerprofile VARCHAR,UploadedStatus VARCHAR," +
-                "newpondImageId1 VARCHAR,pondImageType1 VARCHAR,newpondImageId2 VARCHAR,pondImageType2 VARCHAR,newpondImageId3 VARCHAR,pondImageType3 VARCHAR,Farmer_Gender VARCHAR,finalfarmpondcodeDB VARCHAR);");
+                "newpondImageId1 VARCHAR,pondImageType1 VARCHAR,newpondImageId2 VARCHAR,pondImageType2 VARCHAR,newpondImageId3 VARCHAR,pondImageType3 VARCHAR,Farmer_Gender VARCHAR,finalfarmpondcodeDB VARCHAR,Location_Status VARCHAR);");
 
 
         for(int i=0;i<numberofresponse;i++)
@@ -1441,6 +1451,7 @@ Log.e("tag","str_employee_id="+str_employee_id);
         fetch_DB_edited_offline_data_count();
 
         fetch_DB_Edited_farmerprofile_offline_data();
+        fetch_DB_location_pending_count();
 
     }
 
@@ -1483,7 +1494,7 @@ Log.e("tag","str_employee_id="+str_employee_id);
                 "FPondLatitudeDB VARCHAR,FPondLongitudeDB VARCHAR," +
                 "FPondAcresDB VARCHAR,FPondGuntaDB VARCHAR,FPondCropBeforeDB VARCHAR,FPondCropAfterDB VARCHAR," +
                 "UploadedStatusFarmerprofile VARCHAR,UploadedStatus VARCHAR," +
-                "newpondImageId1 VARCHAR,pondImageType1 VARCHAR,newpondImageId2 VARCHAR,pondImageType2 VARCHAR,newpondImageId3 VARCHAR,pondImageType3 VARCHAR,Farmer_Gender VARCHAR,finalfarmpondcodeDB VARCHAR);");
+                "newpondImageId1 VARCHAR,pondImageType1 VARCHAR,newpondImageId2 VARCHAR,pondImageType2 VARCHAR,newpondImageId3 VARCHAR,pondImageType3 VARCHAR,Farmer_Gender VARCHAR,finalfarmpondcodeDB VARCHAR,Location_Status VARCHAR);");
 
 
         Cursor cursor1 = db1.rawQuery("SELECT * FROM FarmPondDetails_fromServerRest WHERE UploadedStatusFarmerprofile='" + 9 + "'", null);
@@ -1519,6 +1530,21 @@ Log.e("tag","str_employee_id="+str_employee_id);
         Log.e("newpondoffline_count", String.valueOf(int_offlinefarmpond_count));
 
     }
+
+
+
+    public void fetch_DB_location_pending_count()
+    {
+
+        Class_DBHandler dbhandler_obj=new Class_DBHandler(getApplicationContext());
+
+        int int_locationpending_count=dbhandler_obj.get_DB_location_mapped_status_count();
+
+        locationpending_count_tv.setText( String.valueOf(int_locationpending_count));
+        Log.e("locationpending_count", String.valueOf(int_locationpending_count));
+
+    }
+
 
     private void GetAppVersionCheck(){
 //        Map<String,String> params = new HashMap<String, String>();

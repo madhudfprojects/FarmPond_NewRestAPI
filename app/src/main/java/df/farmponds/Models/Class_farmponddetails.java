@@ -151,6 +151,10 @@ public class Class_farmponddetails
     @Expose
     private String pondImage3;
 
+    @SerializedName("Location_Status")
+    @Expose
+    private String location_Status;
+
     public String getPondImage1() {
         return pondImage1;
     }
@@ -503,6 +507,14 @@ public class Class_farmponddetails
 
     public void setPond_remarks(String pond_remarks) {
         this.pond_remarks = pond_remarks;
+    }
+
+    public String getLocation_Status() {
+        return location_Status;
+    }
+
+    public void setLocation_Status(String location_Status) {
+        this.location_Status = location_Status;
     }
 }
 

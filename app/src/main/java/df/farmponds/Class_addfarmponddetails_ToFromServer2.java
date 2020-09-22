@@ -163,6 +163,11 @@ public class Class_addfarmponddetails_ToFromServer2
     private String approval_remarks;
 
 
+    @SerializedName("Location_Status")
+    @Expose
+    private String location_Status;
+
+
 
 
     public String getPond_ID() {
@@ -424,5 +429,14 @@ public class Class_addfarmponddetails_ToFromServer2
 
     public void setApproval_remarks(String approval_remarks) {
         this.approval_remarks = approval_remarks;
+    }
+
+
+    public String getLocation_Status() {
+        return location_Status;
+    }
+
+    public void setLocation_Status(String location_Status) {
+        this.location_Status = location_Status;
     }
 }

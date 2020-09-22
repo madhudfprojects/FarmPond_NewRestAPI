@@ -111,6 +111,12 @@ public class AddFarmPondActivity extends AppCompatActivity {
 
 
     TextView latitude_tv, longitude_tv;
+   public static TextView statlatitude_tv;
+    public static TextView statlongitude_tv;
+    public static TextView statlocatedmap_status_tv;
+    public static TextView statlocationnotconfirmedtext_tv;
+    public static TextView statlocation_confirmedtext_tv;
+
 
     Class_InternetDectector internetDectector;
     Boolean isInternetPresent = false;
@@ -173,6 +179,13 @@ public class AddFarmPondActivity extends AppCompatActivity {
     public static final String Key_sel_villagesp = "sel_villagesp";
     public static final String Key_sel_grampanchayatsp = "sel_grampanchayatsp";
     SharedPreferences sharedpref_spinner_Obj;
+
+
+
+    public static final String sharedpreferencebook_addpondlocation = "sharedpreferencebook_addpondlocation";
+    public static final String KeyValue_latitude = "KeyValue_latitude";
+    public static final String KeyValue_Longitude = "KeyValue_Longitude";
+    SharedPreferences sharedpref_addpondlocation_Obj;
 
 
 
@@ -268,6 +281,15 @@ public class AddFarmPondActivity extends AppCompatActivity {
 
     int i;
 
+    ImageView locateinmap_iv;
+    LinearLayout locatemap_ll;
+
+    public static String stat_str_latitude;
+    public static String stat_str_longitude;
+
+
+    private static Context static_context = null;
+
     @Override
     protected void onCreate(Bundle savedInstanceState)
     {
@@ -292,6 +314,7 @@ public class AddFarmPondActivity extends AppCompatActivity {
         //toolbar.getNavigationIcon().setColorFilter(getResources().getColor(R.color.colorwhite), PorterDuff.Mode.SRC_ATOP);
         add_newfarmpond_iv.setVisibility(View.GONE);
 
+        static_context=AddFarmPondActivity.this;
 
         userService1 = Class_ApiUtils.getUserService();
 
@@ -340,6 +363,9 @@ public class AddFarmPondActivity extends AppCompatActivity {
         add_newpond_image2_iv = (ImageView) findViewById(R.id.add_newpond_image2_iv);
         add_newpond_image3_iv = (ImageView) findViewById(R.id.add_newpond_image3_iv);
 
+        locateinmap_iv=(ImageView)findViewById(R.id.locateinmap_iv);
+        locatemap_ll=(LinearLayout)findViewById(R.id.locatemap_ll);
+
 
         removeimage1_ib = (ImageButton) findViewById(R.id.removeimage1_ib);
         removeimage2_ib = (ImageButton) findViewById(R.id.removeimage2_ib);
@@ -350,8 +376,16 @@ public class AddFarmPondActivity extends AppCompatActivity {
 
         cancel_submit_addnew_ll = (LinearLayout) findViewById(R.id.cancel_submit_addnew_ll);
 
-        longitude_tv = (TextView) findViewById(R.id.longitude_tv);
         latitude_tv = (TextView) findViewById(R.id.latitude_tv);
+        longitude_tv = (TextView) findViewById(R.id.longitude_tv);
+
+        statlatitude_tv=(TextView)findViewById(R.id.statlatitude_tv);
+        statlongitude_tv=(TextView)findViewById(R.id.statlongitude_tv);
+
+        statlocatedmap_status_tv=(TextView)findViewById(R.id.statlocatedmap_status_tv);
+        statlocationnotconfirmedtext_tv=(TextView)findViewById(R.id.statlocationnotconfirmedtext_tv);
+        statlocation_confirmedtext_tv=(TextView)findViewById(R.id.statlocation_confirmedtext_tv);
+
 
         new_farmpond_completed_cb = (CheckBox) findViewById(R.id.new_farmpond_completed_cb);
         add_newpond_completeddate_tv = (TextView) findViewById(R.id.add_newpond_completeddate_tv);
@@ -463,8 +497,8 @@ public class AddFarmPondActivity extends AppCompatActivity {
             String str_latitude_inner =Double.toString(double_currentlatitude_inner);
             String str_longitude_inner =Double.toString(double_currentlongitude_inner);
 
-            latitude_tv.setText(str_latitude_inner);
-            longitude_tv.setText(str_longitude_inner);
+           /* latitude_tv.setText(str_latitude_inner);
+            longitude_tv.setText(str_longitude_inner);*/
 
             Log.e("lat",str_latitude_inner);
             Log.e("long",str_longitude_inner);
@@ -487,6 +521,8 @@ public class AddFarmPondActivity extends AppCompatActivity {
 
 
         str_image1present = str_image2present = str_image3present = "no";
+
+        statlocatedmap_status_tv.setText("Pending");
 
         uploadfromDB_Machinelist();
         uploadfromDB_Remarkslist();
@@ -557,8 +593,11 @@ public class AddFarmPondActivity extends AppCompatActivity {
 
                                 str_latitude = String.valueOf(location.getLatitude());
                                 str_longitude = String.valueOf(location.getLongitude());
-                                latitude_tv.setText(str_latitude);
-                                longitude_tv.setText(str_longitude);
+
+                                /*latitude_tv.setText(str_latitude);
+                                longitude_tv.setText(str_longitude);*/
+                                statlatitude_tv.setText(str_latitude);
+                                statlongitude_tv.setText(str_longitude);
 
                                 selectImage();
                             }
@@ -751,6 +790,7 @@ public class AddFarmPondActivity extends AppCompatActivity {
                 amountcollected_LL.setVisibility(View.GONE);
                 farmpondcompleted_LL.setVisibility(View.GONE);
 
+                locatemap_ll.setVisibility(View.GONE);
                 farmpondLocationlabel_LL.setVisibility(View.GONE);
                 farmpondLocationlatitude_LL.setVisibility(View.GONE);
                 farmpondLocationlongitude_LL.setVisibility(View.GONE);
@@ -1017,6 +1057,31 @@ public class AddFarmPondActivity extends AppCompatActivity {
         });
 
 
+
+
+
+        locateinmap_iv.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v)
+            {
+
+
+                internetDectector = new Class_InternetDectector(getApplicationContext());
+                isInternetPresent = internetDectector.isConnectingToInternet();
+
+                if (isInternetPresent)
+                {
+                    Intent i = new Intent(AddFarmPondActivity.this,MapsActivity.class);
+                    i.putExtra("from", "addfarmpond");
+                    startActivity(i);
+
+                }else{
+                Toast.makeText(getApplicationContext(),"Connect to Internet",Toast.LENGTH_LONG).show();
+                }
+
+
+            }
+        });
 
 
 
@@ -1339,6 +1404,48 @@ public class AddFarmPondActivity extends AppCompatActivity {
             // dpd.setTitle("Choose the Date"); // Uncomment this line to activate it
 
             // Return the DatePickerDialog
+
+           // dpd.getDatePicker().setMaxDate(System.currentTimeMillis() + (1000 * 60 * 60 * 24 * 60));
+
+
+
+
+            Calendar cl = Calendar.getInstance();
+            cl.setTimeInMillis(System.currentTimeMillis());  //here your time in miliseconds
+            // String date = "" + cl.get(Calendar.DAY_OF_MONTH) + ":" + cl.get(Calendar.MONTH) + ":" + cl.get(Calendar.YEAR);
+
+
+            String str_dates=String.valueOf(cl.get(Calendar.DATE));
+            String str_months= String.valueOf(cl.get(Calendar.DAY_OF_MONTH));
+            String str_year= String.valueOf(cl.get(Calendar.YEAR)-1);
+            String str_maxyear= String.valueOf(cl.get(Calendar.YEAR)+1);
+
+
+            Log.e("year",str_year);
+            String someDate;
+            someDate="01"+"."+"01"+"."+str_year;
+            String str_maxdate="01"+"."+"01"+"."+str_maxyear;
+
+            Log.e("date",someDate);
+            SimpleDateFormat sdf = new SimpleDateFormat("MM.dd.yyyy");
+            Date date = null;
+            try {
+                date = sdf.parse(someDate);
+            } catch (ParseException e) {
+                e.printStackTrace();
+            }
+            // System.out.println(date.getTime());
+
+            Date date1=null;
+            try {
+                date1 = sdf.parse(str_maxdate);
+            } catch (ParseException e) {
+                e.printStackTrace();
+            }
+
+            dpd.getDatePicker().setMinDate(date.getTime());
+            dpd.getDatePicker().setMaxDate(date1.getTime());
+
             return  dpd;
         }
 
@@ -1368,6 +1475,41 @@ public class AddFarmPondActivity extends AppCompatActivity {
 
 
 
+            SimpleDateFormat mdyFormat = new SimpleDateFormat("dd-MM-yyyy");  //2017-06-22
+
+            try {
+                Date fromdate = mdyFormat.parse(add_newpond_startdate_tv.getText().toString());
+                Date todate = mdyFormat.parse(add_newpond_completeddate_tv.getText().toString());
+
+
+
+                long duration = Math.abs(fromdate.getTime() - todate.getTime());
+                Log.e("days", String.valueOf(duration));
+                long differenceDates = duration / (24 * 60 * 60 * 1000);
+                String dayDifference = Long.toString(differenceDates);
+                int int_days= (int)(differenceDates);
+                Log.e("daysnow", dayDifference);
+
+                Log.e("days_int", String.valueOf(int_days));
+
+
+                if (fromdate.compareTo(todate) <= 0)
+                {
+                    if(int_days>=31)
+                    {
+                        alerts_dialog_datevalidation("daysmore");
+                    }
+
+                } else {
+
+                    alerts_dialog_datevalidation("fromdateHigher");
+                }
+            } catch (ParseException e) {
+                e.printStackTrace();
+            }//end of try catch
+
+
+
 
         }
 
@@ -1385,11 +1527,16 @@ public class AddFarmPondActivity extends AppCompatActivity {
     {
 
         @Override
-        public Dialog onCreateDialog(Bundle savedInstanceState){
+        public Dialog onCreateDialog(Bundle savedInstanceState)
+        {
             final Calendar calendar = Calendar.getInstance();
             int year = calendar.get(Calendar.YEAR);
             int month = calendar.get(Calendar.MONTH);
             int day = calendar.get(Calendar.DAY_OF_MONTH);
+
+
+
+
 
             DatePickerDialog dpd = new DatePickerDialog(getActivity(),
                     AlertDialog.THEME_HOLO_LIGHT,this,year,month,day);
@@ -1420,11 +1567,61 @@ public class AddFarmPondActivity extends AppCompatActivity {
             // dpd.setTitle("Choose the Date"); // Uncomment this line to activate it
 
             // Return the DatePickerDialog
+
+
+
+            /*dpd.getDatePicker().setMinDate(System.currentTimeMillis()+ (1000 * 60 * 60 * 24 * 1));
+            dpd.getDatePicker().setMaxDate(System.currentTimeMillis() + (1000 * 60 * 60 * 24 * 1));*/
+
+            //dpd.getDatePicker().setMaxDate(System.currentTimeMillis() + 3 * 24 * 60 * 60 * 1000 * l);
+
+
+
+            Calendar cl = Calendar.getInstance();
+            cl.setTimeInMillis(System.currentTimeMillis());  //here your time in miliseconds
+            // String date = "" + cl.get(Calendar.DAY_OF_MONTH) + ":" + cl.get(Calendar.MONTH) + ":" + cl.get(Calendar.YEAR);
+
+
+            String str_dates=String.valueOf(cl.get(Calendar.DATE));
+            String str_months= String.valueOf(cl.get(Calendar.DAY_OF_MONTH));
+            String str_year= String.valueOf(cl.get(Calendar.YEAR)-1);
+            String str_maxyear= String.valueOf(cl.get(Calendar.YEAR)+1);
+
+
+            Log.e("year",str_year);
+            String someDate;
+            someDate="01"+"."+"01"+"."+str_year;
+            String str_maxdate="01"+"."+"01"+"."+str_maxyear;
+
+            Log.e("date",someDate);
+            SimpleDateFormat sdf = new SimpleDateFormat("MM.dd.yyyy");
+            Date date = null;
+            try {
+                date = sdf.parse(someDate);
+            } catch (ParseException e) {
+                e.printStackTrace();
+            }
+            // System.out.println(date.getTime());
+
+            Date date1=null;
+            try {
+                date1 = sdf.parse(str_maxdate);
+            } catch (ParseException e) {
+                e.printStackTrace();
+            }
+
+            dpd.getDatePicker().setMinDate(date.getTime());
+            dpd.getDatePicker().setMaxDate(System.currentTimeMillis());
+
             return  dpd;
         }
 
-        public void onDateSet(DatePicker view, int year, int month, int day){
+        public void onDateSet(DatePicker view, int year, int month, int day)
+        {
             // Do something with the chosen date
+
+
+
             populateSetDate(year, month+1, day);
         }
         public  void populateSetDate(int year, int month, int day)
@@ -1433,6 +1630,7 @@ public class AddFarmPondActivity extends AppCompatActivity {
             //mEdit.setText(month+"/"+day+"/"+year);
             //dateMDY_string=month+"/"+day+"/"+year;
             // String Dates = year + "-" +(month<10?("0"+month):(month)) + "-" + (day<10?("0"+day):(day));
+
             String Dates = (day<10?("0"+day):(day)) + "-" +(month<10?("0"+month):(month)) + "-" + year;
 
             String dateMDY_string=Dates;
@@ -1442,6 +1640,43 @@ public class AddFarmPondActivity extends AppCompatActivity {
             //Toast.makeText(getApplicationContext(), x, 1000).show();
 // tv_fromdate.setText(month+"/"+day+"/"+year);
             //btn.setText(year+"-"+month+"-"+day);
+
+
+            SimpleDateFormat mdyFormat = new SimpleDateFormat("dd-MM-yyyy");  //2017-06-22
+
+            try {
+                Date fromdate = mdyFormat.parse(add_newpond_startdate_tv.getText().toString());
+                Date todate = mdyFormat.parse(add_newpond_completeddate_tv.getText().toString());
+
+
+
+                long duration = Math.abs(fromdate.getTime() - todate.getTime());
+                Log.e("days", String.valueOf(duration));
+                long differenceDates = duration / (24 * 60 * 60 * 1000);
+                String dayDifference = Long.toString(differenceDates);
+                int int_days= (int)(differenceDates);
+                Log.e("daysnow", dayDifference);
+
+                Log.e("days_int", String.valueOf(int_days));
+
+
+                if (fromdate.compareTo(todate) <= 0)
+                {
+                    if(int_days>=31)
+                    {
+                        alerts_dialog_datevalidation("daysmore");
+                    }
+
+                } else {
+
+                    alerts_dialog_datevalidation("fromdateHigher");
+                }
+            } catch (ParseException e) {
+                e.printStackTrace();
+            }//end of try catch
+
+
+
         }
     }// end of datepickerclass
 
@@ -1712,6 +1947,7 @@ public class AddFarmPondActivity extends AppCompatActivity {
             add_newpond_image3_iv.setImageBitmap(bitmap_thumbnail);
             removeimage3_ib.setVisibility(View.VISIBLE);
             farmpondcompleted_LL.setVisibility(View.VISIBLE);
+            locatemap_ll.setVisibility(View.VISIBLE);
 
             str_image3present = "yes";
             notcompleted_text_LL.setVisibility(View.GONE);
@@ -1916,8 +2152,14 @@ public class AddFarmPondActivity extends AppCompatActivity {
             String str_width = add_newpond_width_et.getText().toString();
             String str_height = add_newpond_height_et.getText().toString();
             String str_depth = add_newpond_depth_et.getText().toString();
-            String str_latitude = latitude_tv.getText().toString();
+
+           /* String str_latitude = latitude_tv.getText().toString();
             String str_longitude = longitude_tv.getText().toString();
+*/
+            String str_latitude_mapped = statlatitude_tv.getText().toString();
+            String str_longitude_mapped = statlongitude_tv.getText().toString();
+
+            String str_locationstatus=statlocatedmap_status_tv.getText().toString();
 
             String str_acres = add_landacres_et.getText().toString();
             String str_gunta = add_landgunta_et.getText().toString();
@@ -1995,7 +2237,7 @@ public class AddFarmPondActivity extends AppCompatActivity {
                     "FPondLatitudeDB VARCHAR,FPondLongitudeDB VARCHAR," +
                     "FPondAcresDB VARCHAR,FPondGuntaDB VARCHAR,FPondCropBeforeDB VARCHAR,FPondCropAfterDB VARCHAR," +
                     "UploadedStatusFarmerprofile VARCHAR,UploadedStatus VARCHAR," +
-                    "newpondImageId1 VARCHAR,pondImageType1 VARCHAR,newpondImageId2 VARCHAR,pondImageType2 VARCHAR,newpondImageId3 VARCHAR,pondImageType3 VARCHAR,Farmer_Gender VARCHAR,finalfarmpondcodeDB VARCHAR);");
+                    "newpondImageId1 VARCHAR,pondImageType1 VARCHAR,newpondImageId2 VARCHAR,pondImageType2 VARCHAR,newpondImageId3 VARCHAR,pondImageType3 VARCHAR,Farmer_Gender VARCHAR,finalfarmpondcodeDB VARCHAR,Location_Status VARCHAR);");
 
 
 
@@ -2041,20 +2283,20 @@ public class AddFarmPondActivity extends AppCompatActivity {
                     "FPondApprovalStatusDB,FPondApprovalRemarksDB,FPondApprovedbyDB,FPondApprovedDateDB,FPondDonorDB," +
                     "FPondLatitudeDB,FPondLongitudeDB,FPondAcresDB,FPondGuntaDB,FPondCropBeforeDB,FPondCropAfterDB," +
                     "UploadedStatusFarmerprofile,UploadedStatus," +
-                    "newpondImageId1,pondImageType1,newpondImageId2,pondImageType2,newpondImageId3,pondImageType3,Farmer_Gender,finalfarmpondcodeDB)" +
+                    "newpondImageId1,pondImageType1,newpondImageId2,pondImageType2,newpondImageId3,pondImageType3,Farmer_Gender,finalfarmpondcodeDB,Location_Status)" +
                     " VALUES ('" + str_farmerid_db + "','" + str_farmerid_db + "','" + str_farmername_db + "','" + str_farmerMName + "','" + str_farmerLName + "','" + str_yearID + "'," +
                     "'" + str_stateID + "','" + str_districtID + "','" + str_talukID + "','" + str_panchayatID + "','" + str_villageID + "','" + str_farmerage + "'," +
                     "'" + str_Fphonenumber + "','" + str_FannualIncome + "','" + str_Ffamilymember + "','" + str_FIDprooftype + "','" + str_FIDproofno + "','" + str_Fphoto + "'," +
                     "'" + str_Tempfarmpond_id + "','" + str_width + "'," +
-                    "'" + str_height + "','" + str_depth + "','" + str_latitude + "','" + str_longitude + "','" + str_imageid1 + "','" + arraylist_image1_base64.get(0) + "'," +
+                    "'" + str_height + "','" + str_depth + "','" + str_latitude_mapped + "','" + str_longitude_mapped + "','" + str_imageid1 + "','" + arraylist_image1_base64.get(0) + "'," +
                     "'" + str_imageid2 + "','" + arraylist_image2_base64.get(0) + "','" + str_imageid3 + "','" + arraylist_image3_base64.get(0) + "'," +
                     "'" + str_employee_id + "','" + str_submitteddatetime + "','" + str_nodays + "','" + str_startdate + "','" + str_completeddate + "'," +
                     "'" + str_pondcost + "','" + str_mcode + "','" + str_farmpond_code + "'," +
                     "'" + str_farmpond_remarks + "','" + str_farmpond_amttaken + "','" + str_farmpondstatus + "'," +
                     "'" + str_approvalstatus + "','" + str_approvalremarks + "','" + str_approvedby + "','" + str_approveddate + "','" + str_donorname + "'," +
-                    "'" + str_latitude + "','" + str_longitude + "','" + str_acres + "','" + str_gunta + "','" + str_crop_beforepond + "','" + str_crop_afterpond + "'," +
+                    "'" + str_latitude_mapped + "','" + str_longitude_mapped + "','" + str_acres + "','" + str_gunta + "','" + str_crop_beforepond + "','" + str_crop_afterpond + "'," +
                     "'" + 0 + "','"+2+"','"+str_newpondImageId1+"','"+str_pondImageType1+"'," +
-                    "'"+str_newpondImageId2+"','"+str_pondImageType2+"','"+str_newpondImageId3+"','"+str_pondImageType3+"','"+"no"+"','"+str_finalfarmpondcode+"');";
+                    "'"+str_newpondImageId2+"','"+str_pondImageType2+"','"+str_newpondImageId3+"','"+str_pondImageType3+"','"+"no"+"','"+str_finalfarmpondcode+"','"+str_locationstatus+"');";
 
 
 
@@ -2272,7 +2514,7 @@ public class AddFarmPondActivity extends AppCompatActivity {
                 "FPondLatitudeDB VARCHAR,FPondLongitudeDB VARCHAR," +
                 "FPondAcresDB VARCHAR,FPondGuntaDB VARCHAR,FPondCropBeforeDB VARCHAR,FPondCropAfterDB VARCHAR," +
                 "UploadedStatusFarmerprofile VARCHAR,UploadedStatus VARCHAR," +
-                "newpondImageId1 VARCHAR,pondImageType1 VARCHAR,newpondImageId2 VARCHAR,pondImageType2 VARCHAR,newpondImageId3 VARCHAR,pondImageType3 VARCHAR,Farmer_Gender VARCHAR,finalfarmpondcodeDB VARCHAR);");
+                "newpondImageId1 VARCHAR,pondImageType1 VARCHAR,newpondImageId2 VARCHAR,pondImageType2 VARCHAR,newpondImageId3 VARCHAR,pondImageType3 VARCHAR,Farmer_Gender VARCHAR,finalfarmpondcodeDB VARCHAR,Location_Status VARCHAR);");
 
 
 
@@ -2429,7 +2671,7 @@ public class AddFarmPondActivity extends AppCompatActivity {
                             "FPondLatitudeDB VARCHAR,FPondLongitudeDB VARCHAR," +
                             "FPondAcresDB VARCHAR,FPondGuntaDB VARCHAR,FPondCropBeforeDB VARCHAR,FPondCropAfterDB VARCHAR," +
                             "UploadedStatusFarmerprofile VARCHAR,UploadedStatus VARCHAR," +
-                            "newpondImageId1 VARCHAR,pondImageType1 VARCHAR,newpondImageId2 VARCHAR,pondImageType2 VARCHAR,newpondImageId3 VARCHAR,pondImageType3 VARCHAR,Farmer_Gender VARCHAR,finalfarmpondcodeDB VARCHAR);");
+                            "newpondImageId1 VARCHAR,pondImageType1 VARCHAR,newpondImageId2 VARCHAR,pondImageType2 VARCHAR,newpondImageId3 VARCHAR,pondImageType3 VARCHAR,Farmer_Gender VARCHAR,finalfarmpondcodeDB VARCHAR,Location_Status VARCHAR);");
 
 
 
@@ -2522,7 +2764,7 @@ public class AddFarmPondActivity extends AppCompatActivity {
                 "FPondLatitudeDB VARCHAR,FPondLongitudeDB VARCHAR," +
                 "FPondAcresDB VARCHAR,FPondGuntaDB VARCHAR,FPondCropBeforeDB VARCHAR,FPondCropAfterDB VARCHAR," +
                 "UploadedStatusFarmerprofile VARCHAR,UploadedStatus VARCHAR," +
-                "newpondImageId1 VARCHAR,pondImageType1 VARCHAR,newpondImageId2 VARCHAR,pondImageType2 VARCHAR,newpondImageId3 VARCHAR,pondImageType3 VARCHAR,Farmer_Gender VARCHAR,finalfarmpondcodeDB VARCHAR);");
+                "newpondImageId1 VARCHAR,pondImageType1 VARCHAR,newpondImageId2 VARCHAR,pondImageType2 VARCHAR,newpondImageId3 VARCHAR,pondImageType3 VARCHAR,Farmer_Gender VARCHAR,finalfarmpondcodeDB VARCHAR,Location_Status VARCHAR);");
 
 
         Cursor cursor1 = db1.rawQuery("SELECT * FROM FarmPondDetails_fromServerRest WHERE UploadedStatus='" + 2 + "'", null);
@@ -2612,6 +2854,9 @@ public class AddFarmPondActivity extends AppCompatActivity {
 
                     innerObj_Class_farmponddetails.setPondCode(cursor1.getString(cursor1.getColumnIndex("FPondCodeDB")));
 
+                    innerObj_Class_farmponddetails.setLocation_Status(cursor1.getString(cursor1.getColumnIndex("Location_Status")));
+
+                    //Location_Status
 
                   //  Log.e("YearID", cursor1.getString(cursor1.getColumnIndex("FYearIDDB")));
 
@@ -2776,6 +3021,7 @@ public class AddFarmPondActivity extends AppCompatActivity {
         request.setPond_Temp_ID(newfarmponddetails_offline_array_objRest[k].getPondCode());
         request.setPond_Land_Gunta(newfarmponddetails_offline_array_objRest[k].getPondLandGunta());
         request.setPond_Land_Acre(newfarmponddetails_offline_array_objRest[k].getPondLandAcre());
+        request.setLocation_Status(newfarmponddetails_offline_array_objRest[k].getLocation_Status());
 
         int_k=k;
         Log.e("kvalue", String.valueOf(k));
@@ -2903,7 +3149,7 @@ public class AddFarmPondActivity extends AppCompatActivity {
                 "FPondLatitudeDB VARCHAR,FPondLongitudeDB VARCHAR," +
                 "FPondAcresDB VARCHAR,FPondGuntaDB VARCHAR,FPondCropBeforeDB VARCHAR,FPondCropAfterDB VARCHAR," +
                 "UploadedStatusFarmerprofile VARCHAR,UploadedStatus VARCHAR," +
-                "newpondImageId1 VARCHAR,pondImageType1 VARCHAR,newpondImageId2 VARCHAR,pondImageType2 VARCHAR,newpondImageId3 VARCHAR,pondImageType3 VARCHAR,Farmer_Gender VARCHAR,finalfarmpondcodeDB VARCHAR);");
+                "newpondImageId1 VARCHAR,pondImageType1 VARCHAR,newpondImageId2 VARCHAR,pondImageType2 VARCHAR,newpondImageId3 VARCHAR,pondImageType3 VARCHAR,Farmer_Gender VARCHAR,finalfarmpondcodeDB VARCHAR,Location_Status VARCHAR);");
 
 
         for(int i=0;i<numberofresponse;i++)
@@ -3438,6 +3684,72 @@ public class AddFarmPondActivity extends AppCompatActivity {
             }
         });
     }
+
+
+
+
+
+
+
+
+
+
+
+    public static void alerts_dialog_datevalidation(final String str_value)
+    {
+
+        Calendar c = Calendar.getInstance();
+
+        SimpleDateFormat df = new SimpleDateFormat("dd-MM-yyyy");
+        final String str_currentdate = df.format(c.getTime());
+
+
+        AlertDialog.Builder dialog;
+        dialog = new AlertDialog.Builder(static_context);
+        dialog.setCancelable(false);
+        dialog.setTitle(R.string.app_name);
+        if(str_value.equalsIgnoreCase("fromdateHigher"))
+        { dialog.setMessage("Start Date is Higher than\n Completed Date");}
+        else if(str_value.equalsIgnoreCase("daysmore"))
+        {dialog.setMessage("No of days are more"); }
+        else{ dialog.setMessage("Completed Date smaller than\nStart Date ");}
+
+        dialog.setPositiveButton("Ok", new DialogInterface.OnClickListener()
+        {
+            @Override
+            public void onClick(DialogInterface dialog, int id)
+            {
+
+               //add_newpond_startdate_tv.getText().toString());
+                //add_newpond_completeddate_tv.getText().toString());
+
+                if(str_value.equalsIgnoreCase("fromdateHigher"))
+                {
+                    add_newpond_startdate_tv.setText(str_currentdate);
+                    add_newpond_completeddate_tv.setText(str_currentdate);
+                }
+                else if(str_value.equalsIgnoreCase("daysmore"))
+                {
+                    add_newpond_startdate_tv.setText(str_currentdate);
+                    add_newpond_completeddate_tv.setText(str_currentdate);
+                }
+
+            }
+        });
+
+
+        final AlertDialog alert = dialog.create();
+        alert.setOnShowListener( new DialogInterface.OnShowListener() {
+            @Override
+            public void onShow(DialogInterface arg0) {
+                alert.getButton(AlertDialog.BUTTON_POSITIVE).setTextColor(Color.parseColor("#004D40"));
+            }
+        });
+        alert.show();
+
+    }
+
+
 
 
 
