@@ -19,17 +19,7 @@
         android:name="android.permission.ACCESS_FINE_LOCATION"
         android:protectionLevel="signature" />
 
-
-    <permission
-        android:name="df.farmponds.MAPS_RECEIVE"
-        android:protectionLevel="signature" />
-    <uses-permission android:name="df.farmponds.MAPS_RECEIVE" />
-    <uses-permission android:name="com.google.android.providers.gsf.permission.READ_GSERVICES" />
-
     <dist:module dist:instant="true" />
-
-
-
 
     <application
         android:allowBackup="true"
@@ -39,19 +29,7 @@
         android:roundIcon="@drawable/laucher_icon_farmpond"
         android:supportsRtl="true"
         android:theme="@style/AppTheme">
-
         <activity android:name=".Summary_Count"></activity>
-
-
-        <uses-library
-            android:name="org.apache.http.legacy"
-            android:required="false" />
-
-        <meta-data
-            android:name="com.google.android.geo.API_KEY"
-            android:value="@string/google_maps_key" />
-
-
         <activity android:name=".MainActivity">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
@@ -111,12 +89,6 @@
             android:name=".Admin_Total_FarmpondDetails_Activity"
             android:theme="@style/AppThemeNoActionBar" />
         <activity android:name=".Home_Activity" />
-
-        <activity
-            android:name=".MapsActivity"
-            android:screenOrientation="portrait"
-            android:theme="@style/AppThemeNoActionBar"/>
-
     </application>
 
 </manifest>

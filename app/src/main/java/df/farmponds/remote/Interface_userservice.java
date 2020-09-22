@@ -13,6 +13,10 @@ import df.farmponds.Models.AddFarmerRequestTest;
 import df.farmponds.Models.AddFarmerResponse;
 import df.farmponds.Models.AdminEmpoyeeTotalPondCount;
 import df.farmponds.Models.AutoSyncVersion;
+import df.farmponds.Models.ClusterAcademicEmployee;
+import df.farmponds.Models.ClusterAcademicSummary;
+import df.farmponds.Models.ClusterFarmerMain;
+import df.farmponds.Models.ClusterFarmpond;
 import df.farmponds.Models.GetAppVersion;
 import df.farmponds.Models.Location_Data;
 import df.farmponds.Models.NormalLogin_Response;
@@ -119,4 +123,21 @@ public interface Interface_userservice {
   @Headers("Content-Type: application/json")
   @GET("Authentication/Get_UserDataReSync")
   Call<UserData> getUserDataReSync(@Query("User_ID") String User_ID);
+
+  @Headers("Content-Type: application/json")
+  @GET("Authentication/Get_UserClusterAcademicEmployeeData")
+  Call<ClusterAcademicEmployee> get_UserClusterAcademicEmployeeData(@Query("User_ID") String User_ID);
+
+  @Headers("Content-Type: application/json")
+  @GET("Authentication/Get_UserClusterAcademicSummary")
+  Call<ClusterAcademicSummary> get_UserClusterAcademicSummary(@Query("User_ID") String User_ID, @Query("Academic_ID") String Academic_ID);
+
+  @Headers("Content-Type: application/json")
+  @GET("Authentication/Get_UserAcademicEmployeeData")
+  Call<ClusterFarmerMain> get_UserAcademicEmployeeData(@Query("User_ID") String User_ID, @Query("Academic_ID") String Academic_ID, @Query("Employee_ID") String Employee_ID, @Query("Type") String Type);
+
+  @Headers("Content-Type: application/json")
+  @GET("Authentication/Get_UserAcademicEmployeeDataList")
+  Call<ClusterFarmpond> get_UserAcademicEmployeeDataList(@Query("Farmer_ID") String Farmer_ID, @Query("User_ID") String User_ID,@Query("Academic_ID") String Academic_ID);
+
 }
