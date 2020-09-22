@@ -1,0 +1,131 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:orientation="vertical"
+    tools:context=".ClusterFarmerListActivity">
+    <include
+        android:id="@+id/toolbar_n_actionbar"
+        layout="@layout/common_titlebar" />
+
+    <TextView
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:id="@+id/txt_Header"
+        android:textSize="18sp"
+        android:layout_gravity="center"
+        android:gravity="center"
+        android:textStyle="bold"/>
+    <View
+        android:layout_width="match_parent"
+        android:layout_marginTop="3dp"
+        android:layout_height="1dp"
+        android:background="#c0c0c0"/>
+
+
+        <EditText
+            android:id="@+id/etSearch"
+            android:layout_width="match_parent"
+            android:layout_height="45dp"
+            android:layout_margin="8dp"
+            android:background="@drawable/spinner_boader"
+            android:hint=" Search"
+            android:textColor="@color/light_gray"
+            android:textColorHint="@color/light_gray"
+            android:textSize="15sp" />
+
+    <LinearLayout
+        android:id = "@+id/relativeLayout1"
+        android:layout_width = "match_parent"
+        android:layout_height = "30dp"
+        android:gravity = "center"
+        android:layout_gravity="center"
+        android:paddingTop="10dp"
+        android:weightSum="5"
+        >
+
+
+        <TextView
+            android:layout_width = "0dp"
+            android:layout_height = "match_parent"
+            android:layout_weight = "0.8"
+            android:gravity = "center"
+            android:layout_gravity="center"
+            android:text = "Photo"
+            android:textSize="13sp"
+            android:textStyle="bold"
+            android:textAlignment="center"
+            android:textColor="@color/colorPrimary"
+            />
+
+        <TextView
+            android:layout_width = "0dp"
+            android:layout_height = "match_parent"
+            android:layout_weight = "1.2"
+            android:gravity = "center"
+            android:layout_gravity="center"
+            android:textSize="13sp"
+            android:text = "Name"
+            android:textStyle="bold"
+            android:textAlignment="center"
+            android:textColor="@color/colorPrimary"
+            />
+
+        <TextView
+            android:layout_width = "0dp"
+            android:layout_height = "match_parent"
+            android:layout_weight = "1"
+            android:textAlignment="center"
+            android:gravity="center"
+            android:layout_gravity="center"
+            android:textSize="13sp"
+            android:textStyle="bold"
+            android:text = "Mobile No"
+            android:textColor="@color/colorPrimary"
+            />
+        <TextView
+            android:layout_width="0dp"
+            android:layout_height="match_parent"
+            android:layout_gravity="center"
+            android:layout_weight="0.8"
+            android:gravity="center"
+            android:text="Ponds"
+            android:visibility="visible"
+            android:textAlignment="center"
+            android:textColor="@color/colorPrimary"
+            android:textSize="13sp"
+            android:textStyle="bold" />
+
+        <TextView
+            android:layout_width="0dp"
+            android:layout_height="match_parent"
+            android:layout_gravity="center"
+            android:layout_weight="1.2"
+            android:gravity="center"
+            android:text="Location"
+            android:visibility="visible"
+            android:textAlignment="center"
+            android:textColor="@color/colorPrimary"
+            android:textSize="13sp"
+            android:textStyle="bold" />
+
+    </LinearLayout>
+
+    <View
+        android:layout_width="match_parent"
+        android:layout_marginTop="3dp"
+        android:layout_height="1dp"
+        android:background="#c0c0c0"/>
+
+    <ScrollView
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content">
+
+        <df.farmponds.NonScrollListView
+            android:id = "@+id/listview_clusterfarmerlist"
+            android:layout_width = "match_parent"
+            android:layout_height = "wrap_content" />
+    </ScrollView>
+</LinearLayout>
