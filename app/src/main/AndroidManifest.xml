@@ -112,6 +112,12 @@
             android:name=".MapsActivity"
             android:screenOrientation="portrait"
             android:theme="@style/AppThemeNoActionBar"/>
+
+
+        <activity android:name=".ClusterFarmpondActivity"></activity>
+        <activity android:name=".ClusterFarmerListActivity" />
+        <activity android:name=".ClusterHomeActivity" />
+
     </application>
 
 </manifest>
