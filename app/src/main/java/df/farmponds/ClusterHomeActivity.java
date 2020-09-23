@@ -476,8 +476,8 @@ public class ClusterHomeActivity extends AppCompatActivity {
                                 class_cluster_summaryList.setUserID((class_userData.getLstSummary().get(i).getUserID()));
 
                                 arraysummarylist[i] = class_cluster_summaryList;
-                                Log.e("arraysummarylist", arraysummarylist[i].getEmployeeName());
-                                Log.e("getEmployeeProgram", arraysummarylist[i].getDataAll());
+                               // Log.e("arraysummarylist", arraysummarylist[i].getEmployeeName());
+                                //Log.e("getEmployeeProgram", arraysummarylist[i].getDataAll());
                                 ClusterSummaryList item = null;
                                 item = new ClusterSummaryList(arraysummarylist[i].getEmployeeName(),arraysummarylist[i].getDataAll(),arraysummarylist[i].getDataPending(),arraysummarylist[i].getDataProcess(),arraysummarylist[i].getDataApproved(),arraysummarylist[i].getDataRejected(),sp_stryear_ID,arraysummarylist[i].getUserID());
 
