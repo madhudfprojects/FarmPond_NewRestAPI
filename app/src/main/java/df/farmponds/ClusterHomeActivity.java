@@ -373,7 +373,7 @@ public class ClusterHomeActivity extends AppCompatActivity {
                                 Log.e("status", String.valueOf(class_userData.getStatus()));
 
                                 class_cluster_dataList.setAcademic((class_userData.getLst().get(i).getAcademic()));
-                                class_cluster_dataList.setEmployee(class_userData.getLst().get(i).getEmployee());
+                             //   class_cluster_dataList.setEmployee(class_userData.getLst().get(i).getEmployee());
 
 
                                 int sizeAcademic = class_userData.getLst().get(i).getAcademic().size();

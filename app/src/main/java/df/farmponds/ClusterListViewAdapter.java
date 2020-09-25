@@ -155,7 +155,7 @@ public class ClusterListViewAdapter extends BaseAdapter
                 Intent i = new Intent(v.getContext(), ClusterFarmerListActivity.class);
                 i.putExtra("EmployeeId",holder.mEmpId.getText().toString());
                 i.putExtra("YearId",holder.mYearId.getText().toString());
-                i.putExtra("Type","Rejected Farmers");
+                i.putExtra("Type","Rejected");
                 v.getContext().startActivity(i);
             }
         });

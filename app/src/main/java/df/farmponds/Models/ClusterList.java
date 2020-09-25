@@ -9,9 +9,9 @@ public class ClusterList {
     @SerializedName("Academic")
     @Expose
     private List<ClusterAcademicList> academic = null;
-    @SerializedName("Employee")
+   /* @SerializedName("Employee")
     @Expose
-    private List<ClusterEmployee> employee = null;
+    private List<ClusterEmployee> employee = null;*/
     @SerializedName("Response")
     @Expose
     private String response;
@@ -24,14 +24,14 @@ public class ClusterList {
         this.academic = academic;
     }
 
-    public List<ClusterEmployee> getEmployee() {
+  /*  public List<ClusterEmployee> getEmployee() {
         return employee;
     }
 
     public void setEmployee(List<ClusterEmployee> employee) {
         this.employee = employee;
     }
-
+*/
     public String getResponse() {
         return response;
     }
