@@ -13,7 +13,8 @@ import java.util.ArrayList;
 
 import df.farmponds.Models.ClusterSummaryList;
 
-public class ClusterListViewAdapter extends BaseAdapter {
+public class ClusterListViewAdapter extends BaseAdapter
+{
     public ArrayList<ClusterSummaryList> feesPaidList;
     Activity activity;
 
@@ -169,7 +170,8 @@ public class ClusterListViewAdapter extends BaseAdapter {
 
         if(charText!=null) {
             if(feesList!=null) {
-                if (charText.isEmpty() || charText.length() == 0) {
+                if (charText.isEmpty() || charText.length() == 0)
+                {
                     this.feesPaidList.addAll(feesList);
                 } else {
                     for (ClusterSummaryList wp : feesList) {
