@@ -6,8 +6,10 @@ import android.content.Intent;
 import android.content.SharedPreferences;
 import android.database.Cursor;
 import android.database.sqlite.SQLiteDatabase;
+import android.net.Uri;
 import android.os.Bundle;
 import android.os.Environment;
+import android.support.v4.content.FileProvider;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
 import android.util.Log;
@@ -37,6 +39,7 @@ import org.json.JSONException;
 import org.json.JSONObject;
 
 import java.io.File;
+import java.io.IOException;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
@@ -87,6 +90,7 @@ public class Admin_Total_FarmpondDetails_Activity extends AppCompatActivity
     String selected_year, sp_stryear_ID;
     ImageView downloadIcon,excel_download;
     TextView dataReject,dataApproved,dataPending,dataProcess,dataAll;
+    String directory_path;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -164,11 +168,22 @@ public class Admin_Total_FarmpondDetails_Activity extends AppCompatActivity
         excel_download.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
+                delete_TableDeletedFarmPondDetails_Excel();
                 getFarmerTableToExcel();
-                String directory_path = Environment.getExternalStorageDirectory().getPath() + "/Backup_excel/";
-                File file = new File(directory_path);
+                directory_path = Environment.getExternalStorageDirectory().getPath() + "/Backup_excel/";
+                final File file = new File(directory_path);
                 if (!file.exists()) {
                     file.mkdirs();
+                    Log.e("tag","file created");
+                }else {
+                   // if (file.delete()) {
+                    File file_delete = new File(directory_path, "FarmPondDetails_Excel.csv");
+                    Log.e("tag","file_delete=="+file_delete.toString());
+                    if(file_delete.delete()){
+                        Log.e("tag","file deleted");
+                    }else{
+                        Log.e("tag","file not deleted");
+                    }
                 }
                 SQLiteToExcel sqliteToExcel = new SQLiteToExcel(getApplicationContext(), "FarmPond_db", directory_path);
                 sqliteToExcel.exportSingleTable("FarmPondDetails_Excel", "FarmPondDetails_Excel.csv", new SQLiteToExcel.ExportListener() {
@@ -178,6 +193,13 @@ public class Admin_Total_FarmpondDetails_Activity extends AppCompatActivity
                     @Override
                     public void onCompleted(String filePath) {
                         Toast.makeText(Admin_Total_FarmpondDetails_Activity.this, "Successfully Exported", Toast.LENGTH_SHORT).show();
+                        try {
+                            //FileOpen.openFile(mContext, myFile);
+                            File outputFile = new File(file, "FarmPondDetails_Excel.csv");
+                            FileOpen.openFile(getApplicationContext(), outputFile);
+                        } catch (IOException e) {
+                            e.printStackTrace();
+                        }
                     }
                     @Override
                     public void onError(Exception e) {
@@ -609,7 +631,68 @@ String DataAll="0",DataApproved="0",DataPending="0",DataProcess="0",DataRejected
 
     }
 
-  /*  private void AsyncTask_fetch_empwise_count() {
+    public static class FileOpen {
+
+        public static void openFile(Context context, File url) throws IOException {
+            // Create URI
+            File file=url;
+            //  Uri uri = Uri.fromFile(file);
+            Uri uri = FileProvider.getUriForFile(context, context.getPackageName() + ".provider", file);
+
+            Intent intent = new Intent(Intent.ACTION_VIEW);
+            // Check what kind of file you are trying to open, by comparing the url with extensions.
+            // When the if condition is matched, plugin sets the correct intent (mime) type,
+            // so Android knew what application to use to open the file
+            if (url.toString().contains(".doc") || url.toString().contains(".docx")) {
+                // Word document
+                intent.setDataAndType(uri, "application/msword");
+            } else if(url.toString().contains(".pdf")) {
+                // PDF file
+                intent.setDataAndType(uri, "application/pdf");
+            } else if(url.toString().contains(".ppt") || url.toString().contains(".pptx")) {
+                // Powerpoint file
+                intent.setDataAndType(uri, "application/vnd.ms-powerpoint");
+            } else if(url.toString().contains(".csv")||url.toString().contains(".xls") || url.toString().contains(".xlsx")) {
+                // Excel file
+                intent.setDataAndType(uri, "application/vnd.ms-excel");
+            } else if(url.toString().contains(".zip") || url.toString().contains(".rar")) {
+                // WAV audio file
+                intent.setDataAndType(uri, "application/x-wav");
+            } else if(url.toString().contains(".rtf")) {
+                // RTF file
+                intent.setDataAndType(uri, "application/rtf");
+            } else if(url.toString().contains(".wav") || url.toString().contains(".mp3")) {
+                // WAV audio file
+                intent.setDataAndType(uri, "audio/x-wav");
+            } else if(url.toString().contains(".gif")) {
+                // GIF file
+                intent.setDataAndType(uri, "image/gif");
+            } else if(url.toString().contains(".jpg") || url.toString().contains(".jpeg") || url.toString().contains(".png")) {
+                // JPG file
+                intent.setDataAndType(uri, "image/jpeg");
+            } else if(url.toString().contains(".txt")) {
+                // Text file
+                intent.setDataAndType(uri, "text/plain");
+            } else if(url.toString().contains(".3gp") || url.toString().contains(".mpg") || url.toString().contains(".mpeg") || url.toString().contains(".mpe") || url.toString().contains(".mp4") || url.toString().contains(".avi")) {
+                // Video files
+                intent.setDataAndType(uri, "video/*");
+            } else {
+                //if you want you can also define the intent type for any other file
+
+                //additionally use else clause below, to manage other unknown extensions
+                //in this case, Android will show all applications installed on the device
+                //so you can choose which application to use
+                intent.setDataAndType(uri, "*/*");
+            }
+
+             intent.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
+            intent.addFlags(Intent.FLAG_GRANT_READ_URI_PERMISSION);
+            context.startActivity(intent);
+        }
+    }
+
+
+    /*  private void AsyncTask_fetch_empwise_count() {
 
         final ProgressDialog pdLoading = new ProgressDialog(Admin_Total_FarmpondDetails_Activity.this);
         pdLoading.setMessage("\tLoading...");
@@ -814,6 +897,26 @@ String DataAll="0",DataApproved="0",DataPending="0",DataProcess="0",DataRejected
         }//End of custom getView
     }//End of CustomAdapter
 
+    public void delete_TableDeletedFarmPondDetails_Excel() {
+
+        SQLiteDatabase db_deleteTable = this.openOrCreateDatabase("FarmPond_db", Context.MODE_PRIVATE, null);
+
+        db_deleteTable.execSQL("CREATE TABLE IF NOT EXISTS FarmPondDetails_Excel(SlNo INTEGER PRIMARY KEY AUTOINCREMENT,FarmerID VARCHAR," +
+                "FarmerName VARCHAR,Year VARCHAR,State VARCHAR,District VARCHAR," +
+                "Taluk VARCHAR,Panchayat VARCHAR,Village VARCHAR,MobileNo VARCHAR,Pond_ID VARCHAR,Latitude VARCHAR,Longitude VARCHAR,StartDate VARCHAR," +
+                "ConstructedDate VARCHAR,PondCost VARCHAR,PondAmtTaken VARCHAR,PondStatus VARCHAR,PondDonor VARCHAR,PondSize VARCHAR);");
+
+        Cursor cursor = db_deleteTable.rawQuery("SELECT * FROM FarmPondDetails_Excel", null);
+        int x = cursor.getCount();
+
+        if (x > 0) {
+            db_deleteTable.delete("FarmPondDetails_Excel", null, null);
+            Log.e("delete_Table", "FarmPondDetails_Excel");
+
+        }
+        db_deleteTable.close();
+
+    }
 
     public void onBackPressed() {
         super.onBackPressed();

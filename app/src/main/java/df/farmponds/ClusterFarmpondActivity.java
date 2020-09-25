@@ -447,6 +447,9 @@ public class ClusterFarmpondActivity extends AppCompatActivity {
         {
             //  Toast.makeText(getApplicationContext(),"Back button clicked", Toast.LENGTH_SHORT).show();
             Intent i = new Intent(ClusterFarmpondActivity.this, ClusterFarmerListActivity.class);
+            i.putExtra("EmployeeId",EmployeeId);
+            i.putExtra("YearId",YearId);
+            i.putExtra("Type",Type);
             startActivity(i);
             finish();
             return true;
