@@ -327,12 +327,12 @@
                 android:text=""/>
         </LinearLayout>
     </LinearLayout>
-   <!-- <LinearLayout
+    <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:orientation="horizontal"
         android:layout_margin="8dp"
-        android:visibility="gone"
+        android:visibility="visible"
         android:weightSum="2">
 
         <LinearLayout
@@ -350,7 +350,7 @@
                 android:text="Latitude"/>
             <TextView
                 android:layout_weight="1"
-                android:id="@+id/latitude"
+                android:id="@+id/clusterlatitude_tv"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_marginRight="5dp"
@@ -372,13 +372,13 @@
                 android:text="Longitude"/>
             <TextView
                 android:layout_weight="1"
-                android:id="@+id/longitude"
+                android:id="@+id/clusterlongitude_tv"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:textSize="15dp"
                 android:text=""/>
         </LinearLayout>
-    </LinearLayout>-->
+    </LinearLayout>
     <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
@@ -502,7 +502,7 @@
                     android:textStyle="bold"
                     android:text="Pond Location"/>
                 <ImageView
-                    android:id="@+id/maplocation_iv"
+                    android:id="@+id/maplocationfinal_iv"
                     android:layout_weight="1"
                     android:layout_width="40dp"
                     android:layout_height="40dp"
@@ -510,11 +510,36 @@
                     android:textSize="15dp"
                     android:text=""/>
             </LinearLayout>
+        </LinearLayout>
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="horizontal"
+            android:layout_margin="8dp"
+            android:weightSum="2">
 
-
-
-
-
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_weight="1"
+                android:weightSum="2"
+                android:visibility="gone"
+                android:orientation="horizontal">
+                <TextView
+                    android:layout_weight="1"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:textSize="15dp"
+                    android:textStyle="bold"
+                    android:text="Pond ID"/>
+                <TextView
+                    android:layout_weight="1"
+                    android:id="@+id/pondid_tv"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:textSize="15dp"
+                    android:text=""/>
+            </LinearLayout>
         </LinearLayout>
 
 
@@ -737,6 +762,70 @@
             android:src="@drawable/no_image" />
 
     </LinearLayout>
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginLeft="10dp"
+            android:layout_marginRight="10dp"
+            android:id="@+id/clustercomments_ll"
+            android:orientation="vertical">
+            <android.support.design.widget.TextInputLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content">
+                <EditText
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:id="@+id/clustercomments_et"
+                    android:backgroundTint="@android:color/holo_red_light"
+                    android:digits="abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ "
+                    android:hint="Cluster Comments"
+                    android:inputType="textAutoCorrect"
+                    android:maxLength="50"/>
+            </android.support.design.widget.TextInputLayout>
+        </LinearLayout>
+
+
+            <LinearLayout
+                android:id="@+id/approve_reject_ll"
+                android:layout_width="match_parent"
+                android:layout_height="80dp"
+                android:layout_marginTop="1dp"
+                android:layout_marginBottom="2dp"
+                android:gravity="center"
+                android:orientation="horizontal">
+
+                <Button
+                    android:id="@+id/cancel_bt"
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    android:layout_weight="0.54"
+                    android:gravity="center"
+                    android:text="Cancel"
+                    android:textColor="@color/color_red"
+                    android:textSize="15dp" />
+
+
+                <Button
+                    android:id="@+id/reject_bt"
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    android:layout_weight="0.54"
+                    android:gravity="center"
+                    android:text="Reject"
+                    android:textColor="@color/color_red"
+                    android:textSize="15dp" />
+
+                <Button
+                    android:id="@+id/approve_bt"
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    android:layout_weight="0.54"
+                    android:gravity="center"
+                    android:text="Approve"
+                    android:textColor="@color/color_red"
+                    android:textSize="15dp" />
+            </LinearLayout>
         </LinearLayout>
     </android.support.v7.widget.CardView>
 </LinearLayout>

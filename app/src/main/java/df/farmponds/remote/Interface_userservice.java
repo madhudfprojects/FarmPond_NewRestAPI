@@ -1,15 +1,10 @@
 package df.farmponds.remote;
 
-import com.google.android.gms.fido.u2f.api.common.ResponseData;
-
-import java.util.Map;
-
 import df.farmponds.Class_addfarmponddetails_ToFromServer1;
 import df.farmponds.Class_addfarmponddetails_ToFromServer2;
+import df.farmponds.Class_cluster_approvereject_request;
 import df.farmponds.Class_devicedetails;
-import df.farmponds.Class_farmponddetails_ToServer;
 import df.farmponds.Models.AddFarmerRequest;
-import df.farmponds.Models.AddFarmerRequestTest;
 import df.farmponds.Models.AddFarmerResponse;
 import df.farmponds.Models.AdminEmpoyeeTotalPondCount;
 import df.farmponds.Models.AutoSyncVersion;
@@ -24,17 +19,13 @@ import df.farmponds.Models.UserData;
 import df.farmponds.Models.UserDataSummary;
 import df.farmponds.Models.ValidateSyncRequest;
 import df.farmponds.Models.ValidateSyncResponse;
-import okhttp3.RequestBody;
 import retrofit2.Call;
 import retrofit2.http.Body;
 import retrofit2.http.Field;
-import retrofit2.http.FieldMap;
 import retrofit2.http.FormUrlEncoded;
 import retrofit2.http.GET;
 import retrofit2.http.Headers;
-import retrofit2.http.Multipart;
 import retrofit2.http.POST;
-import retrofit2.http.Part;
 import retrofit2.http.Query;
 
 
@@ -139,5 +130,10 @@ public interface Interface_userservice {
   @Headers("Content-Type: application/json")
   @GET("Authentication/Get_UserAcademicEmployeeDataList")
   Call<ClusterFarmpond> get_UserAcademicEmployeeDataList(@Query("Farmer_ID") String Farmer_ID, @Query("User_ID") String User_ID,@Query("Academic_ID") String Academic_ID);
+
+  @Headers({ "Content-Type: application/json;charset=UTF-8"})
+  @POST("Authentication/Post_ActionPondApproval")
+  Call<Class_cluster_approvereject_request>Post_ActionPondApproval(@Body Class_cluster_approvereject_request request);
+
 
 }

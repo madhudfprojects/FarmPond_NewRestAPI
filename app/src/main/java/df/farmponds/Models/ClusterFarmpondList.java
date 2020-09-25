@@ -122,6 +122,7 @@ public class ClusterFarmpondList {
                                String farmerName, String farmerMobile, String pondCode, String pondSize, String constructionStart,
                                String constructionEnd, String pondLatitude, String pondLongitude, String collectedAmount,
                                String constructionCost, String constructionDays, String locationStatus, String approvalStatus,
+                               String pondid,
                                String str_base64image1, String str_base64image2, String str_base64image3) {
         this.yearName=yearName;
         this.stateName=stateName;
@@ -141,6 +142,7 @@ public class ClusterFarmpondList {
         this.constructionDays=constructionDays;
         this.locationStatus=locationStatus;
         this.approvalStatus=approvalStatus;
+        this.pondID=pondid;
         this.pondImageLink1=str_base64image1;
         this.pondImageLink2=str_base64image2;
         this.pondImageLink3=str_base64image3;
