@@ -217,6 +217,20 @@ public class ClusterFarmpondListViewAdapter extends BaseAdapter
         if(item.getApprovalStatus()!=null)
         {
             holder.approval_Status.setText(item.getApprovalStatus().toString());
+
+            if(item.getApprovalStatus().equalsIgnoreCase("Waiting for Approval"))
+            {
+                holder.approval_Status.setBackgroundResource(R.color.yellow_color);
+            }
+            if(item.getApprovalStatus().equalsIgnoreCase("Rejected"))
+            {
+                holder.approval_Status.setBackgroundResource(R.color.color_red);
+            }
+            if(item.getApprovalStatus().equalsIgnoreCase("Approved"))
+            {
+                holder.approval_Status.setBackgroundResource(R.color.dark_green);
+            }
+
             if(item.getApprovalStatus().equalsIgnoreCase("Waiting for Approval"))
             {
                 holder.approve_reject_ll.setVisibility(View.VISIBLE);
