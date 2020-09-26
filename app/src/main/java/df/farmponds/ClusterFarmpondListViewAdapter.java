@@ -57,9 +57,11 @@ public class ClusterFarmpondListViewAdapter extends BaseAdapter
 
     public static final String sharedpreferencebook_usercredential = "sharedpreferencebook_usercredential";
     public static final String KeyValue_employeeid = "KeyValue_employeeid";
+    public static final String KeyValue_employeecategory = "KeyValue_employeecategory";
     SharedPreferences sharedpreferencebook_usercredential_Obj;
 
-    String str_loginuserId;
+
+    String str_loginuserId,str_employeerole;
 
     String str_pondid,str_cluster_comments;
     String str_latitude,str_longitude;
@@ -165,6 +167,8 @@ public class ClusterFarmpondListViewAdapter extends BaseAdapter
         str_loginuserId = sharedpreferencebook_usercredential_Obj.getString(KeyValue_employeeid, "").trim();
         Log.e("tag", "str_loginuserId=" + str_loginuserId);
 
+        str_employeerole=sharedpreferencebook_usercredential_Obj.getString(KeyValue_employeecategory, "").trim();
+
         if(item.getEmployeeName()!=null) {
             holder.submitterName.setText(item.getEmployeeName());
 
@@ -221,6 +225,13 @@ public class ClusterFarmpondListViewAdapter extends BaseAdapter
                 holder.approve_reject_ll.setVisibility(View.GONE);
                 holder.clustercomments_ll.setVisibility(View.GONE);
             }
+        }
+
+
+        if(str_employeerole.equalsIgnoreCase("Admin"))
+        {
+            holder.approve_reject_ll.setVisibility(View.GONE);
+            holder.clustercomments_ll.setVisibility(View.GONE);
         }
         if(item.getLocationStatus()!=null) {
             holder.location_Status.setText(item.getLocationStatus().toString());
