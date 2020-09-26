@@ -249,6 +249,7 @@ public class ClusterFarmpondListViewAdapter extends BaseAdapter
         }
         if(item.getLocationStatus()!=null) {
             holder.location_Status.setText(item.getLocationStatus().toString());
+
         }
         if(item.getPondLatitude()!=null) {
             holder.clusterlatitude_tv.setText(item.getPondLatitude().toString());
