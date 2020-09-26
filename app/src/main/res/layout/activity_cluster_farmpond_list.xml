@@ -486,6 +486,7 @@
             android:layout_height="wrap_content"
             android:orientation="horizontal"
             android:layout_margin="8dp"
+            android:id="@+id/maplocation_ll"
             android:weightSum="2">
 
             <LinearLayout

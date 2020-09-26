@@ -62,6 +62,7 @@ public class ClusterFarmpondListViewAdapter extends BaseAdapter
     String str_loginuserId;
 
     String str_pondid,str_cluster_comments;
+    String str_latitude,str_longitude;
 
 
 
@@ -147,6 +148,9 @@ public class ClusterFarmpondListViewAdapter extends BaseAdapter
 
                     holder.approve_reject_ll=(LinearLayout)convertView.findViewById(R.id.approve_reject_ll);
             holder.clustercomments_ll=(LinearLayout)convertView.findViewById(R.id.clustercomments_ll);
+
+            //maplocation_ll
+            //
 
 
                     convertView.setTag(holder);
@@ -311,6 +315,36 @@ public class ClusterFarmpondListViewAdapter extends BaseAdapter
         /*holder.cancel_bt=(Button)convertView.findViewById(R.id.cancel_bt);
         holder.reject_bt=(Button)convertView.findViewById(R.id.reject_bt);
         holder.approve_bt=(Button)convertView.findViewById(R.id.approve_bt);*/
+
+
+        holder.maplocationfinal_iv.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v)
+            {
+
+
+                if(item.getPondLatitude()!=null) {
+                    str_latitude=holder.clusterlatitude_tv.getText().toString();
+                }
+                if(item.getPondLongitude()!=null) {
+                    str_longitude=holder.clusterlongitude_tv.getText().toString();
+                }
+                internetDectector = new Class_InternetDectector(activity.getApplicationContext());
+                isInternetPresent = internetDectector.isConnectingToInternet();
+
+                if (isInternetPresent)
+                {
+                    Intent i = new Intent(activity,Cluster_MapsActivity.class);
+                    i.putExtra("latitude", str_latitude);
+                    i.putExtra("longitude", str_longitude);
+                    activity.startActivity(i);
+
+                }else{
+                    Toast.makeText(activity.getApplicationContext(), "Connect to Internet", Toast.LENGTH_LONG).show();
+                }
+            }
+        });
+
 
         holder.cancel_bt.setOnClickListener(new View.OnClickListener() {
             @Override

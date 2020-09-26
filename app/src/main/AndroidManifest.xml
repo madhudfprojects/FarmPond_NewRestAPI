@@ -118,6 +118,13 @@
         <activity android:name=".ClusterFarmerListActivity" />
         <activity android:name=".ClusterHomeActivity" />
 
+
+        <activity
+            android:name=".Cluster_MapsActivity"
+            android:screenOrientation="portrait"
+            android:theme="@style/AppThemeNoActionBar"/>
+
+
         <provider
             android:name="android.support.v4.content.FileProvider"
             android:authorities="${applicationId}.provider"
