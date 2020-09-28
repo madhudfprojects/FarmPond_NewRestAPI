@@ -6,4 +6,8 @@
 
     <string name="server_client_ID_type3">1002987641578-aq12s8k5pb7lqvq9617k1c9ub60fppcu.apps.googleusercontent.com</string>
 
+
+
+    <string name="alert"><font fgcolor='#FFFF3B30'>Alert!</font></string> <!--red-->
+
 </resources>

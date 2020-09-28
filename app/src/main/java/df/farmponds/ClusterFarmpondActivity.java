@@ -1,11 +1,14 @@
 package df.farmponds;
 
+import android.app.AlertDialog;
 import android.app.ProgressDialog;
 import android.content.Context;
+import android.content.DialogInterface;
 import android.content.Intent;
 import android.content.SharedPreferences;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
+import android.graphics.Color;
 import android.os.StrictMode;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
@@ -424,23 +427,51 @@ public class ClusterFarmpondActivity extends AppCompatActivity {
             if (isInternetPresent)
             {
 
-//                SharedPreferences settings = PreferenceManager.getDefaultSharedPreferences(getApplicationContext());
-//                SharedPreferences.Editor editor = settings.edit();
-//                editor.remove("login_userEmail");
-                SaveSharedPreference.setUserName(ClusterFarmpondActivity.this, "");
 
-                Intent i = new Intent(getApplicationContext(), MainActivity.class);
-                i.putExtra("Key_Logout", "yes");
-                i.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK | Intent.FLAG_ACTIVITY_CLEAR_TASK);
-                startActivity(i);
-                finish();
+                AlertDialog.Builder dialog = new AlertDialog.Builder(ClusterFarmpondActivity.this);
+                dialog.setCancelable(false);
+                dialog.setTitle(R.string.alert);
+                dialog.setMessage("Are you sure want to Logout?");
 
-//                Intent i = new Intent(getApplicationContext(), NormalLogin.class);
-//                i.putExtra("logout_key1", "yes");
-//                i.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK | Intent.FLAG_ACTIVITY_CLEAR_TASK);
-//                startActivity(i);
+                dialog.setPositiveButton("Yes", new DialogInterface.OnClickListener() {
+                    @Override
+                    public void onClick(DialogInterface dialog, int id)
+                    {
 
-                //}
+                        SaveSharedPreference.setUserName(ClusterFarmpondActivity.this, "");
+
+                        Intent i = new Intent(getApplicationContext(), MainActivity.class);
+                        i.putExtra("Key_Logout", "yes");
+                        i.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK | Intent.FLAG_ACTIVITY_CLEAR_TASK);
+                        startActivity(i);
+                        finish();
+
+
+                    }
+                })
+                        .setNegativeButton("No", new DialogInterface.OnClickListener() {
+                            @Override
+                            public void onClick(DialogInterface dialog, int which) {
+                                //Action for "Cancel".
+                                dialog.dismiss();
+                            }
+                        });
+
+                final AlertDialog alert = dialog.create();
+                alert.setOnShowListener(new DialogInterface.OnShowListener() {
+                    @Override
+                    public void onShow(DialogInterface arg0) {
+                        alert.getButton(AlertDialog.BUTTON_NEGATIVE).setTextColor(Color.RED);
+                        alert.getButton(AlertDialog.BUTTON_POSITIVE).setTextColor(Color.parseColor("#004D40"));
+                    }
+                });
+                alert.show();
+
+
+
+
+
+
             } else {
                 Toast.makeText(getApplicationContext(), "No Internet", Toast.LENGTH_SHORT).show();
             }

@@ -1,11 +1,14 @@
 package df.farmponds;
 
 import android.annotation.SuppressLint;
+import android.app.AlertDialog;
 import android.app.ProgressDialog;
 import android.content.Context;
+import android.content.DialogInterface;
 import android.content.Intent;
 import android.content.SharedPreferences;
 import android.content.pm.PackageManager;
+import android.graphics.Color;
 import android.graphics.Point;
 import android.os.AsyncTask;
 import android.os.Build;
@@ -537,13 +540,51 @@ public class Activity_HomeScreen extends AppCompatActivity implements GoogleApiC
 //                SharedPreferences settings = PreferenceManager.getDefaultSharedPreferences(getApplicationContext());
 //                SharedPreferences.Editor editor = settings.edit();
 //                editor.remove("login_userEmail");
-                SaveSharedPreference.setUserName(Activity_HomeScreen.this, "");
 
-                Intent i = new Intent(getApplicationContext(), MainActivity.class);
-                i.putExtra("Key_Logout", "yes");
-                i.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK | Intent.FLAG_ACTIVITY_CLEAR_TASK);
-                startActivity(i);
-                finish();
+
+                AlertDialog.Builder dialog = new AlertDialog.Builder(Activity_HomeScreen.this);
+                dialog.setCancelable(false);
+                dialog.setTitle(R.string.alert);
+                dialog.setMessage("Are you sure want to Logout?");
+
+                dialog.setPositiveButton("Yes", new DialogInterface.OnClickListener() {
+                    @Override
+                    public void onClick(DialogInterface dialog, int id)
+                    {
+
+                        SaveSharedPreference.setUserName(Activity_HomeScreen.this, "");
+
+                        Intent i = new Intent(getApplicationContext(), MainActivity.class);
+                        i.putExtra("Key_Logout", "yes");
+                        i.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK | Intent.FLAG_ACTIVITY_CLEAR_TASK);
+                        startActivity(i);
+                        finish();
+
+
+                    }
+                })
+                        .setNegativeButton("No", new DialogInterface.OnClickListener() {
+                            @Override
+                            public void onClick(DialogInterface dialog, int which) {
+                                //Action for "Cancel".
+                                dialog.dismiss();
+                            }
+                        });
+
+                final AlertDialog alert = dialog.create();
+                alert.setOnShowListener(new DialogInterface.OnShowListener() {
+                    @Override
+                    public void onShow(DialogInterface arg0) {
+                        alert.getButton(AlertDialog.BUTTON_NEGATIVE).setTextColor(Color.RED);
+                        alert.getButton(AlertDialog.BUTTON_POSITIVE).setTextColor(Color.parseColor("#004D40"));
+                    }
+                });
+                alert.show();
+
+
+
+
+
 
 //                Intent i = new Intent(getApplicationContext(), NormalLogin.class);
 //                i.putExtra("logout_key1", "yes");
