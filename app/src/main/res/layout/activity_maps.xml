@@ -69,7 +69,8 @@
             android:layout_height="36dp"
             android:layout_marginBottom="30dp"
             android:layout_weight="1"
-            android:hint="search"
+            android:textColor="@color/color_red"
+            android:hint="Search City"
             android:textColorHint="#c7c7c7"
             android:width="250dp" />
 
