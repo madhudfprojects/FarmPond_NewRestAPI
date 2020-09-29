@@ -117,6 +117,7 @@
         <activity android:name=".ClusterFarmpondActivity"></activity>
         <activity android:name=".ClusterFarmerListActivity" />
         <activity android:name=".ClusterHomeActivity" />
+        <activity android:name=".AdminClustersActivity" />
 
 
         <activity

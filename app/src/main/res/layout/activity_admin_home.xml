@@ -187,8 +187,6 @@
         android:id = "@+id/listview_summarylist"
         android:layout_width = "match_parent"
         android:layout_height = "wrap_content"
-        android:focusable="false"
-        android:focusableInTouchMode="false"
         tools:ignore="MissingClass" />
     </ScrollView>
 

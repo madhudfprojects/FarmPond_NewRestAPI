@@ -38,15 +38,17 @@
             android:layout_weight="1"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:textSize="15dp"
+            android:textSize="13dp"
             android:textStyle="bold"
+            android:textColor="@color/dark_black"
             android:text="Year"/>
         <TextView
             android:layout_weight="1"
             android:id="@+id/yearName"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:textSize="15dp"
+            android:textSize="11dp"
+            android:textColor="@color/dark_black"
             android:text=""/>
         </LinearLayout>
         <LinearLayout
@@ -59,15 +61,17 @@
                 android:layout_weight="1"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:textSize="15dp"
+                android:textSize="13dp"
                 android:textStyle="bold"
+                android:textColor="@color/dark_black"
                 android:text="State"/>
             <TextView
                 android:layout_weight="1"
                 android:id="@+id/stateName"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:textSize="15dp"
+                android:textColor="@color/dark_black"
+                android:textSize="11dp"
                 android:text=""/>
         </LinearLayout>
     </LinearLayout>
@@ -88,15 +92,17 @@
                 android:layout_weight="1"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:textSize="15dp"
+                android:textSize="13dp"
                 android:textStyle="bold"
+                android:textColor="@color/dark_black"
                 android:text="District"/>
             <TextView
                 android:layout_weight="1"
                 android:id="@+id/districtName"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:textSize="15dp"
+                android:textColor="@color/dark_black"
+                android:textSize="11dp"
                 android:text=""/>
         </LinearLayout>
         <LinearLayout
@@ -109,15 +115,17 @@
                 android:layout_weight="1"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:textSize="15dp"
+                android:textSize="13dp"
                 android:textStyle="bold"
+                android:textColor="@color/dark_black"
                 android:text="Taluka"/>
             <TextView
                 android:layout_weight="1"
                 android:id="@+id/talukaName"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:textSize="15dp"
+                android:textSize="11dp"
+                android:textColor="@color/dark_black"
                 android:text=""/>
         </LinearLayout>
     </LinearLayout>
@@ -138,15 +146,17 @@
                 android:layout_weight="1"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:textSize="15dp"
+                android:textSize="13dp"
                 android:textStyle="bold"
+                android:textColor="@color/dark_black"
                 android:text="Village"/>
             <TextView
                 android:layout_weight="1"
                 android:id="@+id/villageName"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:textSize="15dp"
+                android:textColor="@color/dark_black"
+                android:textSize="11dp"
                 android:text=""/>
         </LinearLayout>
         <LinearLayout
@@ -159,15 +169,17 @@
                 android:layout_weight="1"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:textSize="15dp"
+                android:textSize="13dp"
                 android:textStyle="bold"
+                android:textColor="@color/dark_black"
                 android:text="Submitter Name"/>
             <TextView
                 android:layout_weight="1"
                 android:id="@+id/submitterName"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:textSize="15dp"
+                android:textColor="@color/dark_black"
+                android:textSize="11dp"
                 android:text=""/>
         </LinearLayout>
 
@@ -246,10 +258,12 @@
                 android:layout_height="wrap_content"
                 android:textSize="15dp"
                 android:textStyle="bold"
+                android:textColor="@color/dark_black"
                 android:text="Pond Code"/>
             <TextView
                 android:layout_weight="1"
                 android:id="@+id/pondCode"
+                android:textColor="@color/dark_black"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:textSize="15dp"
@@ -267,12 +281,14 @@
                 android:layout_height="wrap_content"
                 android:textSize="15dp"
                 android:textStyle="bold"
+                android:textColor="@color/dark_black"
                 android:text="Pond Size"/>
             <TextView
                 android:layout_weight="1"
                 android:id="@+id/pondSize"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
+                android:textColor="@color/dark_black"
                 android:textSize="15dp"
                 android:text=""/>
         </LinearLayout>
@@ -296,12 +312,14 @@
                 android:layout_height="wrap_content"
                 android:textSize="15dp"
                 android:textStyle="bold"
+                android:textColor="@color/dark_black"
                 android:text="Start Date"/>
             <TextView
                 android:layout_weight="1"
                 android:id="@+id/startDate"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
+                android:textColor="@color/dark_black"
                 android:textSize="15dp"
                 android:text=""/>
         </LinearLayout>
@@ -317,12 +335,14 @@
                 android:layout_height="wrap_content"
                 android:textSize="15dp"
                 android:textStyle="bold"
+                android:textColor="@color/dark_black"
                 android:text="End Date"/>
             <TextView
                 android:layout_weight="1"
                 android:id="@+id/endDate"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
+                android:textColor="@color/dark_black"
                 android:textSize="15dp"
                 android:text=""/>
         </LinearLayout>
@@ -347,6 +367,7 @@
                 android:layout_height="wrap_content"
                 android:textSize="15dp"
                 android:textStyle="bold"
+                android:textColor="@color/dark_black"
                 android:text="Latitude"/>
             <TextView
                 android:layout_weight="1"
@@ -354,6 +375,7 @@
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_marginRight="5dp"
+                android:textColor="@color/dark_black"
                 android:textSize="15dp"
                 android:text=""/>
         </LinearLayout>
@@ -367,6 +389,7 @@
                 android:layout_weight="1"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
+                android:textColor="@color/dark_black"
                 android:textSize="15dp"
                 android:textStyle="bold"
                 android:text="Longitude"/>
@@ -375,6 +398,7 @@
                 android:id="@+id/clusterlongitude_tv"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
+                android:textColor="@color/dark_black"
                 android:textSize="15dp"
                 android:text=""/>
         </LinearLayout>
@@ -396,12 +420,14 @@
                 android:layout_weight="1"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
+                android:textColor="@color/dark_black"
                 android:textSize="15dp"
                 android:textStyle="bold"
                 android:text="Amount"/>
             <TextView
                 android:layout_weight="1"
                 android:id="@+id/amount"
+                android:textColor="@color/dark_black"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:textSize="15dp"
@@ -419,12 +445,14 @@
                 android:layout_height="wrap_content"
                 android:textSize="15dp"
                 android:textStyle="bold"
+                android:textColor="@color/dark_black"
                 android:text="No of Days"/>
             <TextView
                 android:layout_weight="1"
                 android:id="@+id/no_ofDays"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
+                android:textColor="@color/dark_black"
                 android:textSize="15dp"
                 android:text=""/>
         </LinearLayout>
@@ -446,6 +474,7 @@
                 android:layout_weight="1"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
+                android:textColor="@color/dark_black"
                 android:textSize="15dp"
                 android:textStyle="bold"
                 android:text="Location Status"/>
@@ -454,6 +483,7 @@
                 android:id="@+id/location_Status"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
+                android:textColor="@color/dark_black"
                 android:textSize="15dp"
                 android:text=""/>
         </LinearLayout>
@@ -467,6 +497,7 @@
                 android:layout_weight="1"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
+                android:textColor="@color/dark_black"
                 android:textSize="15dp"
                 android:textStyle="bold"
                 android:text="Approval Status"/>
@@ -476,6 +507,7 @@
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:textSize="15dp"
+                android:textColor="@color/dark_black"
                 android:text=""/>
         </LinearLayout>
     </LinearLayout>
@@ -499,6 +531,7 @@
                     android:layout_weight="1"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
+                    android:textColor="@color/dark_black"
                     android:textSize="15dp"
                     android:textStyle="bold"
                     android:text="Pond Location"/>
@@ -532,12 +565,14 @@
                     android:layout_height="wrap_content"
                     android:textSize="15dp"
                     android:textStyle="bold"
+                    android:textColor="@color/dark_black"
                     android:text="Pond ID"/>
                 <TextView
                     android:layout_weight="1"
                     android:id="@+id/pondid_tv"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
+                    android:textColor="@color/dark_black"
                     android:textSize="15dp"
                     android:text=""/>
             </LinearLayout>
@@ -781,6 +816,7 @@
                     android:backgroundTint="@android:color/holo_red_light"
                     android:digits="abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ "
                     android:hint="Cluster Comments"
+                    android:textColor="@color/dark_black"
                     android:inputType="textAutoCorrect"
                     android:maxLength="50"/>
             </android.support.design.widget.TextInputLayout>
@@ -802,8 +838,11 @@
                     android:layout_height="wrap_content"
                     android:layout_weight="0.54"
                     android:gravity="center"
+                    android:layout_marginRight="5dp"
+                    android:layout_marginLeft="5dp"
                     android:text="Cancel"
-                    android:textColor="@color/color_red"
+                    android:background="#696969"
+                    android:textColor="@color/colorwhite"
                     android:textSize="15dp" />
 
 
@@ -813,8 +852,11 @@
                     android:layout_height="wrap_content"
                     android:layout_weight="0.54"
                     android:gravity="center"
+                    android:layout_marginLeft="5dp"
+                    android:layout_marginRight="5dp"
                     android:text="Reject"
-                    android:textColor="@color/color_red"
+                    android:background="@color/reject"
+                    android:textColor="@color/colorwhite"
                     android:textSize="15dp" />
 
                 <Button
@@ -822,9 +864,12 @@
                     android:layout_width="0dp"
                     android:layout_height="wrap_content"
                     android:layout_weight="0.54"
+                    android:layout_marginLeft="5dp"
+                    android:layout_marginRight="5dp"
                     android:gravity="center"
                     android:text="Approve"
-                    android:textColor="@color/color_red"
+                    android:background="@color/approve"
+                    android:textColor="@color/colorwhite"
                     android:textSize="15dp" />
             </LinearLayout>
         </LinearLayout>
