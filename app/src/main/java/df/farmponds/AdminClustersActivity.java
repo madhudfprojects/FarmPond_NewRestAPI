@@ -1,38 +1,25 @@
 package df.farmponds;
 
-import android.annotation.SuppressLint;
-import android.app.Activity;
 import android.app.AlertDialog;
 import android.app.ProgressDialog;
 import android.content.Context;
 import android.content.DialogInterface;
 import android.content.Intent;
 import android.content.SharedPreferences;
-import android.content.pm.PackageManager;
-import android.graphics.Bitmap;
-import android.graphics.BitmapFactory;
 import android.graphics.Color;
 import android.net.Uri;
-import android.os.StrictMode;
-import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
-import android.support.v7.widget.RecyclerView;
+import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
 import android.text.Editable;
 import android.text.TextWatcher;
-import android.util.Base64;
 import android.util.Log;
-import android.view.LayoutInflater;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
-import android.view.ViewGroup;
 import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
-import android.widget.BaseAdapter;
-import android.widget.Button;
 import android.widget.EditText;
-import android.widget.ImageView;
 import android.widget.ListView;
 import android.widget.Spinner;
 import android.widget.TextView;
@@ -40,10 +27,6 @@ import android.widget.Toast;
 
 import com.google.gson.Gson;
 
-import java.io.ByteArrayOutputStream;
-import java.io.IOException;
-import java.io.InputStream;
-import java.net.URL;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Locale;
@@ -55,25 +38,22 @@ import df.farmponds.Models.ClusterList;
 import df.farmponds.Models.ClusterSummaryList;
 import df.farmponds.Models.DefaultResponse;
 import df.farmponds.Models.ErrorUtils;
-import df.farmponds.Models.Farmer;
 import df.farmponds.Models.GetAppVersion;
 import df.farmponds.Models.GetAppVersionList;
-import df.farmponds.Models.Location_DataList;
-import df.farmponds.Models.UserData;
-import df.farmponds.Models.UserDataList;
-import df.farmponds.Models.Year;
 import df.farmponds.remote.Class_ApiUtils;
 import df.farmponds.remote.Interface_userservice;
 import retrofit2.Call;
 import retrofit2.Callback;
 import retrofit2.Response;
 
-public class ClusterHomeActivity extends AppCompatActivity {
+public class AdminClustersActivity extends AppCompatActivity {
 
 
     Spinner yearlist_farmer_SPl;
     Interface_userservice userService1;
-    String str_farmerID, str_employee_id,Type="Cluster";
+    String str_farmerID, str_employee_id;
+    String Type,YearId,Name;
+
 
     public static final String sharedpreferencebook_usercredential = "sharedpreferencebook_usercredential";
     public static final String KeyValue_employeeid = "KeyValue_employeeid";
@@ -101,14 +81,14 @@ public class ClusterHomeActivity extends AppCompatActivity {
     ClusterSummaryList class_cluster_summaryList = new ClusterSummaryList();
     ClusterSummaryList[] arraysummarylist;
 
-    ClusterListViewAdapter clusterListViewAdapter;
+    AdminListViewAdapter clusterListViewAdapter;
     private ArrayList<ClusterSummaryList> clusterList;
     private ArrayList<ClusterSummaryList> originalList = null;
     private EditText etSearch;
     private ListView lview,listview_summarylist;
     Toolbar toolbar;
     private String versioncode;
-    TextView userName,cluster_ff;
+    TextView userName;
     String str_Googlelogin_Username;
 
     ClusterSummaryListViewAdapter summaryListViewAdapter;
@@ -120,8 +100,9 @@ public class ClusterHomeActivity extends AppCompatActivity {
     public static final String sharedpreferenc_flag = "flag_sharedpreference";
     public static final String key_flag = "flag";
 
-    String Employee_Role;
+    TextView cluster_ff;
 
+    String Employee_Role;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -131,7 +112,7 @@ public class ClusterHomeActivity extends AppCompatActivity {
         setSupportActionBar(toolbar);
       //  getSupportActionBar().setDisplayHomeAsUpEnabled(true);
         TextView title = (TextView) toolbar.findViewById(R.id.title_name);
-        title.setText("Home");
+        title.setText("Cluster List");
         getSupportActionBar().setTitle("");
 
         userService1 = Class_ApiUtils.getUserService();
@@ -139,78 +120,68 @@ public class ClusterHomeActivity extends AppCompatActivity {
         lview = (NonScrollListView) findViewById(R.id.listview_clusterlist);
         etSearch = (EditText) findViewById(R.id.etSearch);
         userName = (TextView) findViewById(R.id.userName);
-        cluster_ff = (TextView) findViewById(R.id.cluster_ff);
         listview_summarylist=(NonScrollListView) findViewById(R.id.listview_summarylist);
-        sharedpref_flag_Obj = getSharedPreferences(sharedpreferenc_flag, Context.MODE_PRIVATE);
-        str_flag = sharedpref_flag_Obj.getString(key_flag, "").trim();
-
-        sharedpreferencebook_usercredential_Obj = getSharedPreferences(sharedpreferencebook_usercredential, Context.MODE_PRIVATE);
-        str_employee_id = sharedpreferencebook_usercredential_Obj.getString(KeyValue_employeeid, "").trim();
-        Log.e("tag", "str_employee_id=" + str_employee_id);
-
-        sharedpref_username_Obj = getSharedPreferences(sharedpreferenc_username, Context.MODE_PRIVATE);
-        str_Googlelogin_Username = sharedpref_username_Obj.getString(Key_username, "").trim();
-        Log.e("tag", "str_Googlelogin_Username=" + str_Googlelogin_Username);
+        cluster_ff=(TextView) findViewById(R.id.cluster_ff);
 
         sharedpreferencebook_usercredential_Obj=getSharedPreferences(sharedpreferencebook_usercredential, Context.MODE_PRIVATE);
         Employee_Role=sharedpreferencebook_usercredential_Obj.getString(KeyValue_employeecategory, "").trim();
 
         Log.e("tag","Employee_Role="+Employee_Role);
-        if(Employee_Role.equalsIgnoreCase("Admin")) {
-            cluster_ff.setText("Cluster Head list");
-        }else{
-            cluster_ff.setText("Field Facilitator list");
+
+        Bundle extras = getIntent().getExtras();
+        if (extras != null) {
+            str_employee_id = extras.getString("EmployeeId");
+            Log.e("tag", "2nd str_employee_id=" + str_employee_id);
+            Type = extras.getString("Type");
+            YearId = extras.getString("YearId");
+            Name = extras.getString("Name");
         }
-        
-        try {
-            versioncode = String.valueOf(getPackageManager().getPackageInfo(getPackageName(), 0).versionCode);
-        } catch (PackageManager.NameNotFoundException e) {
-            // TODO Auto-generated catch block
-            e.printStackTrace();
-        }
+
+        userName.setText(Name);
+        cluster_ff.setText("Field Facilitator list");
+
         internetDectector = new Class_InternetDectector(getApplicationContext());
         isInternetPresent = internetDectector.isConnectingToInternet();
 
         if (isInternetPresent)
         {
-            GetAppVersionCheck();
+            Get_UserClusterAcademicEmployeeData();
         }else{
-            alerts_dialog_offline();
-           // Toast.makeText(getApplicationContext(), "Connect to Internet", Toast.LENGTH_LONG).show();
+          //  alerts_dialog_offline();
+           Toast.makeText(getApplicationContext(), "Connect to Internet", Toast.LENGTH_LONG).show();
         }
 
-        if (!str_flag.equals("1")) {
-            if (SaveSharedPreference.getUserName(ClusterHomeActivity.this).length() == 0) {
+      /*  if (!str_flag.equals("1")) {
+            if (SaveSharedPreference.getUserName(AdminHomeActivity.this).length() == 0) {
 //                Intent i = new Intent(Activity_HomeScreen.this, NormalLogin.class);
 //                startActivity(i);
 //                finish();
 //                // call Login Activity
             } else {
-                str_Googlelogin_Username=SaveSharedPreference.getUserName(ClusterHomeActivity.this);
+                str_Googlelogin_Username=SaveSharedPreference.getUserName(AdminHomeActivity.this);
                 // Stay at the current activity.
             }
 
         } else {
 
-            if (SaveSharedPreference.getUserName(ClusterHomeActivity.this).length() == 0) {
-                Intent i = new Intent(ClusterHomeActivity.this, MainActivity.class);
+            if (SaveSharedPreference.getUserName(AdminHomeActivity.this).length() == 0) {
+                Intent i = new Intent(AdminHomeActivity.this, MainActivity.class);
                 startActivity(i);
                 finish();
                 // call Login Activity
             } else {
                 // Stay at the current activity.
             }
-        }
+        }*/
 
-        userName.setText(str_Googlelogin_Username);
 
         clusterList = new ArrayList<ClusterSummaryList>();
 
-        clusterListViewAdapter = new ClusterListViewAdapter(ClusterHomeActivity.this, clusterList);
+        clusterListViewAdapter = new AdminListViewAdapter(AdminClustersActivity.this, clusterList);
 
         summaryList =new ArrayList<ClusterSummaryList>();
 
-        summaryListViewAdapter = new ClusterSummaryListViewAdapter(ClusterHomeActivity.this, summaryList);
+        summaryListViewAdapter = new ClusterSummaryListViewAdapter(AdminClustersActivity.this, summaryList);
 
         yearlist_farmer_SPl.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
             @Override
@@ -253,7 +224,7 @@ public class ClusterHomeActivity extends AppCompatActivity {
                 clusterListViewAdapter.filter(text,originalList,null);
             }
         });
-        clusterListViewAdapter = new ClusterListViewAdapter(ClusterHomeActivity.this, clusterList);
+        clusterListViewAdapter = new AdminListViewAdapter(AdminClustersActivity.this, clusterList);
         lview.setAdapter(clusterListViewAdapter);
 
     }   // end onCreate
@@ -263,9 +234,9 @@ public class ClusterHomeActivity extends AppCompatActivity {
 //
 //        params.put("User_ID","90");// for dynamic
 
-        retrofit2.Call call = userService1.getAppVersion();
+        Call call = userService1.getAppVersion();
         final ProgressDialog progressDoalog;
-        progressDoalog = new ProgressDialog(ClusterHomeActivity.this);
+        progressDoalog = new ProgressDialog(AdminClustersActivity.this);
         progressDoalog.setMessage("Loading....");
         progressDoalog.setTitle("Please wait....");
         progressDoalog.setCancelable(false);
@@ -304,12 +275,11 @@ public class ClusterHomeActivity extends AppCompatActivity {
                             alerts_dialog_playstoreupdate();
                         }
                         else{
-                            Get_UserClusterAcademicEmployeeData();
                         }
                         progressDoalog.dismiss();
                     }else{
                         progressDoalog.dismiss();
-                        Toast.makeText(ClusterHomeActivity.this, class_loginresponse.getMessage(), Toast.LENGTH_SHORT).show();
+                        Toast.makeText(AdminClustersActivity.this, class_loginresponse.getMessage(), Toast.LENGTH_SHORT).show();
 
                     }
                 } else {
@@ -321,7 +291,7 @@ public class ClusterHomeActivity extends AppCompatActivity {
                     // … or just log the issue like we’re doing :)
                     Log.d("error message", error.getMsg());
 
-                    Toast.makeText(ClusterHomeActivity.this, error.getMsg(), Toast.LENGTH_SHORT).show();
+                    Toast.makeText(AdminClustersActivity.this, error.getMsg(), Toast.LENGTH_SHORT).show();
 
                 }
             }
@@ -333,7 +303,7 @@ public class ClusterHomeActivity extends AppCompatActivity {
                 Log.e("TAG", "onFailure: "+t.toString() );
 
                 Log.e("tag","Error:"+t.getMessage());
-                Toast.makeText(ClusterHomeActivity.this, "WS:Error:"+t.getMessage(), Toast.LENGTH_SHORT).show();
+                Toast.makeText(AdminClustersActivity.this, "WS:Error:"+t.getMessage(), Toast.LENGTH_SHORT).show();
             }
         });
 
@@ -344,7 +314,7 @@ public class ClusterHomeActivity extends AppCompatActivity {
     public  void alerts_dialog_playstoreupdate()
     {
 
-        AlertDialog.Builder dialog = new AlertDialog.Builder(ClusterHomeActivity.this);
+        AlertDialog.Builder dialog = new AlertDialog.Builder(AdminClustersActivity.this);
         dialog.setCancelable(false);
         dialog.setTitle("DF Agri");
         dialog.setMessage("Kindly update from playstore");
@@ -374,7 +344,7 @@ public class ClusterHomeActivity extends AppCompatActivity {
     public  void alerts_dialog_offline()
     {
 
-        AlertDialog.Builder dialog = new AlertDialog.Builder(ClusterHomeActivity.this);
+        AlertDialog.Builder dialog = new AlertDialog.Builder(AdminClustersActivity.this);
         dialog.setCancelable(false);
         dialog.setTitle("DF Agri");
         dialog.setMessage(" You are Offline\n\n Please Connect to Internet");
@@ -408,7 +378,7 @@ public class ClusterHomeActivity extends AppCompatActivity {
         Call<ClusterAcademicEmployee> call = userService1.get_UserClusterAcademicEmployeeData(str_employee_id);
 
         final ProgressDialog progressDoalog;
-        progressDoalog = new ProgressDialog(ClusterHomeActivity.this);
+        progressDoalog = new ProgressDialog(AdminClustersActivity.this);
         progressDoalog.setMessage("Loading....");
         progressDoalog.setTitle("Please wait....");
         progressDoalog.setProgressStyle(ProgressDialog.STYLE_SPINNER);
@@ -466,13 +436,13 @@ public class ClusterHomeActivity extends AppCompatActivity {
                             //  uploadfromDB_Farmerlist();
                         }
                         else{
-                            Toast.makeText(ClusterHomeActivity.this, class_userData.getMessage(), Toast.LENGTH_SHORT).show();
+                            Toast.makeText(AdminClustersActivity.this, class_userData.getMessage(), Toast.LENGTH_SHORT).show();
                         }
                         progressDoalog.dismiss();
                     } else {
                         progressDoalog.dismiss();
 
-                        Toast.makeText(ClusterHomeActivity.this, class_userData.getMessage(), Toast.LENGTH_SHORT).show();
+                        Toast.makeText(AdminClustersActivity.this, class_userData.getMessage(), Toast.LENGTH_SHORT).show();
 
                     }
                 } else {
@@ -491,7 +461,7 @@ public class ClusterHomeActivity extends AppCompatActivity {
 
             @Override
             public void onFailure(Call call, Throwable t) {
-                Toast.makeText(ClusterHomeActivity.this, t.getMessage(), Toast.LENGTH_SHORT).show();
+                Toast.makeText(AdminClustersActivity.this, t.getMessage(), Toast.LENGTH_SHORT).show();
             }
         });// end of call
 
@@ -502,7 +472,7 @@ public class ClusterHomeActivity extends AppCompatActivity {
         Call<ClusterAcademicSummary> call = userService1.get_UserClusterAcademicSummary(str_employee_id,sp_stryear_ID);
 
         final ProgressDialog progressDoalog;
-        progressDoalog = new ProgressDialog(ClusterHomeActivity.this);
+        progressDoalog = new ProgressDialog(AdminClustersActivity.this);
         progressDoalog.setMessage("Loading....");
         progressDoalog.setTitle("Please wait....");
         progressDoalog.setProgressStyle(ProgressDialog.STYLE_SPINNER);
@@ -549,17 +519,17 @@ public class ClusterHomeActivity extends AppCompatActivity {
                                 if(arraysummarylist[i].getEmployeeName().equalsIgnoreCase("All")){
 
                                     ClusterSummaryList item1 = null;
-                                    item1 = new ClusterSummaryList("Summary", arraysummarylist[i].getDataAll(), arraysummarylist[i].getDataPending(), arraysummarylist[i].getDataProcess(), arraysummarylist[i].getDataApproved(), arraysummarylist[i].getDataRejected(), sp_stryear_ID, arraysummarylist[i].getUserID(),str_employee_id,Employee_Role);
+                                    item1 = new ClusterSummaryList("Summary", arraysummarylist[i].getDataAll(), arraysummarylist[i].getDataPending(), arraysummarylist[i].getDataProcess(), arraysummarylist[i].getDataApproved(), arraysummarylist[i].getDataRejected(), sp_stryear_ID, arraysummarylist[i].getUserID(),str_employee_id,"Cluster");
 
                                     summaryList.add(item1);
                                 }else {
                                     ClusterSummaryList item = null;
-                                    item = new ClusterSummaryList(arraysummarylist[i].getEmployeeName(), arraysummarylist[i].getDataAll(), arraysummarylist[i].getDataPending(), arraysummarylist[i].getDataProcess(), arraysummarylist[i].getDataApproved(), arraysummarylist[i].getDataRejected(), sp_stryear_ID, arraysummarylist[i].getUserID(),str_employee_id,Employee_Role);
+                                    item = new ClusterSummaryList(arraysummarylist[i].getEmployeeName(), arraysummarylist[i].getDataAll(), arraysummarylist[i].getDataPending(), arraysummarylist[i].getDataProcess(), arraysummarylist[i].getDataApproved(), arraysummarylist[i].getDataRejected(), sp_stryear_ID, arraysummarylist[i].getUserID(),str_employee_id,"Cluster");
 
                                     clusterList.add(item);
                                 }
                             }
-                            summaryListViewAdapter = new ClusterSummaryListViewAdapter(ClusterHomeActivity.this, summaryList);
+                            summaryListViewAdapter = new ClusterSummaryListViewAdapter(AdminClustersActivity.this, summaryList);
                             listview_summarylist.setAdapter(summaryListViewAdapter);
 
                             originalList = new ArrayList<ClusterSummaryList>();
@@ -570,13 +540,13 @@ public class ClusterHomeActivity extends AppCompatActivity {
                             //  uploadfromDB_Farmerlist();
                         }
                         else{
-                            Toast.makeText(ClusterHomeActivity.this, class_userData.getMessage(), Toast.LENGTH_SHORT).show();
+                            Toast.makeText(AdminClustersActivity.this, class_userData.getMessage(), Toast.LENGTH_SHORT).show();
                         }
                         progressDoalog.dismiss();
                     } else {
                         progressDoalog.dismiss();
 
-                        Toast.makeText(ClusterHomeActivity.this, class_userData.getMessage(), Toast.LENGTH_SHORT).show();
+                        Toast.makeText(AdminClustersActivity.this, class_userData.getMessage(), Toast.LENGTH_SHORT).show();
 
                     }
                 } else {
@@ -595,17 +565,16 @@ public class ClusterHomeActivity extends AppCompatActivity {
 
             @Override
             public void onFailure(Call call, Throwable t) {
-                Toast.makeText(ClusterHomeActivity.this, t.getMessage(), Toast.LENGTH_SHORT).show();
+                Toast.makeText(AdminClustersActivity.this, t.getMessage(), Toast.LENGTH_SHORT).show();
             }
         });// end of call
 
     }
     @Override
     public void onBackPressed() {
-        Intent startMain = new Intent(Intent.ACTION_MAIN);
-        startMain.addCategory(Intent.CATEGORY_HOME);
-        startMain.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
-        startActivity(startMain);
+        Intent i = new Intent(AdminClustersActivity.this, ClusterHomeActivity.class);
+        startActivity(i);
+        finish();
     }
 
     @Override
@@ -628,7 +597,7 @@ public class ClusterHomeActivity extends AppCompatActivity {
         if(id==R.id.contactus)
         {
 
-            Intent i = new Intent(ClusterHomeActivity.this, ContactUs_Activity.class);
+            Intent i = new Intent(AdminClustersActivity.this, ContactUs_Activity.class);
             startActivity(i);
             finish();
             return true;
@@ -648,52 +617,23 @@ public class ClusterHomeActivity extends AppCompatActivity {
             if (isInternetPresent)
             {
 
+//                SharedPreferences settings = PreferenceManager.getDefaultSharedPreferences(getApplicationContext());
+//                SharedPreferences.Editor editor = settings.edit();
+//                editor.remove("login_userEmail");
+                SaveSharedPreference.setUserName(AdminClustersActivity.this, "");
 
+                Intent i = new Intent(getApplicationContext(), MainActivity.class);
+                i.putExtra("Key_Logout", "yes");
+                i.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK | Intent.FLAG_ACTIVITY_CLEAR_TASK);
+                startActivity(i);
+                finish();
 
-                AlertDialog.Builder dialog = new AlertDialog.Builder(ClusterHomeActivity.this);
-                dialog.setCancelable(false);
-                dialog.setTitle(R.string.alert);
-                dialog.setMessage("Are you sure want to Logout?");
+//                Intent i = new Intent(getApplicationContext(), NormalLogin.class);
+//                i.putExtra("logout_key1", "yes");
+//                i.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK | Intent.FLAG_ACTIVITY_CLEAR_TASK);
+//                startActivity(i);
 
-                dialog.setPositiveButton("Yes", new DialogInterface.OnClickListener() {
-                    @Override
-                    public void onClick(DialogInterface dialog, int id)
-                    {
-
-                        SaveSharedPreference.setUserName(ClusterHomeActivity.this, "");
-
-                        Intent i = new Intent(getApplicationContext(), MainActivity.class);
-                        i.putExtra("Key_Logout", "yes");
-                        i.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK | Intent.FLAG_ACTIVITY_CLEAR_TASK);
-                        startActivity(i);
-                        finish();
-
-
-                    }
-                })
-                        .setNegativeButton("No", new DialogInterface.OnClickListener() {
-                            @Override
-                            public void onClick(DialogInterface dialog, int which) {
-                                //Action for "Cancel".
-                                dialog.dismiss();
-                            }
-                        });
-
-                final AlertDialog alert = dialog.create();
-                alert.setOnShowListener(new DialogInterface.OnShowListener() {
-                    @Override
-                    public void onShow(DialogInterface arg0) {
-                        alert.getButton(AlertDialog.BUTTON_NEGATIVE).setTextColor(Color.RED);
-                        alert.getButton(AlertDialog.BUTTON_POSITIVE).setTextColor(Color.parseColor("#004D40"));
-                    }
-                });
-                alert.show();
-
-
-
-
-
-
+                //}
             } else {
                 Toast.makeText(getApplicationContext(), "No Internet", Toast.LENGTH_SHORT).show();
             }
@@ -702,7 +642,7 @@ public class ClusterHomeActivity extends AppCompatActivity {
         if (id == android.R.id.home)
         {
             //  Toast.makeText(getApplicationContext(),"Back button clicked", Toast.LENGTH_SHORT).show();
-            Intent i = new Intent(ClusterHomeActivity.this, ClusterHomeActivity.class);
+            Intent i = new Intent(AdminClustersActivity.this, ClusterHomeActivity.class);
             startActivity(i);
             finish();
             return true;

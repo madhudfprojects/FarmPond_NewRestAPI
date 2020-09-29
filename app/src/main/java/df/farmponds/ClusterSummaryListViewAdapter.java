@@ -14,12 +14,12 @@ import java.util.ArrayList;
 
 import df.farmponds.Models.ClusterSummaryList;
 
-public class ClusterListViewAdapter extends BaseAdapter
+public class ClusterSummaryListViewAdapter extends BaseAdapter
 {
     public ArrayList<ClusterSummaryList> feesPaidList;
     Activity activity;
 
-    public ClusterListViewAdapter(Activity activity, ArrayList<ClusterSummaryList> feesPaidList) {
+    public ClusterSummaryListViewAdapter(Activity activity, ArrayList<ClusterSummaryList> feesPaidList) {
         super();
         this.activity = activity;
         this.feesPaidList = feesPaidList;
@@ -63,7 +63,7 @@ public class ClusterListViewAdapter extends BaseAdapter
         LayoutInflater inflater = activity.getLayoutInflater();
 
         if (convertView == null) {
-            convertView = inflater.inflate(R.layout.cluster_listrow, null);
+            convertView = inflater.inflate(R.layout.cluster_summarylistrow, null);
             holder = new ViewHolder();
 
             holder.mEname = convertView.findViewById(R.id.txt_Ename);
@@ -119,11 +119,11 @@ public class ClusterListViewAdapter extends BaseAdapter
 
         Log.e("tag","UserId="+holder.mUserId.getText().toString());
 
-        if(item.getEmployee_Role().equalsIgnoreCase("Admin")){
+      /*  if(item.getEmployee_Role().equalsIgnoreCase("Admin")){
             holder.ll1.setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View v) {
-                    Intent i = new Intent(v.getContext(), AdminClustersActivity.class);
+                    Intent i = new Intent(v.getContext(), AdminHomeActivity.class);
                     i.putExtra("EmployeeId", holder.mEmpId.getText().toString());
                     i.putExtra("YearId", holder.mYearId.getText().toString());
                     i.putExtra("Name", holder.mEname.getText().toString());
@@ -192,7 +192,7 @@ public class ClusterListViewAdapter extends BaseAdapter
                     v.getContext().startActivity(i);
                 }
             });
-        }
+        }*/
         return convertView;
     }
 

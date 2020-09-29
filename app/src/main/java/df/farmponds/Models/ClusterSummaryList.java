@@ -28,10 +28,13 @@ public class ClusterSummaryList {
     private String dataRejected;
 
     private String yearId;
+    private String employee_Role;
+    private String employeeID;
+
     public ClusterSummaryList() {
     }
 
-    public ClusterSummaryList(String employeeName, String dataAll, String dataPending, String dataProcess, String dataApproved, String dataRejected, String YearId,String userId) {
+    public ClusterSummaryList(String employeeName, String dataAll, String dataPending, String dataProcess, String dataApproved, String dataRejected, String YearId,String userId,String employeeID,String employee_Role) {
         this.employeeName=employeeName;
         this.dataAll=dataAll;
         this.dataPending=dataPending;
@@ -40,6 +43,8 @@ public class ClusterSummaryList {
         this.dataRejected=dataRejected;
         this.yearId=YearId;
         this.userID=userId;
+        this.employeeID=employeeID;
+        this.employee_Role=employee_Role;
     }
 
     public String getUserID() {
@@ -104,6 +109,22 @@ public class ClusterSummaryList {
 
     public void setYearId(String yearId) {
         this.yearId = yearId;
+    }
+
+    public String getEmployee_Role() {
+        return employee_Role;
+    }
+
+    public void setEmployee_Role(String employee_Role) {
+        this.employee_Role = employee_Role;
+    }
+
+    public String getEmployeeID() {
+        return employeeID;
+    }
+
+    public void setEmployeeID(String employeeID) {
+        this.employeeID = employeeID;
     }
 
     @Override

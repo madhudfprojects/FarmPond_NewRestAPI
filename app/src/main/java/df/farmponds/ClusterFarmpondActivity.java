@@ -379,11 +379,11 @@ public class ClusterFarmpondActivity extends AppCompatActivity {
     @Override
     public void onBackPressed()
     {
-        Intent i = new Intent(ClusterFarmpondActivity.this, ClusterFarmerListActivity.class);
+        /*Intent i = new Intent(ClusterFarmpondActivity.this, ClusterFarmerListActivity.class);
         i.putExtra("EmployeeId",EmployeeId);
         i.putExtra("YearId",YearId);
         i.putExtra("Type",Type);
-        startActivity(i);
+        startActivity(i);*/
         finish();
     }
 
@@ -480,11 +480,11 @@ public class ClusterFarmpondActivity extends AppCompatActivity {
         if (id == android.R.id.home)
         {
             //  Toast.makeText(getApplicationContext(),"Back button clicked", Toast.LENGTH_SHORT).show();
-            Intent i = new Intent(ClusterFarmpondActivity.this, ClusterFarmerListActivity.class);
+           /* Intent i = new Intent(ClusterFarmpondActivity.this, ClusterFarmerListActivity.class);
             i.putExtra("EmployeeId",EmployeeId);
             i.putExtra("YearId",YearId);
             i.putExtra("Type",Type);
-            startActivity(i);
+            startActivity(i);*/
             finish();
             return true;
         }

@@ -50,7 +50,7 @@ public class ClusterFarmerListActivity extends AppCompatActivity {
 
     TextView txt_Header;
     Toolbar toolbar;
-    String Type,EmployeeId,YearId;
+    String Type,EmployeeId,YearId,Name,UserId;
 
     Interface_userservice userService1;
     String str_farmerID, str_userId;
@@ -84,8 +84,7 @@ public class ClusterFarmerListActivity extends AppCompatActivity {
         setSupportActionBar(toolbar);
           getSupportActionBar().setDisplayHomeAsUpEnabled(true);
         TextView title = (TextView) toolbar.findViewById(R.id.title_name);
-        title.setText("Farmer List");
-        getSupportActionBar().setTitle("");
+
 
         userService1 = Class_ApiUtils.getUserService();
         txt_Header=(TextView)findViewById(R.id.txt_Header);
@@ -101,9 +100,13 @@ public class ClusterFarmerListActivity extends AppCompatActivity {
             EmployeeId = extras.getString("EmployeeId");
             Type = extras.getString("Type");
             YearId = extras.getString("YearId");
+            Name = extras.getString("Name");
+            UserId = extras.getString("UserId");
         }
 
-        txt_Header.setText(Type);
+        txt_Header.setText(Name);
+        title.setText(Type + " Farmer List");
+        getSupportActionBar().setTitle("");
         clusterFarmerList = new ArrayList<ClusterFarmersummaryList>();
 
         internetDectector = new Class_InternetDectector(getApplicationContext());
@@ -142,8 +145,8 @@ public class ClusterFarmerListActivity extends AppCompatActivity {
 
     private void Get_UserAcademicEmployeeData() {
 
-        Call<ClusterFarmerMain> call = userService1.get_UserAcademicEmployeeData(str_userId,YearId,EmployeeId,Type);
-        Log.e("request farmermain", "userId="+str_userId+"YearId="+YearId+"EmployeeId="+EmployeeId+"Type"+Type);
+        Call<ClusterFarmerMain> call = userService1.get_UserAcademicEmployeeData(UserId,YearId,EmployeeId,Type);
+        Log.e("request farmermain", "userId="+UserId+"YearId="+YearId+"EmployeeId="+EmployeeId+"Type"+Type);
         final ProgressDialog progressDoalog;
         progressDoalog = new ProgressDialog(ClusterFarmerListActivity.this);
         progressDoalog.setMessage("Loading....");

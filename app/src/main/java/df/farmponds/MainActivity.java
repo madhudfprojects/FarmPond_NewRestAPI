@@ -193,6 +193,10 @@ public class MainActivity extends AppCompatActivity
                 Intent i = new Intent(MainActivity.this, ClusterHomeActivity.class);
                 startActivity(i);
                 finish();
+            }else if(Employee_Role.equalsIgnoreCase("Admin")){
+                Intent i = new Intent(MainActivity.this, ClusterHomeActivity.class);
+                startActivity(i);
+                finish();
             }
 
             // Stay at the current activity.
@@ -402,7 +406,7 @@ public class MainActivity extends AppCompatActivity
        // str_gmailid="anandkanade.tech@dfmail.org";
        // str_gmailid="eventtest464@gmail.com";
        // str_gmailid="kanadeanand@gmail.com";
-      // str_gmailid="pramod.kumar@dfmail.org";
+     //  str_gmailid="pramod.kumar@dfmail.org";
       //  str_gmailid="johnson.buraga@dfmail.org";
        // str_gmailid="madhushree.kubsad@dfmail.org";
 

@@ -14,12 +14,12 @@ import java.util.ArrayList;
 
 import df.farmponds.Models.ClusterSummaryList;
 
-public class ClusterListViewAdapter extends BaseAdapter
+public class AdminListViewAdapter extends BaseAdapter
 {
     public ArrayList<ClusterSummaryList> feesPaidList;
     Activity activity;
 
-    public ClusterListViewAdapter(Activity activity, ArrayList<ClusterSummaryList> feesPaidList) {
+    public AdminListViewAdapter(Activity activity, ArrayList<ClusterSummaryList> feesPaidList) {
         super();
         this.activity = activity;
         this.feesPaidList = feesPaidList;
@@ -52,8 +52,8 @@ public class ClusterListViewAdapter extends BaseAdapter
         TextView mRejected;
         TextView mEmpId;
         TextView mYearId;
-        TextView mUserId;
         LinearLayout ll1;
+        TextView mUserId;
     }
 
     @Override
@@ -76,7 +76,6 @@ public class ClusterListViewAdapter extends BaseAdapter
             holder.mYearId = convertView.findViewById(R.id.txt_YearId);
             holder.mUserId = convertView.findViewById(R.id.txt_UserId);
             holder.ll1 = convertView.findViewById(R.id.ll1);
-
             convertView.setTag(holder);
         } else {
             holder = (ViewHolder) convertView.getTag();
@@ -114,85 +113,80 @@ public class ClusterListViewAdapter extends BaseAdapter
         if(item.getEmployeeID()!=null) {
             holder.mUserId.setText(item.getEmployeeID().toString());
         }
+        Log.e("tag","YearId="+holder.mYearId.getText().toString()+"admin mEmpId="+holder.mEmpId.getText().toString());
+        Log.e("tag","admin UserId="+holder.mUserId.getText().toString());
 
-        Log.e("tag","YearId="+holder.mYearId.getText().toString()+"mEmpId="+holder.mEmpId.getText().toString());
-
-        Log.e("tag","UserId="+holder.mUserId.getText().toString());
-
-        if(item.getEmployee_Role().equalsIgnoreCase("Admin")){
-            holder.ll1.setOnClickListener(new View.OnClickListener() {
-                @Override
-                public void onClick(View v) {
-                    Intent i = new Intent(v.getContext(), AdminClustersActivity.class);
-                    i.putExtra("EmployeeId", holder.mEmpId.getText().toString());
-                    i.putExtra("YearId", holder.mYearId.getText().toString());
-                    i.putExtra("Name", holder.mEname.getText().toString());
-                    i.putExtra("Type", "Cluster");
-                    v.getContext().startActivity(i);
-                }
-            });
-        }else {
-            holder.mAll.setOnClickListener(new View.OnClickListener() {
-                @Override
-                public void onClick(View v) {
-                    Intent i = new Intent(v.getContext(), ClusterFarmerListActivity.class);
-                    i.putExtra("EmployeeId", holder.mEmpId.getText().toString());
-                    i.putExtra("YearId", holder.mYearId.getText().toString());
-                    i.putExtra("Name", holder.mEname.getText().toString());
-                    i.putExtra("UserId", holder.mUserId.getText().toString());
-                    i.putExtra("Type", "All");
-                    v.getContext().startActivity(i);
-                }
-            });
-            holder.mPending.setOnClickListener(new View.OnClickListener() {
-                @Override
-                public void onClick(View v) {
-                    Intent i = new Intent(v.getContext(), ClusterFarmerListActivity.class);
-                    i.putExtra("EmployeeId", holder.mEmpId.getText().toString());
-                    i.putExtra("YearId", holder.mYearId.getText().toString());
-                    i.putExtra("Name", holder.mEname.getText().toString());
-                    i.putExtra("UserId", holder.mUserId.getText().toString());
-                    i.putExtra("Type", "Pending");
-                    v.getContext().startActivity(i);
-                }
-            });
-            holder.mProcess.setOnClickListener(new View.OnClickListener() {
-                @Override
-                public void onClick(View v) {
-                    Intent i = new Intent(v.getContext(), ClusterFarmerListActivity.class);
-                    i.putExtra("EmployeeId", holder.mEmpId.getText().toString());
-                    i.putExtra("YearId", holder.mYearId.getText().toString());
-                    i.putExtra("Name", holder.mEname.getText().toString());
-                    i.putExtra("UserId", holder.mUserId.getText().toString());
-                    i.putExtra("Type", "Progress");
-                    v.getContext().startActivity(i);
-                }
-            });
-            holder.mApproved.setOnClickListener(new View.OnClickListener() {
-                @Override
-                public void onClick(View v) {
-                    Intent i = new Intent(v.getContext(), ClusterFarmerListActivity.class);
-                    i.putExtra("EmployeeId", holder.mEmpId.getText().toString());
-                    i.putExtra("YearId", holder.mYearId.getText().toString());
-                    i.putExtra("Name", holder.mEname.getText().toString());
-                    i.putExtra("UserId", holder.mUserId.getText().toString());
-                    i.putExtra("Type", "Approved");
-                    v.getContext().startActivity(i);
-                }
-            });
-            holder.mRejected.setOnClickListener(new View.OnClickListener() {
-                @Override
-                public void onClick(View v) {
-                    Intent i = new Intent(v.getContext(), ClusterFarmerListActivity.class);
-                    i.putExtra("EmployeeId", holder.mEmpId.getText().toString());
-                    i.putExtra("YearId", holder.mYearId.getText().toString());
-                    i.putExtra("Name", holder.mEname.getText().toString());
-                    i.putExtra("UserId", holder.mUserId.getText().toString());
-                    i.putExtra("Type", "Rejected");
-                    v.getContext().startActivity(i);
-                }
-            });
-        }
+       /* holder.ll1.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                Intent i = new Intent(v.getContext(), ClusterFarmerListActivity.class);
+                i.putExtra("EmployeeId", holder.mEmpId.getText().toString());
+                i.putExtra("YearId", holder.mYearId.getText().toString());
+                i.putExtra("Name", holder.mEname.getText().toString());
+                i.putExtra("Type", "All");
+                v.getContext().startActivity(i);
+            }
+        });*/
+        holder.mAll.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                Intent i = new Intent(v.getContext(), ClusterFarmerListActivity.class);
+                i.putExtra("EmployeeId",holder.mEmpId.getText().toString());
+                i.putExtra("YearId",holder.mYearId.getText().toString());
+                i.putExtra("Name",holder.mEname.getText().toString());
+                i.putExtra("UserId", holder.mUserId.getText().toString());
+                i.putExtra("Type","All");
+                v.getContext().startActivity(i);
+            }
+        });
+        holder.mPending.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                Intent i = new Intent(v.getContext(), ClusterFarmerListActivity.class);
+                i.putExtra("EmployeeId",holder.mEmpId.getText().toString());
+                i.putExtra("YearId",holder.mYearId.getText().toString());
+                i.putExtra("Name",holder.mEname.getText().toString());
+                i.putExtra("UserId", holder.mUserId.getText().toString());
+                i.putExtra("Type","Pending");
+                v.getContext().startActivity(i);
+            }
+        });
+        holder.mProcess.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                Intent i = new Intent(v.getContext(), ClusterFarmerListActivity.class);
+                i.putExtra("EmployeeId",holder.mEmpId.getText().toString());
+                i.putExtra("YearId",holder.mYearId.getText().toString());
+                i.putExtra("Name",holder.mEname.getText().toString());
+                i.putExtra("UserId", holder.mUserId.getText().toString());
+                i.putExtra("Type","Progress");
+                v.getContext().startActivity(i);
+            }
+        });
+        holder.mApproved.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                Intent i = new Intent(v.getContext(), ClusterFarmerListActivity.class);
+                i.putExtra("EmployeeId",holder.mEmpId.getText().toString());
+                i.putExtra("YearId",holder.mYearId.getText().toString());
+                i.putExtra("Name",holder.mEname.getText().toString());
+                i.putExtra("UserId", holder.mUserId.getText().toString());
+                i.putExtra("Type","Approved");
+                v.getContext().startActivity(i);
+            }
+        });
+        holder.mRejected.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                Intent i = new Intent(v.getContext(), ClusterFarmerListActivity.class);
+                i.putExtra("EmployeeId",holder.mEmpId.getText().toString());
+                i.putExtra("YearId",holder.mYearId.getText().toString());
+                i.putExtra("Name",holder.mEname.getText().toString());
+                i.putExtra("UserId", holder.mUserId.getText().toString());
+                i.putExtra("Type","Rejected");
+                v.getContext().startActivity(i);
+            }
+        });
         return convertView;
     }
 

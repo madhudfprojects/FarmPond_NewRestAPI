@@ -4,6 +4,7 @@
     android:layout_height="wrap_content"
     android:paddingTop="3dp"
     android:orientation="vertical"
+    android:background="#f7f7f7"
     xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:card_view="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools">
@@ -12,7 +13,8 @@
         android:id="@+id/card_view"
         android:layout_width="fill_parent"
         android:layout_height="wrap_content"
-        card_view:cardCornerRadius="2dp"
+        card_view:cardCornerRadius="4dp"
+        android:background="#f7f7f7"
         card_view:contentPadding="5dp">
 
     <LinearLayout
@@ -21,6 +23,7 @@
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:orientation="horizontal"
+        android:background="#f7f7f7"
         android:layout_gravity="center"
         android:gravity="center">
 
