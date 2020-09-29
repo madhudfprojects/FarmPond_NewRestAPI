@@ -2377,7 +2377,8 @@ public class Activity_ViewFarmers extends AppCompatActivity {
                 Log.e("Entered resp", response.message());
                 //     Log.e("Entered resp", response.body().getMessage());
 
-                if (response.isSuccessful()) {
+                if (response.isSuccessful())
+                {
                     Location_Data class_locaitonData = response.body();
                     Log.e("response.body", response.body().getLst().toString());
                     if (class_locaitonData.getStatus().equals(true)) {

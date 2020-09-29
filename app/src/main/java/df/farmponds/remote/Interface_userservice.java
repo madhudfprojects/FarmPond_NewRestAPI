@@ -8,6 +8,7 @@ import df.farmponds.Models.AddFarmerRequest;
 import df.farmponds.Models.AddFarmerResponse;
 import df.farmponds.Models.AdminEmpoyeeTotalPondCount;
 import df.farmponds.Models.AutoSyncVersion;
+import df.farmponds.Models.Class_gethelp_Response;
 import df.farmponds.Models.ClusterAcademicEmployee;
 import df.farmponds.Models.ClusterAcademicSummary;
 import df.farmponds.Models.ClusterFarmerMain;
@@ -135,5 +136,11 @@ public interface Interface_userservice {
   @POST("Authentication/Post_ActionPondApproval")
   Call<Class_cluster_approvereject_request>Post_ActionPondApproval(@Body Class_cluster_approvereject_request request);
 
+
+
+
+  @Headers("Content-Type: application/json;charset=utf-8")
+  @GET("Authentication/GetHelp")
+  Call<Class_gethelp_Response>GetHelp(@Query("User_ID") String User_ID);
 
 }
