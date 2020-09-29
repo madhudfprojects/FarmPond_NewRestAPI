@@ -21,7 +21,7 @@
         android:id="@+id/contactus"
         android:icon="@mipmap/ic_launcher"
         android:iconTint="@color/colorwhite"
-        android:title="ContactUs"
+        android:title="About"
         app:showAsAction="never"/>
 
     <item
