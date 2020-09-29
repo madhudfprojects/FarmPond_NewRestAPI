@@ -81,7 +81,11 @@
             android:textSize="15sp" />
     </LinearLayout>
 
-
+    <TextView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:textColor="@color/color_red"
+        android:id="@+id/cluster_ff"/>
     <View
         android:layout_width="match_parent"
         android:layout_marginTop="3dp"

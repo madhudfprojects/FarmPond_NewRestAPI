@@ -108,7 +108,7 @@ public class ClusterHomeActivity extends AppCompatActivity {
     private ListView lview,listview_summarylist;
     Toolbar toolbar;
     private String versioncode;
-    TextView userName;
+    TextView userName,cluster_ff;
     String str_Googlelogin_Username;
 
     ClusterSummaryListViewAdapter summaryListViewAdapter;
@@ -139,6 +139,7 @@ public class ClusterHomeActivity extends AppCompatActivity {
         lview = (NonScrollListView) findViewById(R.id.listview_clusterlist);
         etSearch = (EditText) findViewById(R.id.etSearch);
         userName = (TextView) findViewById(R.id.userName);
+        cluster_ff = (TextView) findViewById(R.id.cluster_ff);
         listview_summarylist=(NonScrollListView) findViewById(R.id.listview_summarylist);
         sharedpref_flag_Obj = getSharedPreferences(sharedpreferenc_flag, Context.MODE_PRIVATE);
         str_flag = sharedpref_flag_Obj.getString(key_flag, "").trim();
@@ -155,6 +156,11 @@ public class ClusterHomeActivity extends AppCompatActivity {
         Employee_Role=sharedpreferencebook_usercredential_Obj.getString(KeyValue_employeecategory, "").trim();
 
         Log.e("tag","Employee_Role="+Employee_Role);
+        if(Employee_Role.equalsIgnoreCase("Admin")) {
+            cluster_ff.setText("Cluster Head list");
+        }else{
+            cluster_ff.setText("Field Facilitator list");
+        }
         
         try {
             versioncode = String.valueOf(getPackageManager().getPackageInfo(getPackageName(), 0).versionCode);

@@ -100,6 +100,8 @@ public class AdminClustersActivity extends AppCompatActivity {
     public static final String sharedpreferenc_flag = "flag_sharedpreference";
     public static final String key_flag = "flag";
 
+    TextView cluster_ff;
+
     String Employee_Role;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -119,6 +121,7 @@ public class AdminClustersActivity extends AppCompatActivity {
         etSearch = (EditText) findViewById(R.id.etSearch);
         userName = (TextView) findViewById(R.id.userName);
         listview_summarylist=(NonScrollListView) findViewById(R.id.listview_summarylist);
+        cluster_ff=(TextView) findViewById(R.id.cluster_ff);
 
         sharedpreferencebook_usercredential_Obj=getSharedPreferences(sharedpreferencebook_usercredential, Context.MODE_PRIVATE);
         Employee_Role=sharedpreferencebook_usercredential_Obj.getString(KeyValue_employeecategory, "").trim();
@@ -135,6 +138,7 @@ public class AdminClustersActivity extends AppCompatActivity {
         }
 
         userName.setText(Name);
+        cluster_ff.setText("Field Facilitator list");
 
         internetDectector = new Class_InternetDectector(getApplicationContext());
         isInternetPresent = internetDectector.isConnectingToInternet();
