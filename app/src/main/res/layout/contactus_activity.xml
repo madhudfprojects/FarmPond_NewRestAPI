@@ -3,6 +3,7 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
+    xmlns:card_view="http://schemas.android.com/apk/res-auto"
     android:orientation="vertical"
     android:background="#e0f7fa"
     tools:context=".EachFarmPondDetails_Activity">
@@ -11,15 +12,28 @@
         android:id="@+id/toolbar_farmponddetails"
         layout="@layout/titlebar_custom" />
 
+
     <ScrollView xmlns:android="http://schemas.android.com/apk/res/android"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
         android:background="#fafafa">
 
+        <android.support.v7.widget.CardView
+            android:id="@+id/card_view"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_margin="5dp"
+            card_view:cardCornerRadius="10dp"
+            card_view:contentPadding="0dp">
+
+
+
+
         <LinearLayout
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_margin="15dp"
+
             android:orientation="vertical">
 
             <LinearLayout
@@ -159,6 +173,7 @@
 
 
         </LinearLayout>
+        </android.support.v7.widget.CardView>
       </ScrollView>
 
 </LinearLayout>

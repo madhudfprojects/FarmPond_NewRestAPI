@@ -36,7 +36,7 @@ public class ContactUs_Activity extends AppCompatActivity
 
         TextView title = (TextView) toolbar.findViewById(R.id.title_name);
         add_newfarmpond_iv = (ImageView) toolbar.findViewById(R.id.add_newfarmpond_iv);
-        title.setText("Contact Us");
+        title.setText("About Us");
         getSupportActionBar().setTitle("");
         add_newfarmpond_iv.setVisibility(View.GONE);
 
@@ -53,7 +53,7 @@ public class ContactUs_Activity extends AppCompatActivity
 
         AlertDialog.Builder dialog = new AlertDialog.Builder(ContactUs_Activity.this);
         dialog.setCancelable(false);
-        dialog.setTitle(R.string.app_name);
+        dialog.setTitle(R.string.alert);
         dialog.setMessage("Are you sure want to go back");
 
         dialog.setPositiveButton("Yes", new DialogInterface.OnClickListener() {

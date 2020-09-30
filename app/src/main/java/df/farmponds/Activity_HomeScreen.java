@@ -39,7 +39,10 @@ import com.google.android.gms.auth.api.signin.GoogleSignInResult;
 import com.google.android.gms.common.ConnectionResult;
 import com.google.android.gms.common.api.GoogleApiClient;
 import com.google.firebase.iid.FirebaseInstanceId;
+import com.google.gson.Gson;
 
+import org.json.JSONException;
+import org.json.JSONObject;
 import org.ksoap2.SoapEnvelope;
 import org.ksoap2.serialization.SoapObject;
 import org.ksoap2.serialization.SoapPrimitive;
@@ -48,8 +51,12 @@ import org.ksoap2.transport.HttpTransportSE;
 
 import java.util.UUID;
 
+import df.farmponds.Models.Class_gethelp_Response;
 import df.farmponds.Models.DefaultResponse;
 import df.farmponds.Models.ErrorUtils;
+import df.farmponds.Models.Class_gethelp_Response;
+import df.farmponds.Models.Location_Data;
+import df.farmponds.Models.NormalLogin_Response;
 import df.farmponds.remote.Class_ApiUtils;
 import df.farmponds.remote.Interface_userservice;
 import retrofit2.Call;
@@ -107,7 +114,7 @@ public class Activity_HomeScreen extends AppCompatActivity implements GoogleApiC
     String myVersion, deviceBRAND, deviceHARDWARE, devicePRODUCT, deviceUSER, deviceModelName, deviceId, tmDevice, tmSerial, androidId, simOperatorName, sdkver, mobileNumber;
     int sdkVersion, Measuredwidth = 0, Measuredheight = 0, update_flage = 0;
     AsyncTask<Void, Void, Void> mRegisterTask;
-    String regId = "dfagriXZ", str_FCMName;
+    String regId = "dfagriXZ", str_userid;
     private String versioncode;
 
     private boolean isGPS = false;
@@ -142,8 +149,10 @@ public class Activity_HomeScreen extends AppCompatActivity implements GoogleApiC
         sharedpreferencebook_usercredential_Obj = getSharedPreferences(sharedpreferencebook_usercredential, Context.MODE_PRIVATE);
         str_employeecategory = sharedpreferencebook_usercredential_Obj.getString(KeyValue_employeecategory, "").trim();
 
-        str_FCMName=sharedpreferencebook_usercredential_Obj.getString(KeyValue_employeeid, "").trim();
+        str_userid=sharedpreferencebook_usercredential_Obj.getString(KeyValue_employeeid, "").trim();
         admin_view_ll.setVisibility(View.VISIBLE);
+
+       // Log.e("Fuserid",str_userid);
 
        /* if(str_employeecategory.equalsIgnoreCase("Marketing"))
         {
@@ -203,6 +212,7 @@ public class Activity_HomeScreen extends AppCompatActivity implements GoogleApiC
 
         internetDectector = new Class_InternetDectector(getApplicationContext());
         isInternetPresent = internetDectector.isConnectingToInternet();
+
         if(isInternetPresent)
         {
             Add_setGCM1();
@@ -433,7 +443,7 @@ public class Activity_HomeScreen extends AppCompatActivity implements GoogleApiC
         Log.e("regId_DeviceID", "" + regId);
 
         Class_devicedetails request = new Class_devicedetails();
-        request.setUser_ID(str_FCMName);
+        request.setUser_ID(str_userid);
         request.setDeviceId(regId);
         request.setOSVersion(myVersion);
         request.setManufacturer(deviceBRAND);
@@ -471,16 +481,20 @@ public class Activity_HomeScreen extends AppCompatActivity implements GoogleApiC
                         {
                             Log.e("devicedetails", "devicedetails_Added");
 
+                           // gethelp();
+
                         } else if (class_addfarmponddetailsresponse.getStatus().equals("false")) {
                             //     progressDoalog.dismiss();
                             Toast.makeText(Activity_HomeScreen.this, class_addfarmponddetailsresponse.getMessage(), Toast.LENGTH_SHORT).show();
-
+                         //   gethelp();
                         }
                     } else {
                         //   progressDoalog.dismiss();
                         DefaultResponse error = ErrorUtils.parseError(response);
                         Log.e("devicedetailserror", error.getMsg());
                         Toast.makeText(Activity_HomeScreen.this, error.getMsg(), Toast.LENGTH_SHORT).show();
+                       // gethelp();
+
 
                     }
 
@@ -497,7 +511,93 @@ public class Activity_HomeScreen extends AppCompatActivity implements GoogleApiC
     }
 
 
-    @Override
+
+
+    public void gethelp()
+    {
+        internetDectector = new Class_InternetDectector(getApplicationContext());
+        isInternetPresent = internetDectector.isConnectingToInternet();
+
+        if(isInternetPresent)
+        {
+            gethelp_api();
+        }
+    }
+
+
+
+
+    private void gethelp_api()
+    {
+        final ProgressDialog login_progressDoalog;
+        login_progressDoalog = new ProgressDialog(Activity_HomeScreen.this);
+        login_progressDoalog.setMessage("Fetching the crendentials....");
+        login_progressDoalog.setTitle("Please wait....");
+        login_progressDoalog.setProgressStyle(ProgressDialog.STYLE_SPINNER);
+        login_progressDoalog.show();
+
+        Interface_userservice userService;
+        userService = Class_ApiUtils.getUserService();
+
+
+
+        Call<Class_gethelp_Response> call = userService.GetHelp(str_userid);
+
+
+
+
+        call.enqueue(new Callback<Class_gethelp_Response>() {
+            @Override
+            public void onResponse(Call<Class_gethelp_Response> call, Response<Class_gethelp_Response> response) {
+
+                // Toast.makeText(MainActivity.this, ""+response.toString(), Toast.LENGTH_SHORT).show();
+
+                Log.e("response_gethelp", "response_gethelp: " + new Gson().toJson(response));
+
+
+
+                Class_gethelp_Response gethelp_response_obj = new Class_gethelp_Response();
+                gethelp_response_obj = (Class_gethelp_Response) response.body();
+
+
+
+                if(response.isSuccessful())
+                {
+
+                   // Log.e("response.body", response.body().size);
+                }
+
+                /*try {
+                    JSONObject jsonObject = new JSONObject(response.body().toString());
+                    String y = jsonObject.getString("Status").toString();
+                    Toast.makeText(getApplicationContext(), "S:" + y, Toast.LENGTH_LONG).show();
+
+                } catch (JSONException e) {
+                    e.printStackTrace();
+                    Log.e("error ponds", e.toString());
+                }*/
+
+
+            }
+
+            @Override
+            public void onFailure(Call call, Throwable t) {
+                login_progressDoalog.dismiss();
+                Log.e("WS", "error" + t.getMessage());
+                Toast.makeText(Activity_HomeScreen.this, "WS:" + t.getMessage(), Toast.LENGTH_LONG).show();
+            }
+        });
+
+    }
+
+
+
+
+
+
+
+
+        @Override
     public boolean onCreateOptionsMenu(Menu menu) {
         // Inflate the menu; this adds items to the action bar if it is present.
         getMenuInflater().inflate(R.menu.logout_menu, menu);
