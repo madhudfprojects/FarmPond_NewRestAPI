@@ -106,8 +106,6 @@
             android:name=".Admin_Total_FarmpondDetails_Activity"
             android:theme="@style/AppThemeNoActionBar" />
 
-        <activity android:name=".Home_Activity" />
-
         <activity
             android:name=".MapsActivity"
             android:screenOrientation="portrait"

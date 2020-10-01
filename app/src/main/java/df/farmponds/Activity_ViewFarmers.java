@@ -54,11 +54,6 @@ import android.widget.TableLayout;
 import android.widget.TextView;
 import android.widget.Toast;
 
-import com.android.volley.Request;
-import com.android.volley.RequestQueue;
-import com.android.volley.VolleyError;
-import com.android.volley.toolbox.StringRequest;
-import com.android.volley.toolbox.Volley;
 import com.google.gson.Gson;
 import com.nostra13.universalimageloader.cache.disc.naming.Md5FileNameGenerator;
 import com.nostra13.universalimageloader.core.DisplayImageOptions;
@@ -113,8 +108,6 @@ import retrofit2.Call;
 import retrofit2.Callback;
 import retrofit2.Response;
 
-//import com.android.volley.Response;
-
 public class Activity_ViewFarmers extends AppCompatActivity {
 
     public static final String sharedpreferenc_studentid = "studentid_edit";
@@ -135,38 +128,19 @@ public class Activity_ViewFarmers extends AppCompatActivity {
     static byte[] signimageinbytesArray = {0};
     public static Context context;
     ListView farmer_listview;
-    EditText searchStudent_et;
-    Button search_BT;
-    String str_loginuserID;
+
     Boolean isInternetPresent = false;
     Boolean isInternetPresent2 = false;
     Boolean isInternetPresent3 = false;
     Class_InternetDectector internetDectector, internetDectector2, internetDectector3;
     String str_searchStudent_et;
     int count1;
-    /*  Class_StudentListDetails Objclass_studentListDetails;
-      Class_StudentListDetails[] Arrayclass_studentListDetails;*/
+
     LinearLayout studentlist_LL, Nostudentlist_LL, application_LL, mainstuName_LL;
     ImageButton details_show_ib;
     // CustomAdapter adapter;
     Spinner yearlist_SP, statelist_SP, districtlist_SP, taluklist_SP, villagelist_SP, grampanchayatlist_SP;
-    /*  Class_SandBoxDetails[] arrayObj_Class_sandboxDetails, arrayObj_Class_sandboxDetails2;
-      Class_SandBoxDetails obj_Class_sandboxDetails;
-      Class_academicDetails[] arrayObj_Class_academicDetails, arrayObj_Class_academicDetails2;
-      Class_academicDetails obj_Class_academicDetails;
-      Class_ClusterDetails[] arrayObj_Class_clusterDetails, arrayObj_Class_clusterDetails2;
-      Class_ClusterDetails obj_Class_clusterDetails;
-      Class_InsituteDetails[] arrayObj_Class_InstituteDetails, arrayObj_Class_InstituteDetails2;
-      Class_InsituteDetails obj_Class_instituteDetails;
-      Class_LevelDetails[] arrayObj_Class_LevelDetails, arrayObj_Class_LevelDetails2;
-      Class_LevelDetails obj_Class_levelDetails;
-      Class_StudentStatus[] arrayObj_Class_StudentStatus, arrayObj_Class_StudentStatus2;
-      Class_StudentStatus Obj_Class_StudentStatus;
-      Class_ViewStudentData[] arrayObj_Class_ViewStudentData, arrayObj_Class_ViewStudentData2;
-      Class_ViewStudentData Obj_Class_ViewStudentData;*/
-    String selected_studentstatus = "", sp_strsand_ID, selected_sandboxName,
-            sp_straca_ID, selected_academicname, sp_strClust_ID, selected_clusterName,
-            sp_strInst_ID, selected_instituteName, sp_strLev_ID, selected_levelName;
+
     LinearLayout spinnerlayout_ll;
     ImageButton search_ib, downarrow_ib, uparrow_ib;
     TextView viewspinner_tv;
@@ -178,12 +152,6 @@ public class Activity_ViewFarmers extends AppCompatActivity {
     SharedPreferences sharedpref_stuid_pay_Obj;
     String str_studentid_sharedpreference, str_studentid_pay_sharedpreference;
     ////////////////////////////////ViewFarmer modifications sept 16th2019
-    AutoCompleteTextView searchautofill;
-    InputMethodManager imm;
-    String[] FarmerNameArray;
-    int intval_searchflag = 0, search_pos;
-    String str_selected;
-    LinearLayout mainviewfarmerlist_ll, farmernameandcodelist_ll, farmerimagelayout_ll, nofarmerRecords_ll;
     Toolbar toolbar;
     // ShowSearchView showSearchView;
     EditText search_et;
@@ -204,24 +172,13 @@ public class Activity_ViewFarmers extends AppCompatActivity {
     Farmer[] arrayObj_Class_FarmerListDetails2, class_farmerlistdetails_arrayobj2;
     Farmer Obj_Class_FarmerListDetails;
     String selected_year, sp_stryear_ID, sp_strstate_ID, selected_district, selected_stateName, sp_strdistrict_ID, sp_strdistrict_state_ID, sp_strTaluk_ID, selected_taluk, sp_strVillage_ID, selected_village, sp_strgrampanchayat_ID, selected_grampanchayat;
-    String sp_strstate_ID_new = "";
+
     String mCurrentPhotoPath = "", str_flagforcamera;
     Bitmap bitmap;
     String str_img = "";
     SharedPreferences sharedpref_camera_Obj;
-    Uri imageUri = null;
     Bitmap scaledBitmap = null;
-    // HttpHandler sh;
-    String str_status_msg;
-    String[] StrArray_farmerimage, StrArray_farmerlist_panchayatid, StrArray_farmerlist_villageid, StrArray_farmerlist_talukid,
-            StrArray_farmerlist_distid, StrArray_farmerlist_stateid, StrArray_farmerlist_yearid, StrArray_farmerlist_farmerid,
-            StrArray_year_ID, StrArray_year, strArray_farmername, StrArray_farmercode, strArray_stateid, strArray_statename,
-            strArray_districtid, strArray_districtname, strArray_selecteddistname, strArray_Dist_stateid, strArray_taluk_distid,
-            strArray_talukid, strArray_talukname, strArray_village_talukid, strArray_villageid, strArray_villagename,
-            strArray_village_panchayatid, strArray_panchayat_talukid, strArray_panchayatid, strArray_panchayatname,
-            strArray_farmpondcount, strArray_farmerBase64, strArray_farmerMname, strArray_farmerLname, strArray_farmerage,
-            strArray_farmercellnumber, strArray_farmerincome, strArray_farmerfamilymember, strArray_farmerIDprooftype,
-            strArray_farmerIDproofnumber;
+
     List<State> stateList;
     List<District> districtList;
     List<Taluka> talukList;
@@ -266,10 +223,6 @@ public class Activity_ViewFarmers extends AppCompatActivity {
 
     byte[] imageBytes_list;
 
-
-    Class_farmponddetails[] class_farmerandpond_details_array_obj;
-
-    Class_MachineDetails[] class_machinedetails_array_obj;
     Class_RemarksDetails[] class_remarksdetails_array_obj;
     String StateCount="0",DistrictCount="0",TalukaCount="0",PanchayatCount="0",VillageCount="0",YearCount="0",MachineCount="0",MachineCostCount="0",Farmer_Count="0",Pond_Count="0",Sync_ID="";
 
@@ -287,20 +240,13 @@ public class Activity_ViewFarmers extends AppCompatActivity {
 
     FloatingActionButton addfarmerdetails_fab;
 
+    int int_jsonarrayremarkslength;
 
-    ProgressDialog pdLoading_fetch_farmponddetails, pdLoading_fetch_machinedetails, pdLoading_fetch_remarksdetails;
-    int int_jsonarraymachinelength, int_jsonarrayremarkslength;
-
-    String str_total_no_days, str_constructed_date, str_submitted_date, str_farmpond_cost, str_machine_code,
-            str_farmpondcode, str_startdate, str_farmpond_remarks, str_farmpond_amtcollected, str_farmpond_status,
-            str_approvalstatus, str_approvalremarks, str_approvedby, str_approveddate, str_donorname, str_latitude, str_longitude,
-            str_acres, str_gunta, str_crop_beforepond, str_crop_afterpond;
-
+    String str_farmpond_remarks, str_approveddate;
 
     String str_return;
     String str_imageurltobase64_farmerimage;
 
-    Class_farmerimageBase64[] class_farmerimageBase64_array;
     Location_DataList[] location_dataLists;
     Location_DataList class_location_dataList = new Location_DataList();
 
@@ -402,24 +348,6 @@ public class Activity_ViewFarmers extends AppCompatActivity {
         Log.e("tag", "str_employee_id=" + str_employee_id);
         str_imageurltobase64_farmerimage = "empty";
 
-
-
-       /* Intent intent = getIntent();
-        String str_value_constant=intent.getStringExtra("value_constant");
-        if(str_value_constant.equalsIgnoreCase("1")){
-            sel_yearsp=Integer.parseInt(intent.getStringExtra("sel_yearsp"));
-            sel_statesp=Integer.parseInt(intent.getStringExtra("sel_statesp"));
-            sel_districtsp=Integer.parseInt(intent.getStringExtra("sel_districtsp"));
-            sel_taluksp=Integer.parseInt(intent.getStringExtra("sel_taluksp"));
-            sel_villagesp=Integer.parseInt(intent.getStringExtra("sel_villagesp"));
-            sel_grampanchayatsp=Integer.parseInt(intent.getStringExtra("sel_grampanchayatsp"));
-        }*/
-
-        //   searchautofill = (AutoCompleteTextView) findViewById(R.id.Search);
-        //  searchautofill.setInputType(InputType.TYPE_NULL);
-//        Typeface typefacereg = Typeface.createFromAsset(getAssets(), "fonts/laouiregular.ttf");
-//        searchautofill.setTypeface(typefacereg);
-
         tableLayout = (TableLayout) findViewById(R.id.tableLayout_stulist);
 
         farmer_listview = (ListView) findViewById(R.id.farmer_LISTVIEW);
@@ -502,37 +430,7 @@ public class Activity_ViewFarmers extends AppCompatActivity {
 
             }
         });
-   /*     @SuppressLint("ResourceType")
-        Animation animation1 = AnimationUtils.loadAnimation(getApplicationContext(), R.anim.rotate_in);
-        animation1.setDuration(1000);
-        spinnerlayout_ll.setAnimation(animation1);
-        spinnerlayout_ll.animate();
-        animation1.start();*/
 
-
-//        if (isInternetPresent) {
-//            deleteYearTable_B4insertion();
-//            deleteStateTable_B4insertion();
-//            deleteDistrictTable_B4insertion();
-//            deleteTalukTable_B4insertion();
-//            deleteVillageTable_B4insertion();
-//            deleteGrampanchayatTable_B4insertion();
-//            deleteViewFarmerlistTable_B4insertion();
-//
-//
-//            GetDropdownValues();
-//
-//        } else {
-//            Toast.makeText(getApplicationContext(), "No Internet", Toast.LENGTH_SHORT).show();
-//        }
-//
-//        if (isInternetPresent) {
-//
-//            GetFarmerDetails();
-//        } else {
-//            Toast.makeText(getApplicationContext(), "No Internet", Toast.LENGTH_SHORT).show();
-//
-//        }
 
         yearlist_SP.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
             @Override
@@ -1368,7 +1266,7 @@ public class Activity_ViewFarmers extends AppCompatActivity {
                                                                         String str_approvedby, String str_approveddate, String str_donorname,
                                                                         String str_latitude, String str_longitude,
                                                                         String str_acres, String str_gunta, String str_crop_beforepond, String str_crop_afterpond,
-                                                                        String str_final_farmpondcode,String Location_Status)
+                                                                        String str_final_farmpondcode,String Location_Status,String Reading_Start,String Reading_End,String Reading_Hour,String Machine_Name)
     {
         Log.e("submitDate",str_submited_date); //09-08-2020
         Log.e("str_startdate",str_startdate); //str_constr_date 08-08-2020
@@ -1441,7 +1339,8 @@ public class Activity_ViewFarmers extends AppCompatActivity {
                 "FPondLatitudeDB VARCHAR,FPondLongitudeDB VARCHAR," +
                 "FPondAcresDB VARCHAR,FPondGuntaDB VARCHAR,FPondCropBeforeDB VARCHAR,FPondCropAfterDB VARCHAR," +
                 "UploadedStatusFarmerprofile VARCHAR,UploadedStatus VARCHAR," +
-                "newpondImageId1 VARCHAR,pondImageType1 VARCHAR,newpondImageId2 VARCHAR,pondImageType2 VARCHAR,newpondImageId3 VARCHAR,pondImageType3 VARCHAR,Farmer_Gender VARCHAR,finalfarmpondcodeDB VARCHAR,Location_Status VARCHAR);");
+                "newpondImageId1 VARCHAR,pondImageType1 VARCHAR,newpondImageId2 VARCHAR,pondImageType2 VARCHAR,newpondImageId3 VARCHAR,pondImageType3 VARCHAR,Farmer_Gender VARCHAR,finalfarmpondcodeDB VARCHAR,Location_Status VARCHAR," +
+                "Reading_Start VARCHAR,Reading_End VARCHAR,Reading_Hour VARCHAR,Machine_Name VARCHAR);");
 
 
         Log.e("tag", "pond FIDDB str_farmerid=" + str_farmerid);
@@ -1515,33 +1414,15 @@ public class Activity_ViewFarmers extends AppCompatActivity {
             cv.put("pondImageType3", pondImageType3);
             cv.put("finalfarmpondcodeDB",str_final_farmpondcode);
             cv.put("Location_Status",Location_Status);
-
+            cv.put("Reading_Start",Reading_Start);
+            cv.put("Reading_End",Reading_End);
+            cv.put("Reading_Hour",Reading_Hour);
+            cv.put("Machine_Name",Machine_Name);
 
             db1.update("FarmPondDetails_fromServerRest", cv, "FPondidDB = ?", new String[]{str_farmpond_id});
 
         }else {
 
-           /* String SQLiteQuery = "INSERT INTO FarmPondDetails_fromServerRest(FIDDB,TempFIDDB,FNameDB,FMNameDB,FLNameDB,FYearIDDB,FStateIDDB,FDistrictIDDB," +
-                    "FTalukIDDB,FPanchayatIDDB,FVillageIDDB,FageDB,FphonenumberDB,FfamilymemberDB,FAnnualIncomeDB,FidprooftypeDB,FidproofnoDB,FphotoDB,FPondidDB," +
-                    "WidthDB,HeightDB,DepthDB,LatitudeDB,LongitudeDB,Imageid1DB,Image1Base64DB,Imageid2DB,Image2Base64DB," +
-                    "Imageid3DB,Image3Base64DB,EmployeeIDDB,SubmittedDateDB,TotalDaysDB,StartDateDB,ConstructedDateDB,PondCostDB,McodeDB," +
-                    "FPondCodeDB,FPondRemarksDB,FPondAmtTakenDB,FPondStatusDB," +
-                    "FPondApprovalStatusDB,FPondApprovalRemarksDB,FPondApprovedbyDB,FPondApprovedDateDB,FPondDonorDB," +
-                    "FPondLatitudeDB,FPondLongitudeDB," +
-                    "FPondAcresDB,FPondGuntaDB,FPondCropBeforeDB,FPondCropAfterDB," +
-                    "UploadedStatusFarmerprofile,UploadedStatus," +
-                    "newpondImageId1,pondImageType1,newpondImageId2,pondImageType2,newpondImageId3,pondImageType3,Location_Status)" +
-                    " VALUES ('" + str_farmerid + "','" + str_tempfid + "','" + str_farmername + "','" + str_farmerMName + "','" + str_farmerLName + "','" + str_yearID + "'," +
-                    "'" + str_stateID + "','" + str_districtID + "','" + str_talukID + "','" + str_panchayatID + "','" + str_villageID + "','" + str_farmerage + "'," +
-                    "'" + str_Fphonenumber + "','" + str_FannualIncome + "','" + str_Ffamilymember + "','" + str_FIDprooftype + "','" + str_FIDproofno + "','" + str_Fphoto + "'," +
-                    "'" + str_farmpond_id + "','" + str_width + "'," +
-                    "'" + str_height + "','" + str_depth + "','" + 0 + "','" + 0 + "','" + str_image1 + "','" + str_base64image1 + "'," +
-                    "'" + str_image2 + "','" + str_base64image2 + "','" + str_image3 + "','" + str_base64image3 + "','" + str_empID + "','" + str_submited_date + "'," +
-                    "'" + str_total_days + "','" + str_startdate + "','" + str_constr_date + "','" + str_pond_cost + "','" + str_mcode + "','" + str_fpondcode + "'," +
-                    "'" + str_farmpond_remarks + "','" + str_farmpond_amtcollected + "','" + str_farmpond_status + "'," +
-                    "'" + str_approvalstatus + "','" + str_approvalremarks + "','" + str_approvedby + "','" + str_approveddate + "','" + str_donorname + "'," +
-                    "'" + str_latitude + "','" + str_longitude + "','" + str_acres + "','" + str_gunta + "','" + str_crop_beforepond + "','" + str_crop_afterpond + "','" + 0 + "','" + 0 + "','" + str_pondImageId1 + "','" + pondImageType1 + "','" + str_pondImageId2 + "','" + pondImageType2 + "','" + str_pondImageId3 + "','" + pondImageType3 + "');";
-*/
             String SQLiteQuery = "INSERT INTO FarmPondDetails_fromServerRest(FIDDB,TempFIDDB,FNameDB,FMNameDB,FLNameDB,FYearIDDB,FStateIDDB,FDistrictIDDB," +
                     "FTalukIDDB,FPanchayatIDDB,FVillageIDDB,FageDB,FphonenumberDB,FfamilymemberDB,FAnnualIncomeDB,FidprooftypeDB,FidproofnoDB,FphotoDB,FPondidDB," +
                     "WidthDB,HeightDB,DepthDB,LatitudeDB,LongitudeDB,Imageid1DB,Image1Base64DB,Imageid2DB,Image2Base64DB," +
@@ -1551,7 +1432,8 @@ public class Activity_ViewFarmers extends AppCompatActivity {
                     "FPondLatitudeDB,FPondLongitudeDB," +
                     "FPondAcresDB,FPondGuntaDB,FPondCropBeforeDB,FPondCropAfterDB," +
                     "UploadedStatusFarmerprofile,UploadedStatus," +
-                    "newpondImageId1,pondImageType1,newpondImageId2,pondImageType2,newpondImageId3,pondImageType3,Farmer_Gender,finalfarmpondcodeDB,Location_Status)" +
+                    "newpondImageId1,pondImageType1,newpondImageId2,pondImageType2,newpondImageId3,pondImageType3,Farmer_Gender,finalfarmpondcodeDB,Location_Status," +
+                    "Reading_Start,Reading_End,Reading_Hour,Machine_Name)" +
                     " VALUES ('" + str_farmerid + "','" + str_tempfid + "','" + str_farmername + "','" + str_farmerMName + "','" + str_farmerLName + "','" + str_yearID + "'," +
                     "'" + str_stateID + "','" + str_districtID + "','" + str_talukID + "','" + str_panchayatID + "','" + str_villageID + "','" + str_farmerage + "'," +
                     "'" + str_Fphonenumber + "','" + str_FannualIncome + "','" + str_Ffamilymember + "','" + str_FIDprooftype + "','" + str_FIDproofno + "','" + str_Fphoto + "'," +
@@ -1563,7 +1445,7 @@ public class Activity_ViewFarmers extends AppCompatActivity {
                     "'" + str_approvalstatus + "','" + str_approvalremarks + "','" + str_approvedby + "','" + str_approveddate + "','" + str_donorname + "'," +
                     "'" + str_latitude + "','" + str_longitude + "','" + str_acres + "','" + str_gunta + "','" + str_crop_beforepond + "','"
                     + str_crop_afterpond + "','" + 0 + "','" + 0 + "','" + str_pondImageId1 + "','" + pondImageType1 + "','"
-                    + str_pondImageId2 + "','" + pondImageType2 + "','" + str_pondImageId3 + "','" + pondImageType3 +"','"+"no"+"','"+str_final_farmpondcode+"','"+Location_Status+"');";
+                    + str_pondImageId2 + "','" + pondImageType2 + "','" + str_pondImageId3 + "','" + pondImageType3 +"','"+"no"+"','"+str_final_farmpondcode+"','"+Location_Status+"','"+Reading_Start+"','"+Reading_End+"','"+Reading_Hour+"','"+Machine_Name+"');";
 
 
             db1.execSQL(SQLiteQuery);
@@ -1582,8 +1464,9 @@ public class Activity_ViewFarmers extends AppCompatActivity {
                                                          String str_farmerLName, String str_Fphonenumber, String str_FIDprooftype,
                                                          String str_FIDproofno, String str_approvalstatus, String str_approvalremarks,
                                                          String str_approvedby, String str_approveddate, String str_donorname,
-                                                         String str_latitude, String str_longitude,
-                                                         String str_acres, String str_gunta, String str_crop_beforepond, String str_crop_afterpond,String str_finalpondCode,String Location_Status)
+                                                         String str_latitude, String str_longitude, String str_acres, String str_gunta, String str_crop_beforepond,
+                                                         String str_crop_afterpond,String str_finalpondCode,String Location_Status,
+                                                         String Reading_Start,String Reading_End,String Reading_Hour,String Machine_Name)
     {
         Log.e("submitDate",str_submited_date); //09-08-2020
         Log.e("str_startdate",str_startdate); //str_constr_date 08-08-2020
@@ -1657,7 +1540,8 @@ public class Activity_ViewFarmers extends AppCompatActivity {
                 "FPondAcresDB VARCHAR,FPondGuntaDB VARCHAR,FPondCropBeforeDB VARCHAR,FPondCropAfterDB VARCHAR," +
                 "UploadedStatusFarmerprofile VARCHAR,UploadedStatus VARCHAR," +
                 "newpondImageId1 VARCHAR,pondImageType1 VARCHAR,newpondImageId2 VARCHAR,pondImageType2 VARCHAR,newpondImageId3 VARCHAR," +
-                "pondImageType3 VARCHAR,Farmer_Gender VARCHAR,finalfarmpondcodeDB VARCHAR, Location_Status VARCHAR);");
+                "pondImageType3 VARCHAR,Farmer_Gender VARCHAR,finalfarmpondcodeDB VARCHAR, Location_Status VARCHAR," +
+                "Reading_Start VARCHAR,Reading_End VARCHAR,Reading_Hour VARCHAR,Machine_Name VARCHAR);");
 
 
 
@@ -1677,7 +1561,7 @@ public class Activity_ViewFarmers extends AppCompatActivity {
                 "FPondLatitudeDB,FPondLongitudeDB," +
                 "FPondAcresDB,FPondGuntaDB,FPondCropBeforeDB,FPondCropAfterDB," +
                 "UploadedStatusFarmerprofile,UploadedStatus," +
-                "newpondImageId1,pondImageType1,newpondImageId2,pondImageType2,newpondImageId3,pondImageType3,Farmer_Gender,finalfarmpondcodeDB,Location_Status)" +
+                "newpondImageId1,pondImageType1,newpondImageId2,pondImageType2,newpondImageId3,pondImageType3,Farmer_Gender,finalfarmpondcodeDB,Location_Status,Reading_Start,Reading_End,Reading_Hour,Machine_Name)" +
                 " VALUES ('" + str_farmerid + "','" + str_tempfid + "','" + str_farmername + "','" + str_farmerMName + "','" + str_farmerLName + "','" + str_yearID + "'," +
                 "'" + str_stateID + "','" + str_districtID + "','" + str_talukID + "','" + str_panchayatID + "','" + str_villageID + "','" + str_farmerage + "'," +
                 "'" + str_Fphonenumber + "','" + str_FannualIncome + "','" + str_Ffamilymember + "','" + str_FIDprooftype + "','" + str_FIDproofno + "','" + str_Fphoto + "'," +
@@ -1689,7 +1573,7 @@ public class Activity_ViewFarmers extends AppCompatActivity {
                 "'" + str_approvalstatus + "','" + str_approvalremarks + "','" + str_approvedby + "','" + str_approveddate + "','" + str_donorname + "'," +
                 "'" + str_latitude + "','" + str_longitude + "','" + str_acres + "','" + str_gunta + "','" + str_crop_beforepond + "','"
                 + str_crop_afterpond + "','" + 0 + "','" + 0 + "','" + str_pondImageId1 + "','" + pondImageType1 + "','"
-                + str_pondImageId2 + "','" + pondImageType2 + "','" + str_pondImageId3 + "','" + pondImageType3 +"','"+"no"+"','"+str_finalpondCode+"','"+Location_Status+"');";
+                + str_pondImageId2 + "','" + pondImageType2 + "','" + str_pondImageId3 + "','" + pondImageType3 +"','"+"no"+"','"+str_finalpondCode+"','"+Location_Status+"','"+Reading_Start+"','"+Reading_End+"','"+Reading_Hour+"','"+Machine_Name+"');";
 
 
 
@@ -1717,7 +1601,8 @@ public class Activity_ViewFarmers extends AppCompatActivity {
                 "FPondAcresDB VARCHAR,FPondGuntaDB VARCHAR,FPondCropBeforeDB VARCHAR,FPondCropAfterDB VARCHAR," +
                 "UploadedStatusFarmerprofile VARCHAR,UploadedStatus VARCHAR," +
                 "newpondImageId1 VARCHAR,pondImageType1 VARCHAR,newpondImageId2 VARCHAR,pondImageType2 VARCHAR,newpondImageId3 VARCHAR," +
-                "pondImageType3 VARCHAR,Farmer_Gender VARCHAR,finalfarmpondcodeDB VARCHAR, Location_Status VARCHAR);");
+                "pondImageType3 VARCHAR,Farmer_Gender VARCHAR,finalfarmpondcodeDB VARCHAR, Location_Status VARCHAR," +
+                "Reading_Start VARCHAR,Reading_End VARCHAR,Reading_Hour VARCHAR,Machine_Name VARCHAR);");
 
         Cursor cursor = db1.rawQuery("SELECT * FROM FarmPondDetails_fromServerRest", null);
         int x = cursor.getCount();
@@ -1727,35 +1612,6 @@ public class Activity_ViewFarmers extends AppCompatActivity {
         }
         db1.close();
 
-
-    }
-
-    public void DBCreate_FarmpondRest_details_2SQLiteDB(String pondID, String farmerID, String academicID, String machineID, String pondCode, String pondLatitude, String pondLongitude, String pondLength, String pondWidth,
-                                                        String pondDepth, String pondStart, String pondEnd, String pondDays, String pondCost, String pondImage1, String pondImage2, String pondImage3, String pondStatus, String submittedDate, String submittedBy, String createdDate,
-                                                        String createdBy, String pondTempID, String responseOutput, String createdUser, String submittedUser) {
-
-        SQLiteDatabase db_viewfarmpondlist = this.openOrCreateDatabase("FarmPond_db", Context.MODE_PRIVATE, null);
-
-        db_viewfarmpondlist.execSQL("CREATE TABLE IF NOT EXISTS FarmPondDetailsRest(MTempId INTEGER PRIMARY KEY,pondID VARCHAR,farmerID VARCHAR," +
-                "academicID VARCHAR,machineID VARCHAR,pondCode VARCHAR," +
-                "pondLatitude VARCHAR,pondLongitude VARCHAR,pondLength VARCHAR," +
-                "pondWidth VARCHAR,pondDepth VARCHAR,pondStart VARCHAR,pondEnd VARCHAR," +
-                "pondDays VARCHAR,pondCost VARCHAR,pondImage1 VARCHAR,pondImage2 VARCHAR,pondImage3 VARCHAR,pondStatus VARCHAR," +
-                "submittedDate VARCHAR,submittedBy VARCHAR," +
-                "createdDate VARCHAR,createdBy VARCHAR,pondTempID VARCHAR,responseOutput VARCHAR,createdUser VARCHAR,submittedUser VARCHAR);");
-
-        String SQLiteQuery = "INSERT INTO FarmPondDetailsRest (pondID,farmerID, academicID," +
-                "machineID,pondCode,pondLatitude,pondLongitude," +
-                "pondLength,pondWidth,pondDepth,pondStart,pondEnd," +
-                "pondDays,pondCost,pondImage1,pondImage2,pondImage3,pondStatus,submittedDate,submittedBy," +
-                "createdDate,createdBy,pondTempID,responseOutput,createdUser,submittedUser)" +
-                " VALUES ('" + pondID + "','" + farmerID + "','" + academicID + "','" + machineID + "','" + pondCode + "','"
-                + pondLatitude + "','" + pondLongitude + "','" + pondLength + "','" + pondWidth + "','" + pondDepth + "'," +
-                "'" + pondStart + "','" + pondEnd + "','" + pondDays + "','" + pondCost + "','" + pondImage1 + "','" + pondImage2 + "','" + pondImage3 + "'," +
-                "'" + pondStatus + "','" + submittedDate + "','" + submittedBy + "','" + createdDate + "','"
-                + createdBy + "','" + pondTempID + "','" + responseOutput + "','" + createdUser + "','" + submittedUser + "');";
-
-        db_viewfarmpondlist.execSQL(SQLiteQuery);
 
     }
 
@@ -2015,22 +1871,6 @@ public class Activity_ViewFarmers extends AppCompatActivity {
             }
         }
 
-      /*  if(x==0)
-        {
-            arrayObj_Class_TalukListDetails2 = new Taluka[1];
-            Taluka innerObj_Class_talukList = new Taluka();
-            innerObj_Class_talukList.setTalukaID("2000");
-            innerObj_Class_talukList.setTalukaName("No Records");
-            innerObj_Class_talukList.setDistrictID("2000");
-
-
-            arrayObj_Class_TalukListDetails2[0] = innerObj_Class_talukList;
-
-            ArrayAdapter dataAdapter = new ArrayAdapter(getApplicationContext(), R.layout.spinnercenterstyle, arrayObj_Class_TalukListDetails2);
-            dataAdapter.setDropDownViewResource(R.layout.spinnercenterstyle);
-            taluklist_SP.setAdapter(dataAdapter);
-        }
-*/
     }
 
     public void uploadfromDB_Villagelist() {
@@ -2116,22 +1956,6 @@ public class Activity_ViewFarmers extends AppCompatActivity {
         }
 
 
-      /*  if(x==0)
-        {
-            arrayObj_Class_VillageListDetails2 = new Village[1];
-            Village innerObj_Class_villageList = new Village();
-            innerObj_Class_villageList.setVillageID("2000");
-            innerObj_Class_villageList.setVillageName("No Records");
-            innerObj_Class_villageList.setTalukaID("2000");
-
-
-            arrayObj_Class_VillageListDetails2[0] = innerObj_Class_villageList;
-            ArrayAdapter dataAdapter = new ArrayAdapter(getApplicationContext(), R.layout.spinnercenterstyle, arrayObj_Class_VillageListDetails2);
-            dataAdapter.setDropDownViewResource(R.layout.spinnercenterstyle);
-            villagelist_SP.setAdapter(dataAdapter);
-
-        }
-*/
     }
 
     public void uploadfromDB_Grampanchayatlist() {
@@ -2738,6 +2562,10 @@ public class Activity_ViewFarmers extends AppCompatActivity {
                                     String Crop_After = class_userData.getLst().get(i).getPond().get(j).getCropAfter();
                                     String CollectedAmount = class_userData.getLst().get(i).getPond().get(j).getPondCollectedAmount();
                                     String Location_Status = class_userData.getLst().get(i).getPond().get(j).getLocation_Status();
+                                    String Reading_Start = class_userData.getLst().get(i).getPond().get(j).getReading_Start();
+                                    String Reading_End = class_userData.getLst().get(i).getPond().get(j).getReading_End();
+                                    String Reading_Hour = class_userData.getLst().get(i).getPond().get(j).getReading_Hour();
+                                    String Machine_Name = class_userData.getLst().get(i).getPond().get(j).getMachine_Name();
 
                                     // PondImage Array Method
                                     int pondImageSize = class_userData.getLst().get(i).getPond().get(j).getPondImage().size();
@@ -2767,13 +2595,6 @@ public class Activity_ViewFarmers extends AppCompatActivity {
                                         }
 
                                     }
-
-                                    //   String pondImage1,pondImage2,pondImage3;
-                                    //  String str_imageurl = class_userData.getLst().get(i).getPond().get(j).getPondImage1();
-
-                                    // String str_farmpondimageurl = str_imageurl;
-                                    // String str_imageid1 = class_farmerandpond_details_array_obj[i].getClass_farmponddetails_obj().get(j).
-                                    // getClass_farmpondimages_obj().get(k).getImage_ID();
 
                                     //---------------------------------------------------------------------
                                     String str_imageurl = pondImage1;
@@ -2868,108 +2689,8 @@ public class Activity_ViewFarmers extends AppCompatActivity {
 
                                         str_base64image3 = str_base64image;
                                     }
-                                    //-----------------------------------Temp commented becouse of no image in url--------
-//-----------------------------url need to change------------------------
 
-                                    //   String str_imageurl = class_userData.getLst().get(i).getPond().get(j).getPondImage1();
-/*
-                                String str_imageurl=pondImage1;
-                                String str_farmpondimageurl =  str_imageurl;
-                                Log.e("url1", str_farmpondimageurl);
-                                Log.e("url1", "str_farmpondimageurl=" + str_farmpondimageurl);
-
-                                if (str_imageurl == null) {
-                                    str_base64image1="empty";
-                                } else {
-
-                                    InputStream inputstream_obj = null;
-                                    try {
-                                        if (android.os.Build.VERSION.SDK_INT > 9) {
-                                            StrictMode.ThreadPolicy policy = new StrictMode.ThreadPolicy.Builder().permitAll().build();
-                                            StrictMode.setThreadPolicy(policy);
-                                            inputstream_obj = new URL(str_farmpondimageurl).openStream();
-
-                                        }
-                                    } catch (IOException e) {
-                                        e.printStackTrace();
-                                    }
-                                   /* InputStream inputstream_obj = null;
-                                    try {
-                                        inputstream_obj = new URL(str_farmpondimageurl).openStream();
-                                    } catch (IOException e) {
-                                        e.printStackTrace();
-                                    }*/
-  /*                                  Bitmap mIcon12 = BitmapFactory.decodeStream(inputstream_obj);
-                                    ByteArrayOutputStream baos = new ByteArrayOutputStream();
-                                    mIcon12.compress(Bitmap.CompressFormat.PNG, 60, baos);
-                                    byte[] b = baos.toByteArray();
-                                    Log.e("str_img byte array..", String.valueOf(b));
-                                    str_base64image1 = Base64.encodeToString(b, Base64.DEFAULT);
-                                }
-                               // String str_imageurl2 = class_userData.getLst().get(i).getPond().get(j).getPondImage2();
-                                String str_imageurl2=pondImage2;
-                                String str_farmpondimageurl2 = str_imageurl2;
-                                Log.e("url1", str_farmpondimageurl2);
-                                Log.e("url1", "str_farmpondimageurl2=" + str_farmpondimageurl2);
-
-                                if (str_imageurl2 == null) {
- str_base64image2="empty";
-                                } else {
-
-
-                                    InputStream inputstream_obj2 = null;
-                                    try {
-                                        if (android.os.Build.VERSION.SDK_INT > 9) {
-                                            StrictMode.ThreadPolicy policy = new StrictMode.ThreadPolicy.Builder().permitAll().build();
-                                            StrictMode.setThreadPolicy(policy);
-                                            inputstream_obj2 = new URL(str_farmpondimageurl2).openStream();
-                                        }
-                                    } catch (IOException e) {
-                                        e.printStackTrace();
-                                    }
-                                    Bitmap mIcon2 = BitmapFactory.decodeStream(inputstream_obj2);
-                                    ByteArrayOutputStream baos2 = new ByteArrayOutputStream();
-                                    mIcon2.compress(Bitmap.CompressFormat.PNG, 60, baos2);
-                                    byte[] b2 = baos2.toByteArray();
-                                    Log.e("str_img byte array..", String.valueOf(b2));
-                                    str_base64image2 = Base64.encodeToString(b2, Base64.DEFAULT);
-                                }
-                               // String str_imageurl3 = class_userData.getLst().get(i).getPond().get(j).getPondImage3();
-                                String str_imageurl3 =pondImage3;
-                                String str_farmpondimageurl3 = str_imageurl3;
-                                Log.e("url1", str_farmpondimageurl3);
-                                Log.e("url1", "str_farmpondimageurl3=" + str_farmpondimageurl3);
-
-                                if (str_imageurl3 == null) {
- str_base64image3="empty";
-                                } else {
-
-
-                                    InputStream inputstream_obj3 = null;
-                                    try {
-                                        if (android.os.Build.VERSION.SDK_INT > 9) {
-                                            StrictMode.ThreadPolicy policy = new StrictMode.ThreadPolicy.Builder().permitAll().build();
-                                            StrictMode.setThreadPolicy(policy);
-                                            inputstream_obj3 = new URL(str_farmpondimageurl3).openStream();
-                                        }
-                                    } catch (IOException e) {
-                                        e.printStackTrace();
-                                    }
-                                    Bitmap mIcon3 = BitmapFactory.decodeStream(inputstream_obj3);
-                                    ByteArrayOutputStream baos3 = new ByteArrayOutputStream();
-                                    mIcon3.compress(Bitmap.CompressFormat.PNG, 60, baos3);
-                                    byte[] b3 = baos3.toByteArray();
-                                    Log.e("str_img byte array..", String.valueOf(b3));
-                                    str_base64image3 = Base64.encodeToString(b3, Base64.DEFAULT);
-                                }
-
-   */
                                     //------------------------------------------------------------------------------------------------------------------
-
-                              /*  str_base64image1="iVBORw0KGgoAAAANSUhEUgAAABAAAAAQCAMAAAAoLQ9TAAAAA3NCSVQICAjb4U/gAAAACXBIWXMAAARuAAAEbgHQo7JoAAAAGXRFWHRTb2Z0d2FyZQB3d3cuaW5rc2NhcGUub3Jnm+48GgAAAGxQTFRF////AP//KK6GJK2JJK+JJq2HJa6HJa+JJa6IJa6IJa6IJq6IKK+JKK+KK7CLLrGNM7OPNLOQNbSRObWTPLeVQLiWRLmZRrqaVsCjY8WqacetgNC5htK9j9XCltjGndrJruHTtuTXueXZvufcQhO/KQAAAAp0Uk5TAAEmcH+As7Xm9myQZpsAAAB3SURBVBhXZY9HEgMhEAMFLLPQzjnH/f8ffcCmtkzfNFXSSJIkHy0li14FFzIA5OAkyfVUeicpMCJIPle1XZG9YtXLYQOd7Kfn7wNgSjBbAJPnESApwW7Yw+NMORiwfp2ul2K0Ejq9375J3fgtkH1brK3ejPub/wG/CwjxA06BTgAAAABJRU5ErkJggg==";
-                                str_base64image2="iVBORw0KGgoAAAANSUhEUgAAABAAAAAQCAMAAAAoLQ9TAAAAA3NCSVQICAjb4U/gAAAACXBIWXMAAARuAAAEbgHQo7JoAAAAGXRFWHRTb2Z0d2FyZQB3d3cuaW5rc2NhcGUub3Jnm+48GgAAAGxQTFRF////AP//KK6GJK2JJK+JJq2HJa6HJa+JJa6IJa6IJa6IJq6IKK+JKK+KK7CLLrGNM7OPNLOQNbSRObWTPLeVQLiWRLmZRrqaVsCjY8WqacetgNC5htK9j9XCltjGndrJruHTtuTXueXZvufcQhO/KQAAAAp0Uk5TAAEmcH+As7Xm9myQZpsAAAB3SURBVBhXZY9HEgMhEAMFLLPQzjnH/f8ffcCmtkzfNFXSSJIkHy0li14FFzIA5OAkyfVUeicpMCJIPle1XZG9YtXLYQOd7Kfn7wNgSjBbAJPnESApwW7Yw+NMORiwfp2ul2K0Ejq9375J3fgtkH1brK3ejPub/wG/CwjxA06BTgAAAABJRU5ErkJggg==";
-                                str_base64image3="iVBORw0KGgoAAAANSUhEUgAAABAAAAAQCAMAAAAoLQ9TAAAAA3NCSVQICAjb4U/gAAAACXBIWXMAAARuAAAEbgHQo7JoAAAAGXRFWHRTb2Z0d2FyZQB3d3cuaW5rc2NhcGUub3Jnm+48GgAAAGxQTFRF////AP//KK6GJK2JJK+JJq2HJa6HJa+JJa6IJa6IJa6IJq6IKK+JKK+KK7CLLrGNM7OPNLOQNbSRObWTPLeVQLiWRLmZRrqaVsCjY8WqacetgNC5htK9j9XCltjGndrJruHTtuTXueXZvufcQhO/KQAAAAp0Uk5TAAEmcH+As7Xm9myQZpsAAAB3SURBVBhXZY9HEgMhEAMFLLPQzjnH/f8ffcCmtkzfNFXSSJIkHy0li14FFzIA5OAkyfVUeicpMCJIPle1XZG9YtXLYQOd7Kfn7wNgSjBbAJPnESApwW7Yw+NMORiwfp2ul2K0Ejq9375J3fgtkH1brK3ejPub/wG/CwjxA06BTgAAAABJRU5ErkJggg==";
-*/
 
                                     //pondImage1="0"; pondImage2="0"; pondImage3="0";
                                     str_approveddate = "0";
@@ -2979,7 +2700,7 @@ public class Activity_ViewFarmers extends AppCompatActivity {
                                             pondCode, pondStart, str_farmpond_remarks, CollectedAmount, pondStatus,
                                             farmer_Middle_Name, farmer_Last_Name, "", Farmer_ID_Type, Farmer_ID_Number, Approval_Status,
                                             Approval_Remarks, Approval_By, str_approveddate, Donor_Name, pondLatitude, pondLongitude,
-                                            Pond_Land_Acre, Pond_Land_Gunta, Crop_Before, Crop_After,str_final_farmpondcode,Location_Status);
+                                            Pond_Land_Acre, Pond_Land_Gunta, Crop_Before, Crop_After,str_final_farmpondcode,Location_Status,Reading_Start,Reading_End,Reading_Hour,Machine_Name);
                                 }
                             }
 
@@ -3227,6 +2948,11 @@ public class Activity_ViewFarmers extends AppCompatActivity {
                                     String Crop_After = class_userData.getLst().get(i).getPond().get(j).getCropAfter();
                                     String CollectedAmount = class_userData.getLst().get(i).getPond().get(j).getPondCollectedAmount();
                                     String Location_Status = class_userData.getLst().get(i).getPond().get(j).getLocation_Status();
+                                    String Reading_Start = class_userData.getLst().get(i).getPond().get(j).getReading_Start();
+                                    String Reading_End = class_userData.getLst().get(i).getPond().get(j).getReading_End();
+                                    String Reading_Hour = class_userData.getLst().get(i).getPond().get(j).getReading_Hour();
+                                    String Machine_Name = class_userData.getLst().get(i).getPond().get(j).getMachine_Name();
+
                                     if(Location_Status==null||Location_Status.equalsIgnoreCase("")){
                                         Location_Status="Pending";
                                         Log.e("tag","Location_Status="+Location_Status);
@@ -3262,13 +2988,6 @@ public class Activity_ViewFarmers extends AppCompatActivity {
                                         }
 
                                     }
-
-                                    //   String pondImage1,pondImage2,pondImage3;
-                                    //  String str_imageurl = class_userData.getLst().get(i).getPond().get(j).getPondImage1();
-
-                                    // String str_farmpondimageurl = str_imageurl;
-                                    // String str_imageid1 = class_farmerandpond_details_array_obj[i].getClass_farmponddetails_obj().get(j).
-                                    // getClass_farmpondimages_obj().get(k).getImage_ID();
 
                                     //---------------------------------------------------------------------
                                     String str_imageurl = pondImage1;
@@ -3363,108 +3082,10 @@ public class Activity_ViewFarmers extends AppCompatActivity {
 
                                         str_base64image3 = str_base64image;
                                     }
-                                    //-----------------------------------Temp commented becouse of no image in url--------
-//-----------------------------url need to change------------------------
 
                                     //   String str_imageurl = class_userData.getLst().get(i).getPond().get(j).getPondImage1();
-/*
-                                String str_imageurl=pondImage1;
-                                String str_farmpondimageurl =  str_imageurl;
-                                Log.e("url1", str_farmpondimageurl);
-                                Log.e("url1", "str_farmpondimageurl=" + str_farmpondimageurl);
-
-                                if (str_imageurl == null) {
-                                    str_base64image1="empty";
-                                } else {
-
-                                    InputStream inputstream_obj = null;
-                                    try {
-                                        if (android.os.Build.VERSION.SDK_INT > 9) {
-                                            StrictMode.ThreadPolicy policy = new StrictMode.ThreadPolicy.Builder().permitAll().build();
-                                            StrictMode.setThreadPolicy(policy);
-                                            inputstream_obj = new URL(str_farmpondimageurl).openStream();
-
-                                        }
-                                    } catch (IOException e) {
-                                        e.printStackTrace();
-                                    }
-                                   /* InputStream inputstream_obj = null;
-                                    try {
-                                        inputstream_obj = new URL(str_farmpondimageurl).openStream();
-                                    } catch (IOException e) {
-                                        e.printStackTrace();
-                                    }*/
-  /*                                  Bitmap mIcon12 = BitmapFactory.decodeStream(inputstream_obj);
-                                    ByteArrayOutputStream baos = new ByteArrayOutputStream();
-                                    mIcon12.compress(Bitmap.CompressFormat.PNG, 60, baos);
-                                    byte[] b = baos.toByteArray();
-                                    Log.e("str_img byte array..", String.valueOf(b));
-                                    str_base64image1 = Base64.encodeToString(b, Base64.DEFAULT);
-                                }
-                               // String str_imageurl2 = class_userData.getLst().get(i).getPond().get(j).getPondImage2();
-                                String str_imageurl2=pondImage2;
-                                String str_farmpondimageurl2 = str_imageurl2;
-                                Log.e("url1", str_farmpondimageurl2);
-                                Log.e("url1", "str_farmpondimageurl2=" + str_farmpondimageurl2);
-
-                                if (str_imageurl2 == null) {
- str_base64image2="empty";
-                                } else {
-
-
-                                    InputStream inputstream_obj2 = null;
-                                    try {
-                                        if (android.os.Build.VERSION.SDK_INT > 9) {
-                                            StrictMode.ThreadPolicy policy = new StrictMode.ThreadPolicy.Builder().permitAll().build();
-                                            StrictMode.setThreadPolicy(policy);
-                                            inputstream_obj2 = new URL(str_farmpondimageurl2).openStream();
-                                        }
-                                    } catch (IOException e) {
-                                        e.printStackTrace();
-                                    }
-                                    Bitmap mIcon2 = BitmapFactory.decodeStream(inputstream_obj2);
-                                    ByteArrayOutputStream baos2 = new ByteArrayOutputStream();
-                                    mIcon2.compress(Bitmap.CompressFormat.PNG, 60, baos2);
-                                    byte[] b2 = baos2.toByteArray();
-                                    Log.e("str_img byte array..", String.valueOf(b2));
-                                    str_base64image2 = Base64.encodeToString(b2, Base64.DEFAULT);
-                                }
-                               // String str_imageurl3 = class_userData.getLst().get(i).getPond().get(j).getPondImage3();
-                                String str_imageurl3 =pondImage3;
-                                String str_farmpondimageurl3 = str_imageurl3;
-                                Log.e("url1", str_farmpondimageurl3);
-                                Log.e("url1", "str_farmpondimageurl3=" + str_farmpondimageurl3);
-
-                                if (str_imageurl3 == null) {
- str_base64image3="empty";
-                                } else {
-
-
-                                    InputStream inputstream_obj3 = null;
-                                    try {
-                                        if (android.os.Build.VERSION.SDK_INT > 9) {
-                                            StrictMode.ThreadPolicy policy = new StrictMode.ThreadPolicy.Builder().permitAll().build();
-                                            StrictMode.setThreadPolicy(policy);
-                                            inputstream_obj3 = new URL(str_farmpondimageurl3).openStream();
-                                        }
-                                    } catch (IOException e) {
-                                        e.printStackTrace();
-                                    }
-                                    Bitmap mIcon3 = BitmapFactory.decodeStream(inputstream_obj3);
-                                    ByteArrayOutputStream baos3 = new ByteArrayOutputStream();
-                                    mIcon3.compress(Bitmap.CompressFormat.PNG, 60, baos3);
-                                    byte[] b3 = baos3.toByteArray();
-                                    Log.e("str_img byte array..", String.valueOf(b3));
-                                    str_base64image3 = Base64.encodeToString(b3, Base64.DEFAULT);
-                                }
-
-   */
                                     //------------------------------------------------------------------------------------------------------------------
 
-                              /*  str_base64image1="iVBORw0KGgoAAAANSUhEUgAAABAAAAAQCAMAAAAoLQ9TAAAAA3NCSVQICAjb4U/gAAAACXBIWXMAAARuAAAEbgHQo7JoAAAAGXRFWHRTb2Z0d2FyZQB3d3cuaW5rc2NhcGUub3Jnm+48GgAAAGxQTFRF////AP//KK6GJK2JJK+JJq2HJa6HJa+JJa6IJa6IJa6IJq6IKK+JKK+KK7CLLrGNM7OPNLOQNbSRObWTPLeVQLiWRLmZRrqaVsCjY8WqacetgNC5htK9j9XCltjGndrJruHTtuTXueXZvufcQhO/KQAAAAp0Uk5TAAEmcH+As7Xm9myQZpsAAAB3SURBVBhXZY9HEgMhEAMFLLPQzjnH/f8ffcCmtkzfNFXSSJIkHy0li14FFzIA5OAkyfVUeicpMCJIPle1XZG9YtXLYQOd7Kfn7wNgSjBbAJPnESApwW7Yw+NMORiwfp2ul2K0Ejq9375J3fgtkH1brK3ejPub/wG/CwjxA06BTgAAAABJRU5ErkJggg==";
-                                str_base64image2="iVBORw0KGgoAAAANSUhEUgAAABAAAAAQCAMAAAAoLQ9TAAAAA3NCSVQICAjb4U/gAAAACXBIWXMAAARuAAAEbgHQo7JoAAAAGXRFWHRTb2Z0d2FyZQB3d3cuaW5rc2NhcGUub3Jnm+48GgAAAGxQTFRF////AP//KK6GJK2JJK+JJq2HJa6HJa+JJa6IJa6IJa6IJq6IKK+JKK+KK7CLLrGNM7OPNLOQNbSRObWTPLeVQLiWRLmZRrqaVsCjY8WqacetgNC5htK9j9XCltjGndrJruHTtuTXueXZvufcQhO/KQAAAAp0Uk5TAAEmcH+As7Xm9myQZpsAAAB3SURBVBhXZY9HEgMhEAMFLLPQzjnH/f8ffcCmtkzfNFXSSJIkHy0li14FFzIA5OAkyfVUeicpMCJIPle1XZG9YtXLYQOd7Kfn7wNgSjBbAJPnESApwW7Yw+NMORiwfp2ul2K0Ejq9375J3fgtkH1brK3ejPub/wG/CwjxA06BTgAAAABJRU5ErkJggg==";
-                                str_base64image3="iVBORw0KGgoAAAANSUhEUgAAABAAAAAQCAMAAAAoLQ9TAAAAA3NCSVQICAjb4U/gAAAACXBIWXMAAARuAAAEbgHQo7JoAAAAGXRFWHRTb2Z0d2FyZQB3d3cuaW5rc2NhcGUub3Jnm+48GgAAAGxQTFRF////AP//KK6GJK2JJK+JJq2HJa6HJa+JJa6IJa6IJa6IJq6IKK+JKK+KK7CLLrGNM7OPNLOQNbSRObWTPLeVQLiWRLmZRrqaVsCjY8WqacetgNC5htK9j9XCltjGndrJruHTtuTXueXZvufcQhO/KQAAAAp0Uk5TAAEmcH+As7Xm9myQZpsAAAB3SURBVBhXZY9HEgMhEAMFLLPQzjnH/f8ffcCmtkzfNFXSSJIkHy0li14FFzIA5OAkyfVUeicpMCJIPle1XZG9YtXLYQOd7Kfn7wNgSjBbAJPnESApwW7Yw+NMORiwfp2ul2K0Ejq9375J3fgtkH1brK3ejPub/wG/CwjxA06BTgAAAABJRU5ErkJggg==";
-*/
 
                                     //pondImage1="0"; pondImage2="0"; pondImage3="0";
                                     str_approveddate = "0";
@@ -3474,7 +3095,7 @@ public class Activity_ViewFarmers extends AppCompatActivity {
                                             pondCode, pondStart, str_farmpond_remarks, CollectedAmount, pondStatus,
                                             farmer_Middle_Name, farmer_Last_Name, "", Farmer_ID_Type, Farmer_ID_Number, Approval_Status,
                                             Approval_Remarks, Approval_By, str_approveddate, Donor_Name, pondLatitude, pondLongitude,
-                                            Pond_Land_Acre, Pond_Land_Gunta, Crop_Before, Crop_After,str_finalpondCode,Location_Status);
+                                            Pond_Land_Acre, Pond_Land_Gunta, Crop_Before, Crop_After,str_finalpondCode,Location_Status,Reading_Start,Reading_End,Reading_Hour,Machine_Name);
                                 }
                             }
 
@@ -3547,16 +3168,6 @@ public class Activity_ViewFarmers extends AppCompatActivity {
         request.setSyncID(Sync_IDNew);
         request.setSyncVersion(versioncode);
         request.setSyncStatus("Success");
-        /*if(locationData==null||locationData.equalsIgnoreCase("Success")){
-            if(userData==null||userData.equalsIgnoreCase("Success")) {
-                request.setSyncStatus("Success");
-            }else{
-                request.setSyncStatus("Error");
-            }
-        }else {
-            request.setSyncStatus("Error");
-        }*/
-
 
         Call<ValidateSyncResponse> call = userService1.Post_ValidateSync(request);
 
@@ -3624,16 +3235,6 @@ public class Activity_ViewFarmers extends AppCompatActivity {
 //------------------------------------------------------
 /////////////----------------------Auto Sync code for 1st time --------------------------------///////////
 
-   /* public void stateListRest_dbCount(){
-        SQLiteDatabase db_statelist_delete = openOrCreateDatabase("FarmPond_db", Context.MODE_PRIVATE, null);
-        db_statelist_delete.execSQL("CREATE TABLE IF NOT EXISTS StateListRest(StateID VARCHAR,StateName VARCHAR,state_yearid VARCHAR);");
-        Cursor cursor = db_statelist_delete.rawQuery("SELECT * FROM StateListRest", null);
-        int x = cursor.getCount();
-
-        if(x==0){
-            GetDropdownValuesRestData();
-        }
-    }*/
 
     public void stateListRest_dbCount(){
         SQLiteDatabase db_statelist = openOrCreateDatabase("FarmPond_db", Context.MODE_PRIVATE, null);
@@ -3805,30 +3406,6 @@ public class Activity_ViewFarmers extends AppCompatActivity {
 
     }
 
-    public void ViewFarmerListRest_dbcount(){
-        SQLiteDatabase db1 = this.openOrCreateDatabase("FarmPond_db", Context.MODE_PRIVATE, null);
-
-        db1.execSQL("CREATE TABLE IF NOT EXISTS ViewFarmerListRest(MTempId INTEGER PRIMARY KEY,DispFarmerTable_YearID VARCHAR,DispFarmerTable_StateID VARCHAR," +
-                "DispFarmerTable_DistrictID VARCHAR,DispFarmerTable_TalukID VARCHAR,DispFarmerTable_VillageID VARCHAR," +
-                "DispFarmerTable_GrampanchayatID VARCHAR,DispFarmerTable_FarmerID VARCHAR,DispFarmerTable_Farmer_Code VARCHAR," +
-                "DispFarmerTable_FarmerName VARCHAR,FarmerMName_DB VARCHAR,FarmerLName_DB VARCHAR,Farmerage_DB VARCHAR," +
-                "Farmercellno_DB VARCHAR,FIncome_DB VARCHAR,Ffamilymember_DB VARCHAR,FIDprooftype_DB VARCHAR,FIDProofNo_DB VARCHAR,UploadedStatusFarmerprofile_DB VARCHAR," +
-                "FarmerImageB64str_DB VARCHAR,DispFarmerTable_FarmerImage VARCHAR," +
-                "LocalFarmerImg BLOB,Farmpondcount VARCHAR,Submitted_Date VARCHAR,Created_By VARCHAR,Created_Date VARCHAR,Created_User VARCHAR,Response VARCHAR,Response_Action VARCHAR,Farmer_Gender VARCHAR);");
-
-
-        // Cursor cursor1 = db1.rawQuery("SELECT DISTINCT * FROM ViewFarmerListRest  WHERE DispFarmerTable_YearID='" + str_yearid + "' AND DispFarmerTable_StateID='" + str_stateid + "' AND DispFarmerTable_DistrictID='" + str_distid + "'  AND DispFarmerTable_TalukID='" + str_talukid + "' AND DispFarmerTable_VillageID='" + str_villageid + "' AND DispFarmerTable_GrampanchayatID='" + str_panchayatid + "'", null);
-        Cursor cursor1 = db1.rawQuery("SELECT DISTINCT * FROM ViewFarmerListRest", null);
-
-        int x = cursor1.getCount();
-        cursor1.close();
-
-
-        Log.d("tag","cursor Farmercount auto sync="+ Integer.toString(x));
-        if(x==0){
-            GetFarmer_PondValuesRestData();
-        }
-    }
 /////////////////////////////sept18th2019//////////////////////////////////
 
     public void alert() {
@@ -3959,33 +3536,6 @@ public class Activity_ViewFarmers extends AppCompatActivity {
 
     }
 
-//    @Override
-//    protected void onActivityResult(int requestCode, int resultCode, Intent data) {
-//        if (requestCode == CAPTURE_IMAGE_ACTIVITY_REQUEST_CODE) {
-//
-//            if (resultCode == RESULT_OK) {
-//
-//                /*********** Load Captured Image And Data Start ****************/
-//
-//                String imageId = convertImageUriToFile(imageUri, ViewFarmers.this);
-//
-//
-//                //  Create and excecute AsyncTask to load capture image
-//
-//                new LoadImagesFromSDCard().execute("" + imageId);
-//
-//                /*********** Load Captured Image And Data End ****************/
-//
-//
-//            } else if (resultCode == RESULT_CANCELED) {
-//
-//                Toast.makeText(this, " Picture was not taken ", Toast.LENGTH_SHORT).show();
-//            } else {
-//
-//                Toast.makeText(this, " Picture was not taken ", Toast.LENGTH_SHORT).show();
-//            }
-//        }
-//    }
 
     public String compressImage(String imageUri) {
 
@@ -4126,59 +3676,6 @@ public class Activity_ViewFarmers extends AppCompatActivity {
         }
     }
 
-//    @Override
-//    protected void onActivityResult(int requestCode, int resultCode, Intent data) {
-//        super.onActivityResult(requestCode, resultCode, data);
-//        //    if (resultCode == RESULT_OK) {
-//        if (requestCode == 1) {
-//            if (resultCode == RESULT_OK) {
-//
-//
-//                Log.d("CameraDemo", "Pic saved");
-//                Uri imageUri = Uri.parse(mCurrentPhotoPath);
-//                if (imageUri.getPath() != null) {
-//                    File file = new File(imageUri.getPath());
-//
-//                    try {
-//                        InputStream ims = new FileInputStream(file);
-//                        bitmap = BitmapFactory.decodeStream(ims);
-//                        rotatemethod(file.toString());
-//                        BitMapToString(bitmap);
-//
-//                        holder.farmerimage_iv.setImageBitmap(bitmap);
-//                    } catch (FileNotFoundException e) {
-//                        return;
-//                    }
-//
-//
-//                } else if (resultCode == RESULT_CANCELED) {
-//
-//                    Toast.makeText(this, " Picture was not taken ", Toast.LENGTH_SHORT).show();
-//                } else {
-//
-//                    Toast.makeText(this, " Picture was not taken ", Toast.LENGTH_SHORT).show();
-//
-//                }
-//            }
-//        } else if (requestCode == 2) {
-//            if (resultCode == RESULT_OK) {
-//
-//                Uri selectedImage = data.getData();
-//                String[] filePath = {MediaStore.Images.Media.DATA};
-//                Cursor c = getContentResolver().query(selectedImage, filePath, null, null, null);
-//                c.moveToFirst();
-//                int columnIndex = c.getColumnIndex(filePath[0]);
-//                String picturePath = c.getString(columnIndex);
-//                c.close();
-//                Bitmap thumbnail = (BitmapFactory.decodeFile(picturePath));
-//                thumbnail = getResizedBitmap(thumbnail, 400);
-//                Log.w(" gallery.", picturePath + "");
-//                holder.farmerimage_iv.setImageBitmap(thumbnail);
-//                BitMapToString(thumbnail);
-//            }
-//        }
-//
-//    }
 
     public String getFilename() {
         File file = new File(Environment.getExternalStorageDirectory().getPath(), "DetSkillsSign/Images");
@@ -4266,90 +3763,9 @@ public class Activity_ViewFarmers extends AppCompatActivity {
 
     }
 
-    /*private void GetDropdownValuesRestData(){
-
-     *//* String str_token = "Bearer " + str_AUTH_token;
-            Log.e("str_token", str_token);
-            Log.e("str_AUTH_token", str_AUTH_token);*//*
-     *//*    User_Id request = new User_Id();
-        request.setUser_ID("40");*//*
-
-        Call<Location_Data> call = userService1.getLocationData("40");
-
-
-            call.enqueue(new Callback<Location_Data>() {
-                @Override
-                public void onResponse(Call<Location_Data> call, Response<Location_Data> response) {
-                 //   Log.e("Entered resp", response.message());
-               //     Log.e("Entered resp", response.body().getMessage());
-
-                    if (response.isSuccessful()) {
-                        Location_Data class_locaitonData = response.body();
-                        Log.e("response.body", response.body().getLst().toString());
-                        if (class_locaitonData.getStatus().equals(true)) {
-                            List<Location_DataList> yearlist = response.body().getLst();
-                            Log.e("programlist.size()", String.valueOf(yearlist.size()));
-
-                            location_dataLists = new Location_DataList[yearlist.size()];
-                            // Toast.makeText(getContext(), "" + class_monthCounts.getMessage(), Toast.LENGTH_SHORT).show();
-
-                            for (int i = 0; i < location_dataLists.length; i++) {
-
-
-                                Log.e("status", String.valueOf(class_locaitonData.getStatus()));
-                           *//* Log.e("msg", class_loginresponse.getMessage());
-                            Log.e("list", class_loginresponse.getList().get(i).getId());
-                            Log.e("list", class_loginresponse.getList().get(i).getProgramCode());
-                            Log.e("size", String.valueOf(class_loginresponse.getList().size()));*//*
-
-                                class_location_dataList.setState((class_locaitonData.getLst().get(i).getState()));
-                                class_location_dataList.setDistrict(class_locaitonData.getLst().get(i).getDistrict());
-                                class_location_dataList.setPanchayat(class_locaitonData.getLst().get(i).getPanchayat());
-                                class_location_dataList.setVillage(class_locaitonData.getLst().get(i).getVillage());
-
-                                for(int j=0;j<class_locaitonData.getLst().get(i).getState().size();j++){
-                                    Log.e("tag","state name=="+class_locaitonData.getLst().get(j).getState().get(j).getStateName());
-                                    String StateName = class_locaitonData.getLst().get(j).getState().get(j).getStateName();
-                                    String StateId = class_locaitonData.getLst().get(j).getState().get(j).getStateID();
-                                    DBCreate_StatedetailsRest_insert_2SQLiteDB(StateId,StateName,StateId,j);
-                                }
-                            }
-
-                        } else {
-                            Toast.makeText(Activity_ViewFarmers.this, class_locaitonData.getMessage(), Toast.LENGTH_SHORT).show();
-
-                        }
-                    } else {
-                        Log.e("Entered resp else", "");
-                        DefaultResponse error = ErrorUtils.parseError(response);
-                        // … and use it to show error information
-
-                        // … or just log the issue like we’re doing :)
-                        Log.e("error message", error.getMsg());
-
-                        Toast.makeText(Activity_ViewFarmers.this, error.getMsg(), Toast.LENGTH_SHORT).show();
-                    }
-                }
-
-                @Override
-                public void onFailure(Call call, Throwable t) {
-                    Toast.makeText(Activity_ViewFarmers.this, t.getMessage(), Toast.LENGTH_SHORT).show();
-                }
-            });// end of call
-
-    }*/
-
-
-
-
-
     public void Update_ImageLocaly() {
         SQLiteDatabase db_viewfarmerlist = this.openOrCreateDatabase("FarmPond_db", Context.MODE_PRIVATE, null);
-     /*   db_viewfarmerlist.execSQL("CREATE TABLE IF NOT EXISTS ViewFarmerListRest(DispFarmerTable_YearID VARCHAR,DispFarmerTable_StateID VARCHAR," +
-                "DispFarmerTable_DistrictID VARCHAR,DispFarmerTable_TalukID VARCHAR,DispFarmerTable_VillageID VARCHAR," +
-                "DispFarmerTable_GrampanchayatID VARCHAR,DispFarmerTable_FarmerID VARCHAR,DispFarmerTable_Farmer_Code VARCHAR," +
-                "DispFarmerTable_FarmerName VARCHAR,DispFarmerTable_FarmerImage VARCHAR,LocalFarmerImg BLOB);");
-*/
+
         db_viewfarmerlist.execSQL("CREATE TABLE IF NOT EXISTS ViewFarmerListRest(MTempId INTEGER PRIMARY KEY,DispFarmerTable_YearID VARCHAR,DispFarmerTable_StateID VARCHAR," +
                 "DispFarmerTable_DistrictID VARCHAR,DispFarmerTable_TalukID VARCHAR,DispFarmerTable_VillageID VARCHAR," +
                 "DispFarmerTable_GrampanchayatID VARCHAR,DispFarmerTable_FarmerID VARCHAR,DispFarmerTable_Farmer_Code VARCHAR," +
@@ -4371,67 +3787,6 @@ public class Activity_ViewFarmers extends AppCompatActivity {
 
     }
 
-    /*public static void SaveFarmerImage(final String FarmerId, final String FarmerImg, final Context context1) {
-
-        final ProgressDialog dialog = new ProgressDialog(context1, R.style.AppCompatAlertDialogStyle);
-
-
-        //getting the progressbar
-        // final ProgressBar progressBar = (ProgressBar) findViewById(R.id.progressBar);
-
-        //making the progressbar visible
-        //  progressBar.setVisibility(View.VISIBLE);
-        dialog.setMessage("Please wait...");
-        dialog.setCanceledOnTouchOutside(false);
-        dialog.show();
-
-
-        String str_JSON_FarmerImageURL = Class_URL.JSON_FarmerImageURL.toString().trim();
-
-        //creating a string request to send request to the url
-        StringRequest stringRequest = new StringRequest(Request.Method.POST, str_JSON_FarmerImageURL,
-                new com.android.volley.Response.Listener<String>() {
-                    @Override
-                    public void onResponse(String response) {
-                        //hiding the progressbar after completion
-                        // progressBar.setVisibility(View.INVISIBLE);
-                        dialog.dismiss();
-
-                        parse_farmpondresponse(context1, response);
-                    }
-                },
-                new com.android.volley.Response.ErrorListener() {
-                    @Override
-                    public void onErrorResponse(VolleyError error) {
-                        //displaying the error in toast if occurrs
-                        Log.e("error", error.toString());
-                        //  Toast.makeText(getApplicationContext(), error.getMessage(), Toast.LENGTH_SHORT).show();
-                        Toast.makeText(context1, "No Internet", Toast.LENGTH_SHORT).show();
-
-                    }
-                }) {
-
-            @Override
-            protected Map<String, String> getParams() {
-                Map<String, String> params = new HashMap<String, String>();
-
-
-//                params.put("farmer_id","1");
-            *//*params.put("Farmer_ID",str_selected_farmerID_forimagesaving);//str_selected_farmerID_forimagesaving,str_selected_farmerID_forimagesaving
-            params.put("image_link",str_img);*//*
-                params.put("Farmer_ID", FarmerId);//str_selected_farmerID_forimagesaving,str_selected_farmerID_forimagesaving
-                params.put("image_link", FarmerImg);
-                return params;
-            }
-
-        };
-        //creating a request queue
-        RequestQueue requestQueue = Volley.newRequestQueue(context1);
-
-        //adding the string request to request queue
-        requestQueue.add(stringRequest);
-    }
-*/
     public static void parse_farmpondresponse(Context context1, String response) {
         try {
             JSONObject jsonObject = new JSONObject(response);
@@ -4831,769 +4186,6 @@ public class Activity_ViewFarmers extends AppCompatActivity {
     }
 
 
-
-
-
-
-
-
-   /* private void AsyncTask_fetch_farmponddetails()
-    {
-
-       // final ProgressDialog pdLoading_fetch_farmponddetails = new ProgressDialog(Activity_ViewFarmers.this);
-
-        pdLoading_fetch_farmponddetails = new ProgressDialog(Activity_ViewFarmers.this);
-        pdLoading_fetch_farmponddetails.setMessage("\tLoading...");
-        pdLoading_fetch_farmponddetails.setCancelable(false);
-        pdLoading_fetch_farmponddetails.show();
-
-
-
-        String str_fetchfarmponddetails_url = Class_URL.URL_farmer_with_pond_details_emp.toString().trim();
-
-        StringRequest stringRequest = new StringRequest(Request.Method.POST, str_fetchfarmponddetails_url,
-                new com.android.volley.Response.Listener<String>() {
-                    @Override
-                    public void onResponse(String response)
-                    {
-
-
-                        //Toast.makeText(MainActivity.this,response,Toast.LENGTH_LONG).show();
-                       //Log.e("volley_eachpondresponse",response);
-
-                       parse_each_farmpondresponse(response);
-
-                        *//*pdLoading.dismiss();
-
-                        AsyncCallWS_imageurltobase64 task = new AsyncCallWS_imageurltobase64(Activity_ViewFarmers.this);
-                        task.execute();*//*
-
-                    }
-                },
-                new com.android.volley.Response.ErrorListener() {
-                    @Override
-                    public void onErrorResponse(VolleyError error)
-                    {
-                        pdLoading_fetch_farmponddetails.dismiss();
-                        Log.e("volley_eachpondresponse",error.toString());
-
-                        Toast.makeText(Activity_ViewFarmers.this,error.toString(),Toast.LENGTH_LONG).show();
-                    }
-                } )
-        {
-            @Override
-            protected Map<String,String> getParams()
-            {
-
-
-
-
-
-               *//* Drawable d = null; // the drawable (Captain Obvious, to the rescue!!!)
-                Bitmap bitmap = ((BitmapDrawable)d).getBitmap();
-                ByteArrayOutputStream stream = new ByteArrayOutputStream();
-                bitmap.compress(Bitmap.CompressFormat.JPEG, 100, stream);
-                byte[] bitmapdata = stream.toByteArray();*//*
-
-
-
-
-
-                Map<String,String> params = new HashMap<String, String>();
-
-                try{
-                    params.put("employee_id",str_employee_id); //
-                }
-                catch (Exception e)
-                {
-                    Log.e("upload error", e.getMessage());
-                    e.printStackTrace();
-                }
-
-                //Log.e("image", arraylist_image1_base64.get(0).toString());
-                Log.e("Edit request", String.valueOf(params));
-                return params;
-
-            }
-        };
-
-
-
-
-        stringRequest.setRetryPolicy(new DefaultRetryPolicy(9000,
-                DefaultRetryPolicy.DEFAULT_MAX_RETRIES,
-                DefaultRetryPolicy.DEFAULT_BACKOFF_MULT));
-
-        RequestQueue requestQueue = Volley.newRequestQueue(this);
-        requestQueue.add(stringRequest);
-    }*/
-
-
-  /*  public void parse_each_farmpondresponse(String response)
-    {
-
-        try
-        {
-            JSONObject jsonObject = new JSONObject(response);
-
-            //"StatusMessage": "Success"
-            if (jsonObject.getString("StatusMessage").equalsIgnoreCase("Success"))
-            {
-                Toast.makeText(getApplicationContext(),"Successful",Toast.LENGTH_LONG).show();
-
-                JSONArray response_jsonarray = jsonObject.getJSONArray("Farmers");
-                Log.e("pondlength", String.valueOf(response_jsonarray.length()));
-
-                int int_jsonarraylength=response_jsonarray.length();
-
-                class_farmerandpond_details_array_obj = new Class_FarmerAndPond_Details[int_jsonarraylength];
-
-                for(int i=0;i<int_jsonarraylength;i++)
-                {
-                    Class_FarmerAndPond_Details class_farmerandpond_details_innerobj = new Gson().fromJson(String.valueOf(response_jsonarray.get(i).toString()), Class_FarmerAndPond_Details.class);
-
-                    class_farmerandpond_details_array_obj[i]=class_farmerandpond_details_innerobj;
-
-
-
-                    Log.e("new name", class_farmerandpond_details_innerobj.getFarmer_Name().toString());
-                    //Log.e("new depth", class_farmerandpond_details_innerobj.getClass_farmponddetails_obj().get(0).getFarmpond_Depth().toString());
-
-                 //   Log.e("pond id", class_farmerandpond_details_innerobj.getClass_farmponddetails_obj().get(0).getFarmpond_ID());
-
-                    Log.e("value of i",String.valueOf(i));
-
-                   Log.e( "farmpondsize",String.valueOf(class_farmerandpond_details_innerobj.getClass_farmponddetails_obj().size()));
-
-                   if(class_farmerandpond_details_innerobj.getClass_farmponddetails_obj().size()>0)
-                   {
-
-                       if (class_farmerandpond_details_innerobj.getClass_farmponddetails_obj().get(0).getClass_farmpondimages_obj().size() > 0)
-                       {
-                           Log.e("image_id", class_farmerandpond_details_innerobj.getClass_farmponddetails_obj().get(0).getClass_farmpondimages_obj().get(0).getImage_ID().toString());
-
-                           //Log.e("pond size",String.valueOf(class_farmerandpond_details_innerobj.getClass_farmponddetails_obj().get(i).getClass_farmpondimages_obj().size()));
-
-                           //Log.e("new id", class_farmerandpond_details_innerobj.getClass_farmponddetails_obj().get(i).getClass_farmpondimages_obj().get(0).getImage_ID().toString());
-
-                           //Log.e("new image", class_farmerandpond_details_innerobj.getClass_farmponddetails_obj().get(i).getClass_farmpondimages_obj().get(0).getImage_url().toString());
-                       } else {
-                           Log.e("no_image", String.valueOf(i));
-                           Log.e("pond_id", class_farmerandpond_details_innerobj.getClass_farmponddetails_obj().get(0).getFarmpond_ID());
-                       }
-
-                   }
-                   else
-                   {
-                       Log.e("no_farmerpond","no_farmerpond");
-                   }
-                    // Log.e("depth", class_farmponddetails_innerobj.getFarmpond_Depth().toString());
-                    // Log.e("name", class_farmponddetails_innerobj.getClass_farmpondimages_obj().get(0).getImage_ID().toString());
-                    //Log.e("name", String.valueOf(class_farmponddetails_innerobj.getClass_farmpondimages_obj().size()));
-                    //Log.e("name", String.valueOf(class_farmponddetails_innerobj.getClass_farmpondimages_obj().size()));
-
-                    //Incase of Offline
-                   *//* if(class_farmponddetails_innerobj.getClass_farmpondimages_obj().size()>0)
-                    {
-                        for(int j=0;j<class_farmponddetails_innerobj.getClass_farmpondimages_obj().size();j++)
-                        {
-
-                        }
-
-                    }*//*
-                    //Incase of Offline
-
-
-                }
-
-                Log.e("length", String.valueOf(class_farmerandpond_details_array_obj.length));
-
-               *//* for(int i=0;i<class_farmerandpond_details_array_obj.length;i++)
-                {
-
-                    if(class_farmerandpond_details_array_obj[i].getClass_farmponddetails_obj().get(0).getClass_farmpondimages_obj().size()>0)
-                    {
-
-
-                            Log.e("size images", String.valueOf(class_farmerandpond_details_array_obj[i].getClass_farmponddetails_obj().get(0).getClass_farmpondimages_obj().size()));
-
-
-                    }
-
-                    else{
-
-                    }
-
-
-                }*//*
-
-            }
-
-        } catch (JSONException e) {
-            e.printStackTrace();
-            Log.e("error ponds",e.toString());
-        }
-
-
-
-        pdLoading_fetch_farmponddetails.dismiss();
-
-        AsyncCallWS_imageurltobase64 task = new AsyncCallWS_imageurltobase64(Activity_ViewFarmers.this);
-        task.execute();
-
-
-    }//parse_each_farmpondresponse
-*/
-
-
-
-
-
-
-
-  /*  private class AsyncCallWS_imageurltobase64 extends AsyncTask<String, Void, Void> {
-        ProgressDialog dialog;
-
-        Context context;
-
-        protected void onPreExecute() {
-            //  Log.i(TAG, "onPreExecute---tab2");
-            dialog.setMessage("Please wait..");
-            dialog.setCanceledOnTouchOutside(false);
-            dialog.show();
-
-        }
-
-        @Override
-        protected void onProgressUpdate(Void... values) {
-            //Log.i(TAG, "onProgressUpdate---tab2");
-        }
-
-
-        @Override
-        protected Void doInBackground(String... params) {
-            Log.i("DFFarmPond", "doInBackground");
-
-
-            urltobase64();
-
-
-            return null;
-        }
-
-        public AsyncCallWS_imageurltobase64(Context context1) {
-            context = context1;
-            dialog = new ProgressDialog(context1);
-        }
-
-        @SuppressLint("WrongThread")
-        @Override
-        protected void onPostExecute(Void result)
-        {
-            dialog.dismiss();
-
-
-
-//          DBCount();
-
-
-
-
-
-
-        }//end of OnPostExecute
-
-    }// end Async task
-
-*/
-
-
-  /*  public void urltobase64()
-    {
-
-        try
-        {
-
-
-            String str_length= String.valueOf(class_farmerandpond_details_array_obj.length);
-            Log.e("pondimagelength",str_length);
-
-            for (int i = 0; i < class_farmerandpond_details_array_obj.length; i++)
-            {
-
-                String str_farmerid, str_farmername, str_farmpond_id, str_width, str_height, str_depth, str_imageid, str_imageurl, str_farmpondbaseimage_url;
-
-                String str_base64image1,str_base64image2,str_base64image3;
-                String str_imageid1,str_imageid2,str_imageid3;
-
-                str_base64image1="noimage1";str_base64image2="noimage2";str_base64image3="noimage3";
-                str_imageid1="0";str_imageid2="0";str_imageid3="0";
-
-                    Bitmap bmp_pondimages;
-                str_farmpondbaseimage_url = Class_URL.URL_farmpondbaselink.toString().trim();
-
-
-                str_farmerid = class_farmerandpond_details_array_obj[i].getFarmerID();
-                str_farmername = class_farmerandpond_details_array_obj[i].getFarmer_First_Name();
-
-
-                String str_farmerMName,str_farmerLName,str_farmerage,str_Fphonenumber,str_FannualIncome,
-                        str_Ffamilymember,str_FIDprooftype,str_FIDproofno,str_Fphoto,str_empID,str_tempfid;
-
-                str_farmerMName=class_farmerandpond_details_array_obj[i].getFarmer_Middle_Name();
-                str_farmerLName=class_farmerandpond_details_array_obj[i].getFarmer_Last_Name();
-             *//*   str_Fphonenumber=class_farmerandpond_details_array_obj[i].getFarmer_cellno();
-                str_FIDprooftype=class_farmerandpond_details_array_obj[i].getFarmer_idprooftype();
-                str_FIDproofno=class_farmerandpond_details_array_obj[i].getFarmer_idproofnumber();*//*
-
-                Log.e("Tmname",str_farmerMName);
-                Log.e("Tlname",str_farmerLName);
-              *//*  Log.e("Tphone",str_Fphonenumber);
-                Log.e("Tidtype",str_FIDprooftype);
-                Log.e("Tidproofno",str_FIDproofno);*//*
-
-
-
-
-
-                //class_farmerandpond_details_innerobj.getClass_farmponddetails_obj().size()
-                if (class_farmerandpond_details_array_obj.length > 0)
-                {
-                    Log.e("Farmpond Size", String.valueOf(class_farmerandpond_details_array_obj.length));
-
-
-*//*
-                    for (int j = 0; j < class_farmerandpond_details_array_obj[i].getFarmerID().length(); j++)
-                    {*//*
-                     //   Log.e("insize images", String.valueOf(class_farmerandpond_details_array_obj[i].get(j).getClass_farmpondimages_obj().size()));
-
-
-                        str_total_no_days=class_farmerandpond_details_array_obj[i].getPondDays();
-                        str_constructed_date=class_farmerandpond_details_array_obj[i].getCreatedDate();
-                        str_submitted_date=class_farmerandpond_details_array_obj[i].getSubmittedDate();
-                        str_farmpond_cost=class_farmerandpond_details_array_obj[i].getPondCost();
-
-                        //str_farmpond_remarks=String.valueOf(class_farmerandpond_details_array_obj[i].getFarmpond_remarksID());
-                       // str_farmpond_amtcollected=String.valueOf(class_farmerandpond_details_array_obj[i].getFarmpond_amtcollected());
-                       // str_farmpond_status=String.valueOf(class_farmerandpond_details_array_obj[i].getClass_farmponddetails_obj().get(j).getFarmpond_completionstatus());
-
-
-
-                    *//*    str_approvalstatus=class_farmerandpond_details_array_obj[i].getFarmpond_Approvalstatus();
-                        str_approvalremarks=class_farmerandpond_details_array_obj[i].getFarmpond_Approvalremarks();
-                       str_approvedby=class_farmerandpond_details_array_obj[i].get(j).getFarmpond_Approvedby();
-                       str_approveddate=class_farmerandpond_details_array_obj[i].getFarmpond_ApprovedDate();
-                       str_donorname=class_farmerandpond_details_array_obj[i].getFarmpond_Donorname();*//*
-
-
-                        str_acres=class_farmerandpond_details_array_obj[i].getFarmpond_acres();
-                        str_gunta=class_farmerandpond_details_array_obj[i].getClass_farmponddetails_obj().get(j).getFarmpond_gunta();
-                        str_crop_beforepond=class_farmerandpond_details_array_obj[i].getClass_farmponddetails_obj().get(j).getFarmpond_crop_before_pond();
-                        str_crop_afterpond=class_farmerandpond_details_array_obj[i].getClass_farmponddetails_obj().get(j).getFarmpond_crop_after_pond();
-
-                        str_latitude=class_farmerandpond_details_array_obj[i].getClass_farmponddetails_obj().get(j).getFarmpond_Latitude();
-                        str_longitude=class_farmerandpond_details_array_obj[i].getClass_farmponddetails_obj().get(j).getFarmpond_Longitude();
-
-                       int x=1;
-                        String y= String.valueOf(x);
-
-                       if(class_farmerandpond_details_array_obj[i].getClass_farmponddetails_obj()
-                                .get(j).getMachine_code().isEmpty())
-                        {
-                            str_machine_code="NoMachineCode";
-                        }
-                        else {
-
-                            str_machine_code=class_farmerandpond_details_array_obj[i].getClass_farmponddetails_obj()
-                                    .get(j).getMachine_code();
-
-                        }
-
-                        if(class_farmerandpond_details_array_obj[i].getClass_farmponddetails_obj().get(j).getFarmpond_Code().isEmpty()
-                        ||class_farmerandpond_details_array_obj[i].getClass_farmponddetails_obj().get(j).getFarmpond_Code()==null)
-                        {
-                            Log.e("fpcode", "NoPondCode");
-                            str_farmpondcode="NoPondCode";
-                        }
-                        else {
-
-                            Log.e("fpcode", class_farmerandpond_details_array_obj[i].getClass_farmponddetails_obj().get(j).getFarmpond_Code());
-                            str_farmpondcode=class_farmerandpond_details_array_obj[i].getClass_farmponddetails_obj().get(j).getFarmpond_Code();
-
-                        }
-
-
-                        str_startdate=class_farmerandpond_details_array_obj[i].getClass_farmponddetails_obj().get(j).getFarmpond_StartDate().toString();
-
-
-                      *//*  Log.e("days",class_farmerandpond_details_array_obj[i].getClass_farmponddetails_obj().get(j).getPond_constructed_days());
-                        Log.e("date",class_farmerandpond_details_array_obj[i].getClass_farmponddetails_obj().get(j).getPond_constructed_date());
-                        Log.e("submitteddate",class_farmerandpond_details_array_obj[i].getClass_farmponddetails_obj().get(j).getSubmitted_date());
-                        Log.e("cost",class_farmerandpond_details_array_obj[i].getClass_farmponddetails_obj().get(j).getPond_construction_cost());
-                        //Log.e("mcode",class_farmerandpond_details_array_obj[i].getClass_farmponddetails_obj().get(j).getMachine_code());
-
-                        if(class_farmerandpond_details_array_obj[i].getClass_farmponddetails_obj().get(j).getFarmpond_Code().isEmpty())
-                        {
-                            Log.e("fpcode", "nocode");
-                        }
-                        else {
-
-                            Log.e("fpcode", class_farmerandpond_details_array_obj[i].getClass_farmponddetails_obj().get(j).getFarmpond_Code());
-                        }
-*//*
-
-                        str_farmpond_id=class_farmerandpond_details_array_obj[i].
-                                getClass_farmponddetails_obj().get(j).getFarmpond_ID();
-                        str_width=class_farmerandpond_details_array_obj[i].
-                                getClass_farmponddetails_obj().get(j).getFarmpond_Width();
-                        str_height=class_farmerandpond_details_array_obj[i].
-                                getClass_farmponddetails_obj().get(j).getFarmpond_Height();
-                        str_depth=class_farmerandpond_details_array_obj[i].
-                                getClass_farmponddetails_obj().get(j).getFarmpond_Depth();
-
-
-
-
-
-
-                        if (class_farmerandpond_details_array_obj[i].getClass_farmponddetails_obj().get(j).
-                                getClass_farmpondimages_obj().size() > 0)
-                        {
-
-
-
-                            for (int k = 0; k < class_farmerandpond_details_array_obj[i].getClass_farmponddetails_obj().
-                                    get(j).getClass_farmpondimages_obj().size(); k++)
-                            {
-
-
-                                if(k==0)
-                                {
-
-                                    str_imageid1 = class_farmerandpond_details_array_obj[i].getClass_farmponddetails_obj().get(j).
-                                            getClass_farmpondimages_obj().get(k).getImage_ID();
-                                    str_imageurl = class_farmerandpond_details_array_obj[i].getClass_farmponddetails_obj().get(j).
-                                            getClass_farmpondimages_obj().get(k).getImage_url();
-
-                                    String str_farmpondimageurl = str_farmpondbaseimage_url + str_imageurl;
-                                    Log.e("url1", str_farmpondimageurl);
-
-                                    InputStream inputstream_obj = null;
-                                    try {
-                                        inputstream_obj = new URL(str_farmpondimageurl).openStream();
-                                    } catch (IOException e) {
-                                        e.printStackTrace();
-                                    }
-                                    Bitmap mIcon12 = BitmapFactory.decodeStream(inputstream_obj);
-                                    ByteArrayOutputStream baos = new ByteArrayOutputStream();
-                                    mIcon12.compress(Bitmap.CompressFormat.PNG, 60, baos);
-                                    byte[] b = baos.toByteArray();
-                                    str_base64image1 = Base64.encodeToString(b, Base64.DEFAULT);
-
-                                }
-
-                                if(k==1)
-                                {
-                                    str_imageid2 = class_farmerandpond_details_array_obj[i].getClass_farmponddetails_obj().get(j).
-                                            getClass_farmpondimages_obj().get(k).getImage_ID();
-                                    str_imageurl = class_farmerandpond_details_array_obj[i].getClass_farmponddetails_obj().get(j).
-                                            getClass_farmpondimages_obj().get(k).getImage_url();
-
-                                    String str_farmpondimageurl = str_farmpondbaseimage_url + str_imageurl;
-                                    Log.e("url2", str_farmpondimageurl);
-
-                                    InputStream inputstream_obj = null;
-                                    try {
-                                        inputstream_obj = new URL(str_farmpondimageurl).openStream();
-                                    } catch (IOException e) {
-                                        e.printStackTrace();
-                                    }
-                                    Bitmap mIcon12 = BitmapFactory.decodeStream(inputstream_obj);
-                                    ByteArrayOutputStream baos = new ByteArrayOutputStream();
-                                    mIcon12.compress(Bitmap.CompressFormat.PNG, 60, baos);
-                                    byte[] b = baos.toByteArray();
-                                    str_base64image2 = Base64.encodeToString(b, Base64.DEFAULT);
-                                }
-
-                                if(k==2)
-                                {
-                                    str_imageid3 = class_farmerandpond_details_array_obj[i].getClass_farmponddetails_obj().get(j).
-                                            getClass_farmpondimages_obj().get(k).getImage_ID();
-                                    str_imageurl = class_farmerandpond_details_array_obj[i].getClass_farmponddetails_obj().get(j).
-                                            getClass_farmpondimages_obj().get(k).getImage_url();
-
-                                    String str_farmpondimageurl = str_farmpondbaseimage_url + str_imageurl;
-                                    Log.e("url3", str_farmpondimageurl);
-
-                                    InputStream inputstream_obj = null;
-                                    try {
-                                        inputstream_obj = new URL(str_farmpondimageurl).openStream();
-                                    } catch (IOException e) {
-                                        e.printStackTrace();
-                                    }
-                                    Bitmap mIcon12 = BitmapFactory.decodeStream(inputstream_obj);
-                                    ByteArrayOutputStream baos = new ByteArrayOutputStream();
-                                    mIcon12.compress(Bitmap.CompressFormat.PNG, 60, baos);
-                                    byte[] b = baos.toByteArray();
-                                    str_base64image3 = Base64.encodeToString(b, Base64.DEFAULT);
-
-
-                                }
-
-                                *//*DBCreate_Farmpondsedetails_2SQLiteDB(str_farmerid, str_farmername,str_farmpond_id,str_width,str_height,
-                                        str_depth,str_imageid,str_base64image1 );*//*
-
-                        //    }//for 3
-
-
-                        }// if 2
-                       *//* else
-                        {
-                            DBCreate_Farmpondsedetails_2SQLiteDB(str_farmerid, str_farmername,str_farmpond_id,str_width,str_height,
-                                    str_depth,"0","empty");
-                        }*//*
-
-
-
-
-
-
-
-
-
-     *//*  DBCreate_Farmpondsedetails_2SQLiteDB(str_farmerid, str_farmername,str_farmpond_id,str_width,str_height,
-                                str_depth,str_imageid1,str_base64image1,str_imageid2,str_base64image2,str_imageid3,str_base64image3,
-                                str_total_no_days,str_constructed_date,str_submitted_date,str_farmpond_cost,str_machine_code,
-                                str_farmpondcode,str_startdate,str_farmpond_remarks,str_farmpond_amtcollected,str_farmpond_status);
-*//*
-
-
-
-
-     *//*  DBCreate_Farmpondsedetails_2SQLiteDB(str_farmerid, str_farmername,str_farmpond_id,str_width,str_height,
-                                str_depth,str_imageid1,str_base64image1,str_imageid2,str_base64image2,str_imageid3,str_base64image3,
-                                str_total_no_days,str_constructed_date,str_submitted_date,str_farmpond_cost,str_machine_code,
-                                str_farmpondcode,str_startdate,str_farmpond_remarks,str_farmpond_amtcollected,str_farmpond_status,
-                                str_farmerMName,str_farmerLName,str_Fphonenumber,str_FIDprooftype,str_FIDproofno);*//*
-
-
-                        DBCreate_Farmpondsedetails_2SQLiteDB(str_farmerid, str_farmername,str_farmpond_id,str_width,str_height,
-                                str_depth,str_imageid1,str_base64image1,str_imageid2,str_base64image2,str_imageid3,str_base64image3,
-                                str_total_no_days,str_constructed_date,str_submitted_date,str_farmpond_cost,str_machine_code,
-                                str_farmpondcode,str_startdate,str_farmpond_remarks,str_farmpond_amtcollected,str_farmpond_status,
-                                str_farmerMName,str_farmerLName,str_Fphonenumber,str_FIDprooftype,str_FIDproofno,str_approvalstatus,
-                                str_approvalremarks,str_approvedby,str_approveddate,str_donorname,str_latitude,str_longitude,
-                                str_acres,str_gunta,str_crop_beforepond,str_crop_afterpond);
-
-
-
-
-                        str_base64image1="noimage1";str_base64image2="noimage2";str_base64image3="noimage3";
-                        str_imageid1="0";str_imageid2="0";str_imageid3="0";
-
-                    }// for 2
-
-                }//if 1
-            }//for 1
-
-        }//try 1
-        catch(Exception e)
-        {
-            Log.e("pondimage_Error", e.getMessage());
-            e.printStackTrace();
-        }
-    }*///end of urltobase64
-
-
-
-
-
-
-
-   /* public void  DBCreate_Farmpondsedetails_2SQLiteDB(String str_farmerid, String str_farmername,String str_farmpond_id,String str_width,
-                                                      String str_height,String str_depth,String str_imageid1,String str_base64image1,
-                                                      String str_imageid2,String str_base64image2,String str_imageid3,String str_base64image3,
-                                                      String str_total_days,String str_constr_date,String str_submited_date,String str_pond_cost,
-                                                      String str_mcode,String str_fpondcode,String str_startdate,String str_farmpond_remarks,
-                                                      String str_farmpond_amtcollected,String str_farmpond_status,String str_farmerMName,
-                                                      String str_farmerLName,String str_Fphonenumber,String str_FIDprooftype,
-                                                      String str_FIDproofno,String str_approvalstatus,String str_approvalremarks,
-                                                      String str_approvedby,String str_approveddate,String str_donorname,
-                                                      String str_latitude,String str_longitude,
-                                                      String str_acres,String str_gunta,String str_crop_beforepond,String str_crop_afterpond)
-
-    {
-
-
-
-
-
-
-       *//* "constructed_date": "00-00-0000 00:00:00",
-            "submitted_date": "00-00-0000 00:00:00",
-            "farmpond_constrction_cost": "0",
-            "machine_code": "",
-            "fp_code": "",*//*
-
-
-
-
-
-
-
-
-
-     *//*"st_id": "29",
-            "dist_id": "528",
-            "tlk_id": "5499",
-            "village_id": "604790",
-            "panchayat_id": "216281",
-            "registered_date_id": "3",
-            "Id_proof_type": null,
-            "ID_proof": "0",
-            "year": "2019",*//*
-
-
-
-        if(str_constr_date.equalsIgnoreCase("00-00-0000 00:00:00"))
-        {
-            str_constr_date="nodate";
-        }
-        if(str_submited_date.equalsIgnoreCase("00-00-0000 00:00:00"))
-        {
-            str_submited_date="nodate";
-        }
-
-
-        Log.e("DB_imageid1",str_imageid1);
-        Log.e("DB_imageid2",str_imageid2);
-        Log.e("DB_imageid3",str_imageid3);
-
-
-        String str_yearID,str_stateID,str_districtID,str_talukID,str_panchayatID,str_villageID,
-               str_farmerage,str_FannualIncome,str_Ffamilymember,str_Fphoto,str_empID,str_tempfid;
-
-
-        str_yearID=str_stateID=str_districtID=str_talukID=str_panchayatID=str_villageID=
-                str_farmerage=str_FannualIncome=str_Ffamilymember=str_Fphoto=str_empID=str_tempfid="empty";
-
-
-
-
-
-        Log.e("Dbfarmerid",str_farmerid);
-       // String str_tempfarmpond_id="temppondidX";
-
-        SQLiteDatabase db1 = this.openOrCreateDatabase("FarmPond_db", Context.MODE_PRIVATE, null);
-
-        db1.execSQL("CREATE TABLE IF NOT EXISTS FarmPondDetails_fromServerRest(SlNo INTEGER PRIMARY KEY AUTOINCREMENT,FIDDB VARCHAR,TempFIDDB VARCHAR," +
-                "FNameDB VARCHAR,FMNameDB VARCHAR,FLNameDB VARCHAR,FYearIDDB VARCHAR,FStateIDDB VARCHAR,FDistrictIDDB VARCHAR," +
-                "FTalukIDDB VARCHAR,FPanchayatIDDB VARCHAR,FVillageIDDB VARCHAR,FageDB VARCHAR,FphonenumberDB VARCHAR," +
-                "FAnnualIncomeDB VARCHAR,FfamilymemberDB VARCHAR,FidprooftypeDB VARCHAR,FidproofnoDB VARCHAR,FphotoDB VARCHAR,FPondidDB VARCHAR,WidthDB VARCHAR," +
-                "HeightDB VARCHAR,DepthDB VARCHAR,LatitudeDB VARCHAR,LongitudeDB VARCHAR,Imageid1DB VARCHAR,Image1Base64DB VARCHAR," +
-                "Imageid2DB VARCHAR,Image2Base64DB VARCHAR,Imageid3DB VARCHAR,Image3Base64DB VARCHAR,EmployeeIDDB VARCHAR,SubmittedDateDB VARCHAR," +
-                "TotalDaysDB VARCHAR,StartDateDB VARCHAR,ConstructedDateDB VARCHAR,PondCostDB VARCHAR,McodeDB VARCHAR,FPondCodeDB VARCHAR," +
-                "FPondRemarksDB VARCHAR,FPondAmtTakenDB VARCHAR,FPondStatusDB VARCHAR," +
-                "FPondApprovalStatusDB VARCHAR,FPondApprovalRemarksDB VARCHAR,FPondApprovedbyDB VARCHAR,FPondApprovedDateDB VARCHAR,FPondDonorDB VARCHAR," +
-                "FPondLatitudeDB VARCHAR,FPondLongitudeDB VARCHAR," +
-                "FPondAcresDB VARCHAR,FPondGuntaDB VARCHAR,FPondCropBeforeDB VARCHAR,FPondCropAfterDB VARCHAR," +
-                "UploadedStatusFarmerprofile VARCHAR,UploadedStatus VARCHAR," +
-                "newpondImageId1 VARCHAR,pondImageType1 VARCHAR,newpondImageId2 VARCHAR,pondImageType2 VARCHAR,newpondImageId3 VARCHAR,pondImageType3 VARCHAR);");
-
-
-
-
-        ////str_approvalstatus,str_approvalremarks,str_approvedby,str_approveddate,str_donorname;
-
-        //FPondRemarksDB,FPondAmtTakenDB,FPondStatusDB,
-
-     //   "Imageid3DB,Image3Base64DB,EmployeeIDDB,SubmittedDateDB,UploadedStatusFarmerprofile,UploadedStatus)" +
-
-       // str_submited_date
-
-        Log.e("remarks",str_farmpond_remarks);
-        Log.e("amt",str_farmpond_amtcollected);
-        Log.e("status",str_farmpond_status);
-
-
-
-
-// "FPondApprovalStatusDB VARCHAR,FPondApprovalRemarksDB VARCHAR,FPondApprovedbyDB VARCHAR,FPondApprovedDateDB VARCHAR,FPondDonorDB VARCHAR," +
-
-
-   //FPondApprovalStatusDB,FPondApprovalRemarksDB,FPondApprovedbyDB,FPondApprovedDateDB,FPondDonorDB,
-
-     //String str_approvalstatus,String str_approvalremarks,
-        //                                                      String str_approvedby,String str_approveddate,String str_donorname
-
-        //"FPondLatitudeDB VARCHAR,FPondLongitudeDB VARCHAR," +
-
-        // "FPondAcresDB VARCHAR,FPondGuntaDB VARCHAR,FPondCropBeforeDB VARCHAR,FPondCropAfterDB VARCHAR," +
-
-        String SQLiteQuery = "INSERT INTO FarmPondDetails_fromServerRest(FIDDB,TempFIDDB,FNameDB,FMNameDB,FLNameDB,FYearIDDB,FStateIDDB,FDistrictIDDB," +
-                "FTalukIDDB,FPanchayatIDDB,FVillageIDDB,FageDB,FphonenumberDB,FfamilymemberDB,FAnnualIncomeDB,FidprooftypeDB,FidproofnoDB,FphotoDB,FPondidDB," +
-                "WidthDB,HeightDB,DepthDB,LatitudeDB,LongitudeDB,Imageid1DB,Image1Base64DB,Imageid2DB,Image2Base64DB," +
-                "Imageid3DB,Image3Base64DB,EmployeeIDDB,SubmittedDateDB,TotalDaysDB,StartDateDB,ConstructedDateDB,PondCostDB,McodeDB," +
-                "FPondCodeDB,FPondRemarksDB,FPondAmtTakenDB,FPondStatusDB," +
-                "FPondApprovalStatusDB,FPondApprovalRemarksDB,FPondApprovedbyDB,FPondApprovedDateDB,FPondDonorDB," +
-                "FPondLatitudeDB,FPondLongitudeDB," +
-                "FPondAcresDB,FPondGuntaDB,FPondCropBeforeDB,FPondCropAfterDB," +
-                "UploadedStatusFarmerprofile,UploadedStatus)" +
-                " VALUES ('"+str_farmerid+"','"+str_tempfid+"','"+str_farmername+"','"+str_farmerMName+"','"+str_farmerLName+"','"+str_yearID+"'," +
-                "'"+str_stateID+"','"+str_districtID+"','"+str_talukID+"','"+str_panchayatID+"','"+str_villageID+"','"+str_farmerage+"'," +
-                "'"+str_Fphonenumber+"','"+str_FannualIncome+"','"+str_Ffamilymember+"','"+str_FIDprooftype+"','"+str_FIDproofno+"','"+str_Fphoto+"'," +
-                "'"+str_farmpond_id+"','"+str_width+"'," +
-                "'"+str_height+"','"+str_depth+"','"+0+"','"+0+"','"+str_imageid1+"','"+str_base64image1+"'," +
-                "'"+str_imageid2+"','"+str_base64image2+"','"+str_imageid3+"','"+str_base64image3+"','"+str_empID+"','"+str_submited_date+"'," +
-                "'"+str_total_days+"','"+str_startdate+"','"+str_constr_date+"','"+str_pond_cost+"','"+str_mcode+"','"+str_fpondcode+"'," +
-                "'"+str_farmpond_remarks+"','"+str_farmpond_amtcollected+"','"+str_farmpond_status+"'," +
-                "'"+str_approvalstatus+"','"+str_approvalremarks+"','"+str_approvedby+"','"+str_approveddate+"','"+str_donorname+"'," +
-                "'"+str_latitude+"','"+str_longitude+"','"+str_acres+"','"+str_gunta+"','"+str_crop_beforepond+"','"+str_crop_afterpond+"','"+0+"','"+0+"');";
-
-
-Log.e("tag","pond FIDDB="+str_farmerid);
-
-        // String str_acres,String str_gunta,String str_crop_beforepond,String str_crop_afterpond)
-
-        db1.execSQL(SQLiteQuery);
-        db1.close();
-
-
-
-
-
-
-       *//* String SQLiteQuery = "INSERT INTO FarmPondDetails_fromServer(FIDDB,TempFIDDB,FNameDB,FMNameDB,FLNameDB,FYearIDDB,FStateIDDB,FDistrictIDDB," +
-                "FTalukIDDB,FPanchayatIDDB,FVillageIDDB,FageDB,FphonenumberDB,FfamilymemberDB,FAnnualIncomeDB,FidprooftypeDB,FidproofnoDB,FphotoDB,FPondidDB," +
-                "WidthDB,HeightDB,DepthDB,LatitudeDB,LongitudeDB,Imageid1DB,Image1Base64DB,Imageid2DB,Image2Base64DB," +
-                "Imageid3DB,Image3Base64DB,EmployeeIDDB,SubmittedDateDB,TotalDaysDB,StartDateDB,ConstructedDateDB,PondCostDB,McodeDB,FPondCodeDB,FPondRemarksDB,FPondAmtTakenDB,FPondStatusDB,UploadedStatusFarmerprofile,UploadedStatus)" +
-                " VALUES ('"+str_farmerid+"','"+str_tempfid+"','"+str_farmername+"','"+str_farmerMName+"','"+str_farmerLName+"','"+str_yearID+"'," +
-                "'"+str_stateID+"','"+str_districtID+"','"+str_talukID+"','"+str_panchayatID+"','"+str_villageID+"','"+str_farmerage+"'," +
-                "'"+str_Fphonenumber+"','"+str_FannualIncome+"','"+str_Ffamilymember+"','"+str_FIDprooftype+"','"+str_FIDproofno+"','"+str_Fphoto+"'," +
-                "'"+str_farmpond_id+"','"+str_width+"'," +
-                "'"+str_height+"','"+str_depth+"','"+0+"','"+0+"','"+str_imageid1+"','"+str_base64image1+"'," +
-                "'"+str_imageid2+"','"+str_base64image2+"','"+str_imageid3+"','"+str_base64image3+"','"+str_empID+"','"+str_submited_date+"'," +
-                "'"+str_total_days+"','"+str_startdate+"','"+str_constr_date+"','"+str_pond_cost+"','"+str_mcode+"','"+str_fpondcode+"'," +
-                "'"+str_farmpond_remarks+"','"+str_farmpond_amtcollected+"','"+str_farmpond_status+"','"+0+"','"+0+"');";*//*
-
-
-// String str_total_days,String str_constr_date,String str_submited_date,String str_pond_cost,
-//                                                      String str_mcode,String str_fpondcode)
-
-        *//*String SQLiteQuery = "INSERT INTO FarmPondDetails_fromServer (FIDDB,FNameDB,FPondidDB,WidthDB,HeightDB,DepthDB,LatitudeDB,LongitudeDB,Imageid1DB,Image1Base64DB,Imageid2DB,Image2Base64DB,Imageid3DB,Image3Base64DB,EmployeeIDDB,UploadedStatus)" +
-                " VALUES ('"+str_farmerid+"','"+str_farmername+"','"+str_farmpond_id+"','"+str_width+"'," +
-                "'"+str_height+"','"+str_depth+"','"+0+"','"+0+"','"+str_imageid1+"','"+str_base64image1+"'," +
-                "'"+str_imageid2+"','"+str_base64image2+"','"+str_imageid3+"','"+str_base64image3+"','"+str_farmerID+"','"+0+"');";
-        db1.execSQL(SQLiteQuery);
-        db1.close();*//*
-    }*/
-
-
-
-
-
-
-
     public void deleteMachineTable_B4insertion() {
 
 
@@ -5625,138 +4217,6 @@ Log.e("tag","pond FIDDB="+str_farmerid);
         }
         db1.close();
     }
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-  /*  private class AsyncCallWS_imageurltobase64_farmerimage extends AsyncTask<String, Void, String> {
-        ProgressDialog dialog;
-
-        Context context;
-
-        String str_base64;
-
-        protected void onPreExecute() {
-            //  Log.i(TAG, "onPreExecute---tab2");
-            dialog.setMessage("Please wait..");
-            dialog.setCanceledOnTouchOutside(false);
-            dialog.show();
-
-        }
-
-        @Override
-        protected void onProgressUpdate(Void... values) {
-            //Log.i(TAG, "onProgressUpdate---tab2");
-        }
-
-
-        @Override
-        protected String doInBackground(String... params) {
-            Log.i("DFFarmPond", "doInBackground");
-
-
-            String x = params[0];
-            Log.e("x", x);
-
-            str_base64 = urltobase64_farmerimage(x);
-
-            str_imageurltobase64_farmerimage = str_base64;
-            //Log.e("str_farmer", str_base64);
-
-            //  strArray_farmerBase64[k]=str_base64;
-            return str_base64;
-
-
-            //return null;
-        }
-
-        public AsyncCallWS_imageurltobase64_farmerimage(Context context1) {
-            context = context1;
-            dialog = new ProgressDialog(context1);
-        }
-
-        @SuppressLint("WrongThread")
-        @Override
-        protected void onPostExecute(String result) {
-            dialog.dismiss();
-
-
-            //  return str_base64;
-//          DBCount();
-
-
-        }//end of OnPostExecute
-
-    }// end Async task
-*/
-
-   /* public String urltobase64_farmerimage(String str_imageurl) {
-
-        String str_farmpondbaseimage_url, str_base64image = null;
-        try {
-
-
-            Class_farmerimageBase64 class_farmerimageBase64_innerObj = new Class_farmerimageBase64();
-            str_farmpondbaseimage_url = Class_URL.URL_farmpondbaselink.toString().trim();
-
-
-            String str_farmpondimageurl = str_farmpondbaseimage_url + str_imageurl;
-
-
-            InputStream inputstream_obj = null;
-            try {
-                inputstream_obj = new URL(str_farmpondimageurl).openStream();
-            } catch (IOException e) {
-                e.printStackTrace();
-            }
-            Bitmap mIcon12 = BitmapFactory.decodeStream(inputstream_obj);
-            ByteArrayOutputStream baos = new ByteArrayOutputStream();
-            mIcon12.compress(Bitmap.CompressFormat.PNG, 60, baos);
-            byte[] b = baos.toByteArray();
-            str_base64image = Base64.encodeToString(b, Base64.DEFAULT);
-
-            str_imageurltobase64_farmerimage = str_base64image;
-            class_farmerimageBase64_innerObj.setStr_farmerimagebase64(str_base64image);
-
-
-            // class_farmerimageBase64_array[k]=class_farmerimageBase64_innerObj;
-
-            // Log.e("insideimage",class_farmerimageBase64_array[0].getStr_farmerimagebase64().toString());
-
-
-        }//try 1
-        catch (Exception e) {
-            Log.e("Farmerimage_Error", e.getMessage());
-            e.printStackTrace();
-        }
-        return str_base64image;
-
-    }//end of urltobase64
-*/
-
-
-
-
-
-
-
-
-
-
-
-
-
-
 
     public void DBCreate_RemarksDetails() {
 
