@@ -96,13 +96,14 @@ public class ClusterFarmpondListViewAdapter extends BaseAdapter
 
         TextView yearName,stateName,districtName,talukaName,villageName,submitterName;
         TextView FName,MobileNo,pondCode,pondSize,startDate,endDate,latitude,longitude,
-                amount,no_ofDays,location_Status,approval_Status,pondid_tv;
+                amount,no_ofDays,approval_Status,pondid_tv;
         ImageView pond_image1_iv,pond_image2_iv,pond_image3_iv;
-        ImageView maplocationfinal_iv;
+        ImageView maplocationfinal_iv,location_Status;
         LinearLayout approve_reject_ll,clustercomments_ll;
         Button cancel_bt,reject_bt,approve_bt;
         TextView clusterlatitude_tv,clusterlongitude_tv;
         EditText clustercomments_et;
+        TextView machineName,readStart,readEnd,readHours;
 
     }
 
@@ -136,7 +137,7 @@ public class ClusterFarmpondListViewAdapter extends BaseAdapter
             holder.longitude=(TextView) convertView.findViewById(R.id.longitude);*/
             holder.amount=(TextView) convertView.findViewById(R.id.amount);
             holder.no_ofDays=(TextView) convertView.findViewById(R.id.no_ofDays);
-            holder.location_Status=(TextView) convertView.findViewById(R.id.location_Status);
+            holder.location_Status=(ImageView) convertView.findViewById(R.id.location_Status);
             holder.approval_Status=(TextView) convertView.findViewById(R.id.approval_Status);
             holder.pond_image1_iv=(ImageView) convertView.findViewById(R.id.pond_image1_iv);
             holder.pond_image2_iv=(ImageView) convertView.findViewById(R.id.pond_image2_iv);
@@ -147,15 +148,14 @@ public class ClusterFarmpondListViewAdapter extends BaseAdapter
             holder.approve_bt=(Button)convertView.findViewById(R.id.approve_bt);
             holder.clustercomments_et=(EditText)convertView.findViewById(R.id.clustercomments_et);
             holder.pondid_tv=(TextView)convertView.findViewById(R.id.pondid_tv);
-
-                    holder.approve_reject_ll=(LinearLayout)convertView.findViewById(R.id.approve_reject_ll);
+            holder.approve_reject_ll=(LinearLayout)convertView.findViewById(R.id.approve_reject_ll);
             holder.clustercomments_ll=(LinearLayout)convertView.findViewById(R.id.clustercomments_ll);
+            holder.readStart=(TextView)convertView.findViewById(R.id.readStart);
+            holder.readEnd=(TextView)convertView.findViewById(R.id.readEnd);
+            holder.readHours=(TextView)convertView.findViewById(R.id.readHours);
+            holder.machineName=(TextView)convertView.findViewById(R.id.machineName);
 
-            //maplocation_ll
-            //
-
-
-                    convertView.setTag(holder);
+            convertView.setTag(holder);
         } else {
             holder = (ViewHolder) convertView.getTag();
         }
@@ -190,6 +190,18 @@ public class ClusterFarmpondListViewAdapter extends BaseAdapter
         }
         if(item.getVillageName()!=null) {
             holder.villageName.setText(item.getVillageName());
+        }
+        if(item.getReading_Start()!=null) {
+            holder.readStart.setText(item.getReading_Start());
+        }
+        if(item.getReading_End()!=null) {
+            holder.readEnd.setText(item.getReading_End());
+        }
+        if(item.getReading_Hour()!=null) {
+            holder.readHours.setText(item.getReading_Hour());
+        }
+        if(item.getMachine_Name()!=null) {
+            holder.machineName.setText(item.getMachine_Name());
         }
 
        /* if(item.getFarmerName()!=null) {
@@ -248,8 +260,11 @@ public class ClusterFarmpondListViewAdapter extends BaseAdapter
             holder.clustercomments_ll.setVisibility(View.GONE);
         }
         if(item.getLocationStatus()!=null) {
-            holder.location_Status.setText(item.getLocationStatus().toString());
-
+            if(item.getLocationStatus().equalsIgnoreCase("Completed")){
+                holder.location_Status.setBackgroundResource(R.drawable.yes);
+            }else {
+                holder.location_Status.setBackgroundResource(R.drawable.no);
+            }
         }
         if(item.getPondLatitude()!=null) {
             holder.clusterlatitude_tv.setText(item.getPondLatitude().toString());

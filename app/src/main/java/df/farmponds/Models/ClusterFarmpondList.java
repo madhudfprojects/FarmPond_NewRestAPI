@@ -114,6 +114,18 @@ public class ClusterFarmpondList {
     @Expose
     private String pondImageLink3;
 
+    @SerializedName("Reading_Start")
+    @Expose
+    private String reading_Start;
+    @SerializedName("Reading_End")
+    @Expose
+    private String reading_End;
+    @SerializedName("Reading_Hour")
+    @Expose
+    private String reading_Hour;
+    @SerializedName("Machine_Name")
+    @Expose
+    private String machine_Name;
 
     public ClusterFarmpondList() {
     }
@@ -436,4 +448,51 @@ public class ClusterFarmpondList {
         this.pondImageLink3 = pondImageLink3;
     }
 
+    public Object getiDType() {
+        return iDType;
+    }
+
+    public void setiDType(Object iDType) {
+        this.iDType = iDType;
+    }
+
+    public Object getiDProof() {
+        return iDProof;
+    }
+
+    public void setiDProof(Object iDProof) {
+        this.iDProof = iDProof;
+    }
+
+    public String getReading_Start() {
+        return reading_Start;
+    }
+
+    public void setReading_Start(String reading_Start) {
+        this.reading_Start = reading_Start;
+    }
+
+    public String getReading_End() {
+        return reading_End;
+    }
+
+    public void setReading_End(String reading_End) {
+        this.reading_End = reading_End;
+    }
+
+    public String getReading_Hour() {
+        return reading_Hour;
+    }
+
+    public void setReading_Hour(String reading_Hour) {
+        this.reading_Hour = reading_Hour;
+    }
+
+    public String getMachine_Name() {
+        return machine_Name;
+    }
+
+    public void setMachine_Name(String machine_Name) {
+        this.machine_Name = machine_Name;
+    }
 }

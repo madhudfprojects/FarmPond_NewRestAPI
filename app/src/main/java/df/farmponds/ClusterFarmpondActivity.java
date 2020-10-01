@@ -196,6 +196,10 @@ public class ClusterFarmpondActivity extends AppCompatActivity {
                                 class_cluster_FarmpondList.setPondLongitude((class_userData.getLstSummary().get(i).getPondLongitude()));
                                 class_cluster_FarmpondList.setApprovalStatus((class_userData.getLstSummary().get(i).getApprovalStatus()));
                                 class_cluster_FarmpondList.setLocationStatus((class_userData.getLstSummary().get(i).getLocationStatus()));
+                                class_cluster_FarmpondList.setReading_Start((class_userData.getLstSummary().get(i).getReading_Start()));
+                                class_cluster_FarmpondList.setReading_End((class_userData.getLstSummary().get(i).getReading_End()));
+                                class_cluster_FarmpondList.setReading_Hour((class_userData.getLstSummary().get(i).getReading_Hour()));
+                                class_cluster_FarmpondList.setMachine_Name((class_userData.getLstSummary().get(i).getMachine_Name()));
 
                                 arrayFarmpondlist[i] = class_cluster_FarmpondList;
                                 Log.e("getEmployeeName", arrayFarmpondlist[i].getEmployeeName());
