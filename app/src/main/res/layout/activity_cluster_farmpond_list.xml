@@ -172,7 +172,7 @@
                 android:textSize="13dp"
                 android:textStyle="bold"
                 android:textColor="@color/dark_black"
-                android:text="Submitter Name"/>
+                android:text="Submitter"/>
             <TextView
                 android:layout_weight="1"
                 android:id="@+id/submitterName"
