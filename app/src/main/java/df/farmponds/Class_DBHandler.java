@@ -206,6 +206,11 @@ public class Class_DBHandler extends SQLiteOpenHelper
 
                     innerObj_Class_farmponddetails_offline.setLocation_status(cursor1.getString(cursor1.getColumnIndex("Location_Status")));
 
+                    innerObj_Class_farmponddetails_offline.setReading_Start(cursor1.getString(cursor1.getColumnIndex("Reading_Start")));
+                    innerObj_Class_farmponddetails_offline.setReading_End(cursor1.getString(cursor1.getColumnIndex("Reading_End")));
+                    innerObj_Class_farmponddetails_offline.setReading_Hour(cursor1.getString(cursor1.getColumnIndex("Reading_Hour")));
+
+
                     //innerObj_Class_farmponddetails_offline.setFarmpond_amttaken(cursor1.getString(cursor1.getColumnIndex("FPondAmtTakenDB")));
                     // "FPondRemarksDB VARCHAR,FPondAmtTakenDB VARCHAR,FPondStatusDB VARCHAR," +
 

@@ -1484,7 +1484,7 @@ public class AddFarmPondActivity extends AppCompatActivity {
 
 
 
-           // b_machinestart,b_machineend,b_hourspent;
+
 
             if(machine_start_et.getText().toString().trim().length()<=0)
             {
