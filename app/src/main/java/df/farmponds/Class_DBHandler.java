@@ -42,9 +42,10 @@ public class Class_DBHandler extends SQLiteOpenHelper
                 "FPondAcresDB VARCHAR,FPondGuntaDB VARCHAR,FPondCropBeforeDB VARCHAR,FPondCropAfterDB VARCHAR," +
                 "UploadedStatusFarmerprofile VARCHAR,UploadedStatus VARCHAR," +
                 "newpondImageId1 VARCHAR,pondImageType1 VARCHAR,newpondImageId2 VARCHAR,pondImageType2 VARCHAR,newpondImageId3 VARCHAR," +
-                "pondImageType3 VARCHAR,Farmer_Gender VARCHAR,finalfarmpondcodeDB VARCHAR,Location_Status VARCHAR);");
+                "pondImageType3 VARCHAR,Farmer_Gender VARCHAR,finalfarmpondcodeDB VARCHAR,Location_Status VARCHAR," +
+                "Reading_Start VARCHAR,Reading_End VARCHAR,Reading_Hour VARCHAR,Machine_Name VARCHAR);");
 
-
+//"Reading_Start VARCHAR,Reading_End VARCHAR,Reading_Hour VARCHAR,Machine_Name VARCHAR);");
     }
 
     @Override
@@ -204,6 +205,11 @@ public class Class_DBHandler extends SQLiteOpenHelper
 
 
                     innerObj_Class_farmponddetails_offline.setLocation_status(cursor1.getString(cursor1.getColumnIndex("Location_Status")));
+
+                    innerObj_Class_farmponddetails_offline.setReading_Start(cursor1.getString(cursor1.getColumnIndex("Reading_Start")));
+                    innerObj_Class_farmponddetails_offline.setReading_End(cursor1.getString(cursor1.getColumnIndex("Reading_End")));
+                    innerObj_Class_farmponddetails_offline.setReading_Hour(cursor1.getString(cursor1.getColumnIndex("Reading_Hour")));
+
 
                     //innerObj_Class_farmponddetails_offline.setFarmpond_amttaken(cursor1.getString(cursor1.getColumnIndex("FPondAmtTakenDB")));
                     // "FPondRemarksDB VARCHAR,FPondAmtTakenDB VARCHAR,FPondStatusDB VARCHAR," +

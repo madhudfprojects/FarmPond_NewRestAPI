@@ -1,26 +1,23 @@
 <?xml version="1.0" encoding="utf-8"?>
-<LinearLayout
-    xmlns:android="http://schemas.android.com/apk/res/android"
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:orientation="vertical"
     android:background="@drawable/farmpond"
+    android:orientation="vertical"
     tools:context=".MainActivity">
 
 
-
     <com.google.android.gms.common.SignInButton
-        android:visibility="visible"
-        android:layout_marginTop="390dp"
         android:id="@+id/google_signin_bt"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_gravity="center"
         android:layout_centerHorizontal="true"
-        android:layout_centerVertical="true" />
-
+        android:layout_centerVertical="true"
+        android:layout_gravity="center"
+        android:layout_marginTop="390dp"
+        android:visibility="visible" />
 
 
     <!--<Button
@@ -37,23 +34,23 @@
     <TextView
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_marginTop="20dp"
-        android:textStyle="italic"
-        android:visibility="gone"
         android:layout_gravity="center"
-        android:text="Login With DF MailID"/>
+        android:layout_marginTop="20dp"
+        android:text="Login With DF MailID"
+        android:textStyle="italic"
+        android:visibility="gone" />
 
 
     <EditText
+        android:id="@+id/username_et"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
+        android:layout_gravity="center"
         android:layout_marginTop="20dp"
+        android:text="eventtest464@gmail.com"
         android:textSize="15dp"
         android:textStyle="italic"
-        android:layout_gravity="center"
-        android:id="@+id/username_et"
-        android:visibility="gone"
-        android:text="eventtest464@gmail.com"/>
+        android:visibility="gone" />
 
 
     <Button
@@ -67,31 +64,27 @@
         android:layout_marginTop="100dp"
         android:gravity="center"
         android:text="Login"
-        android:visibility="visible" />
-
-
-
+        android:visibility="gone" />
 
 
     <TextView
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_marginTop="20dp"
-        android:textStyle="italic"
         android:layout_gravity="center"
+        android:layout_marginTop="20dp"
+        android:text="UAT Ver 1.2.6"
         android:textColor="@color/colorwhite"
-        android:text="UAT Ver 1.2.6"/>
+        android:textStyle="italic" />
 
 
     <Button
+        android:id="@+id/managerlogin_bt"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:gravity="center"
         android:layout_gravity="center"
-        android:visibility="gone"
+        android:gravity="center"
         android:text="ManagerLogin"
-        android:id="@+id/managerlogin_bt"/>
-
+        android:visibility="gone" />
 
 
 </LinearLayout>

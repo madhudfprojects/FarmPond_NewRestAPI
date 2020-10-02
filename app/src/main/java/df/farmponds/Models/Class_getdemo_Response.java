@@ -3,13 +3,9 @@ package df.farmponds.Models;
 import com.google.gson.annotations.Expose;
 import com.google.gson.annotations.SerializedName;
 
-
-
-
-
 import java.util.List;
 
-public class Class_gethelp_Response
+public class Class_getdemo_Response
 {
 
     @SerializedName("Status")
@@ -19,9 +15,13 @@ public class Class_gethelp_Response
     @Expose
     private String message;
 
+
+
+
     @SerializedName("lst")
     @Expose
-    private List<Class_gethelp_resplist> lst = null;
+    private List<Class_getdemo_resplist> lst = null;
+
 
 
     public Boolean getStatus() {
@@ -40,11 +40,11 @@ public class Class_gethelp_Response
         this.message = message;
     }
 
-    public List<Class_gethelp_resplist> getLst() {
+    public List<Class_getdemo_resplist> getLst() {
         return lst;
     }
 
-    public void setLst(List<Class_gethelp_resplist> lst) {
+    public void setLst(List<Class_getdemo_resplist> lst) {
         this.lst = lst;
     }
 }

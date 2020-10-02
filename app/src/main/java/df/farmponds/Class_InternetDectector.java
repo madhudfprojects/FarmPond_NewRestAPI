@@ -6,10 +6,6 @@ import android.content.Context;
 import android.net.ConnectivityManager;
 import android.net.NetworkInfo;
 
-/**
- * Created by User on 03/10/2019
- */
-
 public class Class_InternetDectector {
 
     private Context _context;

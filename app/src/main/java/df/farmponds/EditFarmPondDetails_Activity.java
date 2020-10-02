@@ -65,6 +65,7 @@ import java.io.File;
 import java.io.FileNotFoundException;
 import java.io.FileOutputStream;
 import java.io.IOException;
+import java.math.BigDecimal;
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
@@ -214,6 +215,10 @@ public class EditFarmPondDetails_Activity extends AppCompatActivity {
     String str_currentlatitude, str_currentlongitude;
 
     LinearLayout fpondcompleted_ll;
+
+
+    LinearLayout hour_spent_LL,machine_end_LL,machine_start_LL;
+    EditText hour_spent_et,machine_end_et,machine_start_et;
 
     Class_InternetDectector internetDectector;
     Boolean isInternetPresent = false;
@@ -412,6 +417,16 @@ public class EditFarmPondDetails_Activity extends AppCompatActivity {
         amountcollected_LL = (LinearLayout) findViewById(R.id.amountcollected_LL);
 
 
+        hour_spent_LL=(LinearLayout)findViewById(R.id.hour_spent_LL);
+        machine_end_LL=(LinearLayout)findViewById(R.id.machine_end_LL);
+        machine_start_LL=(LinearLayout)findViewById(R.id.machine_start_LL);
+
+        hour_spent_et=(EditText) findViewById(R.id.hour_spent_et);
+        machine_end_et=(EditText) findViewById(R.id.machine_end_et);
+        machine_start_et=(EditText) findViewById(R.id.machine_start_et);
+
+
+
         farmpondlocationlabel_LL = (LinearLayout) findViewById(R.id.farmpondlocationlabel_LL);
         dblatitude_LL = (LinearLayout) findViewById(R.id.dblatitude_LL);
         dblongitude_LL = (LinearLayout) findViewById(R.id.dblongitude_LL);
@@ -440,6 +455,11 @@ public class EditFarmPondDetails_Activity extends AppCompatActivity {
         currentlatitude_LL.setVisibility(View.GONE);
         currentlongitude_LL.setVisibility(View.GONE);
         amountcollected_lesser_LL.setVisibility(View.GONE);
+
+        hour_spent_LL.setVisibility(View.GONE);
+        machine_end_LL.setVisibility(View.GONE);
+        machine_start_LL.setVisibility(View.GONE);
+
 
         //edit_pondamount_tv.setText("X "+str_perdayamount+" =");
 
@@ -738,6 +758,11 @@ public class EditFarmPondDetails_Activity extends AppCompatActivity {
                 remarks_LL.setVisibility(View.GONE);
                 amount_LL.setVisibility(View.GONE);
                 amountcollected_LL.setVisibility(View.GONE);
+
+
+                hour_spent_LL.setVisibility(View.GONE);
+                machine_end_LL.setVisibility(View.GONE);
+                machine_start_LL.setVisibility(View.GONE);
 
                 notcompleted_text_LL.setVisibility(View.VISIBLE);
 
@@ -1038,6 +1063,125 @@ public class EditFarmPondDetails_Activity extends AppCompatActivity {
 
 
 
+        machine_start_et.addTextChangedListener(new TextWatcher()
+        {
+            @Override
+            public void beforeTextChanged(CharSequence s, int start, int count, int after)
+            {
+
+            }
+            @Override
+            public void onTextChanged(CharSequence s, int start, int before, int count)
+            {
+                if(s.toString().trim().isEmpty())
+                {
+                    //alerts_dialog_machinereading("machinestart_empty");
+                    machine_end_et.setText("");
+                    hour_spent_et.setText("");
+                }else{
+                    Log.e("machine start .","error .");
+                    if (s.toString().trim().equalsIgnoreCase("."))
+                    {
+                        Log.e("error .","error .");
+                        alerts_dialog_machinereading("machinestart");
+                    }else {
+                        if (machine_end_et.getText().toString().trim().length() > 0) {
+                            if (machine_start_et.getText().toString().trim().length() > 0) {
+
+                                String str_machinestart=machine_start_et.getText().toString().trim();
+                                String str_machineend=machine_end_et.getText().toString().trim();
+                                BigDecimal a = new BigDecimal(str_machinestart);
+                                BigDecimal b = new BigDecimal(str_machineend);
+
+                                BigDecimal result=b.subtract(a);
+                                Log.e("result", String.valueOf(result));
+
+                                hour_spent_et.setText(String.valueOf(result));
+
+                            }
+                        }
+                    }
+
+
+                }
+
+            }
+
+            @Override
+            public void afterTextChanged(Editable s)
+            {
+
+            }
+
+        });
+
+
+
+        machine_end_et.addTextChangedListener(new TextWatcher()
+        {
+            @Override
+            public void beforeTextChanged(CharSequence s, int start, int count, int after)
+            {
+
+            }
+
+            @Override
+            public void onTextChanged(CharSequence s, int start, int before, int count)
+            {
+
+                if(s.toString().trim().isEmpty())
+                {
+
+                }else{
+                    Log.e("machine start .","error .");
+                    if (s.toString().equalsIgnoreCase("."))
+                    {
+                        Log.e("error .","error .");
+                        alerts_dialog_machinereading("machineend");
+                    }else
+                    {
+                        if(machine_end_et.getText().toString().trim().length()>0)
+                        {
+                            if(machine_start_et.getText().toString().trim().length()>0)
+                            {
+                                String str_machinestart=machine_start_et.getText().toString().trim();
+                                String str_machineend=machine_end_et.getText().toString().trim();
+                                BigDecimal a = new BigDecimal(str_machinestart);
+                                BigDecimal b = new BigDecimal(str_machineend);
+
+                                BigDecimal result=b.subtract(a);
+                                Log.e("result", String.valueOf(result));
+
+                                hour_spent_et.setText(String.valueOf(result));
+
+
+                                 /*if(a.compareTo(b)<0)//-1
+                                 {
+                                     BigDecimal result=a.subtract(b);
+                                     Log.e("result", String.valueOf(result));
+
+                                 }else{
+                                     alerts_dialog_machinereading("startishigh");
+                                 }*/
+
+
+
+
+                            }else{
+                                alerts_dialog_machinereading("machinestart_empty");
+                            }
+                        }
+
+                    }
+                }
+            }
+
+            @Override
+            public void afterTextChanged(Editable s)
+            {
+
+            }
+        });
 
 
     }// end of Oncreate();
@@ -1358,6 +1502,10 @@ public class EditFarmPondDetails_Activity extends AppCompatActivity {
                     innerObj_Class_farmponddetails_offline.setLocation_status(cursor1.getString(cursor1.getColumnIndex("Location_Status")));
                     //"FPondLatitudeDB VARCHAR,FPondLongitudeDB VARCHAR," +
 
+                    innerObj_Class_farmponddetails_offline.setReading_Start(cursor1.getString(cursor1.getColumnIndex("Reading_Start")));
+                    innerObj_Class_farmponddetails_offline.setReading_End(cursor1.getString(cursor1.getColumnIndex("Reading_End")));
+                    innerObj_Class_farmponddetails_offline.setReading_Hour(cursor1.getString(cursor1.getColumnIndex("Reading_Hour")));
+
                     // innerObj_Class_farmponddetails_offline.setMachineCode(cursor1.getString(cursor1.getColumnIndex("FPondCodeDB")));
                     class_farmponddetails_offline_obj = innerObj_Class_farmponddetails_offline;
                     i++;
@@ -1453,6 +1601,7 @@ public class EditFarmPondDetails_Activity extends AppCompatActivity {
             str_image2present = "yes";
         }
 
+        //vijay hour
 
         if (str_base64images3.equalsIgnoreCase("noimage3") ||
                 str_base64images3.equalsIgnoreCase("0")) {
@@ -1467,6 +1616,10 @@ public class EditFarmPondDetails_Activity extends AppCompatActivity {
             remarks_LL.setVisibility(View.GONE);
             amount_LL.setVisibility(View.GONE);
             amountcollected_LL.setVisibility(View.GONE);
+
+            hour_spent_LL.setVisibility(View.GONE);
+            machine_end_LL.setVisibility(View.GONE);
+            machine_start_LL.setVisibility(View.GONE);
 
             farmpondlocationlabel_LL.setVisibility(View.GONE);
             dblatitude_LL.setVisibility(View.GONE);
@@ -1527,6 +1680,10 @@ public class EditFarmPondDetails_Activity extends AppCompatActivity {
             remarks_LL.setVisibility(View.GONE);
             amount_LL.setVisibility(View.GONE);
             amountcollected_LL.setVisibility(View.GONE);
+
+            hour_spent_LL.setVisibility(View.GONE);
+            machine_end_LL.setVisibility(View.GONE);
+            machine_start_LL.setVisibility(View.GONE);
         } else {
 
             edit_farmpond_completed_cb.setChecked(true);
@@ -1537,6 +1694,11 @@ public class EditFarmPondDetails_Activity extends AppCompatActivity {
             remarks_LL.setVisibility(View.VISIBLE);
             amount_LL.setVisibility(View.GONE);
             amountcollected_LL.setVisibility(View.VISIBLE);
+
+
+            hour_spent_LL.setVisibility(View.VISIBLE);
+            machine_end_LL.setVisibility(View.VISIBLE);
+            machine_start_LL.setVisibility(View.VISIBLE);
 
             locatemap_ll.setVisibility(View.VISIBLE);
             str_validation_for_completed = "yes";
@@ -1583,6 +1745,47 @@ public class EditFarmPondDetails_Activity extends AppCompatActivity {
             }
 
             search_Machinelist(class_farmponddetails_offline_obj.getMachineCode());
+        }
+
+
+        if(class_farmponddetails_offline_obj.getReading_Start()==null)
+        {
+            machine_start_et.setText("");
+        }else{
+            if(class_farmponddetails_offline_obj.getReading_Start().equalsIgnoreCase("0")
+            ||class_farmponddetails_offline_obj.getReading_Start().equalsIgnoreCase("0.0"))
+            {
+                machine_start_et.setText("");
+            }else{
+                machine_start_et.setText(class_farmponddetails_offline_obj.getReading_Start());
+            }
+        }
+
+        if(class_farmponddetails_offline_obj.getReading_End()==null)
+        {   machine_end_et.setText("");
+            }
+        else{
+            if(class_farmponddetails_offline_obj.getReading_End().equalsIgnoreCase("0")
+                    ||class_farmponddetails_offline_obj.getReading_End().equalsIgnoreCase("0.0"))
+            { machine_end_et.setText("");
+                 }
+            else{
+                machine_end_et.setText(class_farmponddetails_offline_obj.getReading_End());
+            }
+        }
+
+
+        if(class_farmponddetails_offline_obj.getReading_Hour()==null)
+        { hour_spent_et.setText("");
+
+        }else{
+            if(class_farmponddetails_offline_obj.getReading_Hour().equalsIgnoreCase("0")
+                    ||class_farmponddetails_offline_obj.getReading_Hour().equalsIgnoreCase("0.0"))
+            { hour_spent_et.setText("");
+                 }
+            else{
+                hour_spent_et.setText(class_farmponddetails_offline_obj.getReading_Hour());
+            }
         }
 
     }//
@@ -1881,6 +2084,11 @@ public class EditFarmPondDetails_Activity extends AppCompatActivity {
             amountcollected_LL.setVisibility(View.VISIBLE);
             notcompleted_text_LL.setVisibility(View.GONE);
 
+
+            hour_spent_LL.setVisibility(View.VISIBLE);
+            machine_end_LL.setVisibility(View.VISIBLE);
+            machine_start_LL.setVisibility(View.VISIBLE);
+
             dblatitude_LL.setVisibility(View.GONE);
             dblongitude_LL.setVisibility(View.GONE);
 
@@ -1985,6 +2193,10 @@ public class EditFarmPondDetails_Activity extends AppCompatActivity {
             amount_LL.setVisibility(View.GONE);
             amountcollected_LL.setVisibility(View.VISIBLE);
 
+
+            hour_spent_LL.setVisibility(View.VISIBLE);
+            machine_end_LL.setVisibility(View.VISIBLE);
+            machine_start_LL.setVisibility(View.VISIBLE);
 
             ByteArrayOutputStream baos = new ByteArrayOutputStream();
             userImage1.compress(Bitmap.CompressFormat.PNG, 90, baos);
@@ -2393,11 +2605,12 @@ public class EditFarmPondDetails_Activity extends AppCompatActivity {
 
     public boolean validation() {
         boolean b_pond_width1, b_pond_width2, b_pond_height1, b_pond_height2, b_pond_depth1, b_pond_depth2, b_pondimages,
-        b_pondimages2, b_pond_completed_date, b_no_days, b_datevalidation, b_enteramount, b_reason;
-
+        b_pondimages2, b_pond_completed_date, b_no_days, b_datevalidation, b_enteramount, b_reason,
+        b_machinestart,b_machineend,b_hourspent;
         b_pond_width1 = b_pond_width2 = b_pond_height1 = b_pond_height2 = b_pond_depth1 = b_pond_depth2 = b_pondimages
-       = b_pondimages2  = b_pond_completed_date = b_no_days = b_datevalidation = b_enteramount = b_reason = true;
-        ;
+       = b_pondimages2  = b_pond_completed_date = b_no_days = b_datevalidation = b_enteramount = b_reason = b_machinestart
+                = b_machineend =b_hourspent=true;
+
 
 
         if (edit_pondwidth_et.getText().toString().length() == 0) {
@@ -2568,6 +2781,52 @@ public class EditFarmPondDetails_Activity extends AppCompatActivity {
             }
 
 
+            if(machine_start_et.getText().toString().trim().length()<=0)
+            {
+                machine_start_et.setError("Enter Start Reading");
+                b_machinestart=false;
+            }else{
+                if(machine_start_et.getText().toString().trim().equalsIgnoreCase("."))
+                {  machine_start_et.setError("Enter Valid Start Reading");
+                    b_machinestart=false;
+
+                }
+            }
+
+            if(machine_end_et.getText().toString().trim().length()<=0)
+            {
+                machine_end_et.setError("Enter End Reading");
+                b_machineend=false;
+            }else{
+                if(machine_end_et.getText().toString().trim().equalsIgnoreCase("."))
+                {  machine_end_et.setError("Enter Valid End Reading");
+                    b_machineend=false;
+                }
+            }
+
+            if((machine_start_et.getText().toString().trim().length()>0)&&
+                    (machine_end_et.getText().toString().trim().length()>0))
+            {
+                if(hour_spent_et.getText().toString().length()>0)
+                {
+                    String str_hour=hour_spent_et.getText().toString();
+                    BigDecimal big_hour = new BigDecimal(str_hour);
+                    BigDecimal b = BigDecimal.ZERO;
+
+                    if(big_hour.compareTo(b)>0)//1
+                    { }
+                    else{
+                        machine_end_et.setError("Enter Valid End Reading");
+                        b_hourspent=false;
+                    }
+                }
+
+            }
+
+
+
+
+
             if ((edit_pond_startddate_tv.getText().toString().trim().length() != 0) &&
                     (edit_pond_completeddate_tv.getText().toString().trim().length() != 0)) {
         /*if(date1.compareTo(date2)<0){ //0 comes when two date are same,
@@ -2601,7 +2860,8 @@ public class EditFarmPondDetails_Activity extends AppCompatActivity {
 
 
         return (b_pond_width1 && b_pond_width2 && b_pond_height1 && b_pond_height2 && b_pond_depth1 && b_pond_depth2 && b_pondimages
-              &&b_pondimages2  && b_pond_completed_date && b_no_days && b_datevalidation && b_enteramount && b_reason);
+              &&b_pondimages2  && b_pond_completed_date && b_no_days && b_datevalidation && b_enteramount && b_reason
+                &&b_machinestart&&b_machineend&&b_hourspent);
     }
 
 
@@ -2630,7 +2890,9 @@ public class EditFarmPondDetails_Activity extends AppCompatActivity {
 
 
         String str_completeddate, str_nodays, str_pondcost, str_mcode, str_startdate,
-                str_farmpond_remarks, str_farmpond_amttaken, str_farmpondstatus;
+                str_farmpond_remarks, str_farmpond_amttaken, str_farmpondstatus,
+                str_machinestart,str_machineend,str_hourspent;
+
 
 
    /* Log.e("aftereditDate",edit_pond_completeddate_tv.getText().toString());
@@ -2652,6 +2914,10 @@ public class EditFarmPondDetails_Activity extends AppCompatActivity {
             str_farmpond_amttaken = edit_amountcollected_et.getText().toString();
             str_farmpondstatus = "6";
 
+            str_machinestart=machine_start_et.getText().toString();
+            str_machineend=machine_end_et.getText().toString();
+            str_hourspent=hour_spent_et.getText().toString();
+
         } else {
             str_startdate = "0";
             str_completeddate = "0";
@@ -2663,6 +2929,9 @@ public class EditFarmPondDetails_Activity extends AppCompatActivity {
             str_farmpond_remarks = "4";
             str_farmpond_amttaken = "0";
             str_farmpondstatus = "3";
+            str_machinestart="0";
+            str_machineend="0";
+            str_hourspent="0";
         }
 
 
@@ -2818,12 +3087,16 @@ public class EditFarmPondDetails_Activity extends AppCompatActivity {
             cv.put("Location_Status",statlocatedmap_status_tv.getText().toString());
 
 
+            cv.put("Reading_Start", str_machinestart);
+            cv.put("Reading_End", str_machinestart);
+            cv.put("Reading_Hour", str_hourspent);
+            cv.put("Machine_Name","0");
+
             if (str_farmpond_id.contains("tempfarmpond")) {
                 cv.put("UploadedStatus", 2);
             } else {
                 cv.put("UploadedStatus", 1);
             }
-
 
 
             db1.update("FarmPondDetails_fromServerRest", cv, "FPondidDB = ?", new String[]{str_farmpond_id});
@@ -3213,6 +3486,11 @@ public class EditFarmPondDetails_Activity extends AppCompatActivity {
                     Log.e("class_farmpondcode", cursor1.getString(cursor1.getColumnIndex("FPondCodeDB")));
                     Log.e("class_farmpondID", cursor1.getString(cursor1.getColumnIndex("FPondidDB")));
 
+                    innerObj_Class_farmponddetails.setReading_Start(cursor1.getString(cursor1.getColumnIndex("Reading_Start")));
+                    innerObj_Class_farmponddetails.setReading_End(cursor1.getString(cursor1.getColumnIndex("Reading_End")));
+                    innerObj_Class_farmponddetails.setReading_Hour(cursor1.getString(cursor1.getColumnIndex("Reading_Hour")));
+
+
                     newfarmponddetails_offline_array_objRest[i] = innerObj_Class_farmponddetails;
                     i++;
                 } while (cursor1.moveToNext());
@@ -3374,6 +3652,11 @@ public class EditFarmPondDetails_Activity extends AppCompatActivity {
         request.setPond_Land_Acre(newfarmponddetails_offline_array_objRest[k].getPondLandAcre());
 
         request.setLocation_Status(newfarmponddetails_offline_array_objRest[k].getLocation_Status());
+        request.setReading_Start(newfarmponddetails_offline_array_objRest[k].getReading_Start());
+        request.setReading_End(newfarmponddetails_offline_array_objRest[k].getReading_End());
+        request.setReading_Hour(newfarmponddetails_offline_array_objRest[k].getReading_Hour());
+
+
 
         int_k=k;
         Log.e("kvalue", String.valueOf(k));
@@ -3792,6 +4075,10 @@ public class EditFarmPondDetails_Activity extends AppCompatActivity {
             request.setPond_Status(class_farmponddetails_offline_array_obj[k].getFarmpond_status());
 
             request.setLocation_Status(class_farmponddetails_offline_array_obj[k].getLocation_status());
+
+            request.setReading_Start(class_farmponddetails_offline_array_obj[k].getReading_Start());
+            request.setReading_End(class_farmponddetails_offline_array_obj[k].getReading_End());
+            request.setReading_Hour(class_farmponddetails_offline_array_obj[k].getReading_Hour());
 
             Log.e("reqremarks",class_farmponddetails_offline_array_obj[k].getFarmpond_remarks());
             Log.e("reqstatus",class_farmponddetails_offline_array_obj[k].getFarmpond_status());
@@ -4265,6 +4552,81 @@ public class EditFarmPondDetails_Activity extends AppCompatActivity {
 
 
 
+
+
+
+    public void alerts_dialog_machinereading(final String str_value)
+    {
+
+
+
+        AlertDialog.Builder dialog;
+        dialog = new AlertDialog.Builder(EditFarmPondDetails_Activity.this);
+        dialog.setCancelable(false);
+        dialog.setTitle(R.string.alert);
+        if(str_value.equalsIgnoreCase("machinestart"))
+        { dialog.setMessage("Machine reading doesn't begins with Dot");}
+        else if(str_value.equalsIgnoreCase("machineend"))
+        {dialog.setMessage("Machine reading doesn't begins with Dot"); }
+        else if(str_value.equalsIgnoreCase("amount"))
+        { dialog.setMessage("Amount doesn't begins with Dot");}
+        else if(str_value.equalsIgnoreCase("machinestart_empty"))
+        { dialog.setMessage("Enter the Machine Start readings");}
+        else if(str_value.equalsIgnoreCase("startishigh"))
+        { dialog.setMessage("Start reading is higher than End reading");}
+        //startishigh
+        //machinestart_empty
+        else{ dialog.setMessage("Completed Date smaller than\nStart Date ");}
+
+        dialog.setPositiveButton("Ok", new DialogInterface.OnClickListener()
+        {
+            @Override
+            public void onClick(DialogInterface dialog, int id)
+            {
+
+
+                if(str_value.equalsIgnoreCase("machinestart"))
+                {
+                    machine_start_et.setText("");
+
+                }
+                else if(str_value.equalsIgnoreCase("machineend"))
+                {
+                    machine_end_et.setText("");
+                }
+                else if(str_value.equalsIgnoreCase("amount"))
+                {
+                    //add_newpond_amountcollected_et.setText("");
+                }
+                else if(str_value.equalsIgnoreCase("machinestart_empty"))
+                {
+                    machine_start_et.setText("");
+                    machine_end_et.setText("");
+                    hour_spent_et.setText("");
+
+                }
+                else if(str_value.equalsIgnoreCase("startishigh"))
+                {
+                    machine_start_et.setText("");
+                    machine_end_et.setText("");
+                    hour_spent_et.setText("");
+                }
+                //
+
+            }
+        });
+
+
+        final AlertDialog alert = dialog.create();
+        alert.setOnShowListener( new DialogInterface.OnShowListener() {
+            @Override
+            public void onShow(DialogInterface arg0) {
+                alert.getButton(AlertDialog.BUTTON_POSITIVE).setTextColor(Color.parseColor("#004D40"));
+            }
+        });
+        alert.show();
+
+    }
 
 
 

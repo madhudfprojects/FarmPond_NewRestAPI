@@ -98,6 +98,14 @@ public class Class_farmponddetails_offline
 
     private String Location_status;
 
+    private String Reading_Start;
+    private String Reading_End;
+    private String Reading_Hour;
+    private String Machine_Name;
+
+
+
+
    /* public String getFarmer_Id() {
         return Farmer_Id;
     }
@@ -472,5 +480,37 @@ public class Class_farmponddetails_offline
 
     public void setLocation_status(String location_status) {
         Location_status = location_status;
+    }
+
+    public String getReading_Start() {
+        return Reading_Start;
+    }
+
+    public void setReading_Start(String reading_Start) {
+        Reading_Start = reading_Start;
+    }
+
+    public String getReading_End() {
+        return Reading_End;
+    }
+
+    public void setReading_End(String reading_End) {
+        Reading_End = reading_End;
+    }
+
+    public String getReading_Hour() {
+        return Reading_Hour;
+    }
+
+    public void setReading_Hour(String reading_Hour) {
+        Reading_Hour = reading_Hour;
+    }
+
+    public String getMachine_Name() {
+        return Machine_Name;
+    }
+
+    public void setMachine_Name(String machine_Name) {
+        Machine_Name = machine_Name;
     }
 }
