@@ -872,6 +872,10 @@ Log.e("tag","str_employee_id="+str_employee_id);
 
         request.setLocation_Status(newfarmponddetails_offline_array_objRest[k].getLocation_Status());
 
+        request.setReading_Start(newfarmponddetails_offline_array_objRest[k].getReading_Start());
+        request.setReading_End(newfarmponddetails_offline_array_objRest[k].getReading_End());
+        request.setReading_Hour(newfarmponddetails_offline_array_objRest[k].getReading_Hour());
+
         int_k=k;
         Log.e("kvalue", String.valueOf(k));
         Log.e("addrequest",request.toString());
@@ -1288,6 +1292,12 @@ Log.e("tag","str_employee_id="+str_employee_id);
             request.setPond_remarks(class_farmponddetails_offline_array_obj[k].getFarmpond_remarks());
             request.setPond_Status(class_farmponddetails_offline_array_obj[k].getFarmpond_status());
             request.setLocation_Status(class_farmponddetails_offline_array_obj[k].getLocation_status());
+
+            request.setReading_Start(class_farmponddetails_offline_array_obj[k].getReading_Start());
+            request.setReading_End(class_farmponddetails_offline_array_obj[k].getReading_End());
+            request.setReading_Hour(class_farmponddetails_offline_array_obj[k].getReading_Hour());
+
+
 
             int_k = k;
             Log.e("kvalue", String.valueOf(k));
