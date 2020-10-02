@@ -167,6 +167,18 @@ public class Class_addfarmponddetails_ToFromServer2
     @Expose
     private String location_Status;
 
+    @SerializedName("Reading_Start")
+    @Expose
+    private String reading_Start;
+    @SerializedName("Reading_End")
+    @Expose
+    private String reading_End;
+    @SerializedName("Reading_Hour")
+    @Expose
+    private String reading_Hour;
+    @SerializedName("Machine_Name")
+    @Expose
+    private String machine_Name;
 
 
 
@@ -438,5 +450,29 @@ public class Class_addfarmponddetails_ToFromServer2
 
     public void setLocation_Status(String location_Status) {
         this.location_Status = location_Status;
+    }
+
+    public String getReading_Start() {
+        return reading_Start;
+    }
+
+    public void setReading_Start(String reading_Start) {
+        this.reading_Start = reading_Start;
+    }
+
+    public String getReading_End() {
+        return reading_End;
+    }
+
+    public void setReading_End(String reading_End) {
+        this.reading_End = reading_End;
+    }
+
+    public String getReading_Hour() {
+        return reading_Hour;
+    }
+
+    public void setReading_Hour(String reading_Hour) {
+        this.reading_Hour = reading_Hour;
     }
 }

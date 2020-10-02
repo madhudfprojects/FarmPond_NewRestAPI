@@ -52,6 +52,7 @@ import org.ksoap2.serialization.SoapPrimitive;
 import org.ksoap2.serialization.SoapSerializationEnvelope;
 import org.ksoap2.transport.HttpTransportSE;
 
+import java.math.BigDecimal;
 import java.util.List;
 import java.util.UUID;
 
@@ -290,6 +291,12 @@ public class Activity_HomeScreen extends AppCompatActivity implements GoogleApiC
 
             }
         }, 100);
+
+
+
+
+
+
 
 
     }
