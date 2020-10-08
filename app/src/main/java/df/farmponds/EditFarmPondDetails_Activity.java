@@ -1138,7 +1138,13 @@ public class EditFarmPondDetails_Activity extends AppCompatActivity {
                     {
                         Log.e("error .","error .");
                         alerts_dialog_machinereading("machineend");
-                    }else
+
+                        int x= Integer.parseInt(machine_end_et.getText().toString().trim());
+                    }else if(Integer.parseInt(machine_end_et.getText().toString().trim())<0)
+                    {
+                        alerts_dialog_machinereading("zero");
+                    }
+                    else
                     {
                         if(machine_end_et.getText().toString().trim().length()>0)
                         {
@@ -1191,7 +1197,7 @@ public class EditFarmPondDetails_Activity extends AppCompatActivity {
 
         AlertDialog.Builder dialog = new AlertDialog.Builder(EditFarmPondDetails_Activity.this);
         dialog.setCancelable(false);
-        dialog.setTitle(R.string.app_name);
+        dialog.setTitle(R.string.alert);
         dialog.setMessage("Click Ok to fetch latitude and Longitude");
 
         dialog.setPositiveButton("Yes", new DialogInterface.OnClickListener() {
@@ -1753,7 +1759,8 @@ public class EditFarmPondDetails_Activity extends AppCompatActivity {
             machine_start_et.setText("");
         }else{
             if(class_farmponddetails_offline_obj.getReading_Start().equalsIgnoreCase("0")
-            ||class_farmponddetails_offline_obj.getReading_Start().equalsIgnoreCase("0.0"))
+            ||class_farmponddetails_offline_obj.getReading_Start().equalsIgnoreCase("0.0")
+            ||class_farmponddetails_offline_obj.getReading_Start().equalsIgnoreCase("null"))
             {
                 machine_start_et.setText("");
             }else{
@@ -1766,7 +1773,8 @@ public class EditFarmPondDetails_Activity extends AppCompatActivity {
             }
         else{
             if(class_farmponddetails_offline_obj.getReading_End().equalsIgnoreCase("0")
-                    ||class_farmponddetails_offline_obj.getReading_End().equalsIgnoreCase("0.0"))
+                    ||class_farmponddetails_offline_obj.getReading_End().equalsIgnoreCase("0.0")||
+                    class_farmponddetails_offline_obj.getReading_End().equalsIgnoreCase("null"))
             { machine_end_et.setText("");
                  }
             else{
@@ -2544,7 +2552,7 @@ public class EditFarmPondDetails_Activity extends AppCompatActivity {
         AlertDialog.Builder dialog;
         dialog = new AlertDialog.Builder(static_context);
         dialog.setCancelable(false);
-        dialog.setTitle(R.string.app_name);
+        dialog.setTitle(R.string.alert);
         if(str_value.equalsIgnoreCase("fromdateHigher"))
         { dialog.setMessage("Start Date is Higher than\n Completed Date");}
 
@@ -4574,6 +4582,9 @@ public class EditFarmPondDetails_Activity extends AppCompatActivity {
         { dialog.setMessage("Enter the Machine Start readings");}
         else if(str_value.equalsIgnoreCase("startishigh"))
         { dialog.setMessage("Start reading is higher than End reading");}
+        else if(str_value.equalsIgnoreCase("zero"))
+        { dialog.setMessage("End reading must be higher than Start reading"); }
+
         //startishigh
         //machinestart_empty
         else{ dialog.setMessage("Completed Date smaller than\nStart Date ");}

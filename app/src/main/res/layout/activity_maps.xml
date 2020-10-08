@@ -7,6 +7,14 @@
     >
 
 
+    <fragment android:id="@+id/searchautocomplete_fragment"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_above="@+id/map"
+        android:layout_marginTop="7dp"
+        android:visibility="gone"
+        android:name="com.google.android.gms.location.places.ui.PlaceAutocompleteFragment" />
+
     <fragment
         android:id="@+id/map"
         android:name="com.google.android.gms.maps.SupportMapFragment"
@@ -21,6 +29,7 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_alignParentBottom="true"
+        android:layout_marginTop="5dp"
         android:orientation="horizontal" >
 
         <Button
@@ -56,22 +65,27 @@
 
     <LinearLayout
         android:id="@+id/topLayout"
-        android:layout_width="wrap_content"
+        android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_alignBottom="@+id/belowlayout"
         android:layout_alignLeft="@+id/map"
         android:layout_marginBottom="45dp"
         android:orientation="horizontal" >
 
+        <!--android:layout_marginBottom="45dp"-->
+
+
         <EditText
             android:id="@+id/locationsearchtext_tv"
             android:layout_width="wrap_content"
-            android:layout_height="36dp"
+            android:layout_height="40dp"
             android:layout_marginBottom="30dp"
+            android:background="@drawable/spinner_boader"
             android:layout_weight="1"
             android:textColor="@color/color_red"
             android:hint="Search City"
-            android:textColorHint="#c7c7c7"
+            android:textColorHint="@color/dark_black_red"
+            android:visibility="visible"
             android:width="250dp" />
 
         <Button
@@ -83,6 +97,7 @@
             android:background="#359c5e"
             android:padding="0dp"
             android:paddingBottom="0dp"
+            android:visibility="visible"
             android:text="Search"
             android:textColor="#ffffff" />
     </LinearLayout>

@@ -3,10 +3,12 @@ package df.farmponds;
 import android.app.AlertDialog;
 import android.content.DialogInterface;
 import android.content.Intent;
+import android.content.pm.PackageManager;
 import android.graphics.Color;
 import android.location.Address;
 import android.location.Geocoder;
 import android.os.Bundle;
+import android.support.v4.app.ActivityCompat;
 import android.support.v4.app.FragmentActivity;
 import android.support.v7.widget.Toolbar;
 import android.util.Log;
@@ -16,6 +18,13 @@ import android.widget.EditText;
 import android.widget.ImageView;
 import android.widget.Toast;
 
+import com.google.android.gms.common.api.Status;
+/*import com.google.android.gms.location.places.Place;
+import com.google.android.gms.location.places.Places;*/
+import com.google.android.gms.location.places.Place;
+import com.google.android.gms.location.places.Places;
+import com.google.android.gms.location.places.ui.PlaceAutocompleteFragment;
+import com.google.android.gms.location.places.ui.PlaceSelectionListener;
 import com.google.android.gms.maps.CameraUpdateFactory;
 import com.google.android.gms.maps.GoogleMap;
 import com.google.android.gms.maps.OnMapReadyCallback;
@@ -34,8 +43,8 @@ public class MapsActivity extends FragmentActivity implements OnMapReadyCallback
 
     Class_GPSTracker gpstracker_obj1;
 
-    Double double_currentlatitude=0.0;
-    Double double_currentlongitude=0.0;
+    Double double_currentlatitude = 0.0;
+    Double double_currentlongitude = 0.0;
 
 
     Toolbar toolbar;
@@ -43,221 +52,246 @@ public class MapsActivity extends FragmentActivity implements OnMapReadyCallback
 
     EditText locationsearchtext_tv;
     String location;
-    Button search_bt,submit_bt,cancel_bt;
+    Button search_bt, submit_bt, cancel_bt;
 
     Marker myMarker;
 
-    String str_fromname,str_pondmarked,str_latlong;
+    String str_fromname, str_pondmarked, str_latlong;
 
-    String str_lat,str_long;
+    String str_lat, str_long;
+
+    PlaceAutocompleteFragment searchautocomplete_fragment;
+    SupportMapFragment mapFragment;
+
     @Override
-    protected void onCreate(Bundle savedInstanceState)
-    {
+    protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_maps);
-
+        //Places.initialize(getApplicationContext(), "YOUR_API_KEY");
         // Obtain the SupportMapFragment and get notified when the map is ready to be used.
-        SupportMapFragment mapFragment = (SupportMapFragment) getSupportFragmentManager()
+         mapFragment = (SupportMapFragment) getSupportFragmentManager()
                 .findFragmentById(R.id.map);
         mapFragment.getMapAsync(this);
 
-       locationsearchtext_tv = (EditText) findViewById(R.id.locationsearchtext_tv);
-        search_bt=(Button)findViewById(R.id.search_bt);
-        submit_bt=(Button)findViewById(R.id.submit_bt);
-        cancel_bt=(Button)findViewById(R.id.cancel_bt);
+        searchautocomplete_fragment = (PlaceAutocompleteFragment) getFragmentManager().findFragmentById(R.id.searchautocomplete_fragment);
+        locationsearchtext_tv = (EditText) findViewById(R.id.locationsearchtext_tv);
+        search_bt = (Button) findViewById(R.id.search_bt);
+        submit_bt = (Button) findViewById(R.id.submit_bt);
+        cancel_bt = (Button) findViewById(R.id.cancel_bt);
+
+
+
 
 
         Intent intent = getIntent();
         str_fromname = intent.getStringExtra("from");
 
 
+        str_pondmarked = "no";
 
-
-
-
-
-        str_pondmarked="no";
-
-        search_bt.setOnClickListener(new View.OnClickListener(){
+        search_bt.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v)
             {
-                location = locationsearchtext_tv.getText().toString();
-
-                List<Address> addressList = null;
-
-                if (location != null || !location.equals(""))
+                if(locationsearchtext_tv.getText().toString().trim().length()<0)
                 {
-                    Geocoder geocoder = new Geocoder(getApplicationContext());
+                    Toast.makeText(getApplicationContext(), "Enter location", Toast.LENGTH_SHORT).show();
+                }else {
 
-                    try {
-                        addressList = geocoder.getFromLocationName(location, 1);
+                    location = locationsearchtext_tv.getText().toString();
 
-                    } catch (IOException e) {
-                        e.printStackTrace();
+                    List<Address> addressList = null;
+
+                    if (location != null || !location.equals("")) {
+
+                        Geocoder geocoder = new Geocoder(getApplicationContext());
+
+                        try {
+                            addressList = geocoder.getFromLocationName(location, 1);
+
+                        } catch (IOException e) {
+                            e.printStackTrace();
+                        }
+
+
+                        try {
+                            Address address = addressList.get(0);
+                            LatLng latLng = new LatLng(address.getLatitude(), address.getLongitude());
+                            mMap.addMarker(new MarkerOptions().position(latLng).title(location));
+                            mMap.animateCamera(CameraUpdateFactory.newLatLng(latLng));
+                            Toast.makeText(getApplicationContext(), address.getLatitude() + " " + address.getLongitude(), Toast.LENGTH_LONG).show();
+                        } catch (Exception e) {
+                            Toast.makeText(getApplicationContext(), "Error: Map error ", Toast.LENGTH_LONG).show();
+                        }
+
+
+                    } else {
+
+                        Toast.makeText(getApplicationContext(), "Enter location", Toast.LENGTH_LONG).show();
                     }
 
-
-                    try {
-                        Address address = addressList.get(0);
-                        LatLng latLng = new LatLng(address.getLatitude(), address.getLongitude());
-                        mMap.addMarker(new MarkerOptions().position(latLng).title(location));
-                        mMap.animateCamera(CameraUpdateFactory.newLatLng(latLng));
-                        Toast.makeText(getApplicationContext(), address.getLatitude() + " " + address.getLongitude(), Toast.LENGTH_LONG).show();
-                    }
-                    catch(Exception e)
-                    {
-                        Toast.makeText(getApplicationContext(), "Error: Map error ", Toast.LENGTH_LONG).show();
-                    }
-                }else{
-
-                    Toast.makeText(getApplicationContext(),"Enter location",Toast.LENGTH_LONG).show();
                 }
 
 
             }
         });
 
+       // Places.initialize(getApplicationContext(), "YOUR_API_KEY");
+       // Places.initialize(getApplicationContext(),"@string/API_KEY");
 
-
-
-       submit_bt.setOnClickListener(new View.OnClickListener() {
+       /* searchautocomplete_fragment.setOnPlaceSelectedListener(new PlaceSelectionListener() {
             @Override
-           public void onClick(View v) {
+            public void onPlaceSelected(Place place)
+            {
+                Log.e("Maps", "Place selected: " + place.getName());
+               // addMarker(place);
+               *//* mapFragment = (SupportMapFragment) getSupportFragmentManager()
+                        .findFragmentById(R.id.map);
+                mapFragment.getMapAsync(this);*//*
+            }
 
-                if(str_pondmarked.equalsIgnoreCase("yes"))
-                {
-                    Toast.makeText(getApplicationContext(),""+str_latlong,Toast.LENGTH_LONG).show();
-                    Log.e("latlong",str_latlong);
+            @Override
+            public void onError(Status status) {
+                Log.d("Maps", "An error occurred: " + status);
+            }
+        });*/
 
-                    String str_pondlatlong=str_latlong;
-                    str_pondlatlong=str_pondlatlong.substring(10);
 
-                    str_pondlatlong= str_pondlatlong.substring(0, str_pondlatlong.length() - 1);
-                    Log.e("lat:",str_pondlatlong);
+
+
+
+
+
+
+
+
+        submit_bt.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+
+                if (str_pondmarked.equalsIgnoreCase("yes")) {
+                    Toast.makeText(getApplicationContext(), "" + str_latlong, Toast.LENGTH_LONG).show();
+                    Log.e("latlong", str_latlong);
+
+                    String str_pondlatlong = str_latlong;
+                    str_pondlatlong = str_pondlatlong.substring(10);
+
+                    str_pondlatlong = str_pondlatlong.substring(0, str_pondlatlong.length() - 1);
+                    Log.e("lat:", str_pondlatlong);
 
                     String[] parts = str_pondlatlong.split(",");
                     str_lat = parts[0];
                     str_long = parts[1];
 
 
+                    AlertDialog.Builder dialog = new AlertDialog.Builder(MapsActivity.this);
+                    dialog.setCancelable(false);
+                    dialog.setTitle(R.string.alert);
+                    dialog.setMessage("Is the marked Pond is correct");
 
+                    dialog.setPositiveButton("Yes", new DialogInterface.OnClickListener() {
+                        @Override
+                        public void onClick(DialogInterface dialog, int id) {
 
-                        AlertDialog.Builder dialog = new AlertDialog.Builder(MapsActivity.this);
-                        dialog.setCancelable(false);
-                        dialog.setTitle(R.string.app_name);
-                        dialog.setMessage("Is the marked Pond is correct");
+                            if (str_fromname.equalsIgnoreCase("addfarmpond")) {
+                                AddFarmPondActivity.statlatitude_tv.setText(str_lat);
+                                AddFarmPondActivity.statlongitude_tv.setText(str_long);
+                                AddFarmPondActivity.statlocatedmap_status_tv.setText("Completed");
+                                AddFarmPondActivity.statlocationnotconfirmedtext_tv.setVisibility(View.GONE);
+                                AddFarmPondActivity.statlocation_confirmedtext_tv.setVisibility(View.VISIBLE);
 
-                        dialog.setPositiveButton("Yes", new DialogInterface.OnClickListener() {
-                            @Override
-                            public void onClick(DialogInterface dialog, int id)
-                            {
-
-                                if(str_fromname.equalsIgnoreCase("addfarmpond"))
-                                {
-                                    AddFarmPondActivity.statlatitude_tv.setText(str_lat);
-                                    AddFarmPondActivity.statlongitude_tv.setText(str_long);
-                                    AddFarmPondActivity.statlocatedmap_status_tv.setText("Completed");
-                                    AddFarmPondActivity.statlocationnotconfirmedtext_tv.setVisibility(View.GONE);
-                                    AddFarmPondActivity.statlocation_confirmedtext_tv.setVisibility(View.VISIBLE);
-
-                                    finish();
-                                }
-
-                                if(str_fromname.equalsIgnoreCase("Editfarmpond"))
-                                {
-                                    EditFarmPondDetails_Activity.statlatitude_tv.setText(str_lat);
-                                    EditFarmPondDetails_Activity.statlongitude_tv.setText(str_long);
-                                    EditFarmPondDetails_Activity.statlocatedmap_status_tv.setText("Completed");
-                                    EditFarmPondDetails_Activity.statlocationnotconfirmedtext_tv.setVisibility(View.GONE);
-                                    EditFarmPondDetails_Activity.statlocation_confirmedtext_tv.setVisibility(View.VISIBLE);
-                                    finish();
-                                }
-
-
+                                finish();
                             }
-                        })
-                                .setNegativeButton("No", new DialogInterface.OnClickListener() {
-                                    @Override
-                                    public void onClick(DialogInterface dialog, int which) {
-                                        //Action for "Cancel".
-                                        dialog.dismiss();
-                                    }
-                                });
 
-                        final AlertDialog alert = dialog.create();
-                        alert.setOnShowListener(new DialogInterface.OnShowListener() {
-                            @Override
-                            public void onShow(DialogInterface arg0) {
-                                alert.getButton(AlertDialog.BUTTON_NEGATIVE).setTextColor(Color.RED);
-                                alert.getButton(AlertDialog.BUTTON_POSITIVE).setTextColor(Color.parseColor("#004D40"));
+                            if (str_fromname.equalsIgnoreCase("Editfarmpond")) {
+                                EditFarmPondDetails_Activity.statlatitude_tv.setText(str_lat);
+                                EditFarmPondDetails_Activity.statlongitude_tv.setText(str_long);
+                                EditFarmPondDetails_Activity.statlocatedmap_status_tv.setText("Completed");
+                                EditFarmPondDetails_Activity.statlocationnotconfirmedtext_tv.setVisibility(View.GONE);
+                                EditFarmPondDetails_Activity.statlocation_confirmedtext_tv.setVisibility(View.VISIBLE);
+                                finish();
                             }
-                        });
-                        alert.show();
 
 
+                        }
+                    })
+                            .setNegativeButton("No", new DialogInterface.OnClickListener() {
+                                @Override
+                                public void onClick(DialogInterface dialog, int which) {
+                                    //Action for "Cancel".
+                                    dialog.dismiss();
+                                }
+                            });
+
+                    final AlertDialog alert = dialog.create();
+                    alert.setOnShowListener(new DialogInterface.OnShowListener() {
+                        @Override
+                        public void onShow(DialogInterface arg0) {
+                            alert.getButton(AlertDialog.BUTTON_NEGATIVE).setTextColor(Color.RED);
+                            alert.getButton(AlertDialog.BUTTON_POSITIVE).setTextColor(Color.parseColor("#004D40"));
+                        }
+                    });
+                    alert.show();
 
 
-                }else{
-                    Toast.makeText(getApplicationContext(),"Kindly Mark the Pond in Map",Toast.LENGTH_LONG).show();
+                } else {
+                    Toast.makeText(getApplicationContext(), "Kindly Mark the Pond in Map", Toast.LENGTH_LONG).show();
                 }
             }
-                 });
+        });
 
 
-    cancel_bt.setOnClickListener(new View.OnClickListener() {
-        @Override
-        public void onClick(View v)
-        {
+        cancel_bt.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
 
-            AlertDialog.Builder dialog = new AlertDialog.Builder(MapsActivity.this);
-            dialog.setCancelable(false);
-            dialog.setTitle(R.string.app_name);
-            dialog.setMessage("Are you sure want to locate Pond later");
+                AlertDialog.Builder dialog = new AlertDialog.Builder(MapsActivity.this);
+                dialog.setCancelable(false);
+                dialog.setTitle(R.string.alert);
+                dialog.setMessage("Are you sure want to locate Pond later");
 
-            dialog.setPositiveButton("Yes", new DialogInterface.OnClickListener()
-            {
-                @Override
-                public void onClick(DialogInterface dialog, int id)
-                {
+                dialog.setPositiveButton("Yes", new DialogInterface.OnClickListener() {
+                    @Override
+                    public void onClick(DialogInterface dialog, int id) {
                    /* AddFarmPondActivity.statlatitude_tv.setText("0.0");
                     AddFarmPondActivity.statlongitude_tv.setText("0.0");*/
 
-                    if(str_fromname.equalsIgnoreCase("addfarmpond"))
-                    {AddFarmPondActivity.statlocationnotconfirmedtext_tv.setVisibility(View.VISIBLE);
-                        AddFarmPondActivity.statlocatedmap_status_tv.setText("Pending");
-                        AddFarmPondActivity.statlocation_confirmedtext_tv.setVisibility(View.GONE);
-                    }
-
-                   if(str_fromname.equalsIgnoreCase("Editfarmpond"))
-                   { EditFarmPondDetails_Activity.statlocationnotconfirmedtext_tv.setVisibility(View.VISIBLE);
-                       EditFarmPondDetails_Activity.statlocatedmap_status_tv.setText("Pending");
-                       EditFarmPondDetails_Activity.statlocation_confirmedtext_tv.setVisibility(View.GONE);}
-
-                    finish();
-                }
-            })
-                    .setNegativeButton("No", new DialogInterface.OnClickListener() {
-                        @Override
-                        public void onClick(DialogInterface dialog, int which) {
-                            //Action for "Cancel".
-                            dialog.dismiss();
+                        if (str_fromname.equalsIgnoreCase("addfarmpond")) {
+                            AddFarmPondActivity.statlocationnotconfirmedtext_tv.setVisibility(View.VISIBLE);
+                            AddFarmPondActivity.statlocatedmap_status_tv.setText("Pending");
+                            AddFarmPondActivity.statlocation_confirmedtext_tv.setVisibility(View.GONE);
                         }
-                    });
 
-            final AlertDialog alert = dialog.create();
-            alert.setOnShowListener(new DialogInterface.OnShowListener() {
-                @Override
-                public void onShow(DialogInterface arg0) {
-                    alert.getButton(AlertDialog.BUTTON_NEGATIVE).setTextColor(Color.RED);
-                    alert.getButton(AlertDialog.BUTTON_POSITIVE).setTextColor(Color.parseColor("#004D40"));
-                }
-            });
-            alert.show();
+                        if (str_fromname.equalsIgnoreCase("Editfarmpond")) {
+                            EditFarmPondDetails_Activity.statlocationnotconfirmedtext_tv.setVisibility(View.VISIBLE);
+                            EditFarmPondDetails_Activity.statlocatedmap_status_tv.setText("Pending");
+                            EditFarmPondDetails_Activity.statlocation_confirmedtext_tv.setVisibility(View.GONE);
+                        }
 
-           // finish();
-        }
-    });
+                        finish();
+                    }
+                })
+                        .setNegativeButton("No", new DialogInterface.OnClickListener() {
+                            @Override
+                            public void onClick(DialogInterface dialog, int which) {
+                                //Action for "Cancel".
+                                dialog.dismiss();
+                            }
+                        });
+
+                final AlertDialog alert = dialog.create();
+                alert.setOnShowListener(new DialogInterface.OnShowListener() {
+                    @Override
+                    public void onShow(DialogInterface arg0) {
+                        alert.getButton(AlertDialog.BUTTON_NEGATIVE).setTextColor(Color.RED);
+                        alert.getButton(AlertDialog.BUTTON_POSITIVE).setTextColor(Color.parseColor("#004D40"));
+                    }
+                });
+                alert.show();
+
+                // finish();
+            }
+        });
 
 
     }// end of OnCreate()
@@ -273,8 +307,7 @@ public class MapsActivity extends FragmentActivity implements OnMapReadyCallback
      */
 
     @Override
-    public void onMapReady(final GoogleMap googleMap)
-    {
+    public void onMapReady(final GoogleMap googleMap) {
 
 
 
@@ -294,22 +327,19 @@ public class MapsActivity extends FragmentActivity implements OnMapReadyCallback
         mMap.moveCamera(CameraUpdateFactory.newLatLng(TutorialsPoint1));*/
 
         gpstracker_obj1 = new Class_GPSTracker(MapsActivity.this);
-        if(gpstracker_obj1.canGetLocation())
-        {
+        if (gpstracker_obj1.canGetLocation()) {
             double_currentlatitude = gpstracker_obj1.getLatitude();
             double_currentlongitude = gpstracker_obj1.getLongitude();
 
         }
 
 
-
-        if(str_fromname.equalsIgnoreCase("addfarmpond"))
-        {
+        if (str_fromname.equalsIgnoreCase("addfarmpond")) {
             double_currentlatitude = Double.valueOf(AddFarmPondActivity.statlatitude_tv.getText().toString());
             double_currentlongitude = Double.valueOf(AddFarmPondActivity.statlongitude_tv.getText().toString());
         }
 
-        if(str_fromname.equalsIgnoreCase("Editfarmpond")) {
+        if (str_fromname.equalsIgnoreCase("Editfarmpond")) {
             double_currentlatitude = Double.valueOf(EditFarmPondDetails_Activity.statlatitude_tv.getText().toString());
             double_currentlongitude = Double.valueOf(EditFarmPondDetails_Activity.statlongitude_tv.getText().toString());
         }
@@ -329,10 +359,19 @@ public class MapsActivity extends FragmentActivity implements OnMapReadyCallback
         mMap.animateCamera(CameraUpdateFactory.newLatLngZoom(Currentlocation, zoomLevel));*/
 
 
+        if (ActivityCompat.checkSelfPermission(this, android.Manifest.permission.ACCESS_FINE_LOCATION) != PackageManager.PERMISSION_GRANTED && ActivityCompat.checkSelfPermission(this, android.Manifest.permission.ACCESS_COARSE_LOCATION) != PackageManager.PERMISSION_GRANTED) {
+            // TODO: Consider calling
+            //    ActivityCompat#requestPermissions
+            // here to request the missing permissions, and then overriding
+            //   public void onRequestPermissionsResult(int requestCode, String[] permissions,
+            //                                          int[] grantResults)
+            // to handle the case where the user grants the permission. See the documentation
+            // for ActivityCompat#requestPermissions for more details.
+            return;
+        }
+        googleMap.setMyLocationEnabled(true);
 
-
-
-
+        googleMap.getUiSettings().setMyLocationButtonEnabled(true);
 
         mMap = googleMap;
         // Add a marker in Sydney and move the camera

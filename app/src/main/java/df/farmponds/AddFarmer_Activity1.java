@@ -1634,10 +1634,11 @@ public class AddFarmer_Activity1 extends AppCompatActivity {
 
     public boolean validation() {
         boolean b_year, b_state, b_district, b_taluk, b_grampanchayat, b_village, b_firstname, b_secondname, b_middlename,
-                b_age, b_cellnumber, b_annualincome, b_familymembers, b_farmerimage, b_agecheck;
+                b_age, b_cellnumber, b_annualincome, b_familymembers, b_farmerimage, b_agecheck,b_idproof;
 
         b_year = b_state = b_district = b_taluk = b_grampanchayat = b_village = b_firstname = b_secondname =
-                b_middlename = b_age = b_cellnumber = b_annualincome = b_familymembers = b_farmerimage = b_agecheck = true;
+                b_middlename = b_age = b_cellnumber = b_annualincome = b_familymembers = b_farmerimage = b_agecheck =
+                        b_idproof=true;
 
         Log.e("yearvalue", sp_stryear_ID);
 
@@ -1740,8 +1741,21 @@ public class AddFarmer_Activity1 extends AppCompatActivity {
         }
 
 
+        if(farmeridno_et.getText().toString().trim().length()==0)
+        {
+            farmeridno_et.setError("Enter ID Proof");
+            b_idproof=false;
+        }else{
+            if(farmeridno_et.getText().toString().trim().length()<=4)
+            {
+                farmeridno_et.setError("Enter Valid ID proof");
+                b_idproof=false;
+            }
+        }
+
         return (b_year && b_state && b_district && b_taluk && b_grampanchayat && b_village && b_firstname && b_secondname &&
-                b_middlename && b_age && b_cellnumber && b_annualincome && b_familymembers && b_farmerimage && b_agecheck);
+                b_middlename && b_age && b_cellnumber && b_annualincome && b_familymembers && b_farmerimage && b_agecheck
+        &&b_idproof);
 
     }
 
@@ -2220,7 +2234,7 @@ public class AddFarmer_Activity1 extends AppCompatActivity {
 
         AlertDialog.Builder dialog = new AlertDialog.Builder(AddFarmer_Activity1.this);
         dialog.setCancelable(false);
-        dialog.setTitle(R.string.app_name);
+        dialog.setTitle(R.string.alert);
         dialog.setMessage("Are you sure want to go back");
 
         dialog.setPositiveButton("Yes", new DialogInterface.OnClickListener() {
