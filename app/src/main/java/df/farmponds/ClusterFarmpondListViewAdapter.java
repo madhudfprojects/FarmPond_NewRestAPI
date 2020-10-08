@@ -166,13 +166,12 @@ public class ClusterFarmpondListViewAdapter extends BaseAdapter
         sharedpreferencebook_usercredential_Obj = activity.getSharedPreferences(sharedpreferencebook_usercredential, Context.MODE_PRIVATE);
         str_loginuserId = sharedpreferencebook_usercredential_Obj.getString(KeyValue_employeeid, "").trim();
         Log.e("tag", "str_loginuserId=" + str_loginuserId);
+//        Log.e("tag", "getEmployeeName=" + item.getEmployeeName().toString());
 
         str_employeerole=sharedpreferencebook_usercredential_Obj.getString(KeyValue_employeecategory, "").trim();
 
         if(item.getEmployeeName()!=null) {
-            holder.submitterName.setText(item.getEmployeeName());
-
-
+            holder.submitterName.setText(item.getEmployeeName().toString());
         }
         if(item.getYearName()!=null) {
             holder.yearName.setText(item.getYearName());
@@ -222,10 +221,14 @@ public class ClusterFarmpondListViewAdapter extends BaseAdapter
         if(item.getConstructionEnd()!=null) {
             holder.endDate.setText(item.getConstructionEnd().toString());
         }
+        if(item.getConstructionDays()!=null) {
+            holder.no_ofDays.setText(item.getConstructionDays().toString());
+        }
         if(item.getCollectedAmount()!=null&&item.getConstructionCost()!=null) {
             String amt=item.getCollectedAmount()+"/"+item.getConstructionCost();
             holder.amount.setText(amt);
         }
+
         if(item.getApprovalStatus()!=null)
         {
             holder.approval_Status.setText(item.getApprovalStatus().toString());

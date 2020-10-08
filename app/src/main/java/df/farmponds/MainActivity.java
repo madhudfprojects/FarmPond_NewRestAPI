@@ -197,6 +197,10 @@ public class MainActivity extends AppCompatActivity
                 Intent i = new Intent(MainActivity.this, ClusterHomeActivity.class);
                 startActivity(i);
                 finish();
+            }else if(Employee_Role.equalsIgnoreCase("Cluster Head_Field Facilitator")){
+                Intent i = new Intent(MainActivity.this, ClusterHomeActivity.class);
+                startActivity(i);
+                finish();
             }
 
             // Stay at the current activity.
@@ -408,7 +412,8 @@ public class MainActivity extends AppCompatActivity
        // str_gmailid="kanadeanand@gmail.com";
      //  str_gmailid="pramod.kumar@dfmail.org";
       //  str_gmailid="johnson.buraga@dfmail.org";
-       // str_gmailid="madhushree.kubsad@dfmail.org";
+      // str_gmailid="madhushree.kubsad@dfmail.org";
+        str_gmailid="jeevansab.agri@dfmail.org";
 
         retrofit2.Call call = userService1.getValidateLoginPostNew(str_gmailid);
 
@@ -489,6 +494,10 @@ public class MainActivity extends AppCompatActivity
                     else if(user_object.getLst().get(0).getUserRole().equalsIgnoreCase("Admin")){
                         Intent i = new Intent(MainActivity.this, ClusterHomeActivity.class);
                         startActivity(i);
+                    }else if(user_object.getLst().get(0).getUserRole().equalsIgnoreCase("Cluster Head_Field Facilitator")){
+                        Intent i = new Intent(MainActivity.this, ClusterHomeActivity.class);
+                        startActivity(i);
+                        finish();
                     }
                     else{
 

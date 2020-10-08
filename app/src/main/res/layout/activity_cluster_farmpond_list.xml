@@ -172,14 +172,14 @@
                 android:textSize="13dp"
                 android:textStyle="bold"
                 android:textColor="@color/dark_black"
-                android:text="Submitter Name"/>
+                android:text="Submitter"/>
             <TextView
                 android:layout_weight="1"
                 android:id="@+id/submitterName"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:textColor="@color/dark_black"
-                android:textSize="11dp"
+                android:textSize="13dp"
                 android:text=""/>
         </LinearLayout>
 

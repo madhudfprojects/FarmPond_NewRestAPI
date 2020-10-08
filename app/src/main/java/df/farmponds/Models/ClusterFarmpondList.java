@@ -134,8 +134,8 @@ public class ClusterFarmpondList {
                                String farmerName, String farmerMobile, String pondCode, String pondSize, String constructionStart,
                                String constructionEnd, String pondLatitude, String pondLongitude, String collectedAmount,
                                String constructionCost, String constructionDays, String locationStatus, String approvalStatus,
-                               String pondid,
-                               String str_base64image1, String str_base64image2, String str_base64image3) {
+                               String pondid, String str_base64image1, String str_base64image2, String str_base64image3,
+                               String machine_Name,String reading_Hour,String reading_Start,String reading_End,String submitterName) {
         this.yearName=yearName;
         this.stateName=stateName;
         this.districtName=districtName;
@@ -158,6 +158,11 @@ public class ClusterFarmpondList {
         this.pondImageLink1=str_base64image1;
         this.pondImageLink2=str_base64image2;
         this.pondImageLink3=str_base64image3;
+        this.machine_Name=machine_Name;
+        this.reading_Hour=reading_Hour;
+        this.reading_Start=reading_Start;
+        this.reading_End=reading_End;
+        this.employeeName=submitterName;
     }
 
     public String getYearName() {

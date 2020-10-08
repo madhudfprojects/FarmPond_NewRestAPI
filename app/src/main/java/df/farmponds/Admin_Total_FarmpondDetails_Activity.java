@@ -175,16 +175,17 @@ public class Admin_Total_FarmpondDetails_Activity extends AppCompatActivity
                 if (!file.exists()) {
                     file.mkdirs();
                     Log.e("tag","file created");
-                }else {
+                }/*else {
                    // if (file.delete()) {
                     File file_delete = new File(directory_path, "FarmPondDetails_Excel.csv");
                     Log.e("tag","file_delete=="+file_delete.toString());
                     if(file_delete.delete()){
+                        file.mkdirs();
                         Log.e("tag","file deleted");
                     }else{
                         Log.e("tag","file not deleted");
                     }
-                }
+                }*/
                 SQLiteToExcel sqliteToExcel = new SQLiteToExcel(getApplicationContext(), "FarmPond_db", directory_path);
                 sqliteToExcel.exportSingleTable("FarmPondDetails_Excel", "FarmPondDetails_Excel.csv", new SQLiteToExcel.ExportListener() {
                     @Override
@@ -195,7 +196,10 @@ public class Admin_Total_FarmpondDetails_Activity extends AppCompatActivity
                         Toast.makeText(Admin_Total_FarmpondDetails_Activity.this, "Successfully Exported", Toast.LENGTH_SHORT).show();
                         try {
                             //FileOpen.openFile(mContext, myFile);
+
                             File outputFile = new File(file, "FarmPondDetails_Excel.csv");
+                            Log.e("tag","file=="+file.toString());
+                            Log.e("tag","outputFile=="+outputFile.toString());
                             FileOpen.openFile(getApplicationContext(), outputFile);
                         } catch (IOException e) {
                             e.printStackTrace();
@@ -687,7 +691,7 @@ String DataAll="0",DataApproved="0",DataPending="0",DataProcess="0",DataRejected
             }
 
              intent.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
-            intent.addFlags(Intent.FLAG_GRANT_READ_URI_PERMISSION);
+             intent.addFlags(Intent.FLAG_GRANT_READ_URI_PERMISSION);
             context.startActivity(intent);
         }
     }

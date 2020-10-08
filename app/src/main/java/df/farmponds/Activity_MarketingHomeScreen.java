@@ -353,9 +353,12 @@ Log.e("tag","str_employee_id="+str_employee_id);
 
     @Override
     public void onBackPressed() {
-        super.onBackPressed();
+        /*super.onBackPressed();
         Intent i = new Intent(getApplicationContext(), MainActivity.class);
         i.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK | Intent.FLAG_ACTIVITY_CLEAR_TASK);
+        startActivity(i);
+        finish();*/
+        Intent i = new Intent(Activity_MarketingHomeScreen.this, Activity_HomeScreen.class);
         startActivity(i);
         finish();
     }

@@ -158,7 +158,11 @@ public class ClusterHomeActivity extends AppCompatActivity {
         Log.e("tag","Employee_Role="+Employee_Role);
         if(Employee_Role.equalsIgnoreCase("Admin")) {
             cluster_ff.setText("Cluster Head list");
-        }else{
+        } else if(Employee_Role.equalsIgnoreCase("Cluster Head_Field Facilitator")) {
+            Employee_Role="Cluster Head";
+            cluster_ff.setText("Field Facilitator list");
+        }
+        else{
             cluster_ff.setText("Field Facilitator list");
         }
         
@@ -611,7 +615,8 @@ public class ClusterHomeActivity extends AppCompatActivity {
     @Override
     public boolean onCreateOptionsMenu(Menu menu) {
         // Inflate the menu; this adds items to the action bar if it is present.
-        getMenuInflater().inflate(R.menu.logout_menu, menu);
+        getMenuInflater().inflate(R.menu.home_menu, menu);
+        menu.findItem(R.id.filedfacilater).setTitle("Field Facilitator");
         return true;
     }
 
@@ -635,6 +640,17 @@ public class ClusterHomeActivity extends AppCompatActivity {
 
 
         }
+        if(id==R.id.filedfacilater)
+        {
+
+            Intent i = new Intent(ClusterHomeActivity.this, Activity_HomeScreen.class);
+            startActivity(i);
+            finish();
+            return true;
+
+
+        }
+
 
 
 

@@ -194,6 +194,15 @@ public class ClusterFarmpondActivity extends AppCompatActivity {
                                 class_cluster_FarmpondList.setPondSize((class_userData.getLstSummary().get(i).getPondSize()));
                                 class_cluster_FarmpondList.setPondLatitude((class_userData.getLstSummary().get(i).getPondLatitude()));
                                 class_cluster_FarmpondList.setPondLongitude((class_userData.getLstSummary().get(i).getPondLongitude()));
+
+                                class_cluster_FarmpondList.setConstructionCost((class_userData.getLstSummary().get(i).getConstructionCost()));
+                                class_cluster_FarmpondList.setCollectedAmount((class_userData.getLstSummary().get(i).getCollectedAmount()));
+                                class_cluster_FarmpondList.setCreatedDate((class_userData.getLstSummary().get(i).getCreatedDate()));
+                                class_cluster_FarmpondList.setSubmittedDate((class_userData.getLstSummary().get(i).getSubmittedDate()));
+                                class_cluster_FarmpondList.setConstructionDays((class_userData.getLstSummary().get(i).getConstructionDays()));
+                                class_cluster_FarmpondList.setConstructionStart((class_userData.getLstSummary().get(i).getConstructionStart()));
+                                class_cluster_FarmpondList.setConstructionEnd((class_userData.getLstSummary().get(i).getConstructionEnd()));
+                                class_cluster_FarmpondList.setDonorName((class_userData.getLstSummary().get(i).getDonorName()));
                                 class_cluster_FarmpondList.setApprovalStatus((class_userData.getLstSummary().get(i).getApprovalStatus()));
                                 class_cluster_FarmpondList.setLocationStatus((class_userData.getLstSummary().get(i).getLocationStatus()));
                                 class_cluster_FarmpondList.setReading_Start((class_userData.getLstSummary().get(i).getReading_Start()));
@@ -335,7 +344,12 @@ public class ClusterFarmpondActivity extends AppCompatActivity {
                                         arrayFarmpondlist[i].getLocationStatus(),
                                         arrayFarmpondlist[i].getApprovalStatus(),
                                         arrayFarmpondlist[i].getPondID(),
-                                        str_base64image1,str_base64image2,str_base64image3);
+                                        str_base64image1,str_base64image2,str_base64image3,
+                                        arrayFarmpondlist[i].getMachine_Name(),
+                                        arrayFarmpondlist[i].getReading_Hour(),
+                                        arrayFarmpondlist[i].getReading_Start(),
+                                        arrayFarmpondlist[i].getReading_End(),
+                                        arrayFarmpondlist[i].getEmployeeName());
 
                                 clusterFarmpondList.add(item);
 
