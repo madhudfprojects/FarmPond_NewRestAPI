@@ -791,8 +791,9 @@ public class Activity_HomeScreen extends AppCompatActivity implements GoogleApiC
         @Override
     public boolean onCreateOptionsMenu(Menu menu) {
         // Inflate the menu; this adds items to the action bar if it is present.
-        getMenuInflater().inflate(R.menu.logout_menu, menu);
-        return true;
+        getMenuInflater().inflate(R.menu.home_menu, menu);
+            menu.findItem(R.id.filedfacilater).setTitle("Cluster Head");
+            return true;
     }
 
     @Override
@@ -802,7 +803,6 @@ public class Activity_HomeScreen extends AppCompatActivity implements GoogleApiC
         // automatically handle clicks on the Home/Up button, so long
         // as you specify a parent activity in AndroidManifest.xml.
         int id = item.getItemId();
-
         //noinspection SimplifiableIfStatement
 
         if(id==R.id.contactus)
@@ -812,8 +812,14 @@ public class Activity_HomeScreen extends AppCompatActivity implements GoogleApiC
             startActivity(i);
             finish();
             return true;
+        }
+        if(id==R.id.filedfacilater)
+        {
 
-
+            Intent i = new Intent(Activity_HomeScreen.this, ClusterHomeActivity.class);
+            startActivity(i);
+            finish();
+            return true;
         }
 
 

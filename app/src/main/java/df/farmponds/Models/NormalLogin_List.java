@@ -16,7 +16,7 @@ public class NormalLogin_List {
     @SerializedName("User_Desigation")
     @Expose
     private String userDesigation;
-    @SerializedName("User_Role")
+    @SerializedName("User_Roles")
     @Expose
     private String userRole;
     @SerializedName("User_State")
