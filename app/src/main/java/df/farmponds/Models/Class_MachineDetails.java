@@ -29,6 +29,6 @@ public class Class_MachineDetails
     }
 
     public String toString() {
-        return machine_ID;
+        return machine_Name;
     }
 }

@@ -837,6 +837,7 @@ public class AddFarmPondActivity extends AppCompatActivity {
                 class_machineDetails_obj = (Class_MachineDetails) selectmachineno_sp.getSelectedItem();
                 //str_machinecode = class_machineDetails_obj.getMachine_Code().toString();
                 str_machinecode = class_machineDetails_obj.getMachine_ID().toString();
+               // Toast.makeText(getApplicationContext(), "" + str_machinecode, Toast.LENGTH_SHORT).show();
             }
 
             @Override
@@ -850,7 +851,7 @@ public class AddFarmPondActivity extends AppCompatActivity {
             public void onItemSelected(AdapterView<?> parent, View view, int position, long id) {
                 class_remarksdetails_obj = (Class_RemarksDetails) selectremarks_sp.getSelectedItem();
                 str_remarksid = class_remarksdetails_obj.getRemarks_ID().toString();
-                Toast.makeText(getApplicationContext(), "" + str_remarksid, Toast.LENGTH_SHORT).show();
+                //Toast.makeText(getApplicationContext(), "" + str_remarksid, Toast.LENGTH_SHORT).show();
             }
 
             @Override
@@ -913,6 +914,7 @@ public class AddFarmPondActivity extends AppCompatActivity {
                 if(s.toString().isEmpty())
                 {
                     add_newpond_total_amount_tv.setText("");
+                    add_newpond_amountcollected_et.setText("");
                     // add_newpond_no_of_days_et.setText("");
                 }
                 else{

@@ -629,9 +629,14 @@ public class EditFarmPondDetails_Activity extends AppCompatActivity {
                            /* latitude_tv.setText(str_currentlatitude);
                             longitude_tv.setText(str_currentlongitude);
 */
+                            dblatitude_LL.setVisibility(View.VISIBLE);
+                            dblongitude_LL.setVisibility(View.VISIBLE);
 
                            statlatitude_tv.setText(str_currentlatitude);
                            statlongitude_tv.setText(str_currentlongitude);
+
+                            /*Log.e("slat",String.valueOf(str_currentlatitude));
+                            Log.e("slong",String.valueOf(str_currentlongitude));*/
 
                             str_latitude=str_currentlatitude;
                             str_longitude=str_currentlongitude;
@@ -917,6 +922,7 @@ public class EditFarmPondDetails_Activity extends AppCompatActivity {
 
                 if (s.toString().isEmpty()) {
                     edit_pond_total_amount_tv.setText("");
+                    edit_amountcollected_et.setText("");
                     // add_newpond_no_of_days_et.setText("");
                 } else {
 
@@ -1139,11 +1145,13 @@ public class EditFarmPondDetails_Activity extends AppCompatActivity {
                         Log.e("error .","error .");
                         alerts_dialog_machinereading("machineend");
 
-                        int x= Integer.parseInt(machine_end_et.getText().toString().trim());
-                    }else if(Integer.parseInt(machine_end_et.getText().toString().trim())<0)
+
+                    }
+                   // else if(Integer.parseInt(machine_end_et.getText().toString().trim())<0)
+                    /*else if(machine_end_et.getText().toString().trim().length()>0)
                     {
                         alerts_dialog_machinereading("zero");
-                    }
+                    }*/
                     else
                     {
                         if(machine_end_et.getText().toString().trim().length()>0)
@@ -1267,7 +1275,7 @@ public class EditFarmPondDetails_Activity extends AppCompatActivity {
 
 
     public void search_Machinelist(String str_machineID) {
-        Log.e("InsideMachine", "Machinelist");
+        Log.e("InMachinelist", str_machineID);
 
         SQLiteDatabase db1 = this.openOrCreateDatabase("FarmPond_db", Context.MODE_PRIVATE, null);
         db1.execSQL("CREATE TABLE IF NOT EXISTS MachineDetails_fromServerRest(SlNo INTEGER PRIMARY KEY AUTOINCREMENT,MachineNameDB VARCHAR,MachineIDDB VARCHAR);");
@@ -1303,6 +1311,7 @@ public class EditFarmPondDetails_Activity extends AppCompatActivity {
         Cursor cursor1 = db2.rawQuery("SELECT DISTINCT * FROM MachineDetails_fromServerRest WHERE MachineIDDB='" + str_machineID + "'", null);
         //Cursor cursor1 = db1.rawQuery("SELECT DISTINCT * FROM MachineDetails_fromServer", null);
         int x1 = cursor1.getCount();
+
         int i1 = 0;
         Class_MachineDetails class_machineDetails_obj3 = new Class_MachineDetails();
         if (cursor1.moveToFirst()) {
@@ -1326,7 +1335,8 @@ public class EditFarmPondDetails_Activity extends AppCompatActivity {
             str_comparevalue = "Nocode";
             Log.e("comparevalue", str_comparevalue);
         } else {
-            str_comparevalue = class_machineDetails_obj3.getMachine_ID().toString();
+           // str_comparevalue = class_machineDetails_obj3.getMachine_ID().toString();
+            str_comparevalue = class_machineDetails_obj3.getMachine_Name().toString();
             Log.e("comparevalueelse", str_comparevalue);
         }
 
@@ -1395,8 +1405,11 @@ public class EditFarmPondDetails_Activity extends AppCompatActivity {
 
 
     //private method of your class
-    private int getIndex(Spinner spinner, String myString) {
+    private int getIndex(Spinner spinner, String myString)
+    {
         for (int i = 0; i < spinner.getCount(); i++) {
+
+           // Log.e("machinespinner", String.valueOf(spinner.getItemAtPosition(i).toString().equalsIgnoreCase(myString)));
             if (spinner.getItemAtPosition(i).toString().equalsIgnoreCase(myString)) {
                 return i;
             }
@@ -2097,14 +2110,16 @@ public class EditFarmPondDetails_Activity extends AppCompatActivity {
             machine_end_LL.setVisibility(View.VISIBLE);
             machine_start_LL.setVisibility(View.VISIBLE);
 
-            dblatitude_LL.setVisibility(View.GONE);
-            dblongitude_LL.setVisibility(View.GONE);
+            dblatitude_LL.setVisibility(View.VISIBLE);
+            dblongitude_LL.setVisibility(View.VISIBLE);
 
             farmpondlocationlabel_LL.setVisibility(View.VISIBLE);
-            currentlatitude_LL.setVisibility(View.VISIBLE);
-            currentlongitude_LL.setVisibility(View.VISIBLE);
+
             locatemap_ll.setVisibility(View.VISIBLE);
 
+
+            currentlatitude_LL.setVisibility(View.GONE);
+            currentlongitude_LL.setVisibility(View.GONE);
 
             str_image3 = "false";
             ByteArrayOutputStream baos = new ByteArrayOutputStream();
