@@ -26,6 +26,7 @@
     <uses-permission android:name="com.google.android.providers.gsf.permission.READ_GSERVICES" />
 
 
+
     <dist:module dist:instant="true" />
 
     <application
@@ -36,7 +37,8 @@
         android:roundIcon="@drawable/laucher_icon_farmpond"
         android:supportsRtl="true"
         android:theme="@style/AppTheme">
-        <activity android:name=".Summary_Count"></activity>
+        <activity android:name=".Summary_Count"
+            android:screenOrientation="portrait"/>
 
 
         <uses-library
@@ -91,19 +93,25 @@
         </service>
 
 
-        <activity android:name=".CameraPhotoCapture" />
-        <activity android:name=".Activity_HomeScreen" />
+        <activity android:name=".CameraPhotoCapture"
+            android:screenOrientation="portrait"/>
+        <activity android:name=".Activity_HomeScreen"
+            android:screenOrientation="portrait"/>
         <activity
             android:name=".Activity_MarketingHomeScreen"
+            android:screenOrientation="portrait"
             android:theme="@style/AppThemeNoActionBar" />
         <activity
             android:name=".AddFarmer_Activity1"
+            android:screenOrientation="portrait"
             android:theme="@style/AppThemeNoActionBar" />
         <activity
             android:name=".Activity_ViewFarmers"
+            android:screenOrientation="portrait"
             android:theme="@style/AppThemeNoActionBar" />
         <activity
             android:name=".Admin_Total_FarmpondDetails_Activity"
+            android:screenOrientation="portrait"
             android:theme="@style/AppThemeNoActionBar" />
 
         <activity
@@ -112,10 +120,14 @@
             android:theme="@style/AppThemeNoActionBar"/>
 
 
-        <activity android:name=".ClusterFarmpondActivity"></activity>
-        <activity android:name=".ClusterFarmerListActivity" />
-        <activity android:name=".ClusterHomeActivity" />
-        <activity android:name=".AdminClustersActivity" />
+        <activity android:name=".ClusterFarmpondActivity"
+            android:screenOrientation="portrait"/>
+        <activity android:name=".ClusterFarmerListActivity"
+            android:screenOrientation="portrait"/>
+        <activity android:name=".ClusterHomeActivity"
+            android:screenOrientation="portrait"/>
+        <activity android:name=".AdminClustersActivity"
+            android:screenOrientation="portrait"/>
 
 
         <activity
