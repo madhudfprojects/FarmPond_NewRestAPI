@@ -99,7 +99,7 @@ public class ClusterFarmpondListViewAdapter extends BaseAdapter
                 amount,no_ofDays,approval_Status,pondid_tv;
         ImageView pond_image1_iv,pond_image2_iv,pond_image3_iv;
         ImageView maplocationfinal_iv,location_Status;
-        LinearLayout approve_reject_ll,clustercomments_ll;
+        LinearLayout approve_reject_ll,clustercomments_ll,maplocationfinal_ll;
         Button cancel_bt,reject_bt,approve_bt;
         TextView clusterlatitude_tv,clusterlongitude_tv;
         EditText clustercomments_et;
@@ -150,6 +150,8 @@ public class ClusterFarmpondListViewAdapter extends BaseAdapter
             holder.pondid_tv=(TextView)convertView.findViewById(R.id.pondid_tv);
             holder.approve_reject_ll=(LinearLayout)convertView.findViewById(R.id.approve_reject_ll);
             holder.clustercomments_ll=(LinearLayout)convertView.findViewById(R.id.clustercomments_ll);
+            holder.maplocationfinal_ll=(LinearLayout)convertView.findViewById(R.id.maplocationfinal_ll);
+
             holder.readStart=(TextView)convertView.findViewById(R.id.readStart);
             holder.readEnd=(TextView)convertView.findViewById(R.id.readEnd);
             holder.readHours=(TextView)convertView.findViewById(R.id.readHours);
@@ -245,6 +247,10 @@ public class ClusterFarmpondListViewAdapter extends BaseAdapter
             {
                 holder.approval_Status.setBackgroundResource(R.color.dark_green);
             }
+            if(item.getApprovalStatus().equalsIgnoreCase("Progress"))
+            {
+                holder.approval_Status.setBackgroundResource(R.color.yellow_color);
+            }
 
             if(item.getApprovalStatus().equalsIgnoreCase("Waiting for Approval"))
             {
@@ -265,8 +271,10 @@ public class ClusterFarmpondListViewAdapter extends BaseAdapter
         if(item.getLocationStatus()!=null) {
             if(item.getLocationStatus().equalsIgnoreCase("Completed")){
                 holder.location_Status.setBackgroundResource(R.drawable.yes);
+                holder.maplocationfinal_ll.setVisibility(View.VISIBLE);
             }else {
                 holder.location_Status.setBackgroundResource(R.drawable.no);
+                holder.maplocationfinal_ll.setVisibility(View.GONE);
             }
         }
         if(item.getPondLatitude()!=null) {
