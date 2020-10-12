@@ -581,6 +581,13 @@ public class AdminClustersActivity extends AppCompatActivity {
     public boolean onCreateOptionsMenu(Menu menu) {
         // Inflate the menu; this adds items to the action bar if it is present.
         getMenuInflater().inflate(R.menu.logout_menu, menu);
+        menu.findItem(R.id.filedfacilater).setTitle("Field Facilitator");
+        if(Employee_Role.equalsIgnoreCase("Cluster Head_Field Facilitator"))
+        {
+            menu.findItem(R.id.filedfacilater).setVisible(true);
+        }else{
+            menu.findItem(R.id.filedfacilater).setVisible(false);
+        }
         return true;
     }
 

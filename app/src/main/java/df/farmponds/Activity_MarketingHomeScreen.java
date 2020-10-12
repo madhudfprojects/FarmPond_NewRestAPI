@@ -140,6 +140,7 @@ public class Activity_MarketingHomeScreen extends AppCompatActivity {
     Class_addfarmponddetails_ToFromServer1[] editedpond_response;
     int int_er;
 
+    String str_employeecategory;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -164,6 +165,11 @@ public class Activity_MarketingHomeScreen extends AppCompatActivity {
 
         sharedpreferencebook_usercredential_Obj=getSharedPreferences(sharedpreferencebook_usercredential, Context.MODE_PRIVATE);
         str_employee_id=sharedpreferencebook_usercredential_Obj.getString(KeyValue_employeeid, "").trim();
+
+
+        sharedpreferencebook_usercredential_Obj = getSharedPreferences(sharedpreferencebook_usercredential, Context.MODE_PRIVATE);
+        str_employeecategory = sharedpreferencebook_usercredential_Obj.getString(KeyValue_employeecategory, "").trim();
+
 
 Log.e("tag","str_employee_id="+str_employee_id);
 
@@ -264,6 +270,14 @@ Log.e("tag","str_employee_id="+str_employee_id);
     public boolean onCreateOptionsMenu(Menu menu) {
         // Inflate the menu; this adds items to the action bar if it is present.
         getMenuInflater().inflate(R.menu.logout_menu, menu);
+
+        if(str_employeecategory.equalsIgnoreCase("Cluster Head_Field Facilitator"))
+        {
+            menu.findItem(R.id.clusterhead).setVisible(true);
+        }else{
+            menu.findItem(R.id.clusterhead).setVisible(false);
+        }
+
         return true;
     }
 
@@ -283,8 +297,31 @@ Log.e("tag","str_employee_id="+str_employee_id);
             finish();
             return true;
 
-
         }
+
+
+        if(id==R.id.clusterhead)
+        {
+
+
+            internetDectector = new Class_InternetDectector(getApplicationContext());
+            isInternetPresent = internetDectector.isConnectingToInternet();
+
+            if (isInternetPresent) {
+                Intent i = new Intent(Activity_MarketingHomeScreen.this, ClusterHomeActivity.class);
+                startActivity(i);
+                finish();
+                return true;
+            }
+            else{
+                Toast.makeText(getApplicationContext(), "No Internet", Toast.LENGTH_SHORT).show();
+            }
+        }
+
+
+
+
+
         if (id == R.id.logout) {
             // Toast.makeText(CalenderActivity.this, "Action clicked", Toast.LENGTH_LONG).show();
             internetDectector = new Class_InternetDectector(getApplicationContext());

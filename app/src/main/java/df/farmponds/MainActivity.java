@@ -40,6 +40,7 @@ import com.google.firebase.auth.AuthResult;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.auth.FirebaseUser;
 import com.google.firebase.auth.GoogleAuthProvider;
+import com.google.gson.Gson;
 
 import org.json.JSONException;
 import org.json.JSONObject;
@@ -407,13 +408,13 @@ public class MainActivity extends AppCompatActivity
 
         //retrofit2.Call call = userService1.getValidateLoginPostNew("eventtest464@gmail.com");
        // retrofit2.Call call = userService1.getValidateLoginPostNew(str_gmailid);
-        str_gmailid="anandkanade.tech@dfmail.org";
+       // str_gmailid="anandkanade.tech@dfmail.org";
        // str_gmailid="eventtest464@gmail.com";
        // str_gmailid="kanadeanand@gmail.com";
      //  str_gmailid="pramod.kumar@dfmail.org";
       //  str_gmailid="johnson.buraga@dfmail.org";
       // str_gmailid="madhushree.kubsad@dfmail.org";
-       // str_gmailid="jeevansab.agri@dfmail.org";
+      //  str_gmailid="jeevansab.agri@dfmail.org";
 
         retrofit2.Call call = userService1.getValidateLoginPostNew(str_gmailid);
 
@@ -429,6 +430,7 @@ public class MainActivity extends AppCompatActivity
                 user_object = (NormalLogin_Response) response.body();
                 // String x=response.body().toString();
 
+                Log.e("response userdata:", "" + new Gson().toJson(response));
                 try {
                     JSONObject jsonObject = new JSONObject(response.body().toString());
                     String y = jsonObject.getString("Status").toString();
@@ -482,6 +484,7 @@ public class MainActivity extends AppCompatActivity
 
                     Log.e("tag", "mailid==" + SaveSharedPreference.getUsermailID(MainActivity.this));
 
+
                     if(user_object.getLst().get(0).getUserRole().equalsIgnoreCase("Field Facilitator"))
                     {
                         Intent i = new Intent(MainActivity.this, Activity_HomeScreen.class);
@@ -494,11 +497,17 @@ public class MainActivity extends AppCompatActivity
                     else if(user_object.getLst().get(0).getUserRole().equalsIgnoreCase("Admin")){
                         Intent i = new Intent(MainActivity.this, ClusterHomeActivity.class);
                         startActivity(i);
-                    }else if(user_object.getLst().get(0).getUserRole().equalsIgnoreCase("Cluster Head_Field Facilitator")){
+                    }else if(user_object.getLst().get(0).getUserRole().trim().equalsIgnoreCase("Cluster Head_Field Facilitator")){
+                       Log.e("clusterhead","clusterhead");
                         Intent i = new Intent(MainActivity.this, ClusterHomeActivity.class);
                         startActivity(i);
                         finish();
                     }
+                   /* else if(user_object.getLst().get(0).getUserRole().equalsIgnoreCase("Admin_Cluster Head_Field Facilitator"))
+                    {
+                        Intent i = new Intent(MainActivity.this, ClusterHomeActivity.class);
+                        startActivity(i);
+                }*/
                     else{
 
                         AlertDialog.Builder dialog = new AlertDialog.Builder(MainActivity.this);

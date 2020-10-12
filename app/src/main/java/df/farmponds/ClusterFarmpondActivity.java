@@ -67,7 +67,9 @@ public class ClusterFarmpondActivity extends AppCompatActivity {
 
     public static final String sharedpreferencebook_usercredential = "sharedpreferencebook_usercredential";
     public static final String KeyValue_employeeid = "KeyValue_employeeid";
+    public static final String KeyValue_employeecategory = "KeyValue_employeecategory";
     SharedPreferences sharedpreferencebook_usercredential_Obj;
+    String Employee_Role;
 
     private ListView lview;
 
@@ -88,6 +90,9 @@ public class ClusterFarmpondActivity extends AppCompatActivity {
         sharedpreferencebook_usercredential_Obj = getSharedPreferences(sharedpreferencebook_usercredential, Context.MODE_PRIVATE);
         str_userId = sharedpreferencebook_usercredential_Obj.getString(KeyValue_employeeid, "").trim();
         Log.e("tag", "str_userId=" + str_userId);
+
+        sharedpreferencebook_usercredential_Obj=getSharedPreferences(sharedpreferencebook_usercredential, Context.MODE_PRIVATE);
+        Employee_Role=sharedpreferencebook_usercredential_Obj.getString(KeyValue_employeecategory, "").trim();
 
         clusterFarmpondList = new ArrayList<ClusterFarmpondList>();
         lview=(ListView) findViewById(R.id.clustfarmpondlist_listview);
@@ -408,7 +413,16 @@ public class ClusterFarmpondActivity extends AppCompatActivity {
     @Override
     public boolean onCreateOptionsMenu(Menu menu) {
         // Inflate the menu; this adds items to the action bar if it is present.
-        getMenuInflater().inflate(R.menu.logout_menu, menu);
+
+        getMenuInflater().inflate(R.menu.home_menu, menu);
+        menu.findItem(R.id.filedfacilater).setTitle("Field Facilitator");
+
+        if(Employee_Role.equalsIgnoreCase("Cluster Head_Field Facilitator"))
+        {
+            menu.findItem(R.id.filedfacilater).setVisible(true);
+        }else{
+            menu.findItem(R.id.filedfacilater).setVisible(false);
+        }
         return true;
     }
 
@@ -432,6 +446,28 @@ public class ClusterFarmpondActivity extends AppCompatActivity {
 
 
         }
+
+        if(id==R.id.filedfacilater)
+        {
+
+            internetDectector = new Class_InternetDectector(getApplicationContext());
+            isInternetPresent = internetDectector.isConnectingToInternet();
+
+            if (isInternetPresent) {
+
+
+                Intent i = new Intent(ClusterFarmpondActivity.this, Activity_HomeScreen.class);
+                startActivity(i);
+                finish();
+                return true;
+            }
+            else{
+                Toast.makeText(getApplicationContext(), "No Internet", Toast.LENGTH_SHORT).show();
+            }
+
+        }
+
+
 
 
 

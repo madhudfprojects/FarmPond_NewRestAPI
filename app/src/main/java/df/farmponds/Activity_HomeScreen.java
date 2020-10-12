@@ -791,8 +791,19 @@ public class Activity_HomeScreen extends AppCompatActivity implements GoogleApiC
         @Override
     public boolean onCreateOptionsMenu(Menu menu) {
         // Inflate the menu; this adds items to the action bar if it is present.
-        getMenuInflater().inflate(R.menu.home_menu, menu);
-            menu.findItem(R.id.filedfacilater).setTitle("Cluster Head");
+        //getMenuInflater().inflate(R.menu.home_menu, menu);
+            getMenuInflater().inflate(R.menu.logout_menu, menu);
+           // menu.findItem(R.id.filedfacilater).setTitle("Cluster Head");
+
+
+            if(str_employeecategory.equalsIgnoreCase("Cluster Head_Field Facilitator"))
+            {
+                menu.findItem(R.id.clusterhead).setVisible(true);
+            }else{
+                menu.findItem(R.id.clusterhead).setVisible(false);
+            }
+
+
             return true;
     }
 
@@ -813,13 +824,22 @@ public class Activity_HomeScreen extends AppCompatActivity implements GoogleApiC
             finish();
             return true;
         }
-        if(id==R.id.filedfacilater)
+        if(id==R.id.clusterhead)
         {
 
-            Intent i = new Intent(Activity_HomeScreen.this, ClusterHomeActivity.class);
-            startActivity(i);
-            finish();
-            return true;
+
+            internetDectector = new Class_InternetDectector(getApplicationContext());
+            isInternetPresent = internetDectector.isConnectingToInternet();
+
+            if (isInternetPresent) {
+                Intent i = new Intent(Activity_HomeScreen.this, ClusterHomeActivity.class);
+                startActivity(i);
+                finish();
+                return true;
+            }
+            else{
+                Toast.makeText(getApplicationContext(), "No Internet", Toast.LENGTH_SHORT).show();
+            }
         }
 
 
