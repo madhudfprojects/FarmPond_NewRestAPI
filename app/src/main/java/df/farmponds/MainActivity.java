@@ -414,7 +414,7 @@ public class MainActivity extends AppCompatActivity
      //  str_gmailid="pramod.kumar@dfmail.org";
       //  str_gmailid="johnson.buraga@dfmail.org";
       // str_gmailid="madhushree.kubsad@dfmail.org";
-        str_gmailid="jeevansab.agri@dfmail.org";
+      //  str_gmailid="jeevansab.agri@dfmail.org";
 
         retrofit2.Call call = userService1.getValidateLoginPostNew(str_gmailid);
 
@@ -430,7 +430,7 @@ public class MainActivity extends AppCompatActivity
                 user_object = (NormalLogin_Response) response.body();
                 // String x=response.body().toString();
 
-                Log.e("response userdata:", "" + new Gson().toJson(response));
+               // Log.e("response userdata:", "" + new Gson().toJson(response));
                 try {
                     JSONObject jsonObject = new JSONObject(response.body().toString());
                     String y = jsonObject.getString("Status").toString();
@@ -553,7 +553,7 @@ public class MainActivity extends AppCompatActivity
             public void onFailure(Call call, Throwable t)
             {
                 login_progressDoalog.dismiss();
-                Log.e("WS","error"+t.getMessage());
+                Log.e("WS","error: "+t.getMessage());
                 Toast.makeText(MainActivity.this, "WS:"+t.getMessage(), Toast.LENGTH_LONG).show();
             }
         });
