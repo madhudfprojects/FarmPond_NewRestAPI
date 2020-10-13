@@ -93,7 +93,7 @@ public class MapsActivity extends FragmentActivity implements OnMapReadyCallback
             @Override
             public void onClick(View v)
             {
-                if(locationsearchtext_tv.getText().toString().trim().length()<0)
+                if(locationsearchtext_tv.getText().toString().trim().length()<=0)
                 {
                     Toast.makeText(getApplicationContext(), "Enter location", Toast.LENGTH_SHORT).show();
                 }else {
@@ -102,7 +102,8 @@ public class MapsActivity extends FragmentActivity implements OnMapReadyCallback
 
                     List<Address> addressList = null;
 
-                    if (location != null || !location.equals("")) {
+                    if (location != null || !location.equals("")
+                    ) {
 
                         Geocoder geocoder = new Geocoder(getApplicationContext());
 
@@ -121,7 +122,7 @@ public class MapsActivity extends FragmentActivity implements OnMapReadyCallback
                             mMap.animateCamera(CameraUpdateFactory.newLatLng(latLng));
                             Toast.makeText(getApplicationContext(), address.getLatitude() + " " + address.getLongitude(), Toast.LENGTH_LONG).show();
                         } catch (Exception e) {
-                            Toast.makeText(getApplicationContext(), "Error: Map error ", Toast.LENGTH_LONG).show();
+                            Toast.makeText(getApplicationContext(), "Error: Enter correct city name ", Toast.LENGTH_LONG).show();
                         }
 
 
