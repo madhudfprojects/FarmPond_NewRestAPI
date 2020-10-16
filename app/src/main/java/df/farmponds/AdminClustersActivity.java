@@ -137,7 +137,7 @@ public class AdminClustersActivity extends AppCompatActivity {
             Name = extras.getString("Name");
         }
 
-        userName.setText(Name);
+        userName.setText(Name+"(Cluster Head)");
         cluster_ff.setText("Field Facilitator list");
 
         internetDectector = new Class_InternetDectector(getApplicationContext());
@@ -227,7 +227,7 @@ public class AdminClustersActivity extends AppCompatActivity {
         clusterListViewAdapter = new AdminListViewAdapter(AdminClustersActivity.this, clusterList);
         lview.setAdapter(clusterListViewAdapter);
 
-    }   // end onCreate
+    }   // end userName
 
     private void GetAppVersionCheck(){
 //        Map<String,String> params = new HashMap<String, String>();
@@ -580,7 +580,7 @@ public class AdminClustersActivity extends AppCompatActivity {
     @Override
     public boolean onCreateOptionsMenu(Menu menu) {
         // Inflate the menu; this adds items to the action bar if it is present.
-        getMenuInflater().inflate(R.menu.logout_menu, menu);
+        getMenuInflater().inflate(R.menu.home_menu, menu);
         menu.findItem(R.id.filedfacilater).setTitle("Field Facilitator");
         if(Employee_Role.equalsIgnoreCase("Cluster Head_Field Facilitator"))
         {

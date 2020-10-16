@@ -63,7 +63,14 @@ public class Class_DBHandler extends SQLiteOpenHelper
 
 
 
+public void delete_FarmPondDetails_fromServerRest()
+{
+    SQLiteDatabase db_delete = this.getReadableDatabase();
+    //Cursor cursor = db_delete.rawQuery("SELECT * FROM FarmPondDetails_fromServerRest", null);
+    db_delete.delete("FarmPondDetails_fromServerRest", null, null);
+    db_delete.close();
 
+}
 
 
 

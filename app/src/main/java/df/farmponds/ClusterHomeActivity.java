@@ -124,6 +124,12 @@ public class ClusterHomeActivity extends AppCompatActivity {
     String Employee_Role;
     String str_employeerole;
 
+
+    public static final String sharedpreferencebook_User_pastCredential = "sharedpreferencebook_User_pastCredential";
+    public static final String KeyValue_pastUser_ID = "KeyValue_pastUser_ID";
+    SharedPreferences sharedpreferencebook_user_pastCredential_obj;
+    SharedPreferences.Editor editorpast_obj;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -157,6 +163,12 @@ public class ClusterHomeActivity extends AppCompatActivity {
         sharedpreferencebook_usercredential_Obj=getSharedPreferences(sharedpreferencebook_usercredential, Context.MODE_PRIVATE);
         Employee_Role=sharedpreferencebook_usercredential_Obj.getString(KeyValue_employeecategory, "").trim();
 
+
+        sharedpreferencebook_user_pastCredential_obj=getSharedPreferences(sharedpreferencebook_User_pastCredential,Context.MODE_PRIVATE);
+        editorpast_obj = sharedpreferencebook_user_pastCredential_obj.edit();
+        editorpast_obj.putString(KeyValue_pastUser_ID, str_employee_id.trim());
+        editorpast_obj.commit();
+
         Log.e("tag","Employee_Role="+Employee_Role);
 
         if(Employee_Role.equalsIgnoreCase("Admin"))
@@ -167,7 +179,11 @@ public class ClusterHomeActivity extends AppCompatActivity {
             str_employeerole="(Cluster Head & Field Facilitator)";
         }else if(Employee_Role.equalsIgnoreCase("Admin_Cluster Head_Field Facilitator")) {
             str_employeerole="(Admin&Cluster Head&Field Facilitator)";
-        }else{
+        }else if(Employee_Role.equalsIgnoreCase("Cluster Head"))
+        {
+            str_employeerole="(Cluster Head)";
+        }
+        else{
             str_employeerole="(Field Facilitator)";
         }
 
