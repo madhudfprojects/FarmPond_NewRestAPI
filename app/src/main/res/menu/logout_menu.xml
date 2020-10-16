@@ -16,7 +16,12 @@
         android:icon="@drawable/ic_edit"
         android:title="@string/edit"
         app:showAsAction="never"/>-->
-
+    <item
+        android:id="@+id/clusterhead"
+        android:icon="@mipmap/ic_launcher"
+        android:iconTint="@color/colorwhite"
+        android:title="Cluster Head"
+        app:showAsAction="never"/>
     <item
         android:id="@+id/contactus"
         android:icon="@mipmap/ic_launcher"

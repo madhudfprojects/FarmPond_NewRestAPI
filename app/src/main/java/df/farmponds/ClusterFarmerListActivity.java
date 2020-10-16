@@ -57,7 +57,9 @@ public class ClusterFarmerListActivity extends AppCompatActivity {
 
     public static final String sharedpreferencebook_usercredential = "sharedpreferencebook_usercredential";
     public static final String KeyValue_employeeid = "KeyValue_employeeid";
+    public static final String KeyValue_employeecategory = "KeyValue_employeecategory";
     SharedPreferences sharedpreferencebook_usercredential_Obj;
+    String Employee_Role;
 
     ClusterFarmerMain[] cluster_FsummaryLists;
     ClusterFarmersummaryList class_cluster_FsummaryList = new ClusterFarmersummaryList();
@@ -95,6 +97,9 @@ public class ClusterFarmerListActivity extends AppCompatActivity {
         str_userId = sharedpreferencebook_usercredential_Obj.getString(KeyValue_employeeid, "").trim();
         Log.e("tag", "str_userId=" + str_userId);
 
+        sharedpreferencebook_usercredential_Obj=getSharedPreferences(sharedpreferencebook_usercredential, Context.MODE_PRIVATE);
+        Employee_Role=sharedpreferencebook_usercredential_Obj.getString(KeyValue_employeecategory, "").trim();
+
         Bundle extras = getIntent().getExtras();
         if (extras != null) {
             EmployeeId = extras.getString("EmployeeId");
@@ -104,7 +109,7 @@ public class ClusterFarmerListActivity extends AppCompatActivity {
             UserId = extras.getString("UserId");
         }
 
-        txt_Header.setText(Name);
+        txt_Header.setText(Name+"(Field Facilitator)");
         title.setText(Type + " Farmer List");
         getSupportActionBar().setTitle("");
         clusterFarmerList = new ArrayList<ClusterFarmersummaryList>();
@@ -278,7 +283,16 @@ public class ClusterFarmerListActivity extends AppCompatActivity {
     @Override
     public boolean onCreateOptionsMenu(Menu menu) {
         // Inflate the menu; this adds items to the action bar if it is present.
-        getMenuInflater().inflate(R.menu.logout_menu, menu);
+
+        getMenuInflater().inflate(R.menu.home_menu, menu);
+        menu.findItem(R.id.filedfacilater).setTitle("Field Facilitator");
+
+        if(Employee_Role.equalsIgnoreCase("Cluster Head_Field Facilitator"))
+        {
+            menu.findItem(R.id.filedfacilater).setVisible(true);
+        }else{
+            menu.findItem(R.id.filedfacilater).setVisible(false);
+        }
         return true;
     }
 
@@ -303,6 +317,25 @@ public class ClusterFarmerListActivity extends AppCompatActivity {
 
         }
 
+        if(id==R.id.filedfacilater)
+        {
+
+            internetDectector = new Class_InternetDectector(getApplicationContext());
+            isInternetPresent = internetDectector.isConnectingToInternet();
+
+            if (isInternetPresent) {
+
+                Intent i = new Intent(ClusterFarmerListActivity.this, Activity_HomeScreen.class);
+                startActivity(i);
+                finish();
+                return true;
+            }
+            else {
+                Toast.makeText(getApplicationContext(), "No Internet", Toast.LENGTH_SHORT).show();
+            }
+
+
+        }
 
 
 

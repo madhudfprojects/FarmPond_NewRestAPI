@@ -40,6 +40,7 @@ import com.google.firebase.auth.AuthResult;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.auth.FirebaseUser;
 import com.google.firebase.auth.GoogleAuthProvider;
+import com.google.gson.Gson;
 
 import org.json.JSONException;
 import org.json.JSONObject;
@@ -96,7 +97,7 @@ public class MainActivity extends AppCompatActivity
 
     SharedPreferences sharedpreferencebook_usercredential_Obj;
 
-   /* public static final String sharedpreferencebook_User_Credential = "sharedpreferencebook_User_Credential";
+    public static final String sharedpreferencebook_User_Credential = "sharedpreferencebook_User_Credential";
     public static final String KeyValue_User_ID = "KeyValue_User_ID";
     public static final String KeyValue_User_Name = "KeyValue_User_Name";
     public static final String KeyValue_User_Email = "KeyValue_User_Email";
@@ -106,7 +107,7 @@ public class MainActivity extends AppCompatActivity
     public static final String KeyValue_User_State_Amount = "KeyValue_User_State_Amount";
     public static final String KeyValue_Response = "KeyValue_Response";
 
-    SharedPreferences sharedpreferencebookRest_usercredential_Obj;*/
+    SharedPreferences sharedpreferencebookRest_usercredential_Obj;
     SharedPreferences.Editor editor_obj;
 
 
@@ -164,7 +165,7 @@ public class MainActivity extends AppCompatActivity
         sharedpref_userimage_Obj=getSharedPreferences(sharedpreferenc_userimage, Context.MODE_PRIVATE);
         str_profileimage = sharedpref_userimage_Obj.getString(key_userimage, "").trim();
 
-      //  sharedpreferencebookRest_usercredential_Obj=this.getSharedPreferences(sharedpreferencebook_User_Credential, Context.MODE_PRIVATE);
+        sharedpreferencebookRest_usercredential_Obj=this.getSharedPreferences(sharedpreferencebook_User_Credential, Context.MODE_PRIVATE);
         sharedpreferencebook_usercredential_Obj=this.getSharedPreferences(sharedpreferencebook_usercredential, Context.MODE_PRIVATE);
 
         sharedpreferencebook_usercredential_Obj=getSharedPreferences(sharedpreferencebook_usercredential, Context.MODE_PRIVATE);
@@ -407,13 +408,13 @@ public class MainActivity extends AppCompatActivity
 
         //retrofit2.Call call = userService1.getValidateLoginPostNew("eventtest464@gmail.com");
        // retrofit2.Call call = userService1.getValidateLoginPostNew(str_gmailid);
-      //  str_gmailid="anandkanade.tech@dfmail.org";
+       // str_gmailid="anandkanade.tech@dfmail.org";
        // str_gmailid="eventtest464@gmail.com";
        // str_gmailid="kanadeanand@gmail.com";
      //  str_gmailid="pramod.kumar@dfmail.org";
       //  str_gmailid="johnson.buraga@dfmail.org";
-       str_gmailid="madhushree.kubsad@dfmail.org";
-       // str_gmailid="jeevansab.agri@dfmail.org";
+      // str_gmailid="madhushree.kubsad@dfmail.org";
+      //  str_gmailid="jeevansab.agri@dfmail.org";
 
         retrofit2.Call call = userService1.getValidateLoginPostNew(str_gmailid);
 
@@ -429,6 +430,7 @@ public class MainActivity extends AppCompatActivity
                 user_object = (NormalLogin_Response) response.body();
                 // String x=response.body().toString();
 
+               // Log.e("response userdata:", "" + new Gson().toJson(response));
                 try {
                     JSONObject jsonObject = new JSONObject(response.body().toString());
                     String y = jsonObject.getString("Status").toString();
@@ -453,7 +455,7 @@ public class MainActivity extends AppCompatActivity
                     SaveSharedPreference.setUserMailID(MainActivity.this, user_object.getLst().get(0).getUserID());
                     SaveSharedPreference.setUserName(MainActivity.this, user_object.getLst().get(0).getUserName());
 
-                    /*editor_obj = sharedpreferencebookRest_usercredential_Obj.edit();
+                    editor_obj = sharedpreferencebookRest_usercredential_Obj.edit();
 
                     editor_obj.putString(KeyValue_User_ID, user_object.getLst().get(0).getUserID());
                     editor_obj.putString(KeyValue_User_Name, user_object.getLst().get(0).getUserName());
@@ -465,7 +467,7 @@ public class MainActivity extends AppCompatActivity
                     editor_obj.putString(KeyValue_Response, user_object.getLst().get(0).getResponse());
 
 
-                    editor_obj.commit();*/
+                    editor_obj.commit();
 
                     editor_obj = sharedpreferencebook_usercredential_Obj.edit();
 
@@ -482,6 +484,7 @@ public class MainActivity extends AppCompatActivity
 
                     Log.e("tag", "mailid==" + SaveSharedPreference.getUsermailID(MainActivity.this));
 
+
                     if(user_object.getLst().get(0).getUserRole().equalsIgnoreCase("Field Facilitator"))
                     {
                         Intent i = new Intent(MainActivity.this, Activity_HomeScreen.class);
@@ -494,11 +497,17 @@ public class MainActivity extends AppCompatActivity
                     else if(user_object.getLst().get(0).getUserRole().equalsIgnoreCase("Admin")){
                         Intent i = new Intent(MainActivity.this, ClusterHomeActivity.class);
                         startActivity(i);
-                    }else if(user_object.getLst().get(0).getUserRole().equalsIgnoreCase("Cluster Head_Field Facilitator")){
+                    }else if(user_object.getLst().get(0).getUserRole().trim().equalsIgnoreCase("Cluster Head_Field Facilitator")){
+                       Log.e("clusterhead","clusterhead");
                         Intent i = new Intent(MainActivity.this, ClusterHomeActivity.class);
                         startActivity(i);
                         finish();
                     }
+                   /* else if(user_object.getLst().get(0).getUserRole().equalsIgnoreCase("Admin_Cluster Head_Field Facilitator"))
+                    {
+                        Intent i = new Intent(MainActivity.this, ClusterHomeActivity.class);
+                        startActivity(i);
+                }*/
                     else{
 
                         AlertDialog.Builder dialog = new AlertDialog.Builder(MainActivity.this);
@@ -544,7 +553,7 @@ public class MainActivity extends AppCompatActivity
             public void onFailure(Call call, Throwable t)
             {
                 login_progressDoalog.dismiss();
-                Log.e("WS","error"+t.getMessage());
+                Log.e("WS","error: "+t.getMessage());
                 Toast.makeText(MainActivity.this, "WS:"+t.getMessage(), Toast.LENGTH_LONG).show();
             }
         });

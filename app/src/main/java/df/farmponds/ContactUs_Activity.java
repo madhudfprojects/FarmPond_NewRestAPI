@@ -1,12 +1,15 @@
 package df.farmponds;
 
 import android.app.AlertDialog;
+import android.content.ActivityNotFoundException;
 import android.content.Context;
 import android.content.DialogInterface;
+import android.content.Intent;
 import android.database.Cursor;
 import android.database.sqlite.SQLiteDatabase;
 import android.graphics.Color;
 import android.graphics.Typeface;
+import android.net.Uri;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.support.v7.widget.Toolbar;
@@ -32,6 +35,8 @@ public class ContactUs_Activity extends AppCompatActivity
 
     Class_gethelp_resplist[] class_gethelp_resplist_arrayObj;
     Class_getdemo_resplist[] class_getdemo_resplist_arrayObj;
+
+    String str_link;
 
     @Override
     protected void onCreate(Bundle savedInstanceState)
@@ -268,6 +273,27 @@ public class ContactUs_Activity extends AppCompatActivity
                 //text.setGravity(Gravity.LEFT);
                 link_tv.setLayoutParams(new LinearLayout.LayoutParams(LinearLayout.LayoutParams.WRAP_CONTENT,
                         LinearLayout.LayoutParams.WRAP_CONTENT));
+
+
+                str_link=class_getdemo_resplist_arrayObj[k].getLanguage_Link();
+                link_tv.setOnClickListener(new View.OnClickListener() {
+                    @Override
+                    public void onClick(View v) {
+                       // Intent appIntent = new Intent(Intent.ACTION_VIEW, Uri.parse(class_getdemo_resplist_arrayObj[k].getLanguage_Link()));
+                        /*Intent webIntent = new Intent(Intent.ACTION_VIEW,
+                                Uri.parse(class_getdemo_resplist_arrayObj[k].getLanguage_Link()));*/
+
+
+                        Intent intent = new Intent(Intent.ACTION_VIEW, Uri.parse(str_link));
+                        startActivity(intent);
+                        try {
+                            //startActivity(appIntent);
+                            //startActivity(webIntent);
+                        } catch (ActivityNotFoundException ex) {
+                           //
+                        }
+                    }
+                });
 
                 demo_ll.addView(link_tv);
 

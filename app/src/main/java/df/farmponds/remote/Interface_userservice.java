@@ -37,6 +37,7 @@ public interface Interface_userservice {
     @FormUrlEncoded*/
    // Call<NormalLogin_Response> getValidateLoginPost(@FieldMap Map<String, String> params);
 
+   // @Headers("Content-Type: application/json")
     @POST("Authentication/Post_ValidateLogin")
     @FormUrlEncoded
     Call<NormalLogin_Response> getValidateLoginPostNew(@Field("User_Email") String userEmail);

@@ -87,6 +87,7 @@ public class ClusterHomeActivity extends AppCompatActivity {
     public static final String key_userimage = "profileimg_googlelogin";
     SharedPreferences sharedpref_username_Obj;
 
+
     ClusterAcademicEmployee[] cluster_dataLists;
     ClusterList class_cluster_dataList = new ClusterList();
     ClusterAcademicList[] arrayObj_Class_yearDetails2;
@@ -121,6 +122,7 @@ public class ClusterHomeActivity extends AppCompatActivity {
     public static final String key_flag = "flag";
 
     String Employee_Role;
+    String str_employeerole;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -156,11 +158,26 @@ public class ClusterHomeActivity extends AppCompatActivity {
         Employee_Role=sharedpreferencebook_usercredential_Obj.getString(KeyValue_employeecategory, "").trim();
 
         Log.e("tag","Employee_Role="+Employee_Role);
+
+        if(Employee_Role.equalsIgnoreCase("Admin"))
+        { str_employeerole="(Admin)";
+
+        }else if(Employee_Role.equalsIgnoreCase("Cluster Head_Field Facilitator"))
+        {
+            str_employeerole="(Cluster Head & Field Facilitator)";
+        }else if(Employee_Role.equalsIgnoreCase("Admin_Cluster Head_Field Facilitator")) {
+            str_employeerole="(Admin&Cluster Head&Field Facilitator)";
+        }else{
+            str_employeerole="(Field Facilitator)";
+        }
+
         if(Employee_Role.equalsIgnoreCase("Admin")) {
             cluster_ff.setText("Cluster Head list");
+
         } else if(Employee_Role.equalsIgnoreCase("Cluster Head_Field Facilitator")) {
-            Employee_Role="Cluster Head";
+          //  Employee_Role="Cluster Head";
             cluster_ff.setText("Field Facilitator list");
+
         }
         else{
             cluster_ff.setText("Field Facilitator list");
@@ -206,7 +223,7 @@ public class ClusterHomeActivity extends AppCompatActivity {
             }
         }
 
-        userName.setText(str_Googlelogin_Username);
+        userName.setText(str_Googlelogin_Username+str_employeerole);
 
         clusterList = new ArrayList<ClusterSummaryList>();
 
@@ -617,6 +634,26 @@ public class ClusterHomeActivity extends AppCompatActivity {
         // Inflate the menu; this adds items to the action bar if it is present.
         getMenuInflater().inflate(R.menu.home_menu, menu);
         menu.findItem(R.id.filedfacilater).setTitle("Field Facilitator");
+
+
+        if(Employee_Role.trim().equalsIgnoreCase("Cluster Head_Field Facilitator"))
+        {
+            menu.findItem(R.id.filedfacilater).setVisible(true);
+
+        }else{
+            menu.findItem(R.id.filedfacilater).setVisible(false);
+        }
+//Cluster Head_Field Facilitator
+        /*if(Employee_Role.equalsIgnoreCase("Admin_Cluster Head_Field Facilitator"))
+        {
+            //menu.findItem(R.id.filedfacilater).setVisible(true);
+           // menu.findItem(R.id.clusterhead).setVisible(true);
+
+        }else {
+        }*/
+
+      //
+
         return true;
     }
 
@@ -630,6 +667,10 @@ public class ClusterHomeActivity extends AppCompatActivity {
 
         //noinspection SimplifiableIfStatement
 
+
+
+
+
         if(id==R.id.contactus)
         {
 
@@ -640,14 +681,41 @@ public class ClusterHomeActivity extends AppCompatActivity {
 
 
         }
+
+
+        /*if(id==R.id.clusterhead)
+        {
+            internetDectector = new Class_InternetDectector(getApplicationContext());
+            isInternetPresent = internetDectector.isConnectingToInternet();
+
+            if (isInternetPresent) {
+                Intent i = new Intent(ClusterHomeActivity.this, ClusterHomeActivity.class);
+                startActivity(i);
+                finish();
+                return true;
+            }
+            else{
+                Toast.makeText(getApplicationContext(), "No Internet", Toast.LENGTH_SHORT).show();
+            }
+        }*/
+
         if(id==R.id.filedfacilater)
         {
 
-            Intent i = new Intent(ClusterHomeActivity.this, Activity_HomeScreen.class);
-            startActivity(i);
-            finish();
-            return true;
+            internetDectector = new Class_InternetDectector(getApplicationContext());
+            isInternetPresent = internetDectector.isConnectingToInternet();
 
+            if (isInternetPresent) {
+
+
+                Intent i = new Intent(ClusterHomeActivity.this, Activity_HomeScreen.class);
+                startActivity(i);
+                finish();
+                return true;
+            }
+            else{
+                Toast.makeText(getApplicationContext(), "No Internet", Toast.LENGTH_SHORT).show();
+            }
 
         }
 

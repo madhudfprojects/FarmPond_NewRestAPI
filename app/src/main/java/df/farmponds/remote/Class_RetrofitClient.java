@@ -31,6 +31,14 @@ public class Class_RetrofitClient {
 
 
 
+
+            /*retrofit = new Retrofit.Builder()
+                    .baseUrl(url)
+                  // .client(client)
+                    .addConverterFactory(GsonConverterFactory.create(gson))
+                    .build();*/
+
+
         }
         return retrofit;
     }
