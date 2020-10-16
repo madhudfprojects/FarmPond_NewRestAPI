@@ -111,6 +111,10 @@ public class MainActivity extends AppCompatActivity
     SharedPreferences.Editor editor_obj;
 
 
+    public static final String sharedpreferencebook_User_pastCredential = "sharedpreferencebook_User_pastCredential";
+    public static final String KeyValue_pastUser_ID = "KeyValue_pastUser_ID";
+    SharedPreferences sharedpreferencebook_user_pastCredential_obj;
+
     String str_token;
     String str_tokenfromprefrence;
 
@@ -408,13 +412,16 @@ public class MainActivity extends AppCompatActivity
 
         //retrofit2.Call call = userService1.getValidateLoginPostNew("eventtest464@gmail.com");
        // retrofit2.Call call = userService1.getValidateLoginPostNew(str_gmailid);
-       // str_gmailid="anandkanade.tech@dfmail.org";
-       // str_gmailid="eventtest464@gmail.com";
+      //  str_gmailid="anandkanade.tech@dfmail.org";
+      //  str_gmailid="eventtest464@gmail.com";
        // str_gmailid="kanadeanand@gmail.com";
      //  str_gmailid="pramod.kumar@dfmail.org";
       //  str_gmailid="johnson.buraga@dfmail.org";
       // str_gmailid="madhushree.kubsad@dfmail.org";
       //  str_gmailid="jeevansab.agri@dfmail.org";
+       // str_gmailid="mahammadjafar.aralimarad@dfmail.org";
+      //  str_gmailid="sharanappa.chalawadi@dfmail.org";
+       // str_gmailid="beebi.bci@dfmail.org";
 
         retrofit2.Call call = userService1.getValidateLoginPostNew(str_gmailid);
 
@@ -430,16 +437,16 @@ public class MainActivity extends AppCompatActivity
                 user_object = (NormalLogin_Response) response.body();
                 // String x=response.body().toString();
 
-               // Log.e("response userdata:", "" + new Gson().toJson(response));
-                try {
+                Log.e("response userdata:", "" + new Gson().toJson(response));
+                /*try {
                     JSONObject jsonObject = new JSONObject(response.body().toString());
                     String y = jsonObject.getString("Status").toString();
                     Toast.makeText(getApplicationContext(), "S:" + y, Toast.LENGTH_LONG).show();
 
                 } catch (JSONException e) {
                     e.printStackTrace();
-                    Log.e("error ponds", e.toString());
-                }
+                    Log.e("error_loginresp", e.toString());
+                }*/
 
 
                 if (user_object.getStatus().toString().equalsIgnoreCase("true"))

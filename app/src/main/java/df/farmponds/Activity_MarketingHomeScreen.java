@@ -141,6 +141,13 @@ public class Activity_MarketingHomeScreen extends AppCompatActivity {
     int int_er;
 
     String str_employeecategory;
+
+
+    public static final String sharedpreferencebook_User_pastCredential = "sharedpreferencebook_User_pastCredential";
+    public static final String KeyValue_pastUser_ID = "KeyValue_pastUser_ID";
+    SharedPreferences sharedpreferencebook_user_pastCredential_obj;
+    SharedPreferences.Editor editorpast_obj;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -163,12 +170,19 @@ public class Activity_MarketingHomeScreen extends AppCompatActivity {
         sharedpref_spinner_Obj = getSharedPreferences(sharedpreferenc_selectedspinner, Context.MODE_PRIVATE);
 
 
+
         sharedpreferencebook_usercredential_Obj=getSharedPreferences(sharedpreferencebook_usercredential, Context.MODE_PRIVATE);
         str_employee_id=sharedpreferencebook_usercredential_Obj.getString(KeyValue_employeeid, "").trim();
 
 
         sharedpreferencebook_usercredential_Obj = getSharedPreferences(sharedpreferencebook_usercredential, Context.MODE_PRIVATE);
         str_employeecategory = sharedpreferencebook_usercredential_Obj.getString(KeyValue_employeecategory, "").trim();
+
+        sharedpreferencebook_user_pastCredential_obj=getSharedPreferences(sharedpreferencebook_User_pastCredential,Context.MODE_PRIVATE);
+        editorpast_obj = sharedpreferencebook_user_pastCredential_obj.edit();
+        editorpast_obj.putString(KeyValue_pastUser_ID, str_employee_id.trim());
+        editorpast_obj.commit();
+
 
 
 Log.e("tag","str_employee_id="+str_employee_id);

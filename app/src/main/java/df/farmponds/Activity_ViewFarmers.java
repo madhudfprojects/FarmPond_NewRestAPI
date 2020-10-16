@@ -1468,10 +1468,10 @@ public class Activity_ViewFarmers extends AppCompatActivity {
                                                          String str_crop_afterpond,String str_finalpondCode,String Location_Status,
                                                          String Reading_Start,String Reading_End,String Reading_Hour,String Machine_Name)
     {
-        Log.e("submitDate",str_submited_date); //09-08-2020
+       /* Log.e("submitDate",str_submited_date); //09-08-2020
         Log.e("str_startdate",str_startdate); //str_constr_date 08-08-2020
         Log.e("str_constr_date",str_constr_date);//05-08-2020 10:32:20
-
+*/
 
 
 
@@ -3444,16 +3444,23 @@ public class Activity_ViewFarmers extends AppCompatActivity {
     public boolean onOptionsItemSelected(MenuItem item) {
 
         // Show toast when menu items selected
-        switch (item.getItemId()) {
+        switch (item.getItemId())
+        {
 
 
             case android.R.id.home:
+
 
                 Intent i = new Intent(Activity_ViewFarmers.this, Activity_MarketingHomeScreen.class);
                 startActivity(i);
                 finish();
                 break;
 
+
+            case R.id.Sync:
+
+                GetFarmer_PondValuesRestData();
+                break;
             /*case R.id.Sync:
             {
 

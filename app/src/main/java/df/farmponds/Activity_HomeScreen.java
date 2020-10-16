@@ -128,6 +128,16 @@ public class Activity_HomeScreen extends AppCompatActivity implements GoogleApiC
 
     private boolean isGPS = false;
 
+
+
+    public static final String sharedpreferencebook_User_pastCredential = "sharedpreferencebook_User_pastCredential";
+    public static final String KeyValue_pastUser_ID = "KeyValue_pastUser_ID";
+    SharedPreferences sharedpreferencebook_user_pastCredential_obj;
+    SharedPreferences.Editor editorpast_obj;
+
+    String str_pastuserid;
+    String str_employee_id;
+
     @SuppressLint("WrongThread")
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -160,6 +170,36 @@ public class Activity_HomeScreen extends AppCompatActivity implements GoogleApiC
 
         str_userid=sharedpreferencebook_usercredential_Obj.getString(KeyValue_employeeid, "").trim();
         admin_view_ll.setVisibility(View.VISIBLE);
+
+
+        sharedpreferencebook_user_pastCredential_obj=getSharedPreferences(sharedpreferencebook_User_pastCredential,Context.MODE_PRIVATE);
+        str_pastuserid=sharedpreferencebook_user_pastCredential_obj.getString(KeyValue_pastUser_ID,"").trim();
+        str_employee_id=sharedpreferencebook_usercredential_Obj.getString(KeyValue_employeeid, "").trim();
+
+        if(str_pastuserid.isEmpty()||str_pastuserid.equals(null))
+        {
+            Log.e("sharedpreference","empty");
+        }else{
+            if(str_employee_id.equalsIgnoreCase(str_pastuserid))
+            {
+                Log.e("sharedpreference","same");
+            }else{
+                Log.e("delete","delete");
+
+                deleteStateRestTable_B4insertion();
+                deleteDistrictRestTable_B4insertion();
+                deleteTalukRestTable_B4insertion();
+                deleteGrampanchayatRestTable_B4insertion();
+                deleteVillageRestTable_B4insertion();
+                deleteYearRestTable_B4insertion();
+                deleteMachineRestTable_B4insertion();
+                deleteRemarksTable_B4insertion();
+                  DBCreate_RemarksDetails();
+                delete_FarmPondDetails_fromServerRest();
+
+
+            }
+        }
 
        // Log.e("Fuserid",str_userid);
 
@@ -784,6 +824,177 @@ public class Activity_HomeScreen extends AppCompatActivity implements GoogleApiC
     }
 
 
+
+
+    public void deleteStateRestTable_B4insertion() {
+
+        SQLiteDatabase db_statelist_delete = openOrCreateDatabase("FarmPond_db", Context.MODE_PRIVATE, null);
+        db_statelist_delete.execSQL("CREATE TABLE IF NOT EXISTS StateListRest(StateID VARCHAR,StateName VARCHAR,state_yearid VARCHAR);");
+        Cursor cursor = db_statelist_delete.rawQuery("SELECT * FROM StateListRest", null);
+        int x = cursor.getCount();
+
+        //if (x > 0) {
+            db_statelist_delete.delete("StateListRest", null, null);
+
+        //}
+        db_statelist_delete.close();
+    }
+
+
+
+    public void deleteDistrictRestTable_B4insertion() {
+
+        SQLiteDatabase db_districtlist_delete = openOrCreateDatabase("FarmPond_db", Context.MODE_PRIVATE, null);
+        db_districtlist_delete.execSQL("CREATE TABLE IF NOT EXISTS DistrictListRest(DistrictID VARCHAR,DistrictName VARCHAR,Distr_yearid VARCHAR,Distr_Stateid VARCHAR);");
+        Cursor cursor1 = db_districtlist_delete.rawQuery("SELECT * FROM DistrictListRest", null);
+        int x = cursor1.getCount();
+
+        //if (x > 0) {
+            db_districtlist_delete.delete("DistrictListRest", null, null);
+
+        //}
+        db_districtlist_delete.close();
+    }
+
+
+
+
+
+
+    public void deleteTalukRestTable_B4insertion() {
+
+        SQLiteDatabase db_taluklist_delete = openOrCreateDatabase("FarmPond_db", Context.MODE_PRIVATE, null);
+        db_taluklist_delete.execSQL("CREATE TABLE IF NOT EXISTS TalukListRest(TalukID VARCHAR,TalukName VARCHAR,Taluk_districtid VARCHAR);");
+        Cursor cursor1 = db_taluklist_delete.rawQuery("SELECT * FROM TalukListRest", null);
+        int x = cursor1.getCount();
+
+        //if (x > 0) {
+            db_taluklist_delete.delete("TalukListRest", null, null);
+
+        //}
+        db_taluklist_delete.close();
+    }
+
+
+
+
+
+    public void deleteGrampanchayatRestTable_B4insertion() {
+
+        SQLiteDatabase db_grampanchayatlist_delete = openOrCreateDatabase("FarmPond_db", Context.MODE_PRIVATE, null);
+        db_grampanchayatlist_delete.execSQL("CREATE TABLE IF NOT EXISTS GrampanchayatListRest(GramanchayatID VARCHAR,Gramanchayat VARCHAR,Panchayat_DistID VARCHAR);");
+        Cursor cursor1 = db_grampanchayatlist_delete.rawQuery("SELECT * FROM GrampanchayatListRest", null);
+        int x = cursor1.getCount();
+
+        //if (x > 0) {
+            db_grampanchayatlist_delete.delete("GrampanchayatListRest", null, null);
+
+        //}
+        db_grampanchayatlist_delete.close();
+    }
+
+
+    public void deleteVillageRestTable_B4insertion() {
+
+        SQLiteDatabase db_villagelist_delete = openOrCreateDatabase("FarmPond_db", Context.MODE_PRIVATE, null);
+        // db_villagelist_delete.execSQL("CREATE TABLE IF NOT EXISTS VillageList(VillageID VARCHAR,Village VARCHAR,TalukID VARCHAR);");
+        db_villagelist_delete.execSQL("CREATE TABLE IF NOT EXISTS VillageListRest(VillageID VARCHAR,Village VARCHAR,TalukID VARCHAR,PanchayatID VARCHAR);");
+        Cursor cursor1 = db_villagelist_delete.rawQuery("SELECT * FROM VillageListRest", null);
+        int x = cursor1.getCount();
+
+        //if (x > 0) {
+            db_villagelist_delete.delete("VillageListRest", null, null);
+
+        //}
+        db_villagelist_delete.close();
+    }
+
+
+
+
+    public void deleteYearRestTable_B4insertion() {
+
+        SQLiteDatabase db_yearlist_delete = openOrCreateDatabase("FarmPond_db", Context.MODE_PRIVATE, null);
+        db_yearlist_delete.execSQL("CREATE TABLE IF NOT EXISTS YearListRest(YearID VARCHAR,YearName VARCHAR);");
+        Cursor cursor = db_yearlist_delete.rawQuery("SELECT * FROM YearListRest", null);
+        int x = cursor.getCount();
+
+        //if (x > 0) {
+            db_yearlist_delete.delete("YearListRest", null, null);
+
+        //}
+        db_yearlist_delete.close();
+    }
+
+
+
+
+
+    public void deleteMachineRestTable_B4insertion() {
+
+        SQLiteDatabase db1 = this.openOrCreateDatabase("FarmPond_db", Context.MODE_PRIVATE, null);
+        db1.execSQL("CREATE TABLE IF NOT EXISTS MachineDetails_fromServerRest(SlNo INTEGER PRIMARY KEY AUTOINCREMENT,MachineNameDB VARCHAR,MachineIDDB VARCHAR);");
+
+
+        Cursor cursor = db1.rawQuery("SELECT * FROM MachineDetails_fromServerRest", null);
+        int x = cursor.getCount();
+
+        //if (x > 0) {
+            db1.delete("MachineDetails_fromServerRest", null, null);
+
+        //}
+        db1.close();
+    }
+
+
+
+
+
+    public void deleteRemarksTable_B4insertion() {
+
+
+        SQLiteDatabase db1 = this.openOrCreateDatabase("FarmPond_db", Context.MODE_PRIVATE, null);
+        db1.execSQL("CREATE TABLE IF NOT EXISTS RemarksDetails_fromServerRest(SlNo INTEGER PRIMARY KEY AUTOINCREMENT,RemarksIDDB VARCHAR,RemarksNameDB VARCHAR);");
+        Cursor cursor = db1.rawQuery("SELECT * FROM RemarksDetails_fromServerRest", null);
+        int x = cursor.getCount();
+        //if (x > 0) {
+            db1.delete("RemarksDetails_fromServerRest", null, null);
+
+        //}
+        db1.close();
+    }
+
+
+
+
+
+    public void DBCreate_RemarksDetails() {
+
+        SQLiteDatabase db2 = this.openOrCreateDatabase("FarmPond_db", Context.MODE_PRIVATE, null);
+        db2.execSQL("CREATE TABLE IF NOT EXISTS RemarksDetails_fromServer(SlNo INTEGER PRIMARY KEY AUTOINCREMENT,RemarksIDDB VARCHAR,RemarksNameDB VARCHAR);");
+        Cursor cursor = db2.rawQuery("SELECT * FROM RemarksDetails_fromServer", null);
+        int x = cursor.getCount();
+        //if (x > 0) {
+            db2.delete("RemarksDetails_fromServer", null, null);
+        //}
+        db2.close();
+
+    }
+
+
+
+
+
+    public void delete_FarmPondDetails_fromServerRest()
+    {
+        Class_DBHandler dbhandler_obj=new Class_DBHandler(getApplicationContext());
+        dbhandler_obj.delete_FarmPondDetails_fromServerRest();
+    }
+
+
+
+
+//Data_from_HelpDetails_table
 
 
 
