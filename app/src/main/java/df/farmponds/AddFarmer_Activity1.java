@@ -175,7 +175,7 @@ public class AddFarmer_Activity1 extends AppCompatActivity {
     RadioButton rdb_male,rdb_female;
     Farmer[] class_farmerlistdetails_arrayObj;
 
-
+    String str_from_FarmerDetails_DB;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -267,6 +267,7 @@ public class AddFarmer_Activity1 extends AppCompatActivity {
         selectidproof_sp.setAdapter(dataAdapter_idproof);*/
 
         str_editingfarmerprofile = "no";
+        str_from_FarmerDetails_DB="no";
 
         ArrayAdapter aa = new ArrayAdapter(this, android.R.layout.simple_spinner_item, ary_str_idproof);
         aa.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
@@ -292,36 +293,65 @@ public class AddFarmer_Activity1 extends AppCompatActivity {
                 {
                     str_idproof_type = "1";
 
-                    farmeridno_et.setText("");
-                    farmeridno_et.setEnabled(true);
-                    farmeridno_et.setInputType(InputType.TYPE_CLASS_NUMBER);
-                    farmeridno_et.setFilters(new InputFilter[] { new InputFilter.LengthFilter(12) });
-
+                    if(str_from_FarmerDetails_DB.equalsIgnoreCase("no")) {
+                        farmeridno_et.setText("");
+                        farmeridno_et.setEnabled(true);
+                        farmeridno_et.setInputType(InputType.TYPE_CLASS_NUMBER);
+                        farmeridno_et.setFilters(new InputFilter[]{new InputFilter.LengthFilter(12)});
+                    }else{
+                        farmeridno_et.setEnabled(true);
+                        farmeridno_et.setInputType(InputType.TYPE_CLASS_NUMBER);
+                        farmeridno_et.setFilters(new InputFilter[]{new InputFilter.LengthFilter(12)});
+                        str_from_FarmerDetails_DB="no";
+                    }
                 }
                 if (selectidproof_sp.getSelectedItem().toString().equalsIgnoreCase("Driving License"))
                 {
                     str_idproof_type = "2";
                     //farmeridno_et.setInputType(InputType.TYPE_CLASS_NUMBER|InputType.TYPE_CLASS_TEXT);
-                    farmeridno_et.setText("");
-                    farmeridno_et.setEnabled(true);
-                    farmeridno_et.setFilters(new InputFilter[] { new InputFilter.LengthFilter(17) });
 
-                    farmeridno_et.setInputType(InputType.TYPE_CLASS_TEXT);
-                    farmeridno_et.setFilters(new InputFilter[]{
-                            new InputFilter() {
-                                public CharSequence filter(CharSequence src, int start,
-                                                           int end, Spanned dst, int dstart, int dend) {
-                                    if (src.equals("")) {
-                                        return src;
+                    if(str_from_FarmerDetails_DB.equalsIgnoreCase("no")) {
+
+                        farmeridno_et.setText("");
+                        farmeridno_et.setEnabled(true);
+                        farmeridno_et.setFilters(new InputFilter[]{new InputFilter.LengthFilter(17)});
+
+                        farmeridno_et.setInputType(InputType.TYPE_CLASS_TEXT);
+                        farmeridno_et.setFilters(new InputFilter[]{
+                                new InputFilter() {
+                                    public CharSequence filter(CharSequence src, int start,
+                                                               int end, Spanned dst, int dstart, int dend) {
+                                        if (src.equals("")) {
+                                            return src;
+                                        }
+                                        if (src.toString().matches("[a-zA-Z0-9/\\- ]+")) {
+                                            return src;
+                                        }
+                                        return "";
                                     }
-                                    if (src.toString().matches("[a-zA-Z0-9/\\- ]+")) {
-                                        return src;
-                                    }
-                                    return "";
                                 }
-                            }
-                    });
+                        });
+                    }else{
+                        farmeridno_et.setEnabled(true);
+                        farmeridno_et.setFilters(new InputFilter[]{new InputFilter.LengthFilter(17)});
 
+                        farmeridno_et.setInputType(InputType.TYPE_CLASS_TEXT);
+                        farmeridno_et.setFilters(new InputFilter[]{
+                                new InputFilter() {
+                                    public CharSequence filter(CharSequence src, int start,
+                                                               int end, Spanned dst, int dstart, int dend) {
+                                        if (src.equals("")) {
+                                            return src;
+                                        }
+                                        if (src.toString().matches("[a-zA-Z0-9/\\- ]+")) {
+                                            return src;
+                                        }
+                                        return "";
+                                    }
+                                }
+                        });
+                        str_from_FarmerDetails_DB="no";
+                    }
 
 
                   //  farmeridno_et.setKeyListener(DigitsKeyListener.getInstance("abcdefghijklmnopqrstuvwxyz1234567890 "));
@@ -334,8 +364,13 @@ public class AddFarmer_Activity1 extends AppCompatActivity {
                     str_idproof_type = "3";
 
 
+                    if(str_from_FarmerDetails_DB.equalsIgnoreCase("no")){
+                        farmeridno_et.setText("");
+                    }else{
+                        str_from_FarmerDetails_DB="no";
+                    }
 
-                    farmeridno_et.setText("");
+
                     farmeridno_et.setEnabled(true);
                     farmeridno_et.setInputType(InputType.TYPE_CLASS_TEXT);
                     farmeridno_et.setFilters(new InputFilter[]{
@@ -359,9 +394,13 @@ public class AddFarmer_Activity1 extends AppCompatActivity {
                     str_idproof_type = "4";
 
 
+                    if(str_from_FarmerDetails_DB.equalsIgnoreCase("no")){
+                        farmeridno_et.setText("");
+                    }else{
+                        str_from_FarmerDetails_DB="no";
+                    }
 
 
-                    farmeridno_et.setText("");
                     farmeridno_et.setEnabled(true);
                     farmeridno_et.setInputType(InputType.TYPE_CLASS_TEXT);
                     farmeridno_et.setFilters(new InputFilter[]{
@@ -640,6 +679,7 @@ public class AddFarmer_Activity1 extends AppCompatActivity {
             } else {
                 Log.e("farmerid", str_farmerID_foredit);
 
+                str_from_FarmerDetails_DB="yes";
                 Data_from_FarmerDetails_DB(str_farmerID_foredit);
             }
 
