@@ -97,7 +97,7 @@ public class MainActivity extends AppCompatActivity
 
     SharedPreferences sharedpreferencebook_usercredential_Obj;
 
-    public static final String sharedpreferencebook_User_Credential = "sharedpreferencebook_User_Credential";
+   /* public static final String sharedpreferencebook_User_Credential = "sharedpreferencebook_User_Credential";
     public static final String KeyValue_User_ID = "KeyValue_User_ID";
     public static final String KeyValue_User_Name = "KeyValue_User_Name";
     public static final String KeyValue_User_Email = "KeyValue_User_Email";
@@ -107,7 +107,7 @@ public class MainActivity extends AppCompatActivity
     public static final String KeyValue_User_State_Amount = "KeyValue_User_State_Amount";
     public static final String KeyValue_Response = "KeyValue_Response";
 
-    SharedPreferences sharedpreferencebookRest_usercredential_Obj;
+    SharedPreferences sharedpreferencebookRest_usercredential_Obj;*/
     SharedPreferences.Editor editor_obj;
 
 
@@ -169,7 +169,7 @@ public class MainActivity extends AppCompatActivity
         sharedpref_userimage_Obj=getSharedPreferences(sharedpreferenc_userimage, Context.MODE_PRIVATE);
         str_profileimage = sharedpref_userimage_Obj.getString(key_userimage, "").trim();
 
-        sharedpreferencebookRest_usercredential_Obj=this.getSharedPreferences(sharedpreferencebook_User_Credential, Context.MODE_PRIVATE);
+      //  sharedpreferencebookRest_usercredential_Obj=this.getSharedPreferences(sharedpreferencebook_User_Credential, Context.MODE_PRIVATE);
         sharedpreferencebook_usercredential_Obj=this.getSharedPreferences(sharedpreferencebook_usercredential, Context.MODE_PRIVATE);
 
         sharedpreferencebook_usercredential_Obj=getSharedPreferences(sharedpreferencebook_usercredential, Context.MODE_PRIVATE);
@@ -412,7 +412,7 @@ public class MainActivity extends AppCompatActivity
 
         //retrofit2.Call call = userService1.getValidateLoginPostNew("eventtest464@gmail.com");
        // retrofit2.Call call = userService1.getValidateLoginPostNew(str_gmailid);
-      //  str_gmailid="anandkanade.tech@dfmail.org";
+        str_gmailid="anandkanade.tech@dfmail.org";
       //  str_gmailid="eventtest464@gmail.com";
        // str_gmailid="kanadeanand@gmail.com";
      //  str_gmailid="pramod.kumar@dfmail.org";
@@ -462,7 +462,7 @@ public class MainActivity extends AppCompatActivity
                     SaveSharedPreference.setUserMailID(MainActivity.this, user_object.getLst().get(0).getUserID());
                     SaveSharedPreference.setUserName(MainActivity.this, user_object.getLst().get(0).getUserName());
 
-                    editor_obj = sharedpreferencebookRest_usercredential_Obj.edit();
+                   /* editor_obj = sharedpreferencebookRest_usercredential_Obj.edit();
 
                     editor_obj.putString(KeyValue_User_ID, user_object.getLst().get(0).getUserID());
                     editor_obj.putString(KeyValue_User_Name, user_object.getLst().get(0).getUserName());
@@ -474,7 +474,7 @@ public class MainActivity extends AppCompatActivity
                     editor_obj.putString(KeyValue_Response, user_object.getLst().get(0).getResponse());
 
 
-                    editor_obj.commit();
+                    editor_obj.commit();*/
 
                     editor_obj = sharedpreferencebook_usercredential_Obj.edit();
 
