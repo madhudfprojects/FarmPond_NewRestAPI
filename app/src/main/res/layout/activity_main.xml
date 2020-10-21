@@ -64,7 +64,7 @@
         android:layout_marginTop="100dp"
         android:gravity="center"
         android:text="Login"
-        android:visibility="visible" />
+        android:visibility="gone" />
 
 
     <TextView
@@ -72,7 +72,7 @@
         android:layout_height="wrap_content"
         android:layout_gravity="center"
         android:layout_marginTop="20dp"
-        android:text="DF Agri Test Ver0.44"
+        android:text="UAT Ver 1.2.8"
         android:textColor="@color/colorwhite"
         android:textStyle="italic" />
 
