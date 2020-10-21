@@ -3111,7 +3111,7 @@ public class EditFarmPondDetails_Activity extends AppCompatActivity {
 
 
             cv.put("Reading_Start", str_machinestart);
-            cv.put("Reading_End", str_machinestart);
+            cv.put("Reading_End", str_machineend);
             cv.put("Reading_Hour", str_hourspent);
             cv.put("Machine_Name","0");
 
