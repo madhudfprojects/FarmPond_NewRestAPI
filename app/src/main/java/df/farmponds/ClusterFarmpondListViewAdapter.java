@@ -251,6 +251,10 @@ public class ClusterFarmpondListViewAdapter extends BaseAdapter
             {
                 holder.approval_Status.setBackgroundResource(R.color.yellow_color);
             }
+            if(item.getApprovalStatus().equalsIgnoreCase("Location Pending"))
+            {
+                holder.approval_Status.setBackgroundResource(R.color.color_red);
+            }
 
             if(item.getApprovalStatus().equalsIgnoreCase("Waiting for Approval"))
             {
