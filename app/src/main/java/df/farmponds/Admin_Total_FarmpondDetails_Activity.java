@@ -198,8 +198,8 @@ public class Admin_Total_FarmpondDetails_Activity extends AppCompatActivity
                             //FileOpen.openFile(mContext, myFile);
 
                             File outputFile = new File(file, "FarmPondDetails_Excel.csv");
-                            Log.e("tag","file=="+file.toString());
-                            Log.e("tag","outputFile=="+outputFile.toString());
+                          //  Log.e("tag","file=="+file.toString());
+                            //Log.e("tag","outputFile=="+outputFile.toString());
                             FileOpen.openFile(getApplicationContext(), outputFile);
                         } catch (IOException e) {
                             e.printStackTrace();
@@ -241,7 +241,8 @@ public class Admin_Total_FarmpondDetails_Activity extends AppCompatActivity
 
         //  Log.e("tag", "pond FIDDB str_farmerid=" + str_farmerid);
         Cursor cursor1 = db1.rawQuery("SELECT FIDDB,FNameDB,FMNameDB,FLNameDB,FphonenumberDB,FYearIDDB,FStateIDDB,FDistrictIDDB,FTalukIDDB ,FPanchayatIDDB,FVillageIDDB," +
-                "FPondidDB,WidthDB,HeightDB,DepthDB,FPondLatitudeDB,FPondLongitudeDB,StartDateDB,ConstructedDateDB,PondCostDB,FPondAmtTakenDB,FPondStatusDB,FPondDonorDB FROM FarmPondDetails_fromServerRest", null);
+                "FPondidDB,WidthDB,HeightDB,DepthDB,FPondLatitudeDB,FPondLongitudeDB,StartDateDB,ConstructedDateDB,PondCostDB," +
+                "FPondAmtTakenDB,FPondStatusDB,FPondDonorDB,Reading_Start,Reading_End,Reading_Hour FROM FarmPondDetails_fromServerRest", null);
         int x = cursor1.getCount();
         if(x>0) {
             if (cursor1.moveToFirst()) {
@@ -278,6 +279,10 @@ public class Admin_Total_FarmpondDetails_Activity extends AppCompatActivity
 
                     String Full_Name=str_FNameDB+" "+str_FMNameDB+" "+ str_FLNameDB;
                     String PondSize=HeightDB+"*"+WidthDB+"*"+DepthDB;
+                    //Reading_Start,Reading_End,Reading_Hour
+                   String str_reading_start=cursor1.getString(cursor1.getColumnIndex("Reading_Start"));
+                    String str_reading_end=cursor1.getString(cursor1.getColumnIndex("Reading_End"));
+                    String str_reading_hour=cursor1.getString(cursor1.getColumnIndex("Reading_Hour"));
 
                     SQLiteDatabase db3 = this.openOrCreateDatabase("FarmPond_db", Context.MODE_PRIVATE, null);
 
@@ -369,17 +374,23 @@ public class Admin_Total_FarmpondDetails_Activity extends AppCompatActivity
                     }
                     SQLiteDatabase db2 = this.openOrCreateDatabase("FarmPond_db", Context.MODE_PRIVATE, null);
 
+
+
+
                     db2.execSQL("CREATE TABLE IF NOT EXISTS FarmPondDetails_Excel(SlNo INTEGER PRIMARY KEY AUTOINCREMENT,FarmerID VARCHAR," +
                                     "FarmerName VARCHAR,Year VARCHAR,State VARCHAR,District VARCHAR," +
                                     "Taluk VARCHAR,Panchayat VARCHAR,Village VARCHAR,MobileNo VARCHAR,Pond_ID VARCHAR,Latitude VARCHAR,Longitude VARCHAR,StartDate VARCHAR," +
-                                    "ConstructedDate VARCHAR,PondCost VARCHAR,PondAmtTaken VARCHAR,PondStatus VARCHAR,PondDonor VARCHAR,PondSize VARCHAR);");
+                                    "ConstructedDate VARCHAR,PondCost VARCHAR,PondAmtTaken VARCHAR," +
+                            "PondStatus VARCHAR,PondDonor VARCHAR,PondSize VARCHAR," +
+                            "Reading_Start VARCHAR,Reading_End VARCHAR,Reading_Hour VARCHAR);");
                                   //  "FAnnualIncomeDB VARCHAR,FfamilymemberDB VARCHAR,FidprooftypeDB VARCHAR,FidproofnoDB VARCHAR,FphotoDB VARCHAR,FPondidDB VARCHAR,WidthDB VARCHAR);");
 
                     String SQLiteQuery = "INSERT INTO FarmPondDetails_Excel(FarmerID,FarmerName,Year,State,District," +
                             "Taluk,Panchayat,Village,MobileNo,Pond_ID,Latitude ,Longitude ,StartDate,ConstructedDate ,PondCost ,PondAmtTaken ,PondStatus ,PondDonor,PondSize )" +
                     " VALUES ('" + str_FIDDB + "','" + Full_Name+ "','" + str_FYearIDDB + "','" + str_FStateIDDB + "','" + str_FDistrictIDDB + "','" + str_FTalukIDDB + "'," +
                             "'" + str_FPanchayatIDDB + "','" + str_FVillageIDDB + "','" + str_FphonenumberDB + "','" + FPondidDB +"','" + FPondLatitudeDB +"','" + FPondLongitudeDB +
-                            "','" + StartDateDB +"','" + ConstructedDateDB +"','" + PondCostDB +"','" + FPondAmtTakenDB +"','" + FPondStatusDB +"','" + FPondDonorDB+"','" + PondSize+"');";
+                            "','" + StartDateDB +"','" + ConstructedDateDB +"','" +
+                            PondCostDB +"','" + FPondAmtTakenDB +"','" + FPondStatusDB +"','" + FPondDonorDB+"','" + PondSize+"','" + str_reading_start+"','" + str_reading_end+"','" + str_reading_hour+"');";
 
                     db2.execSQL(SQLiteQuery);
 
