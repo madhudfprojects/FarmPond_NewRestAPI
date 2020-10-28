@@ -40,7 +40,7 @@ public interface Interface_userservice {
    // @Headers("Content-Type: application/json")
     @POST("Authentication/Post_ValidateLogin")
     @FormUrlEncoded
-    Call<NormalLogin_Response> getValidateLoginPostNew(@Field("User_Email") String userEmail);
+    Call<NormalLogin_Response> getValidateLoginPostNew(@Field("User_Email") String userEmail,@Field("User_Version") String app_version);
 
   // @FormUrlEncoded
   @Headers("Content-Type: application/json;charset=utf-8")
