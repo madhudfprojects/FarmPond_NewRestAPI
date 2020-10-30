@@ -18,8 +18,11 @@ import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.util.Log;
 import android.view.View;
+import android.widget.AdapterView;
+import android.widget.ArrayAdapter;
 import android.widget.Button;
 import android.widget.EditText;
+import android.widget.Spinner;
 import android.widget.TextView;
 import android.widget.Toast;
 
@@ -50,8 +53,12 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
+import df.farmponds.Models.Class_getuserlist;
+import df.farmponds.Models.Class_userlist;
+import df.farmponds.Models.Location_DataList;
 import df.farmponds.Models.NormalLogin_List;
 import df.farmponds.Models.NormalLogin_Response;
+import df.farmponds.Models.Year;
 import df.farmponds.remote.Class_ApiUtils;
 import df.farmponds.remote.Interface_userservice;
 import retrofit2.Call;
@@ -151,6 +158,10 @@ public class MainActivity extends AppCompatActivity
 
     String Employee_Role;
 
+    Spinner userlist_sp;
+
+    String  str_emailid_fordeveloper;
+
     @Override
     protected void onCreate(Bundle savedInstanceState)
     {
@@ -179,8 +190,8 @@ public class MainActivity extends AppCompatActivity
 
         normallogin_bt =(Button)findViewById(R.id.normallogin_bt);
 
-
-
+        userlist_sp=(Spinner)findViewById(R.id.userlist_sp);
+        AsyncTask_Get_UserList();
 
         if(SaveSharedPreference.getUserName(MainActivity.this).length() == 0)
         {
@@ -270,6 +281,21 @@ public class MainActivity extends AppCompatActivity
 
 
 
+        userlist_sp.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
+            @Override
+            public void onItemSelected(AdapterView<?> parent, View view, int position, long id)
+            {
+               str_emailid_fordeveloper = userlist_sp.getSelectedItem().toString();
+
+               //Toast.makeText(getApplicationContext(),""+str_emailid_fordeveloper,Toast.LENGTH_SHORT).show();
+
+            }
+
+            @Override
+            public void onNothingSelected(AdapterView<?> parent) {
+
+            }
+        });
 
 
 
@@ -293,6 +319,11 @@ public class MainActivity extends AppCompatActivity
 
 
         //normal login comment while releasing apk
+
+
+
+
+
 
 
     }// end of onCreate()
@@ -367,6 +398,9 @@ public class MainActivity extends AppCompatActivity
 
                             Toast.makeText(MainActivity.this, "User Signed In:"+str_gmailid, Toast.LENGTH_SHORT).show();
 
+
+
+
                             AsyncTask_loginverify();
 
 
@@ -422,8 +456,12 @@ public class MainActivity extends AppCompatActivity
        // str_gmailid="mahammadjafar.aralimarad@dfmail.org";
       //  str_gmailid="sharanappa.chalawadi@dfmail.org";
        // str_gmailid="beebi.bci@dfmail.org";
+        // str_gmailid="sangmesh.shivashimpi@dfmail.org";
 
-        String str_appversion="2.0";
+        str_gmailid=str_emailid_fordeveloper;
+        str_gmailid="eventtest464@gmail.com";
+
+    String str_appversion="1.2";
         retrofit2.Call call = userService1.getValidateLoginPostNew(str_gmailid,str_appversion);
 
         call.enqueue(new Callback()
@@ -642,5 +680,81 @@ public class MainActivity extends AppCompatActivity
 
 
 
-}// end of class
+
+
+
+
+    private void AsyncTask_Get_UserList() {
+
+        final ProgressDialog login_progressDoalog;
+        login_progressDoalog = new ProgressDialog(MainActivity.this);
+        login_progressDoalog.setMessage("Fetching the UserList....");
+        login_progressDoalog.setTitle("Please wait....");
+        login_progressDoalog.setProgressStyle(ProgressDialog.STYLE_SPINNER);
+        login_progressDoalog.show();
+
+
+        retrofit2.Call call = userService1.get_userlist();
+
+        call.enqueue(new Callback<Class_getuserlist>() {
+            @Override
+            public void onResponse(Call<Class_getuserlist> call, Response<Class_getuserlist> response)
+            {
+
+                if(response.isSuccessful())
+                {
+
+
+                    Class_getuserlist getuserlist_obj = response.body();
+                    List<Class_userlist> userlist_obj=response.body().getListUser();
+
+                    Log.e("userlist", String.valueOf(userlist_obj.size()));
+
+                    Class_userlist[] userlist_arrayObj= new Class_userlist[userlist_obj.size()];
+
+                    login_progressDoalog.dismiss();
+
+
+                    for(int i=0;i<userlist_obj.size();i++)
+                    {
+                        Class_userlist inner_userlst= new Class_userlist();
+                        inner_userlst.setUser_id(getuserlist_obj.getListUser().get(i).getUser_id());
+                        inner_userlst.setUser_name(getuserlist_obj.getListUser().get(i).getUser_name());
+
+                        userlist_arrayObj[i]=inner_userlst;
+
+                    }
+
+                    ArrayAdapter dataAdapter = new ArrayAdapter(getApplicationContext(), R.layout.spinnercenterstyle, userlist_arrayObj);
+                    dataAdapter.setDropDownViewResource(R.layout.spinnercenterstyle);
+                    userlist_sp.setAdapter(dataAdapter);
+
+
+
+                    Log.e("user",userlist_arrayObj[0].getUser_name().toString());
+
+                }
+
+
+
+
+            }
+
+            @Override
+            public void onFailure(Call call, Throwable t) {
+                login_progressDoalog.dismiss();
+                Log.e("TAG", "onFailure: " + t.toString());
+
+                Log.e("tag", "Error:" + t.getMessage());
+                Toast.makeText(MainActivity.this, "WS:Error:" + t.getMessage(), Toast.LENGTH_SHORT).show();
+            }
+        });
+
+
+    }
+
+
+
+
+    }// end of class
 

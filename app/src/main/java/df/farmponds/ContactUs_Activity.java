@@ -10,6 +10,7 @@ import android.database.sqlite.SQLiteDatabase;
 import android.graphics.Color;
 import android.graphics.Typeface;
 import android.net.Uri;
+import android.opengl.Visibility;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.support.v7.widget.Toolbar;
@@ -20,6 +21,7 @@ import android.view.View;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import df.farmponds.Models.Class_farmponddetails;
 import df.farmponds.Models.Class_getdemo_resplist;
@@ -254,6 +256,7 @@ public class ContactUs_Activity extends AppCompatActivity
 
 
                 TextView language_tv = new TextView(this);
+                TextView forlanguagename_tv= new TextView(this);
                 TextView link_tv = new TextView(this);
                 TextView nextline_tv = new TextView(this);
                 //0123
@@ -268,12 +271,21 @@ public class ContactUs_Activity extends AppCompatActivity
 
                 demo_ll.addView(language_tv);
 
+
+                forlanguagename_tv.setText("Demo, Click here");
+                forlanguagename_tv.setTextSize(12);
+                forlanguagename_tv.setTypeface(Typeface.DEFAULT,Typeface.ITALIC);
+                forlanguagename_tv.setLayoutParams(new LinearLayout.LayoutParams(LinearLayout.LayoutParams.WRAP_CONTENT,
+                        LinearLayout.LayoutParams.WRAP_CONTENT));
+                demo_ll.addView(forlanguagename_tv);
+
+
                 link_tv.setText(class_getdemo_resplist_arrayObj[k].getLanguage_Link());
                 link_tv.setTextSize(12);
                 //text.setGravity(Gravity.LEFT);
                 link_tv.setLayoutParams(new LinearLayout.LayoutParams(LinearLayout.LayoutParams.WRAP_CONTENT,
                         LinearLayout.LayoutParams.WRAP_CONTENT));
-
+                link_tv.setVisibility(View.GONE);
 
                 str_link=class_getdemo_resplist_arrayObj[k].getLanguage_Link();
                 link_tv.setOnClickListener(new View.OnClickListener() {
@@ -294,6 +306,25 @@ public class ContactUs_Activity extends AppCompatActivity
                         }
                     }
                 });
+
+
+                forlanguagename_tv.setOnClickListener(new View.OnClickListener() {
+                    @Override
+                    public void onClick(View v)
+                    {
+                        try {
+                            Intent intent = new Intent(Intent.ACTION_VIEW, Uri.parse(str_link));
+                            startActivity(intent);
+                        }
+                        catch (ActivityNotFoundException ex) {
+
+                            Toast.makeText(getApplicationContext(),"WS:error:ex",Toast.LENGTH_SHORT).show();
+                        }
+                    }
+                });
+
+
+
 
                 demo_ll.addView(link_tv);
 

@@ -10,6 +10,7 @@ import df.farmponds.Models.AdminEmpoyeeTotalPondCount;
 import df.farmponds.Models.AutoSyncVersion;
 import df.farmponds.Models.Class_getdemo_Response;
 import df.farmponds.Models.Class_gethelp_Response;
+import df.farmponds.Models.Class_getuserlist;
 import df.farmponds.Models.ClusterAcademicEmployee;
 import df.farmponds.Models.ClusterAcademicSummary;
 import df.farmponds.Models.ClusterFarmerMain;
@@ -41,6 +42,13 @@ public interface Interface_userservice {
     @POST("Authentication/Post_ValidateLogin")
     @FormUrlEncoded
     Call<NormalLogin_Response> getValidateLoginPostNew(@Field("User_Email") String userEmail,@Field("User_Version") String app_version);
+
+
+
+  @GET("Authentication/Get_UserList")
+  Call<Class_getuserlist> get_userlist();
+
+
 
   // @FormUrlEncoded
   @Headers("Content-Type: application/json;charset=utf-8")
