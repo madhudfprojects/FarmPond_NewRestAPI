@@ -386,7 +386,7 @@ public class Admin_Total_FarmpondDetails_Activity extends AppCompatActivity
                                   //  "FAnnualIncomeDB VARCHAR,FfamilymemberDB VARCHAR,FidprooftypeDB VARCHAR,FidproofnoDB VARCHAR,FphotoDB VARCHAR,FPondidDB VARCHAR,WidthDB VARCHAR);");
 
                     String SQLiteQuery = "INSERT INTO FarmPondDetails_Excel(FarmerID,FarmerName,Year,State,District," +
-                            "Taluk,Panchayat,Village,MobileNo,Pond_ID,Latitude ,Longitude ,StartDate,ConstructedDate ,PondCost ,PondAmtTaken ,PondStatus ,PondDonor,PondSize )" +
+                            "Taluk,Panchayat,Village,MobileNo,Pond_ID,Latitude ,Longitude ,StartDate,ConstructedDate ,PondCost ,PondAmtTaken ,PondStatus ,PondDonor,PondSize,Reading_Start,Reading_End,Reading_Hour )" +
                     " VALUES ('" + str_FIDDB + "','" + Full_Name+ "','" + str_FYearIDDB + "','" + str_FStateIDDB + "','" + str_FDistrictIDDB + "','" + str_FTalukIDDB + "'," +
                             "'" + str_FPanchayatIDDB + "','" + str_FVillageIDDB + "','" + str_FphonenumberDB + "','" + FPondidDB +"','" + FPondLatitudeDB +"','" + FPondLongitudeDB +
                             "','" + StartDateDB +"','" + ConstructedDateDB +"','" +

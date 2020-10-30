@@ -2370,7 +2370,7 @@ public class Activity_ViewFarmers extends AppCompatActivity {
                 //     Log.e("Entered resp", response.body().getMessage());
                 Log.e("TAG", "response userdata: " + new Gson().toJson(response));
                 Log.e("response body userdata", String.valueOf(response.body()));
-                AddFarmerDetailsNew();
+
                 if (response.isSuccessful()) {
                     UserData class_userData = response.body();
                     //   Log.e("response.body", response.body().getLst().toString());
@@ -2703,7 +2703,7 @@ public class Activity_ViewFarmers extends AppCompatActivity {
                                             Pond_Land_Acre, Pond_Land_Gunta, Crop_Before, Crop_After,str_final_farmpondcode,Location_Status,Reading_Start,Reading_End,Reading_Hour,Machine_Name);
                                 }
                             }
-
+                            AddFarmerDetailsNew();
                             //  uploadfromDB_Farmerlist();
                         }
                         else{
@@ -2758,7 +2758,7 @@ public class Activity_ViewFarmers extends AppCompatActivity {
                 //     Log.e("Entered resp", response.body().getMessage());
                 Log.e("TAG", "response userdata: " + new Gson().toJson(response));
                 Log.e("response body userdata", String.valueOf(response.body()));
-                AddFarmerDetailsNew();
+
                 if (response.isSuccessful()) {
                     UserData class_userData = response.body();
                     //   Log.e("response.body", response.body().getLst().toString());
@@ -3111,6 +3111,7 @@ public class Activity_ViewFarmers extends AppCompatActivity {
                         Toast.makeText(Activity_ViewFarmers.this, class_userData.getMessage(), Toast.LENGTH_SHORT).show();
 
                     }
+                    AddFarmerDetailsNew();
                 } else {
                     progressDoalog.dismiss();
 
