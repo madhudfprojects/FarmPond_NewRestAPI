@@ -17,7 +17,7 @@
         android:layout_centerVertical="true"
         android:layout_gravity="center"
         android:layout_marginTop="390dp"
-        android:visibility="invisible" />
+        android:visibility="visible" />
 
 
     <!--<Button
@@ -56,20 +56,20 @@
 
     <Spinner
         android:id="@+id/userlist_sp"
-        android:layout_width="150dp"
+        android:layout_width="170dp"
 
         android:layout_height="wrap_content"
         android:layout_gravity="center"
         android:layout_marginTop="10dp"
         android:background="@drawable/spinnerarrow2"
         android:popupBackground="@drawable/layout_background"
-        android:visibility="visible" />
+        android:visibility="gone" />
 
 
 
 
     <Button
-        android:id="@+id/normallogin_bt"
+        android:id="@+id/techlogin_bt"
         android:layout_width="wrap_content"
 
         android:layout_height="35dp"
@@ -78,8 +78,8 @@
         android:layout_gravity="center"
         android:layout_marginTop="10dp"
         android:gravity="center"
-        android:text="Login"
-        android:visibility="visible" />
+        android:text="TechLogin"
+        android:visibility="gone" />
 
 
     <TextView
@@ -87,7 +87,8 @@
         android:layout_height="wrap_content"
         android:layout_gravity="center"
         android:layout_marginTop="20dp"
-        android:text="DF Agri For Technology Team"
+        android:id="@+id/version_tv"
+        android:text="DF Agri Test Ver 0.45"
         android:textColor="@color/colorwhite"
         android:textStyle="italic" />
 

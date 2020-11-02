@@ -3749,7 +3749,7 @@ public class AddFarmPondActivity extends AppCompatActivity {
 
         AlertDialog.Builder dialog = new AlertDialog.Builder(AddFarmPondActivity.this);
         dialog.setCancelable(false);
-        dialog.setTitle(R.string.app_name);
+        dialog.setTitle(R.string.alert);
         dialog.setMessage("Are you sure want to go back");
 
         dialog.setPositiveButton("Yes", new DialogInterface.OnClickListener() {

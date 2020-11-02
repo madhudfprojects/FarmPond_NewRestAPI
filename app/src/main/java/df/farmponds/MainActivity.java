@@ -17,6 +17,7 @@ import android.support.v4.content.ContextCompat;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.util.Log;
+import android.view.LayoutInflater;
 import android.view.View;
 import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
@@ -89,7 +90,7 @@ public class MainActivity extends AppCompatActivity
 
 
     EditText username_et;
-    Button normallogin_bt,managerlogin_bt;
+    Button techlogin_bt,managerlogin_bt;
     String str_gmailid;
 
     Context context_obj;
@@ -115,7 +116,7 @@ public class MainActivity extends AppCompatActivity
     public static final String KeyValue_Response = "KeyValue_Response";
 
     SharedPreferences sharedpreferencebookRest_usercredential_Obj;*/
-    SharedPreferences.Editor editor_obj;
+    SharedPreferences.Editor editor_obj,editorversion_obj;
 
 
     public static final String sharedpreferencebook_User_pastCredential = "sharedpreferencebook_User_pastCredential";
@@ -124,6 +125,14 @@ public class MainActivity extends AppCompatActivity
 
     String str_token;
     String str_tokenfromprefrence;
+
+
+
+    public static final String sharedpreferencebook_techversion = "sharedpreferencebook_techversion";
+    public static final String KeyValue_techmode = "KeyValue_techmode";
+    SharedPreferences sharedpreferencebook_techversion_Obj;
+
+
 
 
 
@@ -136,6 +145,7 @@ public class MainActivity extends AppCompatActivity
 
     String str_loginusername,str_profileimage;
 
+    TextView version_tv;
 
     String[] permissions= new String[]{
             Manifest.permission.WRITE_EXTERNAL_STORAGE,
@@ -156,12 +166,12 @@ public class MainActivity extends AppCompatActivity
     Class_InternetDectector internetDectector;
     Boolean isInternetPresent = false;
 
-    String Employee_Role;
+    String Employee_Role,str_emailid_fordeveloper;
 
     Spinner userlist_sp;
+    int int_verclickcount;
 
-    String  str_emailid_fordeveloper;
-
+    String str_enabletechmode;
     @Override
     protected void onCreate(Bundle savedInstanceState)
     {
@@ -186,12 +196,48 @@ public class MainActivity extends AppCompatActivity
         sharedpreferencebook_usercredential_Obj=getSharedPreferences(sharedpreferencebook_usercredential, Context.MODE_PRIVATE);
         Employee_Role=sharedpreferencebook_usercredential_Obj.getString(KeyValue_employeecategory, "").trim();
 
+
         Log.e("tag","Employee_Role="+Employee_Role);
 
-        normallogin_bt =(Button)findViewById(R.id.normallogin_bt);
+        sharedpreferencebook_techversion_Obj=this.getSharedPreferences(sharedpreferencebook_techversion, Context.MODE_PRIVATE);
+        sharedpreferencebook_techversion_Obj=getSharedPreferences(sharedpreferencebook_techversion, Context.MODE_PRIVATE);
+        str_enabletechmode=sharedpreferencebook_techversion_Obj.getString(KeyValue_techmode, "").trim();
+
+        version_tv=(TextView)findViewById(R.id.version_tv);
+        techlogin_bt =(Button)findViewById(R.id.techlogin_bt);
 
         userlist_sp=(Spinner)findViewById(R.id.userlist_sp);
-        AsyncTask_Get_UserList();
+
+        context_obj=this;
+        int_verclickcount=0;
+
+
+
+        Log.e("tag","techmode="+str_enabletechmode);
+
+        if(str_enabletechmode.trim().length()>0)
+        {
+            if(str_enabletechmode.equalsIgnoreCase("yes"))
+            {
+
+                AsyncTask_Get_UserList();
+                /*google_signin_bt.setVisibility(View.INVISIBLE);
+                version_tv.setText("DF Agri For Technology Team Ver 1.2");
+                userlist_sp.setVisibility(View.VISIBLE);
+                techlogin_bt.setVisibility(View.VISIBLE);*/
+            }else{
+                if(str_enabletechmode.equalsIgnoreCase("no"))
+                {
+                    google_signin_bt.setVisibility(View.VISIBLE);
+                  //  version_tv.setText("DF Agri Test Ver 0.45");
+                    userlist_sp.setVisibility(View.GONE);
+                    techlogin_bt.setVisibility(View.GONE);
+                }
+            }
+        }else{
+            str_enabletechmode="no";
+        }
+
 
         if(SaveSharedPreference.getUserName(MainActivity.this).length() == 0)
         {
@@ -301,7 +347,7 @@ public class MainActivity extends AppCompatActivity
 
 
         //normal login comment while releasing apk
-        normallogin_bt.setOnClickListener(new View.OnClickListener() {
+        techlogin_bt.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v)
             {
@@ -309,6 +355,7 @@ public class MainActivity extends AppCompatActivity
                 if (checkPermissions())
                 {
                     //  permissions  granted.
+
                     AsyncTask_loginverify();
                 }
 
@@ -322,6 +369,87 @@ public class MainActivity extends AppCompatActivity
 
 
 
+
+
+
+
+        version_tv.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v)
+            {
+                int_verclickcount=int_verclickcount+1;
+
+                //DF Agri For Technology Team Ver 1.1
+                if(int_verclickcount>6)
+                {
+                    internetDectector = new Class_InternetDectector(getApplicationContext());
+                    isInternetPresent = internetDectector.isConnectingToInternet();
+                    if(isInternetPresent)
+                    {
+                        if((checkPermissions()))
+                        {
+
+
+                    AlertDialog.Builder dialog = new AlertDialog.Builder(MainActivity.this);
+                    dialog.setCancelable(false);
+                    dialog.setTitle(R.string.alert);
+                    if(str_enabletechmode.equalsIgnoreCase("no"))
+                    {dialog.setMessage("Are you sure want to Enable Technologly Team Version");}
+                    else{
+                        dialog.setMessage("Are you sure want to Enable User Version");
+                    }
+
+
+                    dialog.setPositiveButton("Yes", new DialogInterface.OnClickListener() {
+                        @Override
+                        public void onClick(DialogInterface dialog, int id)
+                        {
+                            if(str_enabletechmode.equalsIgnoreCase("no")) {
+                                dialog.dismiss();
+                                version_alertdialog();
+                            }else{
+                                google_signin_bt.setVisibility(View.VISIBLE);
+                                version_tv.setText("DF Agri Test Ver 0.45");
+                                userlist_sp.setVisibility(View.GONE);
+                                techlogin_bt.setVisibility(View.GONE);
+
+                                editorversion_obj = sharedpreferencebook_techversion_Obj.edit();
+                                editorversion_obj.putString(KeyValue_techmode,"no");
+                                editorversion_obj.commit();
+                                dialog.dismiss();
+                            }
+
+
+                        }
+                    })
+                            .setNegativeButton("No", new DialogInterface.OnClickListener() {
+                                @Override
+                                public void onClick(DialogInterface dialog, int which) {
+                                    //Action for "Cancel".
+                                    int_verclickcount=0;
+                                    dialog.dismiss();
+
+                                }
+                            });
+
+                    final AlertDialog alert = dialog.create();
+                    alert.setOnShowListener(new DialogInterface.OnShowListener() {
+                        @Override
+                        public void onShow(DialogInterface arg0) {
+                            alert.getButton(AlertDialog.BUTTON_NEGATIVE).setTextColor(Color.RED);
+                            alert.getButton(AlertDialog.BUTTON_POSITIVE).setTextColor(Color.parseColor("#004D40"));
+                        }
+                    });
+                    alert.show();
+
+
+                        }
+                    }
+
+                }
+
+            }
+        });
 
 
 
@@ -400,7 +528,7 @@ public class MainActivity extends AppCompatActivity
 
 
 
-
+                            str_enabletechmode="no";
                             AsyncTask_loginverify();
 
 
@@ -458,8 +586,16 @@ public class MainActivity extends AppCompatActivity
        // str_gmailid="beebi.bci@dfmail.org";
         // str_gmailid="sangmesh.shivashimpi@dfmail.org";
 
-        str_gmailid=str_emailid_fordeveloper;
-        str_gmailid="eventtest464@gmail.com";
+
+       // str_gmailid="eventtest464@gmail.com";
+
+        if(str_enabletechmode.equalsIgnoreCase("no"))
+        {
+
+        }else{
+            str_gmailid=str_emailid_fordeveloper;
+        }
+
 
     String str_appversion="1.2";
         retrofit2.Call call = userService1.getValidateLoginPostNew(str_gmailid,str_appversion);
@@ -712,7 +848,7 @@ public class MainActivity extends AppCompatActivity
 
                     Class_userlist[] userlist_arrayObj= new Class_userlist[userlist_obj.size()];
 
-                    login_progressDoalog.dismiss();
+
 
 
                     for(int i=0;i<userlist_obj.size();i++)
@@ -731,7 +867,20 @@ public class MainActivity extends AppCompatActivity
 
 
 
-                    Log.e("user",userlist_arrayObj[0].getUser_name().toString());
+                    //Log.e("user",userlist_arrayObj[0].getUser_name().toString());
+
+
+                    google_signin_bt.setVisibility(View.INVISIBLE);
+                    version_tv.setText("DF Agri For Technology Team Ver 1.2");
+                    userlist_sp.setVisibility(View.VISIBLE);
+                    techlogin_bt.setVisibility(View.VISIBLE);
+
+                    editorversion_obj = sharedpreferencebook_techversion_Obj.edit();
+                    editorversion_obj.putString(KeyValue_techmode,"yes");
+                    editorversion_obj.commit();
+                    str_enabletechmode="yes";
+                    login_progressDoalog.dismiss();
+
 
                 }
 
@@ -742,11 +891,17 @@ public class MainActivity extends AppCompatActivity
 
             @Override
             public void onFailure(Call call, Throwable t) {
-                login_progressDoalog.dismiss();
+
                 Log.e("TAG", "onFailure: " + t.toString());
 
                 Log.e("tag", "Error:" + t.getMessage());
-                Toast.makeText(MainActivity.this, "WS:Error:" + t.getMessage(), Toast.LENGTH_SHORT).show();
+                Toast.makeText(MainActivity.this, "WS:Error:UserList" + t.getMessage(), Toast.LENGTH_SHORT).show();
+
+                editorversion_obj = sharedpreferencebook_techversion_Obj.edit();
+                editorversion_obj.putString(KeyValue_techmode,"no");
+                editorversion_obj.commit();
+                str_enabletechmode="no";
+                login_progressDoalog.dismiss();
             }
         });
 
@@ -755,6 +910,61 @@ public class MainActivity extends AppCompatActivity
 
 
 
+
+
+
+    private void version_alertdialog()
+    {
+
+
+        LayoutInflater li = LayoutInflater.from(context_obj);
+        View promptsView = li.inflate(R.layout.techteam_layout, null);
+
+        AlertDialog.Builder alertDialogBuilder = new AlertDialog.Builder(
+                context_obj);
+
+        alertDialogBuilder.setView(promptsView);
+
+        final EditText techcredentialdialog_et = (EditText) promptsView
+                .findViewById(R.id.techcredentialdialog_et);
+
+        // set dialog message
+        alertDialogBuilder
+                .setCancelable(false)
+                .setPositiveButton("OK",
+                        new DialogInterface.OnClickListener()
+                        {
+                            public void onClick(DialogInterface dialog,int id)
+                            {
+
+                                if(techcredentialdialog_et.getText().toString().trim().equalsIgnoreCase("2468"))
+                                {
+                                    //Toast.makeText(getApplicationContext(),"Correct",Toast.LENGTH_SHORT).show();
+
+                                    AsyncTask_Get_UserList();
+
+                                }else{
+                                    Toast.makeText(getApplicationContext(),"Wrong",Toast.LENGTH_SHORT).show();
+                                }
+
+                            }
+                        })
+                .setNegativeButton("Cancel",
+                        new DialogInterface.OnClickListener() {
+                            public void onClick(DialogInterface dialog,int id) {
+                                //dialog.cancel();
+                                dialog.dismiss();
+                            }
+                        });
+
+        // create alert dialog
+        AlertDialog alertDialog = alertDialogBuilder.create();
+
+        // show it
+        alertDialog.show();
+
+
+    }
 
     }// end of class
 
