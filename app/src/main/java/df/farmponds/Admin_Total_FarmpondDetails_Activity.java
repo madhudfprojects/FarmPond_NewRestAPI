@@ -520,6 +520,7 @@ public class Admin_Total_FarmpondDetails_Activity extends AppCompatActivity
     }
 
     private void GetUserDataSummary() {
+        
 
         Log.e("tag","str_employee_id="+str_employee_id+" sp_stryear_ID="+sp_stryear_ID);
         retrofit2.Call call = userService1.getUserDataSummary(str_employee_id,sp_stryear_ID);
