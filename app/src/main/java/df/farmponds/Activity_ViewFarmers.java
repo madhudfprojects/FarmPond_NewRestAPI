@@ -2053,7 +2053,11 @@ public class Activity_ViewFarmers extends AppCompatActivity {
 
     }
 
-    public void Update_ids_farmerlist_listview(String str_yearid, String str_stateid, String str_distid, String str_talukid, String str_villageid, String str_panchayatid) {
+    public void Update_ids_farmerlist_listview(String str_yearid, String str_stateid, String str_distid,
+                                               String str_talukid, String str_villageid, String str_panchayatid)
+    {
+
+       // Log.e("yearID",String.valueOf(str_yearid));
 
         SQLiteDatabase db1 = this.openOrCreateDatabase("FarmPond_db", Context.MODE_PRIVATE, null);
 
@@ -2067,97 +2071,114 @@ public class Activity_ViewFarmers extends AppCompatActivity {
 
 
         // Cursor cursor1 = db1.rawQuery("SELECT DISTINCT * FROM ViewFarmerListRest  WHERE DispFarmerTable_YearID='" + str_yearid + "' AND DispFarmerTable_StateID='" + str_stateid + "' AND DispFarmerTable_DistrictID='" + str_distid + "'  AND DispFarmerTable_TalukID='" + str_talukid + "' AND DispFarmerTable_VillageID='" + str_villageid + "' AND DispFarmerTable_GrampanchayatID='" + str_panchayatid + "'", null);
-        Cursor cursor1 = db1.rawQuery("SELECT DISTINCT * FROM ViewFarmerListRest WHERE DispFarmerTable_YearID='" + str_yearid + "' AND DispFarmerTable_VillageID='" + str_villageid + "'", null);
+        Cursor cursor10 =null;
+
+           cursor10 = db1.rawQuery("SELECT DISTINCT * FROM ViewFarmerListRest WHERE DispFarmerTable_YearID='" + str_yearid + "' AND DispFarmerTable_VillageID='" + str_villageid + "'", null);
 
 
-        int x = cursor1.getCount();
-        Log.d("cursor Farmercount", Integer.toString(x));
 
-        int i = 0;
-        arrayObj_Class_FarmerListDetails2 = new Farmer[x];
-        // originalViewFarmerList.clear();
-        ViewFarmerList_arraylist.clear();
 
-        if (cursor1.moveToFirst()) {
+
+
+         int x=0;
+       int i=0;
+
+           x = cursor10.getCount();
+           Log.e("cursor Farmercount", Integer.toString(x));
+
+           i = 0;
+           arrayObj_Class_FarmerListDetails2 = new Farmer[x];
+           // originalViewFarmerList.clear();
+           ViewFarmerList_arraylist.clear();
+
+
+
+
+
+        if (cursor10.moveToFirst()) {
 
             do {
                 Farmer innerObj_Class_SandboxList = new Farmer();
-                innerObj_Class_SandboxList.setAcademic_ID(cursor1.getString(cursor1.getColumnIndex("DispFarmerTable_YearID")));
-                innerObj_Class_SandboxList.setStateID(cursor1.getString(cursor1.getColumnIndex("DispFarmerTable_StateID")));
-                innerObj_Class_SandboxList.setDistrictID(cursor1.getString(cursor1.getColumnIndex("DispFarmerTable_DistrictID")));
-                innerObj_Class_SandboxList.setTalukaID(cursor1.getString(cursor1.getColumnIndex("DispFarmerTable_TalukID")));
-                innerObj_Class_SandboxList.setVillageID(cursor1.getString(cursor1.getColumnIndex("DispFarmerTable_VillageID")));
-                innerObj_Class_SandboxList.setPanchayatID(cursor1.getString(cursor1.getColumnIndex("DispFarmerTable_GrampanchayatID")));
-                innerObj_Class_SandboxList.setFarmerID(cursor1.getString(cursor1.getColumnIndex("DispFarmerTable_FarmerID")));//DispFarmerTable_Farmer_Code VARCHAR
-                innerObj_Class_SandboxList.setFarmer_Code(cursor1.getString(cursor1.getColumnIndex("DispFarmerTable_Farmer_Code")));//DispFarmerTable_Farmer_Code VARCHAR
-                innerObj_Class_SandboxList.setFarmerFirstName(cursor1.getString(cursor1.getColumnIndex("DispFarmerTable_FarmerName")));
-                // innerObj_Class_SandboxList.setLocalfarmerimage(cursor1.getBlob(cursor1.getColumnIndex("LocalFarmerImg")));
+                innerObj_Class_SandboxList.setAcademic_ID(cursor10.getString(cursor10.getColumnIndex("DispFarmerTable_YearID")));
+                innerObj_Class_SandboxList.setStateID(cursor10.getString(cursor10.getColumnIndex("DispFarmerTable_StateID")));
+                innerObj_Class_SandboxList.setDistrictID(cursor10.getString(cursor10.getColumnIndex("DispFarmerTable_DistrictID")));
+                innerObj_Class_SandboxList.setTalukaID(cursor10.getString(cursor10.getColumnIndex("DispFarmerTable_TalukID")));
+                innerObj_Class_SandboxList.setVillageID(cursor10.getString(cursor10.getColumnIndex("DispFarmerTable_VillageID")));
+                innerObj_Class_SandboxList.setPanchayatID(cursor10.getString(cursor10.getColumnIndex("DispFarmerTable_GrampanchayatID")));
+                innerObj_Class_SandboxList.setFarmerID(cursor10.getString(cursor10.getColumnIndex("DispFarmerTable_FarmerID")));//DispFarmerTable_Farmer_Code VARCHAR
+                innerObj_Class_SandboxList.setFarmer_Code(cursor10.getString(cursor10.getColumnIndex("DispFarmerTable_Farmer_Code")));//DispFarmerTable_Farmer_Code VARCHAR
+                innerObj_Class_SandboxList.setFarmerFirstName(cursor10.getString(cursor10.getColumnIndex("DispFarmerTable_FarmerName")));
+                // innerObj_Class_SandboxList.setLocalfarmerimage(cursor10.getBlob(cursor10.getColumnIndex("LocalFarmerImg")));
 
 
-                // innerObj_Class_SandboxList.setStr_base64(cursor1.getString(cursor1.getColumnIndex("FarmerImageB64str_DB")));
+                // innerObj_Class_SandboxList.setStr_base64(cursor10.getString(cursor10.getColumnIndex("FarmerImageB64str_DB")));
 
-                innerObj_Class_SandboxList.setFarmerMiddleName(cursor1.getString(cursor1.getColumnIndex("FarmerMName_DB")));
-                innerObj_Class_SandboxList.setFarmerLastName(cursor1.getString(cursor1.getColumnIndex("FarmerLName_DB")));
-                innerObj_Class_SandboxList.setFarmerAge(cursor1.getString(cursor1.getColumnIndex("Farmerage_DB")));
-                innerObj_Class_SandboxList.setFarmerMobile(cursor1.getString(cursor1.getColumnIndex("Farmercellno_DB")));
-                innerObj_Class_SandboxList.setFarmerIncome(cursor1.getString(cursor1.getColumnIndex("FIncome_DB")));
-                innerObj_Class_SandboxList.setFarmerFamily(cursor1.getString(cursor1.getColumnIndex("Ffamilymember_DB")));
-                innerObj_Class_SandboxList.setFarmerIDType(cursor1.getString(cursor1.getColumnIndex("FIDprooftype_DB")));
-                innerObj_Class_SandboxList.setFarmerIDNumber(cursor1.getString(cursor1.getColumnIndex("FIDProofNo_DB")));
-                innerObj_Class_SandboxList.setFarmer_Gender(cursor1.getString(cursor1.getColumnIndex("Farmer_Gender")));
+                innerObj_Class_SandboxList.setFarmerMiddleName(cursor10.getString(cursor10.getColumnIndex("FarmerMName_DB")));
+                innerObj_Class_SandboxList.setFarmerLastName(cursor10.getString(cursor10.getColumnIndex("FarmerLName_DB")));
+                innerObj_Class_SandboxList.setFarmerAge(cursor10.getString(cursor10.getColumnIndex("Farmerage_DB")));
+                innerObj_Class_SandboxList.setFarmerMobile(cursor10.getString(cursor10.getColumnIndex("Farmercellno_DB")));
+                innerObj_Class_SandboxList.setFarmerIncome(cursor10.getString(cursor10.getColumnIndex("FIncome_DB")));
+                innerObj_Class_SandboxList.setFarmerFamily(cursor10.getString(cursor10.getColumnIndex("Ffamilymember_DB")));
+                innerObj_Class_SandboxList.setFarmerIDType(cursor10.getString(cursor10.getColumnIndex("FIDprooftype_DB")));
+                innerObj_Class_SandboxList.setFarmerIDNumber(cursor10.getString(cursor10.getColumnIndex("FIDProofNo_DB")));
+                innerObj_Class_SandboxList.setFarmer_Gender(cursor10.getString(cursor10.getColumnIndex("Farmer_Gender")));
 
 
-                String str_FarmerName = cursor1.getString(cursor1.getColumnIndex("DispFarmerTable_FarmerName"));
-                String str_Farmercode = cursor1.getString(cursor1.getColumnIndex("DispFarmerTable_Farmer_Code"));
-                String str_FarmerImage = cursor1.getString(cursor1.getColumnIndex("DispFarmerTable_FarmerImage"));
-                String str_farmerpondcount = cursor1.getString(cursor1.getColumnIndex("Farmpondcount"));
+                String str_FarmerName = cursor10.getString(cursor10.getColumnIndex("DispFarmerTable_FarmerName"));
+                String str_Farmercode = cursor10.getString(cursor10.getColumnIndex("DispFarmerTable_Farmer_Code"));
+                String str_FarmerImage = cursor10.getString(cursor10.getColumnIndex("DispFarmerTable_FarmerImage"));
+                String str_farmerpondcount = cursor10.getString(cursor10.getColumnIndex("Farmpondcount"));
 
-                byte[] str_LocalImg = cursor1.getBlob(cursor1.getColumnIndex("LocalFarmerImg"));
+               // byte[] str_LocalImg = cursor10.getBlob(cursor10.getColumnIndex("LocalFarmerImg"));
 
-                Log.e("tag", "str_LocalImg oo=" + str_LocalImg);
+               // Log.e("tag", "str_LocalImg oo=" + str_LocalImg);
 
                 arrayObj_Class_FarmerListDetails2[i] = innerObj_Class_SandboxList;
                 Farmer item;
 
                 //item = new Class_FarmerListDetails(str_Farmercode, str_FarmerName);
                 item = new Farmer(
-                        cursor1.getString(cursor1.getColumnIndex("DispFarmerTable_YearID")),
-                        cursor1.getString(cursor1.getColumnIndex("DispFarmerTable_StateID")),
-                        cursor1.getString(cursor1.getColumnIndex("DispFarmerTable_DistrictID")),
-                        cursor1.getString(cursor1.getColumnIndex("DispFarmerTable_TalukID")),
-                        cursor1.getString(cursor1.getColumnIndex("DispFarmerTable_VillageID")),
-                        cursor1.getString(cursor1.getColumnIndex("DispFarmerTable_GrampanchayatID")),
-                        cursor1.getString(cursor1.getColumnIndex("DispFarmerTable_FarmerID")),
-                        /*cursor1.getString(cursor1.getColumnIndex("DispFarmerTable_Farmer_Code")),*/
-                        cursor1.getString(cursor1.getColumnIndex("DispFarmerTable_FarmerName")),
-                        cursor1.getString(cursor1.getColumnIndex("DispFarmerTable_FarmerImage")),
-                        cursor1.getString(cursor1.getColumnIndex("FarmerImageB64str_DB")),
+                        cursor10.getString(cursor10.getColumnIndex("DispFarmerTable_YearID")),
+                        cursor10.getString(cursor10.getColumnIndex("DispFarmerTable_StateID")),
+                        cursor10.getString(cursor10.getColumnIndex("DispFarmerTable_DistrictID")),
+                        cursor10.getString(cursor10.getColumnIndex("DispFarmerTable_TalukID")),
+                        cursor10.getString(cursor10.getColumnIndex("DispFarmerTable_VillageID")),
+                        cursor10.getString(cursor10.getColumnIndex("DispFarmerTable_GrampanchayatID")),
+                        cursor10.getString(cursor10.getColumnIndex("DispFarmerTable_FarmerID")),
+                        /*cursor10.getString(cursor10.getColumnIndex("DispFarmerTable_Farmer_Code")),*/
+                        cursor10.getString(cursor10.getColumnIndex("DispFarmerTable_FarmerName")),
+                        cursor10.getString(cursor10.getColumnIndex("DispFarmerTable_FarmerImage")),
+                        cursor10.getString(cursor10.getColumnIndex("FarmerImageB64str_DB")),
 
-                        cursor1.getString(cursor1.getColumnIndex("FarmerMName_DB")),
-                        cursor1.getString(cursor1.getColumnIndex("FarmerLName_DB")),
-                        cursor1.getString(cursor1.getColumnIndex("Farmerage_DB")),
-                        cursor1.getString(cursor1.getColumnIndex("Farmercellno_DB")),
-                        cursor1.getString(cursor1.getColumnIndex("FIncome_DB")),
-                        cursor1.getString(cursor1.getColumnIndex("Ffamilymember_DB")),
-                        cursor1.getString(cursor1.getColumnIndex("FIDprooftype_DB")),
-                        cursor1.getString(cursor1.getColumnIndex("FIDProofNo_DB")),
+                        cursor10.getString(cursor10.getColumnIndex("FarmerMName_DB")),
+                        cursor10.getString(cursor10.getColumnIndex("FarmerLName_DB")),
+                        cursor10.getString(cursor10.getColumnIndex("Farmerage_DB")),
+                        cursor10.getString(cursor10.getColumnIndex("Farmercellno_DB")),
+                        cursor10.getString(cursor10.getColumnIndex("FIncome_DB")),
+                        cursor10.getString(cursor10.getColumnIndex("Ffamilymember_DB")),
+                        cursor10.getString(cursor10.getColumnIndex("FIDprooftype_DB")),
+                        cursor10.getString(cursor10.getColumnIndex("FIDProofNo_DB")),
 
-                        cursor1.getString(cursor1.getColumnIndex("Farmpondcount")),
-                        cursor1.getBlob(cursor1.getColumnIndex("LocalFarmerImg")),
-                        cursor1.getString(cursor1.getColumnIndex("Farmer_Gender"))
+                        cursor10.getString(cursor10.getColumnIndex("Farmpondcount")),
+                        cursor10.getBlob(cursor10.getColumnIndex("LocalFarmerImg")),
+                        cursor10.getString(cursor10.getColumnIndex("Farmer_Gender"))
                 );//farmer_image
 
 
                 ViewFarmerList_arraylist.add(item);
                 Log.e("str_FarmerName2id", str_FarmerName);
-                Log.e("str_FarmerImage", str_FarmerImage);
+               // Log.e("str_FarmerImage", str_FarmerImage);
 
                 i++;
 
-            } while (cursor1.moveToNext());
+            } while (cursor10.moveToNext());
 
 
         }//if ends
+
+
+
+
 
         db1.close();
         if (x > 0) {
@@ -2503,7 +2524,7 @@ public class Activity_ViewFarmers extends AppCompatActivity {
                                         byte[] b = baos.toByteArray();
                                         str_base64image = Base64.encodeToString(b, Base64.DEFAULT);
 
-                                        Log.e("tag", "byteArray img=" + b);
+                                        //Log.e("tag", "byteArray img=" + b);
                                         str_imageurltobase64_farmerimage = str_base64image;
 
                                         str_farmerbase64 = str_base64image;
@@ -3785,7 +3806,7 @@ public class Activity_ViewFarmers extends AppCompatActivity {
     /*String SQLiteQuery = "UPDATE ViewFarmerList SET DispFarmerTable_FarmerImage = "+str_img+" WHERE DispFarmerTable_FarmerID = "+ str_selected_farmerID_forimagesaving;
 
     db_viewfarmerlist.execSQL(SQLiteQuery);*/
-        Log.e("tag", "byte b=" + b);
+       // Log.e("tag", "byte b=" + b);
         ContentValues cv = new ContentValues();
         cv.put("LocalFarmerImg", b);
         db_viewfarmerlist.update("ViewFarmerListRest", cv, "DispFarmerTable_FarmerID=" + str_selected_farmerID_forimagesaving, null);
